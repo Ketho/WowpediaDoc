@@ -4,23 +4,19 @@ ChatTypeInfo.SYSTEM = {}
 
 -- MessageFrame
 DEFAULT_CHAT_FRAME = {}
-function DEFAULT_CHAT_FRAME:AddMessage(message)
-	print(message)
+function DEFAULT_CHAT_FRAME:AddMessage(msg)
+	print(msg)
 end
 
 -- Lua API
 unpack = table.unpack
 
--- https://stackoverflow.com/a/7615129/1297035
-function string.split(inputstr, sep)
-	if not sep then
-		sep = "%s"
-	end
+function string.split(input)
 	local t = {}
-	for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+	for str in string.gmatch(input, "[^%s]+") do
 		table.insert(t, str)
 	end
-	return table.unpack(t)
+	return unpack(t)
 end
 
 -- SharedXML\Mixin.lua
