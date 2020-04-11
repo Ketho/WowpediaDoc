@@ -1,4 +1,3 @@
-
 require "FrameXML"
 
 local toc = io.open("Blizzard_APIDocumentation/Blizzard_APIDocumentation.toc")
