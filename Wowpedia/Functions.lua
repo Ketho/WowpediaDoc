@@ -1,4 +1,5 @@
 local variableFs = ";%s : %s"
+local functionText = " %s\n\n==Arguments==\n%s\n\n==Returns==\n%s"
 
 local function GetArgumentString(func)
 	local str = ""
@@ -36,7 +37,11 @@ local function GetArguments(func)
 	if func.Arguments then
 		local argTbl = {}
 		for i, arg in ipairs(func.Arguments) do
-			argTbl[i] = variableFs:format(arg.Name, arg.Type)
+			local Type = arg.Type
+			if arg.Type == "table" then
+				Type = GetComplexType(arg)
+			end
+			argTbl[i] = variableFs:format(arg.Name, Type)
 			if arg.Default ~= nil then
 				argTbl[i] = argTbl[i].." (optional, default = "..tostring(arg.Default)..")"
 			elseif arg.Nilable then
@@ -62,20 +67,9 @@ local function GetReturns(func)
 	end
 end
 
-
-for i = 1, #APIDocumentation.functions do
-	local func = APIDocumentation.functions[i]
-	print("", "", i, GetPrototype(func))
-
+function GetFunctionText(func)
+	local proto = GetPrototype(func)
 	local arguments = GetArguments(func)
-	if arguments then
-		print("", "Arguments:")
-		print(arguments)
-	end
-
 	local returns = GetReturns(func)
-	if returns then
-		print("", "Returns:")
-		print(returns)
-	end
+	return functionText:format(proto, arguments, returns)
 end
