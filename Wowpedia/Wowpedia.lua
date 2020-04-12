@@ -3,11 +3,6 @@ require("Wowpedia/ComplexType")
 
 local wowpediaText = "{{wowapi}}\nNeeds summary.\n%s"
 
-S = {}
-S.links = {
-	ItemLocationMixin = true,
-}
-
 function GetWowpediaText(obj)
 	local objText
 	if obj.Type == "Function" then
