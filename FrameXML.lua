@@ -22,13 +22,13 @@ end
 -- SharedXML\Mixin.lua
 function Mixin(object, ...)
 	for i = 1, select("#", ...) do
-		local mixin = select(i, ...);
+		local mixin = select(i, ...)
 		for k, v in pairs(mixin) do
-			object[k] = v;
+			object[k] = v
 		end
 	end
 
-	return object;
+	return object
 end
 
 -- where ​... are the mixins to mixin
@@ -36,6 +36,6 @@ function CreateFromMixins(...)
 	return Mixin({}, ...)
 end
 
--- dummy funcs
+-- dummy funcs for linter
 CopyToClipboard = function() end
 ChatFrame_OpenChat = function() end
