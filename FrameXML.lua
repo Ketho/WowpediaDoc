@@ -35,7 +35,3 @@ end
 function CreateFromMixins(...)
 	return Mixin({}, ...)
 end
-
--- dummy funcs for linter
-CopyToClipboard = function() end
-ChatFrame_OpenChat = function() end
