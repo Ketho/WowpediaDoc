@@ -14,4 +14,6 @@ local function test(apiType)
 		print(i, apiInfo.Name)
 	end
 end
-test("system")
+--test("system")
+
+require("Wowpedia/Wowpedia")
