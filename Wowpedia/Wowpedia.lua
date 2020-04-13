@@ -5,18 +5,32 @@ require("Wowpedia/Tables")
 require("Wowpedia/ComplexType")
 require("Wowpedia/FirstSeen")
 
-local pageText = "%s\nNeeds summary.\n%s"
+local pageText = [=[%s
+%s
+%s
+<!-- == Examples == -->
+%s
+<!-- == See also == -->
+== External Links ==
+{{subst:el}}
+{{Elinks-api}}
+
+== References ==
+{{Reflist|2}}
+]=]
 
 function Wowpedia:GetPageText(apiTable)
-	local template, str
+	local header, description, body, footer
 	if apiTable.Type == "Function" then
-		template = "{{wowapi}}"
-		str = self:GetFunctionText(apiTable)
+		header = "{{wowapi}}"
+		body = self:GetFunctionText(apiTable)
 	elseif apiTable.Type == "Event" then
-		template = string.format("{{wowapievent|%s}}", apiTable.LiteralName)
-		str = self:GetEventText(apiTable)
+		header = string.format("{{wowapievent|%s}}", apiTable.LiteralName)
+		body = self:GetEventText(apiTable)	
 	end
-	return pageText:format(template, str)
+	description = self:GetDescription(apiTable) or "Needs summary."
+	footer = "" -- footer = self:FirstSeen() and self:GetPatchText(apiTable) or "<!-- Needs populating -->"
+	return pageText:format(header, description, body, footer)
 end
 
 for i = 1, #APIDocumentation.functions do
