@@ -20,17 +20,17 @@ local pageText = [=[%s
 ]=]
 
 function Wowpedia:GetPageText(apiTable)
-	local header, description, body, footer
+	local template, intro, body, patch
 	if apiTable.Type == "Function" then
-		header = "{{wowapi}}"
+		template = "{{wowapi}}"
 		body = self:GetFunctionText(apiTable)
 	elseif apiTable.Type == "Event" then
-		header = string.format("{{wowapievent|%s}}", apiTable.LiteralName)
+		template = string.format("{{wowapievent|%s}}", apiTable.LiteralName)
 		body = self:GetEventText(apiTable)	
 	end
-	description = self:GetDescription(apiTable) or "Needs summary."
-	footer = "" -- footer = self:FirstSeen() and self:GetPatchText(apiTable) or "<!-- Needs populating -->"
-	return pageText:format(header, description, body, footer)
+	intro = self:GetDescription(apiTable) or "Needs summary."
+	patch = self:GetPatchText(apiTable) or "<!-- == Patch changes -->"
+	return pageText:format(template, intro, body, patch)
 end
 
 for i = 1, #APIDocumentation.functions do
