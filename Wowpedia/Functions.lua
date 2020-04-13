@@ -66,11 +66,10 @@ end
 function Wowpedia:GetFunctionText(func)
 	local str = prototypeText:format(self:GetPrototype(func))
 	if func.Arguments then
-		str = str..self:GetArguments(func)
+		str = str .. "\n== Arguments ==\n" .. self:GetArguments(func)
 	end
 	if func.Returns then
-		str = func.Arguments and str.."\n" or str
-		str = str..self:GetReturns(func)
+		str = str .. "\n== Returns ==\n" .. self:GetReturns(func)
 	end
-	return str
+	return str .. "\n<-- == Triggers Events == -->"
 end
