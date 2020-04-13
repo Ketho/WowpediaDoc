@@ -21,7 +21,7 @@ end
 
 for i = 1, #APIDocumentation.functions do
 	local func = APIDocumentation.functions[i]
-	if func.Name == "SearchForItemKeys" then
+	if func.Name == "QueryBids" then
 		print(Wowpedia:GetPageText(func))
 	end
 end
