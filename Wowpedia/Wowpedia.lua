@@ -1,19 +1,20 @@
+Wowpedia = {}
 require("Wowpedia/Functions")
 require("Wowpedia/ComplexType")
 
-local wowpediaText = "{{wowapi}}\nNeeds summary.\n%s"
+local pageText = "{{wowapi}}\nNeeds summary.\n%s"
 
-function GetWowpediaText(obj)
+function Wowpedia:GetPageText(obj)
 	local objText
 	if obj.Type == "Function" then
-		objText = GetFunctionText(obj)
+		objText = self:GetFunctionText(obj)
 	end
-	return wowpediaText:format(objText)
+	return pageText:format(objText)
 end
 
 for i = 1, #APIDocumentation.functions do
 	local func = APIDocumentation.functions[i]
 	if func.Name == "GetItemKeyFromItem" then
-		print(GetWowpediaText(func))
+		print(Wowpedia:GetPageText(func))
 	end
 end

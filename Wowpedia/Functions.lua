@@ -1,7 +1,7 @@
 local variableFs = ";%s : %s"
 local functionText = " %s\n\n==Arguments==\n%s\n\n==Returns==\n%s"
 
-local function GetArgumentString(func)
+function Wowpedia:GetArgumentString(func)
 	local str = ""
 	for i, arg in ipairs(func.Arguments) do
 		local name = arg.Name
@@ -13,7 +13,7 @@ local function GetArgumentString(func)
 	return str
 end
 
-local function GetPrototype(func)
+function Wowpedia:GetPrototype(func)
 	local proto = ""
 	if func.System.Namespace then
 		proto = string.format("%s.%s", func.System.Namespace, func.Name)
@@ -21,7 +21,7 @@ local function GetPrototype(func)
 		proto = func.Name
 	end
 	if func.Arguments then
-		local argumentString = GetArgumentString(func)
+		local argumentString = self:GetArgumentString(func)
 		proto = string.format("%s(%s)", proto, argumentString)
 	else
 		proto = proto.."()"
@@ -33,15 +33,12 @@ local function GetPrototype(func)
 	return proto
 end
 
-local function GetArguments(func)
+function Wowpedia:GetArguments(func)
 	if func.Arguments then
 		local argTbl = {}
 		for i, arg in ipairs(func.Arguments) do
-			local Type = arg.Type
-			if arg.Type == "table" then
-				Type = GetComplexType(arg)
-			end
-			argTbl[i] = variableFs:format(arg.Name, Type)
+			local formatType =  Wowpedia:GetType(arg)
+			argTbl[i] = variableFs:format(arg.Name, formatType)
 			if arg.Default ~= nil then
 				argTbl[i] = argTbl[i].." (optional, default = "..tostring(arg.Default)..")"
 			elseif arg.Nilable then
@@ -52,11 +49,12 @@ local function GetArguments(func)
 	end
 end
 
-local function GetReturns(func)
+function Wowpedia:GetReturns(func)
 	if func.Returns then
 		local retTbl = {}
 		for i, ret in ipairs(func.Returns) do
-			retTbl[i] = variableFs:format(ret.Name, ret.Type)
+			local formatType =  Wowpedia:GetType(ret)
+			retTbl[i] = variableFs:format(ret.Name, formatType)
 			if ret.Default ~= nil then
 				retTbl[i] = retTbl[i].." (default = "..tostring(ret.Default)..")"
 			elseif ret.Nilable then
@@ -67,9 +65,9 @@ local function GetReturns(func)
 	end
 end
 
-function GetFunctionText(func)
-	local proto = GetPrototype(func)
-	local arguments = GetArguments(func)
-	local returns = GetReturns(func)
+function Wowpedia:GetFunctionText(func)
+	local proto = self:GetPrototype(func)
+	local arguments = self:GetArguments(func)
+	local returns = self:GetReturns(func)
 	return functionText:format(proto, arguments, returns)
 end
