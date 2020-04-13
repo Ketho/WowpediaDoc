@@ -1,20 +1,27 @@
 Wowpedia = {}
 require("Wowpedia/Functions")
+require("Wowpedia/Events")
+require("Wowpedia/Tables")
 require("Wowpedia/ComplexType")
+require("Wowpedia/FirstSeen")
 
-local pageText = "{{wowapi}}\nNeeds summary.\n%s"
+local pageText = "%s\nNeeds summary.\n%s"
 
-function Wowpedia:GetPageText(obj)
-	local objText
-	if obj.Type == "Function" then
-		objText = self:GetFunctionText(obj)
+function Wowpedia:GetPageText(apiTable)
+	local template, str
+	if apiTable.Type == "Function" then
+		template = "{{wowapi}}"
+		str = self:GetFunctionText(apiTable)
+	elseif apiTable.Type == "Event" then
+		template = string.format("{{wowapievent|%s}}", apiTable.LiteralName)
+		str = self:GetEventText(apiTable)
 	end
-	return pageText:format(objText)
+	return pageText:format(template, str)
 end
 
 for i = 1, #APIDocumentation.functions do
 	local func = APIDocumentation.functions[i]
-	if func.Name == "GetItemKeyFromItem" then
+	if func.Name == "SearchForItemKeys" then
 		print(Wowpedia:GetPageText(func))
 	end
 end

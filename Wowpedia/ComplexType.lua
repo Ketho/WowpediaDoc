@@ -4,27 +4,37 @@ local baseTypes = {
 	table = true,
 }
 
-local complexTypes = {}
+Wowpedia.complexTypes = {}
 local complexRefs = {}
 
-function Wowpedia:GetType(param)
-	if baseTypes[param.Type] then
-		return param.Type == "table" and self:GetTableType(param) or param.Type
+function Wowpedia:GetType(apiTable)
+	if baseTypes[apiTable.Type] then
+		if apiTable.Type == "table" then
+			return self:GetTableType(apiTable)
+		else
+			return apiTable.Type
+		end
+	elseif self.complexTypes[apiTable.Type] then
+		return apiTable.Type
 	else
-		return self:GetComplexType(param)
+		error("Unknown Type:", apiTable.Type)
 	end
 end
 
-function Wowpedia:GetTableType(param)
-	if param.Mixin then
-		return string.format("[[%s]]", param.Mixin)
-	-- elseif obj.InnerType then
-	-- 	return self:GetTableType(obj.InnerType)
+function Wowpedia:GetTableType(apiTable)
+	if apiTable.Mixin then
+		return string.format("[[%s]]", apiTable.Mixin) -- wiki link
+	elseif apiTable.InnerType then
+		if baseTypes[apiTable.InnerType] or self.complexTypes[apiTable.InnerType] then
+			return string.format("%s[]", apiTable.InnerType)
+		else
+			error("Unknown InnerType:", apiTable.InnerType)
+		end
 	end
 end
 
-function Wowpedia:GetComplexType(param)
-	return complexTypes[param.Type] and param.Type or "unknown"
+function Wowpedia:GetComplexType(name)
+	return self.complexTypes[name]
 end
 
 function Wowpedia:IsTranscludeTemplate(complexType)
@@ -36,7 +46,7 @@ end
 function Wowpedia:InitComplexTables()
 	local tables = APIDocumentation:GetAPITableByTypeName("table")
 	for i, apiInfo in ipairs(tables) do
-		complexTypes[apiInfo.Name] = apiInfo.Type
+		self.complexTypes[apiInfo.Name] = apiInfo
 	end
 end
 
@@ -45,14 +55,14 @@ function Wowpedia:InitComplexRefs()
 	for i, apiInfo in ipairs(functions) do
 		if apiInfo.Arguments then
 			for _, arg in pairs(apiInfo.Arguments) do
-				if complexTypes[arg.Type] then
+				if self.complexTypes[arg.Type] then
 					complexRefs[arg.Type] = (complexRefs[arg.Type] or 0) + 1
 				end
 			end
 		end
 		if apiInfo.Returns then
 			for _, ret in pairs(apiInfo.Returns) do
-				if complexTypes[ret.Type] then
+				if self.complexTypes[ret.Type] then
 					complexRefs[ret.Type] = (complexRefs[ret.Type] or 0) + 1
 				end
 			end
@@ -63,7 +73,7 @@ function Wowpedia:InitComplexRefs()
 	for i, apiInfo in ipairs(events) do
 		if apiInfo.Payload then
 			for _, param in pairs(apiInfo.Payload) do
-				if complexTypes[param.Type] then
+				if self.complexTypes[param.Type] then
 					complexRefs[param.Type] = (complexRefs[param.Type] or 0) + 1
 				end
 			end
@@ -74,7 +84,7 @@ function Wowpedia:InitComplexRefs()
 	for i, apiInfo in ipairs(tables) do
 		if apiInfo.Fields then -- see QuestWatchConsts which is a "Constants" type
 			for _, field in pairs(apiInfo.Fields) do
-				local complexType = complexTypes[field.Type] or complexTypes[field.InnerType]
+				local complexType = self.complexTypes[field.Type] or self.complexTypes[field.InnerType]
 				if complexType then
 					complexRefs[complexType] = (complexRefs[complexType] or 0) + 1
 				end

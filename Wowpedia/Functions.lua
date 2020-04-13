@@ -1,5 +1,7 @@
 local variableFs = ";%s : %s"
-local functionText = " %s\n\n==Arguments==\n%s\n\n==Returns==\n%s"
+local prototypeText = " %s\n"
+local argumentsHeader = "\n==Arguments==\n"
+local returnsHeader = "\n==Returns==\n"
 
 function Wowpedia:GetArgumentString(func)
 	local str = ""
@@ -8,7 +10,7 @@ function Wowpedia:GetArgumentString(func)
 		if arg.Default or arg.Nilable then
 			name = string.format("[%s]", arg.Name)
 		end
-		str = (i == 1) and name or str..", "..name
+		str = (i==1) and name or str..", "..name
 	end
 	return str
 end
@@ -34,40 +36,41 @@ function Wowpedia:GetPrototype(func)
 end
 
 function Wowpedia:GetArguments(func)
-	if func.Arguments then
-		local argTbl = {}
-		for i, arg in ipairs(func.Arguments) do
-			local formatType =  Wowpedia:GetType(arg)
-			argTbl[i] = variableFs:format(arg.Name, formatType)
-			if arg.Default ~= nil then
-				argTbl[i] = argTbl[i].." (optional, default = "..tostring(arg.Default)..")"
-			elseif arg.Nilable then
-				argTbl[i] = argTbl[i].." (optional)"
-			end
+	local argTbl = {}
+	for i, arg in ipairs(func.Arguments) do
+		local formatType =  Wowpedia:GetType(arg)
+		argTbl[i] = variableFs:format(arg.Name, formatType)
+		if arg.Default ~= nil then
+			argTbl[i] = argTbl[i].." (optional, default = "..tostring(arg.Default)..")"
+		elseif arg.Nilable then
+			argTbl[i] = argTbl[i].." (optional)"
 		end
-		return table.concat(argTbl, "\n")
 	end
+	return argumentsHeader..table.concat(argTbl, "\n")
 end
 
 function Wowpedia:GetReturns(func)
-	if func.Returns then
-		local retTbl = {}
-		for i, ret in ipairs(func.Returns) do
-			local formatType =  Wowpedia:GetType(ret)
-			retTbl[i] = variableFs:format(ret.Name, formatType)
-			if ret.Default ~= nil then
-				retTbl[i] = retTbl[i].." (default = "..tostring(ret.Default)..")"
-			elseif ret.Nilable then
-				retTbl[i] = retTbl[i].." (nilable)"
-			end
+	local retTbl = {}
+	for i, ret in ipairs(func.Returns) do
+		local formatType =  Wowpedia:GetType(ret)
+		retTbl[i] = variableFs:format(ret.Name, formatType)
+		if ret.Default ~= nil then
+			retTbl[i] = retTbl[i].." (default = "..tostring(ret.Default)..")"
+		elseif ret.Nilable then
+			retTbl[i] = retTbl[i].." (nilable)"
 		end
-		return table.concat(retTbl, "\n")
 	end
+	return returnsHeader..table.concat(retTbl, "\n")
 end
 
 function Wowpedia:GetFunctionText(func)
-	local proto = self:GetPrototype(func)
-	local arguments = self:GetArguments(func)
-	local returns = self:GetReturns(func)
-	return functionText:format(proto, arguments, returns)
+	local str = prototypeText:format(self:GetPrototype(func))
+	if func.Arguments then
+		str = str..self:GetArguments(func)
+	end
+	if func.Returns then
+		str = func.Arguments and str.."\n" or str
+		str = str..self:GetReturns(func)
+	end
+	return str
 end
