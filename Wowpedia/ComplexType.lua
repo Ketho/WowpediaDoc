@@ -45,7 +45,7 @@ end
 
 function Wowpedia:InitComplexTables()
 	local tables = APIDocumentation:GetAPITableByTypeName("table")
-	for i, apiInfo in ipairs(tables) do
+	for _, apiInfo in ipairs(tables) do
 		self.complexTypes[apiInfo.Name] = apiInfo
 	end
 end
@@ -56,7 +56,7 @@ function Wowpedia:InitComplexRefs()
 	end
 
 	local functions = APIDocumentation:GetAPITableByTypeName("function")
-	for i, apiInfo in ipairs(functions) do
+	for _, apiInfo in pairs(functions) do
 		if apiInfo.Arguments then
 			for _, arg in pairs(apiInfo.Arguments) do
 				if self.complexTypes[arg.Type] then
@@ -74,7 +74,7 @@ function Wowpedia:InitComplexRefs()
 	end
 
 	local events = APIDocumentation:GetAPITableByTypeName("event")
-	for i, apiInfo in ipairs(events) do
+	for _, apiInfo in ipairs(events) do
 		if apiInfo.Payload then
 			for _, param in pairs(apiInfo.Payload) do
 				if self.complexTypes[param.Type] then
@@ -85,8 +85,8 @@ function Wowpedia:InitComplexRefs()
 	end
 
 	local tables = APIDocumentation:GetAPITableByTypeName("table")
-	for i, apiInfo in ipairs(tables) do
-		if apiInfo.Type == "Structure" and apiInfo.Fields then -- see QuestWatchConsts which is a "Constants" type
+	for _, apiInfo in ipairs(tables) do
+		if apiInfo.Type == "Structure" then
 			for _, field in pairs(apiInfo.Fields) do
 				local complexType = self.complexTypes[field.Type] or self.complexTypes[field.InnerType]
 				if complexType then
