@@ -1,5 +1,6 @@
-local tableTemplate = "{{%s_%s.%s}}"
-local tableCaption = "[[%s_%s.%s|Enum.%s]]"
+local tableTemplate = "{{%s %s}}"
+local enumCaption = "[[Enum.%s]]"
+local structCaption = "[[Struct %s|%s]]"
 local enumHeader = "! Value !! Key !! Description"
 local structHeader = "! Key !! Type !! Description"
 local rowFs = '|-\n| align="center" | %s || %s || '
@@ -63,20 +64,27 @@ function Wowpedia:GetConstants(apiTable)
 end
 
 function Wowpedia:GetTableLink(apiTable, linkType)
-	local complexType = shortComplex[apiTable.Type]
+	local shortType = shortComplex[apiTable.Type]
 	local system = "Unknown"
 	if apiTable.System then
 		system = apiTable.System.Namespace:gsub("C_", "")
 	end
 	if linkType == "template" then
-		return tableTemplate:format(complexType, system, apiTable.Name)
+		return tableTemplate:format(shortType, apiTable.Name)
 	elseif linkType == "caption" then
-		if self:ShouldTranscludeTable(apiTable) then
-			return tableCaption:format(complexType, system, apiTable.Name, apiTable.Name)
-		else -- todo: refactor
+		 -- todo: refactor into function
+		if true then
+		--if self:ShouldTranscludeTable(apiTable) then
+			local caption
+			if apiTable.Type == "Enumeration" then
+				return enumCaption:format(apiTable.Name)
+			elseif apiTable.Type == "Structure" then
+				return structCaption:format(apiTable.Name, apiTable.Name)
+			end
+		else
 			if apiTable.Type == "Enumeration" then
 				return "Enum."..apiTable.Name
-			else
+			elseif apiTable.Type == "Structure" then
 				return apiTable.Name
 			end
 		end
