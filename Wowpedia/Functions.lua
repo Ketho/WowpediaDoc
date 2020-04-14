@@ -67,6 +67,7 @@ function Wowpedia:GetFunctionText(func)
 		str = str.."\n==Arguments==\n"..self:GetArguments(func)
 	end
 	if func.Returns then
+		str = func.Arguments and str.."\n" or str
 		str = str.."\n==Returns==\n"..self:GetReturns(func)
 	end
 	return str.."\n\n<!-- ==Triggers Events== -->"
