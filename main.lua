@@ -8,12 +8,5 @@ for line in toc:lines() do
 end
 toc:close()
 
-local function test(apiType)
-	local apiTable = APIDocumentation:GetAPITableByTypeName(apiType)
-	for i, apiInfo in ipairs(apiTable) do
-		print(i, apiInfo.Name)
-	end
-end
---test("system")
-
+print("hello main")
 require("Wowpedia/Wowpedia")
