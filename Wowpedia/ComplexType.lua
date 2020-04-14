@@ -33,11 +33,7 @@ function Wowpedia:GetTableType(apiTable)
 	end
 end
 
-function Wowpedia:GetComplexType(name)
-	return self.complexTypes[name]
-end
-
-function Wowpedia:IsTranscludeTemplate(complexType)
+function Wowpedia:ShouldTranscludeTable(complexType)
 	if complexRefs[complexType] then
 		return complexRefs[complexType] > 1
 	end
