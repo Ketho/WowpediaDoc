@@ -1,4 +1,5 @@
 require "FrameXML"
+require "MissingDocumentation"
 
 local toc = io.open("Blizzard_APIDocumentation/Blizzard_APIDocumentation.toc")
 for line in toc:lines() do

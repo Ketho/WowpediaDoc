@@ -1,5 +1,4 @@
 Wowpedia = {}
-require("Wowpedia/MissingDocumentation")
 require("Wowpedia/Functions")
 require("Wowpedia/Events")
 require("Wowpedia/Tables")
