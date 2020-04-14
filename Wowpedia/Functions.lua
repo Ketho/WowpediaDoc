@@ -9,7 +9,7 @@ function Wowpedia:GetFunctionText(func)
 	if func.Returns then
 		str = format("%s==Returns==\n%s\n\n",str,self:GetReturns(func))
 	end
-	return str.."<!-- ==Triggers Events==\n -->"
+	return str.."<!-- \n==Triggers Events== -->"
 end
 
 function Wowpedia:GetPrototype(func)
