@@ -1,15 +1,15 @@
-local variableFs = "; %s : %s"
+local variableFs = ";%s : %s"
 local prototypeText = " %s\n\n"
 
 function Wowpedia:GetFunctionText(func)
 	local str = prototypeText:format(self:GetPrototype(func))
 	if func.Arguments then
-		str = format("%s==Arguments==\n\n%s\n\n",str,self:GetArguments(func))
+		str = format("%s==Arguments==\n%s\n\n",str,self:GetArguments(func))
 	end
 	if func.Returns then
-		str = format("%s==Returns==\n\n%s\n\n",str,self:GetReturns(func))
+		str = format("%s==Returns==\n%s\n\n",str,self:GetReturns(func))
 	end
-	return str.."<!-- ==Triggers Events==\n\n -->"
+	return str.."<!-- ==Triggers Events==\n -->"
 end
 
 function Wowpedia:GetPrototype(func)
