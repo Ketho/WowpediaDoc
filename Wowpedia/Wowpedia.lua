@@ -15,13 +15,11 @@ local pageText = [[%s
 ==External Links==
 {{subst:el}}
 {{Elinks-api}}
-
-==References==
-{{Reflist|2}}
+%s
 ]]
 
 function Wowpedia:GetPageText(apiTable)
-	local template, desc, params, patch
+	local template, desc, params, patch, ref
 	if apiTable.Type == "Function" then
 		template = "{{wowapi}}"
 		params = self:GetFunctionText(apiTable)
@@ -31,7 +29,8 @@ function Wowpedia:GetPageText(apiTable)
 	end
 	desc = self:GetDescription(apiTable) or "Needs summary."
 	patch = self:GetPatchText(apiTable) or "<!-- ==Patch changes== -->"
-	return pageText:format(template, desc, params, patch)
+	ref = self:GetPatchText(apiTable) and "\n==References==\n{{Reflist|2}}" or "<!-- \n==References==\n{{Reflist|2}}\n-->"
+	return pageText:format(template, desc, params, patch, ref)
 end
 
 function Wowpedia:GetDescription()
