@@ -5,32 +5,36 @@ require("Wowpedia/Tables")
 require("Wowpedia/ComplexType")
 require("Wowpedia/FirstSeen")
 
-local pageText = [=[%s
+local pageText = [[%s
 %s
 %s
-<!-- == Examples == -->
-%s
-<!-- == See also == -->
-== External Links ==
+<!-- ==Examples== -->
+<!-- ==Patch changes== -->%s
+<!-- ==See also== -->
+
+==External Links==
 {{subst:el}}
 {{Elinks-api}}
 
-== References ==
+==References==
 {{Reflist|2}}
-]=]
+]]
 
 function Wowpedia:GetPageText(apiTable)
-	local template, intro, body, patch
+	local template, desc, params, patch
 	if apiTable.Type == "Function" then
 		template = "{{wowapi}}"
-		body = self:GetFunctionText(apiTable)
+		params = self:GetFunctionText(apiTable)
 	elseif apiTable.Type == "Event" then
 		template = string.format("{{wowapievent|%s}}", apiTable.LiteralName)
-		body = self:GetEventText(apiTable)	
+		params = self:GetEventText(apiTable)
 	end
-	intro = self:GetDescription(apiTable) or "Needs summary."
-	patch = self:GetPatchText(apiTable) or "<!-- == Patch changes -->"
-	return pageText:format(template, intro, body, patch)
+	desc = self:GetDescription(apiTable) or "Needs summary."
+	patch = self:GetPatchText(apiTable)
+	return pageText:format(template, desc, params, patch)
+end
+
+function Wowpedia:GetDescription()
 end
 
 for i = 1, #APIDocumentation.functions do

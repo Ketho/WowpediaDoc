@@ -1,7 +1,5 @@
 local variableFs = ";%s : %s"
 local prototypeText = " %s\n"
-local argumentsHeader = "\n==Arguments==\n"
-local returnsHeader = "\n==Returns==\n"
 
 function Wowpedia:GetArgumentString(func)
 	local str = ""
@@ -46,7 +44,7 @@ function Wowpedia:GetArguments(func)
 			argTbl[i] = argTbl[i].." (optional)"
 		end
 	end
-	return argumentsHeader..table.concat(argTbl, "\n")
+	return table.concat(argTbl, "\n")
 end
 
 function Wowpedia:GetReturns(func)
@@ -60,16 +58,16 @@ function Wowpedia:GetReturns(func)
 			retTbl[i] = retTbl[i].." (nilable)"
 		end
 	end
-	return returnsHeader..table.concat(retTbl, "\n")
+	return table.concat(retTbl, "\n")
 end
 
 function Wowpedia:GetFunctionText(func)
 	local str = prototypeText:format(self:GetPrototype(func))
 	if func.Arguments then
-		str = str .. "\n== Arguments ==\n" .. self:GetArguments(func)
+		str = str.."\n==Arguments==\n"..self:GetArguments(func)
 	end
 	if func.Returns then
-		str = str .. "\n== Returns ==\n" .. self:GetReturns(func)
+		str = str.."\n==Returns==\n"..self:GetReturns(func)
 	end
-	return str .. "\n<-- == Triggers Events == -->"
+	return str.."\n\n<!-- ==Triggers Events== -->"
 end
