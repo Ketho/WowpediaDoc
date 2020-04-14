@@ -72,10 +72,13 @@ local function GetComplexTypeStats()
 		print(name)
 	end
 
-	-- print("\n# referenced types:")
-	-- for name, amount in pairs(referencedTypes) do
-	-- 	print(name, amount)
-	-- end
+	-- todo: manually check types with refcount==2
+	print("\n# referenced types:")
+	for name, amount in pairs(referencedTypes) do
+		if amount > 1 then
+			print(amount, name)
+		end
+	end
 
 	-- huh this is confusing
 	print("\namount of unique complex types (via Fields):", CountTableKeys(uniqueTypes)) -- 285

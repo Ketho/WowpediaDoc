@@ -9,7 +9,7 @@ local pageText = [[%s
 %s
 %s
 <!-- ==Examples== -->
-<!-- ==Patch changes== -->%s
+%s
 <!-- ==See also== -->
 
 ==External Links==
@@ -30,7 +30,7 @@ function Wowpedia:GetPageText(apiTable)
 		params = self:GetEventText(apiTable)
 	end
 	desc = self:GetDescription(apiTable) or "Needs summary."
-	patch = self:GetPatchText(apiTable)
+	patch = self:GetPatchText(apiTable) or "<!-- ==Patch changes== -->"
 	return pageText:format(template, desc, params, patch)
 end
 

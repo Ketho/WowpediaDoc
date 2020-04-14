@@ -65,10 +65,6 @@ end
 
 function Wowpedia:GetTableLink(apiTable, linkType)
 	local shortType = shortComplex[apiTable.Type]
-	local system = "Unknown"
-	if apiTable.System then
-		system = apiTable.System.Namespace:gsub("C_", "")
-	end
 	if linkType == "template" then
 		return tableTemplate:format(shortType, apiTable.Name)
 	elseif linkType == "caption" then
