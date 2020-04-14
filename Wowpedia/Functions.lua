@@ -1,4 +1,4 @@
-local variableFs = ";%s : %s"
+local variableFs = "; %s : %s"
 local prototypeText = " %s\n\n"
 
 function Wowpedia:GetFunctionText(func)
@@ -47,15 +47,25 @@ function Wowpedia:GetArguments(func)
 end
 
 function Wowpedia:GetArgumentString(func)
-	local str = ""
+	local str, optionalFound
 	for i, arg in ipairs(func.Arguments) do
-		local name = arg.Name
-		if arg:IsOptional() then
-			name = string.format("[%s]", arg.Name)
+		if i==1
+			if arg:IsOptional() then
+				str = string.format("[%s", arg.Name)
+				optionalFound = true
+			else
+				str = arg.Name
+			end
+		else
+			if arg:IsOptional() and not optionalFound then
+				str = string.format("%s[, %s", str, arg.Name)
+				optionalFound = true
+			else
+				str = string.format("%s, %s", str, arg.Name)
+			end
 		end
-		str = (i==1) and name or str..", "..name
 	end
-	return str
+	return optionalFound and str.."]" or str or ""
 end
 
 function Wowpedia:GetReturns(func)
