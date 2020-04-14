@@ -1,10 +1,10 @@
-local variableFs = "; %s : %s"
+local variableFs = ";%s : %s"
 local prototypeText = " %s\n\n"
 
 function Wowpedia:GetEventText(event)
 	local str = prototypeText:format(self:GetEventSummary(event))
 	if func.Payload then
-		str = format("%s==Payload==\n\n%s\n\n",str,self:GetPayload(event))
+		str = format("%s==Payload==\n%s\n\n",str,self:GetPayload(event))
 	end
 	return str
 end
