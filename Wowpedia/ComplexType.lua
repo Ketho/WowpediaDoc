@@ -56,16 +56,16 @@ function Wowpedia:InitComplexRefs()
 	end
 
 	local functions = APIDocumentation:GetAPITableByTypeName("function")
-	for _, apiInfo in pairs(functions) do
+	for _, apiInfo in ipairs(functions) do
 		if apiInfo.Arguments then
-			for _, arg in pairs(apiInfo.Arguments) do
+			for _, arg in ipairs(apiInfo.Arguments) do
 				if self.complexTypes[arg.Type] then
 					complexRefs[arg.Type] = complexRefs[arg.Type] + 1
 				end
 			end
 		end
 		if apiInfo.Returns then
-			for _, ret in pairs(apiInfo.Returns) do
+			for _, ret in ipairs(apiInfo.Returns) do
 				if self.complexTypes[ret.Type] then
 					complexRefs[ret.Type] = complexRefs[ret.Type] + 1
 				end
@@ -76,7 +76,7 @@ function Wowpedia:InitComplexRefs()
 	local events = APIDocumentation:GetAPITableByTypeName("event")
 	for _, apiInfo in ipairs(events) do
 		if apiInfo.Payload then
-			for _, param in pairs(apiInfo.Payload) do
+			for _, param in ipairs(apiInfo.Payload) do
 				if self.complexTypes[param.Type] then
 					complexRefs[param.Type] = complexRefs[param.Type] + 1
 				end
@@ -87,7 +87,7 @@ function Wowpedia:InitComplexRefs()
 	local tables = APIDocumentation:GetAPITableByTypeName("table")
 	for _, apiInfo in ipairs(tables) do
 		if apiInfo.Type == "Structure" then
-			for _, field in pairs(apiInfo.Fields) do
+			for _, field in ipairs(apiInfo.Fields) do
 				local complexType = self.complexTypes[field.Type] or self.complexTypes[field.InnerType]
 				if complexType then
 					complexRefs[complexType.Name] = complexRefs[complexType.Name] + 1
