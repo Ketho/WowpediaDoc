@@ -27,13 +27,7 @@ function Wowpedia:GetTableByName(complexType)
 end
 
 function Wowpedia:GetTableText(apiTable)
-	if apiTable.Type == "Enumeration" then
-		return self:GetEnumeration(apiTable)
-	elseif apiTable.Type == "Structure" then
-		return self:GetStructure(apiTable)
-	elseif apiTable.Type == "Constants" then
-		return self:GetConstants(apiTable)
-	end
+	return self["Get"..apiTable.Type](self, apiTable)
 end
 
 function Wowpedia:GetEnumeration(apiTable)
@@ -60,7 +54,7 @@ function Wowpedia:GetStructure(apiTable)
 	return darkTableFs:format(caption, structHeader, rows)
 end
 
-function Wowpedia:GetConstants(apiTable)
+function Wowpedia:GetConstants()
 end
 
 function Wowpedia:GetTableLink(apiTable, linkType)
@@ -68,10 +62,8 @@ function Wowpedia:GetTableLink(apiTable, linkType)
 	if linkType == "template" then
 		return tableTemplate:format(shortType, apiTable.Name)
 	elseif linkType == "caption" then
-		 -- todo: refactor into function
-		if true then
-		--if self:ShouldTranscludeTable(apiTable) then
-			local caption
+		-- todo: refactor into function
+		if self:ShouldTranscludeTable(apiTable) then
 			if apiTable.Type == "Enumeration" then
 				return enumCaption:format(apiTable.Name)
 			elseif apiTable.Type == "Structure" then

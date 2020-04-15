@@ -5,7 +5,7 @@ local function DumpApiList(apiType)
 		print(i, apiInfo.Name)
 	end
 end
---DumpApiList("system")
+-- DumpApiList("system")
 
 
 local function TestFunction(name)
