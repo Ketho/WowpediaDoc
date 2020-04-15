@@ -6,10 +6,15 @@ exclude_files = {
 	"Blizzard_APIDocumentation",
 }
 ignore = {
-	"212/self", -- unused argument
+	"212/self", -- unused argument self
 }
 globals = {
 	"ChatTypeInfo",
 	"DEFAULT_CHAT_FRAME",
 	"unpack",
+	"Mixin",
+	"CreateFromMixins",
+	"Wowpedia",
+	"string.split",
+	"APIDocumentation",
 }
