@@ -7,10 +7,12 @@ exclude_files = {
 }
 ignore = {
 	"212/self", -- unused argument self
-	-- 212: unused function
-	"212/DumpApiList",
-	"212/TestFunction",
-	"212/GetComplexTypeStats",
+	-- 211: unused local variable / function
+	"211/DumpApiList",
+	"211/TestFunction",
+	"211/TestEvent",
+	"211/TestTable",
+	"211/GetComplexTypeStats",
 }
 globals = {
 	"ChatTypeInfo",
@@ -21,8 +23,4 @@ globals = {
 	"Wowpedia",
 	"string.split",
 	"APIDocumentation",
-
-	"DumpApiList",
-	"TestFunction",
-	"DumpApiList",
 }

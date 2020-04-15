@@ -1,18 +1,18 @@
-local variableFs = ";%s : %s"
+local paramFs = ";%s : %s"
 local prototypeText = " %s\n\n"
 
 function Wowpedia:GetFunctionText(func)
-	local str = prototypeText:format(self:GetPrototype(func))
+	local str = prototypeText:format(self:GetFunctionPrototype(func))
 	if func.Arguments then
-		str = string.format("%s==Arguments==\n%s\n\n",str,self:GetArguments(func))
+		str = string.format("%s==Arguments==\n%s\n\n", str, self:GetFunctionArguments(func))
 	end
 	if func.Returns then
-		str = string.format("%s==Returns==\n%s\n\n",str,self:GetReturns(func))
+		str = string.format("%s==Returns==\n%s\n\n", str, self:GetFunctionReturns(func))
 	end
 	return str.."<!-- \n==Triggers Events== -->"
 end
 
-function Wowpedia:GetPrototype(func)
+function Wowpedia:GetFunctionPrototype(func)
 	local proto
 	if func.System.Namespace then
 		proto = string.format("%s.%s", func.System.Namespace, func.Name)
@@ -20,7 +20,7 @@ function Wowpedia:GetPrototype(func)
 		proto = func.Name
 	end
 	if func.Arguments then
-		local argumentString = self:GetArgumentString(func)
+		local argumentString = self:GetFunctionArgumentString(func)
 		proto = string.format("%s(%s)", proto, argumentString)
 	else
 		proto = proto.."()"
@@ -32,11 +32,11 @@ function Wowpedia:GetPrototype(func)
 	return proto
 end
 
-function Wowpedia:GetArguments(func)
+function Wowpedia:GetFunctionArguments(func)
 	local argTbl = {}
 	for i, arg in ipairs(func.Arguments) do
 		local formatType =  Wowpedia:GetApiType(arg)
-		argTbl[i] = variableFs:format(arg.Name, formatType)
+		argTbl[i] = paramFs:format(arg.Name, formatType)
 		if arg.Default ~= nil then
 			argTbl[i] = argTbl[i].." (optional, default = "..tostring(arg.Default)..")"
 		elseif arg.Nilable then
@@ -46,33 +46,23 @@ function Wowpedia:GetArguments(func)
 	return table.concat(argTbl, "\n")
 end
 
-function Wowpedia:GetArgumentString(func)
-	local str, optionalFound
+function Wowpedia:GetFunctionArgumentString(func)
+	local str = ""
 	for i, arg in ipairs(func.Arguments) do
-		if i == 1 then
-			if arg:IsOptional() then
-				str = string.format("[%s", arg.Name)
-				optionalFound = true
-			else
-				str = arg.Name
-			end
-		else
-			if arg:IsOptional() and not optionalFound then
-				str = string.format("%s[, %s", str, arg.Name)
-				optionalFound = true
-			else
-				str = string.format("%s, %s", str, arg.Name)
-			end
+		local name = arg.Name
+		if arg:IsOptional() then
+			name = string.format("[%s]", arg.Name)
 		end
+		str = (i==1) and name or str..", "..name
 	end
-	return optionalFound and str.."]" or str or ""
+	return str
 end
 
-function Wowpedia:GetReturns(func)
+function Wowpedia:GetFunctionReturns(func)
 	local retTbl = {}
 	for i, ret in ipairs(func.Returns) do
 		local formatType =  Wowpedia:GetApiType(ret)
-		retTbl[i] = variableFs:format(ret.Name, formatType)
+		retTbl[i] = paramFs:format(ret.Name, formatType)
 		if ret.Default ~= nil then
 			retTbl[i] = retTbl[i].." (default = "..tostring(ret.Default)..")"
 		elseif ret.Nilable then

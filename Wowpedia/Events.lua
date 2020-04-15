@@ -1,32 +1,26 @@
-local variableFs = ";%s : %s"
+local paramFs = ";%s : %s"
 local prototypeText = " %s\n\n"
 
 function Wowpedia:GetEventText(event)
-	local str = prototypeText:format(self:GetEventSummary(event))
-	if func.Payload then
-		str = format("%s==Payload==\n%s\n\n",str,self:GetPayload(event))
+	local str = prototypeText:format(self:GetEventPrototype(event))
+	if event.Payload then
+		str = string.format("%s==Payload==\n%s\n\n", str, self:GetEventPayload(event))
 	end
 	return str
 end
 
-function Wowpedia:GetEventSummary(event)
-	local proto = ""
-  proto = event.Name 
- 	for i, arg in ipairs(event.Payload) do
-		local name = arg.Name
-    proto = (i==1) and format("%s : %s", proto, name) or format("%s, $%s", proto, name)
-  end
-	return proto
+function Wowpedia:GetEventPrototype(event)
+	return event.LiteralName ..": "..event:GetPayloadString(false, false)
 end
 
-function Wowpedia:GetPayload(event)
-	local argTbl = {}
-	for i, arg in ipairs(event.Payload) do
-		local formatType =  Wowpedia:GetApiType(arg)
-		argTbl[i] = variableFs:format(arg.Name, formatType)
-    if arg.Nilable then
-			argTbl[i] = argTbl[i].." (optional)"
+function Wowpedia:GetEventPayload(event)
+	local paramTbl = {}
+	for i, param in ipairs(event.Payload) do
+		local formatType =  Wowpedia:GetApiType(param)
+		paramTbl[i] = paramFs:format(param.Name, formatType)
+		if param.Nilable then
+			paramTbl[i] = paramTbl[i].." (nilable)"
 		end
 	end
-	return table.concat(argTbl, "\n")
+	return table.concat(paramTbl, "\n")
 end

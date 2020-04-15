@@ -9,8 +9,7 @@ end
 
 
 local function TestFunction(name)
-	for i = 1, #APIDocumentation.functions do
-		local func = APIDocumentation.functions[i]
+	for _, func in ipairs(APIDocumentation.functions) do
 		if func.Name == name then
 			print(Wowpedia:GetPageText(func))
 			break
@@ -18,9 +17,22 @@ local function TestFunction(name)
 	end
 end
 
+-- TestFunction("MakeItemKey")
 -- TestFunction("GetItemKeyInfo")
 -- TestFunction("IsGUIDBattleNetAccountType")
 
+
+local function TestEvent(name)
+	for _, event in ipairs(APIDocumentation.events) do
+		if event.LiteralName == name then
+			print(Wowpedia:GetEventText(event))
+			break
+		end
+	end
+end
+
+-- TestEvent("COMMODITY_SEARCH_RESULTS_ADDED")
+-- TestEvent("CHAT_MSG_SAY")
 
 local function TestTable(name)
 	local apiTable = Wowpedia.complexTypes[name]
