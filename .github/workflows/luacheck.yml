@@ -20,4 +20,4 @@ jobs:
 
     - name: luacheck
       run:
-        luacheck .
+        luacheck . --quiet --codes
