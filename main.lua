@@ -1,6 +1,5 @@
 require "FrameXML"
-require "MissingDocumentation"
-
+-- load Blizzard_APIDocumentation
 local toc = io.open("Blizzard_APIDocumentation/Blizzard_APIDocumentation.toc")
 for line in toc:lines() do
 	if line:find("%.lua") then
@@ -8,6 +7,7 @@ for line in toc:lines() do
 	end
 end
 toc:close()
+require "MissingDocumentation"
 
 print("hello main")
-require("Wowpedia/Wowpedia")
+require "Wowpedia/Wowpedia"
