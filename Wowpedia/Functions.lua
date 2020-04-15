@@ -13,7 +13,7 @@ function Wowpedia:GetFunctionText(func)
 end
 
 function Wowpedia:GetPrototype(func)
-	local proto = ""
+	local proto
 	if func.System.Namespace then
 		proto = string.format("%s.%s", func.System.Namespace, func.Name)
 	else

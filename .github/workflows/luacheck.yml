@@ -20,4 +20,4 @@ jobs:
 
     - name: luacheck
       run:
-        luacheck main.lua FrameXML.lua Wowpedia
+        luacheck .
