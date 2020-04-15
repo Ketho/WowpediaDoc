@@ -1,9 +1,9 @@
 Wowpedia = {}
-require("Wowpedia/Functions")
-require("Wowpedia/Events")
-require("Wowpedia/Tables")
-require("Wowpedia/ComplexType")
-require("Wowpedia/FirstSeen")
+require "Wowpedia/Functions"
+require "Wowpedia/Events"
+require "Wowpedia/Tables"
+require "Wowpedia/ComplexType"
+require "Wowpedia/FirstSeen"
 
 local pageText = [[%s
 %s

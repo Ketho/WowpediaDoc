@@ -6,7 +6,7 @@ Wowpedia.basicTypes = {
 }
 
 Wowpedia.complexTypes = {}
-local complexRefs = {}
+Wowpedia.complexRefs = {}
 
 function Wowpedia:GetApiType(apiTable)
 	if self.basicTypes[apiTable.Type] then
@@ -34,9 +34,9 @@ function Wowpedia:GetTableType(apiTable)
 	end
 end
 
-function Wowpedia:ShouldTranscludeTable(complexType)
-	if complexRefs[complexType] then
-		return complexRefs[complexType] > 1
+function Wowpedia:ShouldTranscludeTable(apiTable)
+	if self.complexRefs[apiTable.Name] then
+		return self.complexRefs[apiTable.Name] > 1
 	end
 end
 
@@ -51,7 +51,7 @@ function Wowpedia:InitComplexFieldRefs()
 	for _, field in pairs(APIDocumentation.fields) do
 		local parent = field.Function or field.Event or field.Table
 		if not self.basicTypes[field.Type] and parent.Type ~= "Enumeration" then
-			complexRefs[field.Type] = (complexRefs[field.Type] or 0) + 1
+			self.complexRefs[field.Type] = (self.complexRefs[field.Type] or 0) + 1
 		end
 	end
 end

@@ -12,6 +12,7 @@ ignore = {
 	"211/TestFunction",
 	"211/TestEvent",
 	"211/TestTable",
+	"211/TestTableSmart",
 	"211/GetComplexTypeStats",
 }
 globals = {
