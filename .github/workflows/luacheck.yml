@@ -1,0 +1,23 @@
+name: luacheck
+
+on: push
+
+jobs:
+  luacheck:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+
+    - uses: leafo/gh-actions-lua@v5
+      with:
+        luaVersion: "5.3.5"
+
+    - uses: leafo/gh-actions-luarocks@v2
+
+    - name: build
+      run:
+        luarocks install luacheck
+
+    - name: luacheck
+      run:
+        luacheck main.lua FrameXML.lua Wowpedia
