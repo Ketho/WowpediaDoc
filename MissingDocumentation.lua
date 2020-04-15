@@ -24,15 +24,28 @@ local Missing =
 			{
 				{ Name = "categoryID", Type = "number" },
 				{ Name = "invType", Type = "number" },
-				{ Name = "isCollected", Type = "number" },
-				{ Name = "isHideVisual", Type = "number", Nilable = true },
+				{ Name = "isCollected", Type = "bool" },
+				{ Name = "isHideVisual", Type = "bool", Nilable = true },
 				{ Name = "itemID", Type = "number" },
 				{ Name = "itemModID", Type = "number" },
-				{ Name = "name", Type = "number", Nilable = true  },
-				{ Name = "quality", Type = "number", Nilable = true  },
+				{ Name = "name", Type = "string", Nilable = true },
+				{ Name = "quality", Type = "number", Nilable = true },
 				{ Name = "sourceID", Type = "number" },
-				{ Name = "sourceType", Type = "number", Nilable = true  },
+				{ Name = "sourceType", Type = "number", Nilable = true },
 				{ Name = "visualID", Type = "number" },
+			},
+		},
+		{
+			-- C_GuildInfo
+			Name = "GuildTabardInfo",
+			Type = "Structure",
+			Fields =
+			{
+				{ Name = "backgroundColor", Type = "table ", Mixin = "ColorMixin" },
+				{ Name = "borderColor", Type = "table ", Mixin = "ColorMixin" },
+				{ Name = "emblemColor", Type = "table ", Mixin = "ColorMixin" },
+				{ Name = "emblemFileID", Type = "number" },
+				{ Name = "emblemStyle", Type = "number" },
 			},
 		},
 		-- GarrisonTalentTreeInfo

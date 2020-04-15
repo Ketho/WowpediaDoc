@@ -8,10 +8,18 @@ Wowpedia.basicTypes = {
 Wowpedia.complexTypes = {}
 Wowpedia.complexRefs = {}
 
-function Wowpedia:GetApiType(apiTable)
+function Wowpedia:GetComplexTypeByName(name)
+	if self.complexTypes[name] then
+		return self.complexTypes[name]
+	else
+		error("Unknown Type: "..name)
+	end
+end
+
+function Wowpedia:GetApiTypeByTable(apiTable)
 	if self.basicTypes[apiTable.Type] then
 		if apiTable.Type == "table" then
-			return self:GetTableType(apiTable)
+			return self:GetTableSubType(apiTable)
 		else
 			return apiTable.Type
 		end
@@ -22,7 +30,15 @@ function Wowpedia:GetApiType(apiTable)
 	end
 end
 
-function Wowpedia:GetTableType(apiTable)
+function Wowpedia:GetApiTypePretty(apiTable)
+	if apiTable.Type == "Enumeration" then
+		return "Enum."..apiTable.Name
+	elseif apiTable.Type == "Structure" then
+		return apiTable.Name
+	end
+end
+
+function Wowpedia:GetTableSubType(apiTable)
 	if apiTable.Mixin then
 		return string.format("[[%s]]", apiTable.Mixin) -- wiki link
 	elseif apiTable.InnerType then

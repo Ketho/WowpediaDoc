@@ -3,7 +3,7 @@ local enumCaption = "[[Enum %s.%s|Enum.%s]]"
 local structCaption = "[[Struct %s.%s|%s]]"
 local enumHeader = "! Value !! Key !! Description"
 local structHeader = "! Key !! Type !! Description"
-local rowFs = '|-\n| align="center" | %s || %s || '
+local rowFs = '|-\n| align="center" | %s || %s || %s'
 
 local shortComplex = {
 	Enumeration = "Enum",
@@ -16,15 +16,6 @@ local darkTableFs = [[{| class="sortable darktable zebra" style="margin-left: 2e
 %s
 |}
 ]]
-
-function Wowpedia:GetTableByName(complexType)
-	local apiTable = self.complexTypes[complexType]
-	if apiTable then
-		return apiTable
-	else
-		error("Unknown Table: "..complexType)
-	end
-end
 
 -- there probably is a more straightforward way to do all this
 function Wowpedia:GetTableTemplateOrText(apiTable, forceText)
@@ -53,10 +44,11 @@ function Wowpedia:GetStructure(apiTable)
 	local t = {}
 	for i, field in ipairs(apiTable.Fields) do
 		local fieldType = field.Type
-		if field.Nilable then
-			fieldType = fieldType.." (nilable)"
+		if not self.basicTypes[field.Type] then
+			local complexTable = self:GetComplexTypeByName(field.Type)
+			fieldType = self:GetApiTypePretty(complexTable)
 		end
-		t[i] = rowFs:format(field.Name, fieldType)
+		t[i] = rowFs:format(field.Name, fieldType, field.Nilable and "nilable" or "")
 	end
 	local caption = self:GetTableCaption(apiTable)
 	local rows = table.concat(t, "\n")
@@ -86,7 +78,7 @@ function Wowpedia:GetTableCaption(apiTable)
 	if self:ShouldTranscludeTable(apiTable) then
 		return self:GetTableCaptionLink(apiTable)
 	else
-		return self:GetTableCaptionRaw(apiTable)
+		return self:GetApiTypePretty(apiTable)
 	end
 end
 
@@ -96,13 +88,5 @@ function Wowpedia:GetTableCaptionLink(apiTable)
 		return enumCaption:format(system, apiTable.Name, apiTable.Name)
 	elseif apiTable.Type == "Structure" then
 		return structCaption:format(system, apiTable.Name, apiTable.Name)
-	end
-end
-
-function Wowpedia:GetTableCaptionRaw(apiTable)
-	if apiTable.Type == "Enumeration" then
-		return "Enum."..apiTable.Name
-	elseif apiTable.Type == "Structure" then
-		return apiTable.Name
 	end
 end

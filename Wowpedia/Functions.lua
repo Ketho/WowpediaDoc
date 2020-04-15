@@ -35,7 +35,7 @@ end
 function Wowpedia:GetFunctionArguments(func)
 	local argTbl = {}
 	for i, arg in ipairs(func.Arguments) do
-		local formatType =  Wowpedia:GetApiType(arg)
+		local formatType = self:GetApiTypeByTable(arg)
 		argTbl[i] = paramFs:format(arg.Name, formatType)
 		if arg.Default ~= nil then
 			argTbl[i] = argTbl[i].." (optional, default = "..tostring(arg.Default)..")"
@@ -61,7 +61,7 @@ end
 function Wowpedia:GetFunctionReturns(func)
 	local retTbl = {}
 	for i, ret in ipairs(func.Returns) do
-		local formatType =  Wowpedia:GetApiType(ret)
+		local formatType = self:GetApiTypeByTable(ret)
 		retTbl[i] = paramFs:format(ret.Name, formatType)
 		if ret.Default ~= nil then
 			retTbl[i] = retTbl[i].." (default = "..tostring(ret.Default)..")"

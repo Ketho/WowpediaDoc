@@ -37,7 +37,7 @@ end
 local function TestTable(name)
 	local apiTable = Wowpedia.complexTypes[name]
 	print(Wowpedia:GetTableTemplate(apiTable))
-	print(Wowpedia:GetTableCaptionRaw(apiTable))
+	print(Wowpedia:GetApiTypePretty(apiTable))
 	print(Wowpedia:GetTableCaptionLink(apiTable))
 	print(Wowpedia:GetTableText(apiTable))
 end
@@ -48,18 +48,20 @@ local function TestTableSmart(name, forceText)
 end
 
 -- enums
+-- TestTable("AuctionHouseTimeLeftBand")
 -- TestTable("WidgetShownState")
 -- TestTable("UIWidgetVisualizationType")
 -- TestTableSmart("PowerType", false)
 -- TestTableSmart("PowerType", true)
 
 -- structures
--- TestTable("AuctionHouseTimeLeftBand")
 -- TestTable("BidInfo")
+-- TestTable("ArtifactArtInfo")
 
 -- missing
 -- TestTable("CalendarTime")
 -- TestTable("AppearanceSourceInfo")
+-- TestTable("GuildTabardInfo")
 
 
 local function CountTableKeys(tbl)

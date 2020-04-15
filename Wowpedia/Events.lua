@@ -16,7 +16,7 @@ end
 function Wowpedia:GetEventPayload(event)
 	local paramTbl = {}
 	for i, param in ipairs(event.Payload) do
-		local formatType =  Wowpedia:GetApiType(param)
+		local formatType = self:GetApiTypeByTable(param)
 		paramTbl[i] = paramFs:format(param.Name, formatType)
 		if param.Nilable then
 			paramTbl[i] = paramTbl[i].." (nilable)"
