@@ -4,10 +4,10 @@ local prototypeText = " %s\n\n"
 function Wowpedia:GetFunctionText(func)
 	local str = prototypeText:format(self:GetPrototype(func))
 	if func.Arguments then
-		str = format("%s==Arguments==\n%s\n\n",str,self:GetArguments(func))
+		str = string.format("%s==Arguments==\n%s\n\n",str,self:GetArguments(func))
 	end
 	if func.Returns then
-		str = format("%s==Returns==\n%s\n\n",str,self:GetReturns(func))
+		str = string.format("%s==Returns==\n%s\n\n",str,self:GetReturns(func))
 	end
 	return str.."<!-- \n==Triggers Events== -->"
 end
@@ -49,7 +49,7 @@ end
 function Wowpedia:GetArgumentString(func)
 	local str, optionalFound
 	for i, arg in ipairs(func.Arguments) do
-		if i==1
+		if i == 1 then
 			if arg:IsOptional() then
 				str = string.format("[%s", arg.Name)
 				optionalFound = true
