@@ -2,7 +2,7 @@ std = "lua53"
 max_line_length = false
 exclude_files = {
 	".install",
-	".luacheckrc",
+	".luarocks",
 	"Blizzard_APIDocumentation",
 }
 ignore = {

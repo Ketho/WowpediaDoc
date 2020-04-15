@@ -7,9 +7,9 @@ require("Wowpedia/FirstSeen")
 
 local pageText = [[%s
 %s
-%s<!-- 
+%s<!--
 ==Examples== -->
-%s<!-- 
+%s<!--
 ==See also== -->
 
 ==External Links==
