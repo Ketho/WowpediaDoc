@@ -7,46 +7,50 @@ Wowpedia.basicTypes = {
 
 Wowpedia.complexTypes = {}
 Wowpedia.complexRefs = {}
+local paramFs = ";%s : %s"
+local colorFs = '<font color="#%s">%s</font>'
+
+function Wowpedia:GetParameters(params, colorName)
+	local argTbl = {}
+	for i, param in ipairs(params) do
+		local prettyType = self:GetPrettyType(param)
+		argTbl[i] = paramFs:format(param.Name, prettyType)
+	end
+	return table.concat(argTbl, "\n")
+end
+
+function Wowpedia:GetPrettyType(apiTable)
+	local str, complexType = "", self.complexTypes[apiTable.Type]
+	if apiTable.Type == "table" then
+		if apiTable.Mixin then
+			str = string.format("[[%s]]", apiTable.Mixin) -- wiki link
+		elseif apiTable.InnerType then
+			if self.basicTypes[apiTable.InnerType] or self.complexTypes[apiTable.InnerType] then
+				str = colorFs:format("ffdd55", apiTable.InnerType.."[]")
+			else
+				error("Unknown InnerType: "..apiTable.InnerType)
+			end
+		end
+	elseif self.basicTypes[apiTable.Type] then
+		str = colorFs:format("ffdd55", apiTable.Type)
+	elseif complexType then
+		str = colorFs:format(complexType:GetLinkHexColor(), complexType:GetFullName())
+	else
+		error("Unknown Type: "..apiTable.Type)
+	end
+	if apiTable.Default ~= nil then
+		str = str.." (optional, default = "..tostring(arg.Default)..")"
+	elseif apiTable.Nilable then
+		str = str.." (optional)"
+	end
+	return str
+end
 
 function Wowpedia:GetComplexTypeByName(name)
 	if self.complexTypes[name] then
 		return self.complexTypes[name]
 	else
 		error("Unknown Type: "..name)
-	end
-end
-
-function Wowpedia:GetApiTypeByTable(apiTable)
-	if self.basicTypes[apiTable.Type] then
-		if apiTable.Type == "table" then
-			return self:GetTableSubType(apiTable)
-		else
-			return apiTable.Type
-		end
-	elseif self.complexTypes[apiTable.Type] then
-		return apiTable.Type
-	else
-		error("Unknown Type: "..apiTable.Type)
-	end
-end
-
-function Wowpedia:GetApiTypePretty(apiTable)
-	if apiTable.Type == "Enumeration" then
-		return "Enum."..apiTable.Name
-	elseif apiTable.Type == "Structure" then
-		return apiTable.Name
-	end
-end
-
-function Wowpedia:GetTableSubType(apiTable)
-	if apiTable.Mixin then
-		return string.format("[[%s]]", apiTable.Mixin) -- wiki link
-	elseif apiTable.InnerType then
-		if self.basicTypes[apiTable.InnerType] or self.complexTypes[apiTable.InnerType] then
-			return string.format("%s[]", apiTable.InnerType)
-		else
-			error("Unknown InnerType: "..apiTable.InnerType)
-		end
 	end
 end
 

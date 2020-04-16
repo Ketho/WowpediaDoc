@@ -1,9 +1,12 @@
 local tableTemplate = "{{%s %s.%s}}"
+
 local enumCaption = "[[Enum %s.%s|Enum.%s]]"
-local structCaption = "[[Struct %s.%s|%s]]"
 local enumHeader = "! Value !! Key !! Description"
+local enumRow = '|-\n| align="center" | %s || %s || '
+
+local structCaption = "[[Struct %s.%s|%s]]"
 local structHeader = "! Key !! Type !! Description"
-local rowFs = '|-\n| align="center" | %s || %s || %s'
+local structRow = '|-\n| %s || %s || '
 
 local shortComplex = {
 	Enumeration = "Enum",
@@ -27,32 +30,30 @@ function Wowpedia:GetTableTemplateOrText(apiTable, forceText)
 end
 
 function Wowpedia:GetTableText(apiTable)
-	return self["Get"..apiTable.Type](self, apiTable)
-end
-
-function Wowpedia:GetEnumeration(apiTable)
-	local t = {}
-	for i, field in ipairs(apiTable.Fields) do
-		t[i] = rowFs:format(field.EnumValue, field.Name)
+	if apiTable.Type == "Enumeration" then
+		return self:GetDarkTable(apiTable, enumHeader, enumRow)
+	elseif apiTable.Type == "Structure" then
+		return self:GetDarkTable(apiTable, structHeader, structRow)
+	elseif apiTable.Type == "Constants" then
+		return ""
 	end
-	local caption = self:GetTableCaption(apiTable)
-	local rows = table.concat(t, "\n")
-	return darkTableFs:format(caption, enumHeader, rows)
 end
 
-function Wowpedia:GetStructure(apiTable)
+function Wowpedia:GetDarkTable(apiTable, header, row)
 	local t = {}
-	for i, field in ipairs(apiTable.Fields) do
-		local fieldType = field.Type
-		if not self.basicTypes[field.Type] then
-			local complexTable = self:GetComplexTypeByName(field.Type)
-			fieldType = self:GetApiTypePretty(complexTable)
+	if apiTable.Type == "Enumeration" then
+		for i, field in ipairs(apiTable.Fields) do
+			t[i] = row:format(field.EnumValue, field.Name)
 		end
-		t[i] = rowFs:format(field.Name, fieldType, field.Nilable and "nilable" or "")
+	elseif apiTable.Type == "Structure" then
+		for i, field in ipairs(apiTable.Fields) do
+			local prettyType = self:GetPrettyType(field)
+			t[i] = row:format(field.Name, prettyType)
+		end
 	end
 	local caption = self:GetTableCaption(apiTable)
 	local rows = table.concat(t, "\n")
-	return darkTableFs:format(caption, structHeader, rows)
+	return darkTableFs:format(caption, header, rows)
 end
 
 -- there is only QuestWatchConsts in QuestConstantsDocumentation.lua
@@ -78,7 +79,7 @@ function Wowpedia:GetTableCaption(apiTable)
 	if self:ShouldTranscludeTable(apiTable) then
 		return self:GetTableCaptionLink(apiTable)
 	else
-		return self:GetApiTypePretty(apiTable)
+		return apiTable:GetFullName()
 	end
 end
 

@@ -17,9 +17,11 @@ local function TestFunction(name)
 	end
 end
 
--- TestFunction("MakeItemKey")
--- TestFunction("GetItemKeyInfo")
--- TestFunction("IsGUIDBattleNetAccountType")
+-- TestFunction("MakeItemKey") -- three optional args
+-- TestFunction("GetItemKeyInfo") -- struct in returns
+-- TestFunction("IsGUIDBattleNetAccountType") -- returns bool
+-- TestFunction("UnitPowerDisplayMod") -- enum in arguments
+-- TestFunction("FindFlyoutActionButtons") -- table of numbers
 
 
 local function TestEvent(name)
@@ -31,13 +33,12 @@ local function TestEvent(name)
 	end
 end
 
--- TestEvent("COMMODITY_SEARCH_RESULTS_ADDED")
 -- TestEvent("CHAT_MSG_SAY")
-
+-- TestEvent("ITEM_SEARCH_RESULTS_UPDATED")
+-- 
 local function TestTable(name)
 	local apiTable = Wowpedia.complexTypes[name]
 	print(Wowpedia:GetTableTemplate(apiTable))
-	print(Wowpedia:GetApiTypePretty(apiTable))
 	print(Wowpedia:GetTableCaptionLink(apiTable))
 	print(Wowpedia:GetTableText(apiTable))
 end
@@ -48,15 +49,15 @@ local function TestTableSmart(name, forceText)
 end
 
 -- enums
--- TestTable("AuctionHouseTimeLeftBand")
+-- TestTable("AuctionHouseTimeLeftBand") -- anonymous system
 -- TestTable("WidgetShownState")
 -- TestTable("UIWidgetVisualizationType")
--- TestTableSmart("PowerType", false)
+-- TestTableSmart("PowerType", false) -- force template
 -- TestTableSmart("PowerType", true)
 
 -- structures
--- TestTable("BidInfo")
--- TestTable("ArtifactArtInfo")
+-- TestTable("BidInfo") -- struct and enum
+-- TestTable("ArtifactArtInfo") -- mixins
 
 -- missing
 -- TestTable("CalendarTime")

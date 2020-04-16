@@ -49,7 +49,6 @@ local Missing =
 			},
 		},
 		-- GarrisonTalentTreeInfo
-		-- GuildTabardInfo
 		-- QueueSpecificInfo
 		-- RuneforgeLegendaryCraftDescription
 		-- RuneforgePower

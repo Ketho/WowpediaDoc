@@ -1,10 +1,9 @@
-local paramFs = ";%s : %s"
 local prototypeText = " %s\n\n"
 
 function Wowpedia:GetEventText(event)
 	local str = prototypeText:format(self:GetEventPrototype(event))
 	if event.Payload then
-		str = string.format("%s==Payload==\n%s\n\n", str, self:GetEventPayload(event))
+		str = string.format("%s==Payload==\n%s\n\n", str, self:GetParameters(event.Payload))
 	end
 	return str
 end
@@ -14,13 +13,5 @@ function Wowpedia:GetEventPrototype(event)
 end
 
 function Wowpedia:GetEventPayload(event)
-	local paramTbl = {}
-	for i, param in ipairs(event.Payload) do
-		local formatType = self:GetApiTypeByTable(param)
-		paramTbl[i] = paramFs:format(param.Name, formatType)
-		if param.Nilable then
-			paramTbl[i] = paramTbl[i].." (nilable)"
-		end
-	end
-	return table.concat(paramTbl, "\n")
+	return self:GetParameters(event.Payload)
 end
