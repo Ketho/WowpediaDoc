@@ -10,7 +10,7 @@ Wowpedia.complexRefs = {}
 local paramFs = ";%s : %s"
 local colorFs = '<font color="#%s">%s</font>'
 
-function Wowpedia:GetParameters(params, colorName)
+function Wowpedia:GetParameters(params)
 	local argTbl = {}
 	for i, param in ipairs(params) do
 		local prettyType = self:GetPrettyType(param)

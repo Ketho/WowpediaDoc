@@ -35,7 +35,7 @@ end
 
 -- TestEvent("CHAT_MSG_SAY")
 -- TestEvent("ITEM_SEARCH_RESULTS_UPDATED")
--- 
+
 local function TestTable(name)
 	local apiTable = Wowpedia.complexTypes[name]
 	print(Wowpedia:GetTableTemplate(apiTable))
