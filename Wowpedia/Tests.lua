@@ -18,6 +18,7 @@ local function TestFunction(name)
 end
 
 -- TestFunction("MakeItemKey") -- three optional args
+-- TestFunction("GetAppearanceInfo") -- two optional returns
 -- TestFunction("GetItemKeyInfo") -- struct in returns
 -- TestFunction("IsGUIDBattleNetAccountType") -- returns bool
 -- TestFunction("UnitPowerDisplayMod") -- enum in arguments
@@ -35,8 +36,8 @@ local function TestEvent(name)
 	end
 end
 
--- TestEvent("CHAT_MSG_SAY")
--- TestEvent("ITEM_SEARCH_RESULTS_UPDATED")
+-- TestEvent("ACTIONBAR_SHOWGRID") -- no payload
+-- TestEvent("ITEM_SEARCH_RESULTS_UPDATED") -- struct, nilable
 
 local function TestTable(name)
 	local apiTable = Wowpedia.complexTypes[name]
@@ -60,6 +61,7 @@ end
 -- structures
 -- TestTable("BidInfo") -- struct and enum
 -- TestTable("ArtifactArtInfo") -- mixins
+-- TestTable("ItemKey") -- nilable, default
 
 -- missing
 -- TestTable("CalendarTime")
@@ -67,9 +69,9 @@ end
 -- TestTable("GuildTabardInfo")
 
 
-local function CountTableKeys(tbl)
+local function CountKeys(t)
 	local count = 0
-	for _ in pairs(tbl) do
+	for _ in pairs(t) do
 		count = count + 1
 	end
 	return count
@@ -111,10 +113,10 @@ local function GetComplexTypeStats()
 	end
 
 	-- huh this is confusing
-	print("\namount of unique complex types (via Fields):", CountTableKeys(uniqueTypes)) -- 285
-	print("amount of unique complex types (via Tables):", CountTableKeys(Wowpedia.complexTypes)) -- 361
-	print("amount of unique referenced types (via Fields):", CountTableKeys(referencedTypes)) -- 237
-	print("amount of unknown types (via Fields):", CountTableKeys(missingTypes)) -- 7
+	print("\namount of unique complex types (via Fields):", CountKeys(uniqueTypes)) -- 285
+	print("amount of unique complex types (via Tables):", CountKeys(Wowpedia.complexTypes)) -- 361
+	print("amount of unique referenced types (via Fields):", CountKeys(referencedTypes)) -- 237
+	print("amount of unknown types (via Fields):", CountKeys(missingTypes)) -- 7
 end
 -- GetComplexTypeStats()
 

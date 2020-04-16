@@ -1,7 +1,7 @@
-local prototypeText = " %s\n\n"
+local proto = " %s\n\n"
 
 function Wowpedia:GetEventText(event)
-	local str = prototypeText:format(self:GetEventPrototype(event))
+	local str = proto:format(self:GetEventPrototype(event))
 	if event.Payload then
 		str = string.format("%s==Payload==\n%s\n\n", str, self:GetParameters(event.Payload))
 	end

@@ -1,9 +1,9 @@
-local prototypeText = " %s\n\n"
+local proto = " %s\n\n"
 
 function Wowpedia:GetFunctionText(func)
-	local str = prototypeText:format(self:GetFunctionPrototype(func))
+	local str = proto:format(self:GetFunctionPrototype(func))
 	if func.Arguments then
-		str = string.format("%s==Arguments==\n%s\n\n", str, self:GetParameters(func.Arguments))
+		str = string.format("%s==Arguments==\n%s\n\n", str, self:GetParameters(func.Arguments, true))
 	end
 	if func.Returns then
 		str = string.format("%s==Returns==\n%s\n\n", str, self:GetParameters(func.Returns))
@@ -12,23 +12,23 @@ function Wowpedia:GetFunctionText(func)
 end
 
 function Wowpedia:GetFunctionPrototype(func)
-	local proto
+	local str
 	if func.System.Namespace then
-		proto = string.format("%s.%s", func.System.Namespace, func.Name)
+		str = string.format("%s.%s", func.System.Namespace, func.Name)
 	else
-		proto = func.Name
+		str = func.Name
 	end
 	if func.Arguments then
 		local argumentString = self:GetArgumentString(func) or ""
-		proto = string.format("%s(%s)", proto, argumentString)
+		str = string.format("%s(%s)", str, argumentString)
 	else
-		proto = proto.."()"
+		str = str.."()"
 	end
 	if func.Returns then
 		local returnString = func:GetReturnString(false, false) or ""
-		proto = string.format("%s = %s", returnString, proto)
+		str = string.format("%s = %s", returnString, str)
 	end
-	return proto
+	return str
 end
 
 function Wowpedia:GetArgumentString(func)

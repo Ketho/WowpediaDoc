@@ -10,16 +10,15 @@ Wowpedia.complexRefs = {}
 local paramFs = ";%s : %s"
 local colorFs = '<font color="#%s">%s</font>'
 
-function Wowpedia:GetParameters(params)
+function Wowpedia:GetParameters(params, isArgument)
 	local t = {}
 	for i, param in ipairs(params) do
-		local prettyType = self:GetPrettyType(param)
-		t[i] = paramFs:format(param.Name, prettyType)
+		t[i] = paramFs:format(param.Name, self:GetPrettyType(param, isArgument))
 	end
 	return table.concat(t, "\n")
 end
 
-function Wowpedia:GetPrettyType(apiTable)
+function Wowpedia:GetPrettyType(apiTable, isArgument)
 	local complexType, str = self.complexTypes[apiTable.Type]
 	if apiTable.Type == "table" then
 		if apiTable.Mixin then
@@ -38,10 +37,11 @@ function Wowpedia:GetPrettyType(apiTable)
 	else
 		error("Unknown Type: "..apiTable.Type)
 	end
+	local nilableType = isArgument and "optional" or "nilable"
 	if apiTable.Default ~= nil then
-		str = str.." (optional, default = "..tostring(arg.Default)..")"
+		str = string.format("%s (%s, default = %s)", str, nilableType, tostring(apiTable.Default))
 	elseif apiTable.Nilable then
-		str = str.." (optional)"
+		str = string.format("%s (%s)", str, nilableType)
 	end
 	return str
 end
@@ -55,9 +55,7 @@ function Wowpedia:GetComplexTypeByName(name)
 end
 
 function Wowpedia:ShouldTranscludeTable(apiTable)
-	if self.complexRefs[apiTable.Name] then
-		return self.complexRefs[apiTable.Name] > 1
-	end
+	return (self.complexRefs[apiTable.Name] or 0) > 1
 end
 
 function Wowpedia:InitComplexTableTypes()
