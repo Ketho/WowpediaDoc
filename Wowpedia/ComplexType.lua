@@ -11,16 +11,16 @@ local paramFs = ";%s : %s"
 local colorFs = '<font color="#%s">%s</font>'
 
 function Wowpedia:GetParameters(params)
-	local argTbl = {}
+	local t = {}
 	for i, param in ipairs(params) do
 		local prettyType = self:GetPrettyType(param)
-		argTbl[i] = paramFs:format(param.Name, prettyType)
+		t[i] = paramFs:format(param.Name, prettyType)
 	end
-	return table.concat(argTbl, "\n")
+	return table.concat(t, "\n")
 end
 
 function Wowpedia:GetPrettyType(apiTable)
-	local str, complexType = "", self.complexTypes[apiTable.Type]
+	local complexType, str = self.complexTypes[apiTable.Type]
 	if apiTable.Type == "table" then
 		if apiTable.Mixin then
 			str = string.format("[[%s]]", apiTable.Mixin) -- wiki link

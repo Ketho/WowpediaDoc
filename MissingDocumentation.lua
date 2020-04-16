@@ -41,9 +41,9 @@ local Missing =
 			Type = "Structure",
 			Fields =
 			{
-				{ Name = "backgroundColor", Type = "table ", Mixin = "ColorMixin" },
-				{ Name = "borderColor", Type = "table ", Mixin = "ColorMixin" },
-				{ Name = "emblemColor", Type = "table ", Mixin = "ColorMixin" },
+				{ Name = "backgroundColor", Type = "table", Mixin = "ColorMixin" },
+				{ Name = "borderColor", Type = "table", Mixin = "ColorMixin" },
+				{ Name = "emblemColor", Type = "table", Mixin = "ColorMixin" },
 				{ Name = "emblemFileID", Type = "number" },
 				{ Name = "emblemStyle", Type = "number" },
 			},

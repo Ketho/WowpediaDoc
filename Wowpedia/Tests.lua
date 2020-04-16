@@ -22,6 +22,8 @@ end
 -- TestFunction("IsGUIDBattleNetAccountType") -- returns bool
 -- TestFunction("UnitPowerDisplayMod") -- enum in arguments
 -- TestFunction("FindFlyoutActionButtons") -- table of numbers
+-- TestFunction("CanSendInvite") -- no arguments, one return value
+-- TestFunction("EventSetTitle") -- one argument, no return values
 
 
 local function TestEvent(name)
@@ -115,3 +117,5 @@ local function GetComplexTypeStats()
 	print("amount of unknown types (via Fields):", CountTableKeys(missingTypes)) -- 7
 end
 -- GetComplexTypeStats()
+
+-- APIDocumentation:HandleSlashCommand("stats")

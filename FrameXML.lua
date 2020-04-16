@@ -11,9 +11,11 @@ end
 -- Lua API
 unpack = table.unpack
 
-function string.split(input)
+-- why is WoW so backwards
+function string.split(delim, input)
+	delim = delim or "%s"
 	local t = {}
-	for str in string.gmatch(input, "[^%s]+") do
+	for str in string.gmatch(input, "[^"..delim.."]+") do
 		table.insert(t, str)
 	end
 	return unpack(t)
