@@ -24,14 +24,17 @@ function Wowpedia:GetPrettyType(apiTable, isArgument)
 		if apiTable.Mixin then
 			str = string.format("[[%s]]", apiTable.Mixin) -- wiki link
 		elseif apiTable.InnerType then
-			if self.basicTypes[apiTable.InnerType] or self.complexTypes[apiTable.InnerType] then
-				str = colorFs:format("ffdd55", apiTable.InnerType.."[]")
+			local complexInnertype = self.complexTypes[apiTable.InnerType]
+			if self.basicTypes[apiTable.InnerType] then
+				str = colorFs:format(apiTable:GetLinkHexColor(), apiTable.InnerType).."[]"
+			elseif complexInnertype then
+				str = colorFs:format(complexInnertype:GetLinkHexColor(), complexInnertype:GetFullName()).."[]"
 			else
 				error("Unknown InnerType: "..apiTable.InnerType)
 			end
 		end
 	elseif self.basicTypes[apiTable.Type] then
-		str = colorFs:format("ffdd55", apiTable.Type)
+		str = colorFs:format(apiTable:GetLinkHexColor(), apiTable.Type)
 	elseif complexType then
 		str = colorFs:format(complexType:GetLinkHexColor(), complexType:GetFullName())
 	else

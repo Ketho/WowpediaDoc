@@ -1,12 +1,14 @@
 local proto = " %s\n\n"
+local argumentFs = "%s==Arguments==\n%s\n\n"
+local returnFs = "%s==Returns==\n%s\n\n"
 
 function Wowpedia:GetFunctionText(func)
 	local str = proto:format(self:GetFunctionPrototype(func))
 	if func.Arguments then
-		str = string.format("%s==Arguments==\n%s\n\n", str, self:GetParameters(func.Arguments, true))
+		str = string.format(argumentFs, str, self:GetParameters(func.Arguments, true))
 	end
 	if func.Returns then
-		str = string.format("%s==Returns==\n%s\n\n", str, self:GetParameters(func.Returns))
+		str = string.format(returnFs, str, self:GetParameters(func.Returns))
 	end
 	return str.."<!-- \n==Triggers Events== -->"
 end
@@ -19,13 +21,13 @@ function Wowpedia:GetFunctionPrototype(func)
 		str = func.Name
 	end
 	if func.Arguments then
-		local argumentString = self:GetArgumentString(func) or ""
+		local argumentString = self:GetArgumentString(func)
 		str = string.format("%s(%s)", str, argumentString)
 	else
 		str = str.."()"
 	end
 	if func.Returns then
-		local returnString = func:GetReturnString(false, false) or ""
+		local returnString = func:GetReturnString(false, false)
 		str = string.format("%s = %s", returnString, str)
 	end
 	return str
@@ -35,6 +37,9 @@ function Wowpedia:GetArgumentString(func)
 	local str, optionalFound
 	for i, arg in ipairs(func.Arguments) do
 		local name = arg.Name
+		if arg.Type == "string" then
+			name = string.format('"%s"', name)
+		end
 		-- assume everything after the first optional argument is also optional
 		if arg:IsOptional() and not optionalFound then
 			optionalFound = true

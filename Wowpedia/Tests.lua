@@ -17,14 +17,18 @@ local function TestFunction(name)
 	end
 end
 
--- TestFunction("MakeItemKey") -- three optional args
--- TestFunction("GetAppearanceInfo") -- two optional returns
--- TestFunction("GetItemKeyInfo") -- struct in returns
--- TestFunction("IsGUIDBattleNetAccountType") -- returns bool
--- TestFunction("UnitPowerDisplayMod") -- enum in arguments
--- TestFunction("FindFlyoutActionButtons") -- table of numbers
 -- TestFunction("CanSendInvite") -- no arguments, one return value
 -- TestFunction("EventSetTitle") -- one argument, no return values
+-- TestFunction("MakeItemKey") -- three optional args
+-- TestFunction("EventSetClubId") -- first argument optional
+-- TestFunction("GetAppearanceInfo") -- two optional returns
+
+-- TestFunction("SendAddonMessage") -- string arguments
+-- TestFunction("UnitPowerDisplayMod") -- enum arguments
+-- TestFunction("GetClubCalendarEvents") -- structure arguments
+-- TestFunction("IsGUIDBattleNetAccountType") -- bool return
+-- TestFunction("GetItemKeyInfo") -- struct returns
+-- TestFunction("FindFlyoutActionButtons") -- number[] return
 
 
 local function TestEvent(name)
@@ -62,6 +66,8 @@ end
 -- TestTable("BidInfo") -- struct and enum
 -- TestTable("ArtifactArtInfo") -- mixins
 -- TestTable("ItemKey") -- nilable, default
+-- TestTable("AuctionHouseBrowseQuery") -- innertype enum
+-- TestTable("ItemSearchResultInfo") -- innertype string
 
 -- missing
 -- TestTable("CalendarTime")

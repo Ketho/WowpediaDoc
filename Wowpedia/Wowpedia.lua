@@ -2,7 +2,7 @@ Wowpedia = {}
 require "Wowpedia/Functions"
 require "Wowpedia/Events"
 require "Wowpedia/Tables"
-require "Wowpedia/ComplexType"
+require "Wowpedia/Fields"
 require "Wowpedia/FirstSeen"
 
 local pageText = [[%s

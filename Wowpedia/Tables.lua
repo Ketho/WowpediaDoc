@@ -1,4 +1,4 @@
-local tableTemplate = "{{%s %s.%s}}"
+local tableTemplate = "{{:%s %s.%s}}"
 
 local enumCaption = "[[Enum %s.%s|Enum.%s]]"
 local enumHeader = "! Value !! Key !! Description"
@@ -35,7 +35,7 @@ function Wowpedia:GetTableText(apiTable)
 	elseif apiTable.Type == "Structure" then
 		return self:GetDarkTable(apiTable, structHeader, structRow)
 	elseif apiTable.Type == "Constants" then
-		return ""
+		return apiTable.Type
 	end
 end
 
@@ -51,7 +51,7 @@ function Wowpedia:GetDarkTable(apiTable, header, row)
 			t[i] = row:format(field.Name, prettyType)
 		end
 	end
-	local caption = self:GetTableCaption(apiTable)
+	local caption = self:GetTableCaptionLinkOrName(apiTable)
 	local rows = table.concat(t, "\n")
 	return darkTableFs:format(caption, header, rows)
 end
@@ -75,7 +75,7 @@ function Wowpedia:GetTableTemplate(apiTable)
 	return tableTemplate:format(shortType, system, apiTable.Name)
 end
 
-function Wowpedia:GetTableCaption(apiTable)
+function Wowpedia:GetTableCaptionLinkOrName(apiTable)
 	if self:ShouldTranscludeTable(apiTable) then
 		return self:GetTableCaptionLink(apiTable)
 	else
