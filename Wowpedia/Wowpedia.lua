@@ -3,7 +3,7 @@ require "Wowpedia/Functions"
 require "Wowpedia/Events"
 require "Wowpedia/Tables"
 require "Wowpedia/Fields"
-require "Wowpedia/FirstSeen"
+require "Wowpedia/Patches"
 
 local pageText = [[%s
 %s

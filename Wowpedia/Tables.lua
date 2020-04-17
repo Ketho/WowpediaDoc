@@ -35,7 +35,7 @@ function Wowpedia:GetTableText(apiTable)
 	elseif apiTable.Type == "Structure" then
 		return self:GetDarkTable(apiTable, structHeader, structRow)
 	elseif apiTable.Type == "Constants" then
-		return apiTable.Type
+		return self:GetConstants(apiTable)
 	end
 end
 
@@ -57,7 +57,8 @@ function Wowpedia:GetDarkTable(apiTable, header, row)
 end
 
 -- there is only QuestWatchConsts in QuestConstantsDocumentation.lua
-function Wowpedia:GetConstants()
+function Wowpedia:GetConstants(apiTable)
+	return apiTable.Type
 end
 
 function Wowpedia:GetTableSystem(apiTable)
