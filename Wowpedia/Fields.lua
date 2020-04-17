@@ -49,6 +49,9 @@ function Wowpedia:GetPrettyType(apiTable, isArgument)
 	return str
 end
 
+function Wowpedia:GetDocumentation()
+end
+
 function Wowpedia:GetComplexTypeByName(name)
 	if self.complexTypes[name] then
 		return self.complexTypes[name]

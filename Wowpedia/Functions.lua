@@ -37,9 +37,6 @@ function Wowpedia:GetArgumentString(func)
 	local str, optionalFound
 	for i, arg in ipairs(func.Arguments) do
 		local name = arg.Name
-		if arg.Type == "string" then
-			name = string.format('"%s"', name)
-		end
 		-- assume everything after the first optional argument is also optional
 		if arg:IsOptional() and not optionalFound then
 			optionalFound = true
