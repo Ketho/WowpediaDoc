@@ -61,9 +61,9 @@ function Wowpedia:GetPrettyType(apiTable, isArgument)
 	return str
 end
 
-function Wowpedia:GetDocumentation(apiTable)
-	if apiTable.Documentation then
-	end
+function Wowpedia:GetDocumentation()
+	--if apiTable.Documentation then
+	--end
 end
 
 function Wowpedia:GetParamTypeField(apiTable)
