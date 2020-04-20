@@ -20,15 +20,6 @@ local darkTableFs = [[{| class="sortable darktable zebra" style="margin-left: 2e
 |}
 ]]
 
--- there probably is a more straightforward way to do all this
-function Wowpedia:GetTableTemplateOrText(apiTable, forceText)
-	if self:ShouldTranscludeTable(apiTable) and not forceText then
-		return self:GetTableTemplate(apiTable)
-	else
-		return self:GetTableText(apiTable)
-	end
-end
-
 function Wowpedia:GetTableText(apiTable)
 	if apiTable.Type == "Enumeration" then
 		return self:GetDarkTable(apiTable, enumHeader, enumRow)
@@ -51,7 +42,7 @@ function Wowpedia:GetDarkTable(apiTable, header, row)
 			t[i] = row:format(field.Name, prettyType)
 		end
 	end
-	local caption = self:GetTableCaptionLinkOrName(apiTable)
+	local caption = self:GetTableCaption(apiTable)
 	local rows = table.concat(t, "\n")
 	return darkTableFs:format(caption, header, rows)
 end
@@ -70,25 +61,22 @@ function Wowpedia:GetTableSystem(apiTable)
 	end
 end
 
-function Wowpedia:GetTableTemplate(apiTable)
-	local shortType = shortComplex[apiTable.Type]
-	local system = self:GetTableSystem(apiTable)
-	return tableTemplate:format(shortType, system, apiTable.Name)
+function Wowpedia:GetTableTemplate(complexTable)
+	local shortType = shortComplex[complexTable.Type]
+	local system = self:GetTableSystem(complexTable)
+	return tableTemplate:format(shortType, system, complexTable.Name)
 end
 
-function Wowpedia:GetTableCaptionLinkOrName(apiTable)
-	if self:ShouldTranscludeTable(apiTable) then
-		return self:GetTableCaptionLink(apiTable)
+function Wowpedia:GetTableCaption(apiTable)
+	local isTransclude = select(2, self:GetComplexTypeInfo(apiTable))
+	if isTransclude then
+		local system = self:GetTableSystem(apiTable)
+		if apiTable.Type == "Enumeration" then
+			return enumCaption:format(system, apiTable.Name, apiTable.Name)
+		elseif apiTable.Type == "Structure" then
+			return structCaption:format(system, apiTable.Name, apiTable.Name)
+		end
 	else
 		return apiTable:GetFullName()
-	end
-end
-
-function Wowpedia:GetTableCaptionLink(apiTable)
-	local system = self:GetTableSystem(apiTable)
-	if apiTable.Type == "Enumeration" then
-		return enumCaption:format(system, apiTable.Name, apiTable.Name)
-	elseif apiTable.Type == "Structure" then
-		return structCaption:format(system, apiTable.Name, apiTable.Name)
 	end
 end

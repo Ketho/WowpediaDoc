@@ -10,12 +10,22 @@ Wowpedia.complexRefs = {}
 local paramFs = ";%s : %s"
 local colorFs = '<font color="#%s">%s</font>'
 local colorBasic = "ecbc2a" -- from ddcorkum api template
-local colorComplex = "4ec9b0" -- from vscode dark+
+local colorComplex = "4ec9b0" -- from vscode dark+ theme
 
 function Wowpedia:GetParameters(params, isArgument)
 	local t = {}
 	for i, param in ipairs(params) do
 		t[i] = paramFs:format(param.Name, self:GetPrettyType(param, isArgument))
+	end
+	for _, param in ipairs(params) do
+		local complexTable, isTransclude = self:GetComplexTypeInfo(param)
+		if complexTable then
+			if isTransclude then
+				table.insert(t, self:GetTableTemplate(complexTable))
+			else
+				table.insert(t, self:GetTableText(complexTable))
+			end
+		end
 	end
 	return table.concat(t, "\n")
 end
@@ -51,19 +61,24 @@ function Wowpedia:GetPrettyType(apiTable, isArgument)
 	return str
 end
 
-function Wowpedia:GetDocumentation()
-end
-
-function Wowpedia:GetComplexTypeByName(name)
-	if self.complexTypes[name] then
-		return self.complexTypes[name]
-	else
-		error("Unknown Type: "..name)
+function Wowpedia:GetDocumentation(apiTable)
+	if apiTable.Documentation then
 	end
 end
 
-function Wowpedia:ShouldTranscludeTable(apiTable)
-	return (self.complexRefs[apiTable.Name] or 0) > 1
+function Wowpedia:GetParamTypeField(apiTable)
+	if apiTable.Function then
+		return apiTable.InnerType or apiTable.Type
+	elseif apiTable.Table then
+		return apiTable.Name
+	end
+end
+
+function Wowpedia:GetComplexTypeInfo(apiTable)
+	local typeName = self:GetParamTypeField(apiTable)
+	local complexTable = self.complexTypes[typeName]
+	local isTransclude = (self.complexRefs[typeName] or 0) > 1
+	return complexTable, isTransclude
 end
 
 function Wowpedia:InitComplexTableTypes()

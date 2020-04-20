@@ -46,21 +46,15 @@ end
 local function TestTable(name)
 	local apiTable = Wowpedia.complexTypes[name]
 	print(Wowpedia:GetTableTemplate(apiTable))
-	print(Wowpedia:GetTableCaptionLink(apiTable))
+	print(Wowpedia:GetTableCaption(apiTable))
 	print(Wowpedia:GetTableText(apiTable))
-end
-
-local function TestTableSmart(name, forceText)
-	local apiTable = Wowpedia.complexTypes[name]
-	print(Wowpedia:GetTableTemplateOrText(apiTable, forceText))
 end
 
 -- enums
 -- TestTable("AuctionHouseTimeLeftBand") -- anonymous system
 -- TestTable("WidgetShownState")
 -- TestTable("UIWidgetVisualizationType")
--- TestTableSmart("PowerType", false) -- force template
--- TestTableSmart("PowerType", true)
+-- TestTable("PowerType")
 
 -- structures
 -- TestTable("BidInfo") -- struct and enum
