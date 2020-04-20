@@ -68,6 +68,7 @@ end
 -- TestTable("ItemKey") -- nilable, default
 -- TestTable("AuctionHouseBrowseQuery") -- innertype enum
 -- TestTable("ItemSearchResultInfo") -- innertype string
+-- TestTable("ItemKeyInfo") -- nilable, bool
 
 -- missing
 -- TestTable("CalendarTime")

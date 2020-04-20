@@ -1,14 +1,16 @@
 Wowpedia.basicTypes = {
-	bool = true,
-	number = true,
-	string = true,
-	table = true,
+	bool = "boolean",
+	number = "number",
+	string = "string",
+	table = "table",
 }
 
 Wowpedia.complexTypes = {}
 Wowpedia.complexRefs = {}
 local paramFs = ";%s : %s"
 local colorFs = '<font color="#%s">%s</font>'
+local colorBasic = "ecbc2a" -- from ddcorkum api template
+local colorComplex = "4ec9b0" -- from vscode dark+
 
 function Wowpedia:GetParameters(params, isArgument)
 	local t = {}
@@ -26,17 +28,17 @@ function Wowpedia:GetPrettyType(apiTable, isArgument)
 		elseif apiTable.InnerType then
 			local complexInnertype = self.complexTypes[apiTable.InnerType]
 			if self.basicTypes[apiTable.InnerType] then
-				str = colorFs:format(apiTable:GetLinkHexColor(), apiTable.InnerType).."[]"
+				str = colorFs:format(colorBasic, self.basicTypes[apiTable.InnerType]).."[]"
 			elseif complexInnertype then
-				str = colorFs:format(complexInnertype:GetLinkHexColor(), complexInnertype:GetFullName()).."[]"
+				str = colorFs:format(colorBasic, complexInnertype:GetFullName()).."[]"
 			else
 				error("Unknown InnerType: "..apiTable.InnerType)
 			end
 		end
 	elseif self.basicTypes[apiTable.Type] then
-		str = colorFs:format(apiTable:GetLinkHexColor(), apiTable.Type)
+		str = colorFs:format(colorBasic, self.basicTypes[apiTable.Type])
 	elseif complexType then
-		str = colorFs:format(complexType:GetLinkHexColor(), complexType:GetFullName())
+		str = colorFs:format(colorComplex, complexType:GetFullName())
 	else
 		error("Unknown Type: "..apiTable.Type)
 	end
