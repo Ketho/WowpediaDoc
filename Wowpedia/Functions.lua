@@ -1,16 +1,12 @@
-local proto = " %s\n\n"
-local argumentFs = "%s==Arguments==\n%s\n\n"
-local returnFs = "%s==Returns==\n%s\n\n"
-
 function Wowpedia:GetFunctionText(func)
-	local str = proto:format(self:GetFunctionPrototype(func))
+	local str = string.format(" %s\n", self:GetFunctionPrototype(func))
 	if func.Arguments then
-		str = string.format(argumentFs, str, self:GetParameters(func.Arguments, true))
+		str = str..string.format("\n==Arguments==\n%s\n", self:GetParameters(func.Arguments, true))
 	end
 	if func.Returns then
-		str = string.format(returnFs, str, self:GetParameters(func.Returns))
+		str = str..string.format("\n==Returns==\n%s\n", self:GetParameters(func.Returns))
 	end
-	return str.."<!-- \n==Triggers Events== -->"
+	return str
 end
 
 function Wowpedia:GetFunctionPrototype(func)
@@ -37,7 +33,7 @@ function Wowpedia:GetArgumentString(func)
 	local str, optionalFound
 	for i, arg in ipairs(func.Arguments) do
 		local name = arg.Name
-		-- assume everything after the first optional argument is also optional
+		-- usually everything after the first optional argument is also optional
 		if arg:IsOptional() and not optionalFound then
 			optionalFound = true
 			name = "["..name
@@ -45,7 +41,4 @@ function Wowpedia:GetArgumentString(func)
 		str = (i==1) and name or str..", "..name
 	end
 	return optionalFound and str:gsub(", %[", " [, ").."]" or str
-end
-
-function Wowpedia:GetStrideIndexText()
 end

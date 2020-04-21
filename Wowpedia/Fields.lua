@@ -13,21 +13,21 @@ local colorBasic = "ecbc2a" -- from ddcorkum api template
 local colorComplex = "4ec9b0" -- from vscode dark+ theme
 
 function Wowpedia:GetParameters(params, isArgument)
-	local t = {}
+	local tbl = {}
 	for i, param in ipairs(params) do
-		t[i] = paramFs:format(param.Name, self:GetPrettyType(param, isArgument))
+		tbl[i] = paramFs:format(param.Name, self:GetPrettyType(param, isArgument))
 	end
 	for _, param in ipairs(params) do
 		local complexTable, isTransclude = self:GetComplexTypeInfo(param)
 		if complexTable then
 			if isTransclude then
-				table.insert(t, self:GetTableTemplate(complexTable))
+				table.insert(tbl, self:GetTableTemplate(complexTable))
 			else
-				table.insert(t, self:GetTableText(complexTable, #params>1))
+				table.insert(tbl, self:GetTableText(complexTable, #params>1))
 			end
 		end
 	end
-	return table.concat(t, "\n")
+	return table.concat(tbl, "\n")
 end
 
 function Wowpedia:GetPrettyType(apiTable, isArgument)
@@ -66,6 +66,11 @@ function Wowpedia:GetDocumentation()
 	--end
 end
 
+function Wowpedia:GetStrideIndex()
+	--if apiTable.StrideIndex then
+	--end
+end
+
 function Wowpedia:GetParamTypeField(apiTable)
 	if apiTable.Function then
 		return apiTable.InnerType or apiTable.Type
@@ -99,3 +104,4 @@ end
 
 Wowpedia:InitComplexTableTypes()
 Wowpedia:InitComplexFieldRefs()
+
