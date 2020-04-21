@@ -23,7 +23,7 @@ function Wowpedia:GetParameters(params, isArgument)
 			if isTransclude then
 				table.insert(t, self:GetTableTemplate(complexTable))
 			else
-				table.insert(t, self:GetTableText(complexTable))
+				table.insert(t, self:GetTableText(complexTable, #params>1))
 			end
 		end
 	end

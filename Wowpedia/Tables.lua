@@ -1,4 +1,5 @@
 local tableTemplate = "{{:%s %s.%s}}"
+local tableClass = '{| class="sortable darktable zebra" style="margin-left: 2em"'
 
 local enumCaption = "[[Enum %s.%s|Enum.%s]]"
 local enumHeader = "! Value !! Key !! Description"
@@ -13,38 +14,36 @@ local shortComplex = {
 	Structure = "Struct",
 }
 
-local darkTableFs = [[{| class="sortable darktable zebra" style="margin-left: 2em"
-|+ %s
-%s
-%s
-|}
-]]
-
-function Wowpedia:GetTableText(apiTable)
+function Wowpedia:GetTableText(apiTable, showCaption)
 	if apiTable.Type == "Enumeration" then
-		return self:GetDarkTable(apiTable, enumHeader, enumRow)
+		return self:GetDarkTable(apiTable, showCaption, enumHeader, enumRow)
 	elseif apiTable.Type == "Structure" then
-		return self:GetDarkTable(apiTable, structHeader, structRow)
+		return self:GetDarkTable(apiTable, showCaption, structHeader, structRow)
 	elseif apiTable.Type == "Constants" then
 		return self:GetConstants(apiTable)
 	end
 end
 
-function Wowpedia:GetDarkTable(apiTable, header, row)
-	local t = {}
+function Wowpedia:GetDarkTable(apiTable, showCaption, header, row)
+	local darkTbl, rows = {}, {}
+	table.insert(darkTbl, tableClass)
+	if showCaption then
+		table.insert(darkTbl, "|+ "..self:GetTableCaption(apiTable))
+	end
 	if apiTable.Type == "Enumeration" then
 		for i, field in ipairs(apiTable.Fields) do
-			t[i] = row:format(field.EnumValue, field.Name)
+			rows[i] = row:format(field.EnumValue, field.Name)
 		end
 	elseif apiTable.Type == "Structure" then
 		for i, field in ipairs(apiTable.Fields) do
 			local prettyType = self:GetPrettyType(field)
-			t[i] = row:format(field.Name, prettyType)
+			rows[i] = row:format(field.Name, prettyType)
 		end
 	end
-	local caption = self:GetTableCaption(apiTable)
-	local rows = table.concat(t, "\n")
-	return darkTableFs:format(caption, header, rows)
+	table.insert(darkTbl, header)
+	table.insert(darkTbl, table.concat(rows, "\n"))
+	table.insert(darkTbl, "|}")
+	return table.concat(darkTbl, "\n")
 end
 
 -- there is only QuestWatchConsts in QuestConstantsDocumentation.lua
