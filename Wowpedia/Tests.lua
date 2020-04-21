@@ -29,12 +29,13 @@ end
 -- TestFunction("IsGUIDBattleNetAccountType") -- bool return
 -- TestFunction("GetItemKeyInfo") -- struct returns
 -- TestFunction("FindFlyoutActionButtons") -- number[] return
+-- TestFunction("CreateClub") -- optionals in middle
 
 
 local function TestEvent(name)
 	for _, event in ipairs(APIDocumentation.events) do
 		if event.LiteralName == name then
-			print(Wowpedia:GetEventText(event))
+			print(Wowpedia:GetPageText(event))
 			break
 		end
 	end
@@ -122,3 +123,30 @@ end
 -- GetComplexTypeStats()
 
 -- APIDocumentation:HandleSlashCommand("stats")
+
+-- CreateClub
+-- GetInvitationCandidates
+-- GetRuneforgeModifierInfo
+-- BONUS_ROLL_RESULT
+-- VOICE_CHAT_PENDING_CHANNEL_JOIN_STATE
+-- ENTITLEMENT_DELIVERED
+-- RAF_ENTITLEMENT_DELIVERED
+local function GetSignaturesWithMiddleOptionals(apiType, paramTbl, apiName)
+	for _, apiTable in ipairs(APIDocumentation[apiType]) do
+		local optional
+		if apiTable[paramTbl] then
+			for _, param in ipairs(apiTable[paramTbl]) do
+				if param.Nilable then
+					optional = true
+				else
+					if optional then
+						print(apiTable[apiName])
+						break
+					end
+				end	
+			end
+		end
+	end
+end
+-- GetSignaturesWithMiddleOptionals("functions", "Arguments", "Name")
+-- GetSignaturesWithMiddleOptionals("events", "Payload", "LiteralName")
