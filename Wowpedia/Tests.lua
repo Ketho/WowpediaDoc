@@ -143,7 +143,7 @@ local function GetSignaturesWithMiddleOptionals(apiType, paramTbl, apiName)
 						print(apiTable[apiName])
 						break
 					end
-				end	
+				end
 			end
 		end
 	end

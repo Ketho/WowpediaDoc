@@ -14,6 +14,7 @@ ignore = {
 	"211/TestTable",
 	"211/TestTableSmart",
 	"211/GetComplexTypeStats",
+	"211/GetSignaturesWithMiddleOptionals",
 }
 globals = {
 	"ChatTypeInfo",
