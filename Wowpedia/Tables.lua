@@ -6,15 +6,15 @@ local shortComplex = {
 	Structure = "Struct",
 }
 
-function Wowpedia:GetTableInlineText(apiTable)
+function Wowpedia:GetInlineTableText(apiTable)
 	local tbl = {}
 	table.insert(tbl, '{| class="sortable darktable zebra" style="margin-left: 2em"')
 	if apiTable.Type == "Enumeration" then
 		table.insert(tbl, "! Value !! Key !! Description")
-		table.insert(tbl, self:GetDarkTableRows(apiTable, enumRow))
+		table.insert(tbl, self:GetTableRows(apiTable, enumRow))
 	elseif apiTable.Type == "Structure" then
 		table.insert(tbl, "! Key !! Type !! Description")
-		table.insert(tbl, self:GetDarkTableRows(apiTable, structRow))
+		table.insert(tbl, self:GetTableRows(apiTable, structRow))
 	elseif apiTable.Type == "Constants" then
 		table.insert(tbl, self:GetConstants(apiTable))
 	end
@@ -23,16 +23,16 @@ function Wowpedia:GetTableInlineText(apiTable)
 end
 
 -- support enum/struct templates by Ddcorkum
-function Wowpedia:GetTableStandaloneText(apiTable)
+function Wowpedia:GetStandaloneTableText(apiTable)
 	local tbl = {}
-	local _, baseTransclude = self:GetTableTranscludeText(apiTable)
+	local _, baseTransclude = self:GetTranscludeTableText(apiTable)
 	if apiTable.Type == "Enumeration" then
 		table.insert(tbl, "<onlyinclude>{{Enum/Start}}")
-		table.insert(tbl, self:GetDarkTableRows(apiTable, enumRow))
+		table.insert(tbl, self:GetTableRows(apiTable, enumRow))
 		table.insert(tbl, string.format("{{Enum/End|%s}}</onlyinclude>", baseTransclude))
 	elseif apiTable.Type == "Structure" then
 		table.insert(tbl, "<onlyinclude>{{Struct/Start}}")
-		table.insert(tbl, self:GetDarkTableRows(apiTable, structRow))
+		table.insert(tbl, self:GetTableRows(apiTable, structRow))
 		table.insert(tbl, string.format("{{Struct/End|%s}}</onlyinclude>", baseTransclude))
 	elseif apiTable.Type == "Constants" then
 		table.insert(tbl, self:GetConstants(apiTable))
@@ -40,7 +40,7 @@ function Wowpedia:GetTableStandaloneText(apiTable)
 	return table.concat(tbl, "\n")
 end
 
-function Wowpedia:GetDarkTableRows(apiTable, row)
+function Wowpedia:GetTableRows(apiTable, row)
 	local rows = {}
 	if apiTable.Type == "Enumeration" then
 		for i, field in ipairs(apiTable.Fields) do
@@ -60,19 +60,13 @@ function Wowpedia:GetConstants(apiTable)
 	return apiTable.Type
 end
 
-function Wowpedia:GetTableSystem(apiTable)
-	local system = apiTable.System
-	if system then -- Unit and Expansion systems dont have a namespace
-		return system.Namespace and system.Namespace:gsub("C_", "") or system.Name
-	else
-		return "Unknown"
-	end
-end
-
-function Wowpedia:GetTableTranscludeText(complexTable)
+function Wowpedia:GetTranscludeTableText(complexTable)
 	local shortType = shortComplex[complexTable.Type]
-	local system = self:GetTableSystem(complexTable)
-	local base = string.format("%s %s.%s", shortType, system, complexTable.Name)
+	local system, systemName = complexTable.System, "Unknown"
+	if system then -- Unit and Expansion systems dont have a namespace
+		systemName = system.Namespace and system.Namespace:gsub("C_", "") or system.Name
+	end
+	local base = string.format("%s %s.%s", shortType, systemName, complexTable.Name)
 	local transclude = string.format("{{:%s}}", base)
 	return transclude, base
 end

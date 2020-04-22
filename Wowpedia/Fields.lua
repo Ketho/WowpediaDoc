@@ -34,9 +34,9 @@ function Wowpedia:GetParameters(params, isArgument)
 		local complexTable, isTransclude = self:GetComplexTypeInfo(param)
 		if complexTable then
 			if isTransclude then
-				table.insert(tbl, self:GetTableTranscludeText(complexTable))
+				table.insert(tbl, (self:GetTranscludeTableText(complexTable)))
 			else
-				table.insert(tbl, self:GetTableInlineText(complexTable))
+				table.insert(tbl, self:GetInlineTableText(complexTable))
 			end
 		end
 	end
