@@ -51,7 +51,6 @@ local function TestTable(name)
 	local apiTable = Wowpedia.complexTypes[name]
 	-- print(Wowpedia:GetTableTransclude(apiTable))
 	print(Wowpedia:GetInlineTableText(apiTable))
-	-- print(Wowpedia:GetTableStandaloneText(apiTable))
 end
 
 -- enums

@@ -22,24 +22,6 @@ function Wowpedia:GetInlineTableText(apiTable)
 	return table.concat(tbl, "\n")
 end
 
--- support enum/struct templates by Ddcorkum
-function Wowpedia:GetStandaloneTableText(apiTable)
-	local tbl = {}
-	local _, baseTransclude = self:GetTranscludeTableText(apiTable)
-	if apiTable.Type == "Enumeration" then
-		table.insert(tbl, "<onlyinclude>{{Enum/Start}}")
-		table.insert(tbl, self:GetTableRows(apiTable, enumRow))
-		table.insert(tbl, string.format("{{Enum/End|%s}}</onlyinclude>", baseTransclude))
-	elseif apiTable.Type == "Structure" then
-		table.insert(tbl, "<onlyinclude>{{Struct/Start}}")
-		table.insert(tbl, self:GetTableRows(apiTable, structRow))
-		table.insert(tbl, string.format("{{Struct/End|%s}}</onlyinclude>", baseTransclude))
-	elseif apiTable.Type == "Constants" then
-		table.insert(tbl, self:GetConstants(apiTable))
-	end
-	return table.concat(tbl, "\n")
-end
-
 function Wowpedia:GetTableRows(apiTable, row)
 	local rows = {}
 	if apiTable.Type == "Enumeration" then
