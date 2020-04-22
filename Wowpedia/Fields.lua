@@ -12,12 +12,25 @@ local colorFs = '<font color="#%s">%s</font>'
 local colorBasic = "ecbc2a" -- from ddcorkum api template
 local colorComplex = "4ec9b0" -- from vscode dark+ theme
 
+function Wowpedia:GetPrototypeString(apiTable, paramTbl)
+	print(apiTable, paramTbl)
+	local str, optionalFound
+	for i, param in ipairs(apiTable[paramTbl]) do
+		local name = param.Name
+		-- usually everything after the first optional argument is also optional
+		if param:IsOptional() and not optionalFound then
+			optionalFound = true
+			name = "["..name
+		end
+		str = (i==1) and name or str..", "..name
+	end
+	return optionalFound and str:gsub(", %[", " [, ").."]" or str
+end
+
 function Wowpedia:GetParameters(params, isArgument)
 	local tbl = {}
 	for i, param in ipairs(params) do
-		tbl[i] = paramFs:format(param.Name, self:GetPrettyType(param, isArgument))
-	end
-	for _, param in ipairs(params) do
+		table.insert(tbl, paramFs:format(param.Name, self:GetPrettyType(param, isArgument)))
 		local complexTable, isTransclude = self:GetComplexTypeInfo(param)
 		if complexTable then
 			if isTransclude then

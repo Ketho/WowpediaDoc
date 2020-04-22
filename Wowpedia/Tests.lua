@@ -30,6 +30,7 @@ end
 -- TestFunction("GetItemKeyInfo") -- struct returns
 -- TestFunction("FindFlyoutActionButtons") -- number[] return
 -- TestFunction("CreateClub") -- optionals in middle
+-- TestFunction("GetTimeLeftBandInfo")
 
 
 local function TestEvent(name)
@@ -43,6 +44,7 @@ end
 
 -- TestEvent("ACTIONBAR_SHOWGRID") -- no payload
 -- TestEvent("ITEM_SEARCH_RESULTS_UPDATED") -- struct, nilable
+-- TestEvent("TRACKED_ACHIEVEMENT_UPDATE") -- optional params
 
 local function TestTable(name)
 	local apiTable = Wowpedia.complexTypes[name]

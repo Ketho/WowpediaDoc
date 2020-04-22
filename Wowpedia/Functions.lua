@@ -17,7 +17,7 @@ function Wowpedia:GetFunctionPrototype(func)
 		str = func.Name
 	end
 	if func.Arguments then
-		local argumentString = self:GetArgumentString(func)
+		local argumentString = self:GetPrototypeString(func, "Arguments")
 		str = string.format("%s(%s)", str, argumentString)
 	else
 		str = str.."()"
@@ -27,18 +27,4 @@ function Wowpedia:GetFunctionPrototype(func)
 		str = string.format("%s = %s", returnString, str)
 	end
 	return str
-end
-
-function Wowpedia:GetArgumentString(func)
-	local str, optionalFound
-	for i, arg in ipairs(func.Arguments) do
-		local name = arg.Name
-		-- usually everything after the first optional argument is also optional
-		if arg:IsOptional() and not optionalFound then
-			optionalFound = true
-			name = "["..name
-		end
-		str = (i==1) and name or str..", "..name
-	end
-	return optionalFound and str:gsub(", %[", " [, ").."]" or str
 end
