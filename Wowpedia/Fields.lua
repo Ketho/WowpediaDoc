@@ -29,7 +29,7 @@ end
 
 function Wowpedia:GetParameters(params, isArgument)
 	local tbl = {}
-	for i, param in ipairs(params) do
+	for _, param in ipairs(params) do
 		table.insert(tbl, paramFs:format(param.Name, self:GetPrettyType(param, isArgument)))
 		local complexTable, isTransclude = self:GetComplexTypeInfo(param)
 		if complexTable then
