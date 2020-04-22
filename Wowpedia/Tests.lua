@@ -22,15 +22,16 @@ end
 -- TestFunction("MakeItemKey") -- three optional args
 -- TestFunction("EventSetClubId") -- first argument optional
 -- TestFunction("GetAppearanceInfo") -- two optional returns
+-- TestFunction("CreateClub") -- optional arguments in middle
 
 -- TestFunction("SendAddonMessage") -- string arguments
--- TestFunction("UnitPowerDisplayMod") -- enum arguments
--- TestFunction("GetClubCalendarEvents") -- structure arguments
+-- TestFunction("UnitPowerDisplayMod") -- enum transclude argument
+-- TestFunction("GetClubCalendarEvents") -- structure transclude arguments
 -- TestFunction("IsGUIDBattleNetAccountType") -- bool return
--- TestFunction("GetItemKeyInfo") -- struct returns
+-- TestFunction("GetItemKeyInfo") -- struct inline returns
 -- TestFunction("FindFlyoutActionButtons") -- number[] return
--- TestFunction("CreateClub") -- optionals in middle
--- TestFunction("GetTimeLeftBandInfo")
+-- TestFunction("GetTimeLeftBandInfo") -- transclude argument
+-- TestFunction("GetSanctumType") -- inline enum return
 
 
 local function TestEvent(name)
@@ -48,9 +49,9 @@ end
 
 local function TestTable(name)
 	local apiTable = Wowpedia.complexTypes[name]
-	print(Wowpedia:GetTableTemplate(apiTable))
-	print(Wowpedia:GetTableCaption(apiTable))
-	print(Wowpedia:GetTableText(apiTable))
+	-- print(Wowpedia:GetTableTransclude(apiTable))
+	print(Wowpedia:GetTableInlineText(apiTable))
+	-- print(Wowpedia:GetTableStandaloneText(apiTable))
 end
 
 -- enums
@@ -58,6 +59,7 @@ end
 -- TestTable("WidgetShownState")
 -- TestTable("UIWidgetVisualizationType")
 -- TestTable("PowerType")
+-- TestTable("ClubType")
 
 -- structures
 -- TestTable("BidInfo") -- struct and enum
@@ -108,7 +110,6 @@ local function GetComplexTypeStats()
 		print(name)
 	end
 
-	-- todo: manually check types with refcount==2
 	print("\n# referenced types:")
 	for name, amount in pairs(referencedTypes) do
 		if amount > 1 then

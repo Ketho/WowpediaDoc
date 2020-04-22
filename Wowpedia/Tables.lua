@@ -1,12 +1,4 @@
-local tableTemplate = "{{:%s %s.%s}}"
-local tableClass = '{| class="sortable darktable zebra" style="margin-left: 2em"'
-
-local enumCaption = "[[Enum %s.%s|Enum.%s]]"
-local enumHeader = "! Value !! Key !! Description"
 local enumRow = '|-\n| align="center" | %s || %s || '
-
-local structCaption = "[[Struct %s.%s|%s]]"
-local structHeader = "! Key !! Type !! Description"
 local structRow = '|-\n| %s || %s || '
 
 local shortComplex = {
@@ -14,22 +6,42 @@ local shortComplex = {
 	Structure = "Struct",
 }
 
-function Wowpedia:GetTableText(apiTable, showCaption)
+function Wowpedia:GetTableInlineText(apiTable)
+	local tbl = {}
+	table.insert(tbl, '{| class="sortable darktable zebra" style="margin-left: 2em"')
 	if apiTable.Type == "Enumeration" then
-		return self:GetDarkTable(apiTable, showCaption, enumHeader, enumRow)
+		table.insert(tbl, "! Value !! Key !! Description")
+		table.insert(tbl, self:GetDarkTableRows(apiTable, enumRow))
 	elseif apiTable.Type == "Structure" then
-		return self:GetDarkTable(apiTable, showCaption, structHeader, structRow)
+		table.insert(tbl, "! Key !! Type !! Description")
+		table.insert(tbl, self:GetDarkTableRows(apiTable, structRow))
 	elseif apiTable.Type == "Constants" then
-		return self:GetConstants(apiTable)
+		table.insert(tbl, self:GetConstants(apiTable))
 	end
+	table.insert(tbl, "|}")
+	return table.concat(tbl, "\n")
 end
 
-function Wowpedia:GetDarkTable(apiTable, showCaption, header, row)
-	local darkTbl, rows = {}, {}
-	table.insert(darkTbl, tableClass)
-	if showCaption then
-		table.insert(darkTbl, "|+ "..self:GetTableCaption(apiTable))
+-- support enum/struct templates by Ddcorkum
+function Wowpedia:GetTableStandaloneText(apiTable)
+	local tbl = {}
+	local _, baseTransclude = self:GetTableTranscludeText(apiTable)
+	if apiTable.Type == "Enumeration" then
+		table.insert(tbl, "<onlyinclude>{{Enum/Start}}")
+		table.insert(tbl, self:GetDarkTableRows(apiTable, enumRow))
+		table.insert(tbl, string.format("{{Enum/End|%s}}</onlyinclude>", baseTransclude))
+	elseif apiTable.Type == "Structure" then
+		table.insert(tbl, "<onlyinclude>{{Struct/Start}}")
+		table.insert(tbl, self:GetDarkTableRows(apiTable, structRow))
+		table.insert(tbl, string.format("{{Struct/End|%s}}</onlyinclude>", baseTransclude))
+	elseif apiTable.Type == "Constants" then
+		table.insert(tbl, self:GetConstants(apiTable))
 	end
+	return table.concat(tbl, "\n")
+end
+
+function Wowpedia:GetDarkTableRows(apiTable, row)
+	local rows = {}
 	if apiTable.Type == "Enumeration" then
 		for i, field in ipairs(apiTable.Fields) do
 			rows[i] = row:format(field.EnumValue, field.Name)
@@ -40,10 +52,7 @@ function Wowpedia:GetDarkTable(apiTable, showCaption, header, row)
 			rows[i] = row:format(field.Name, prettyType)
 		end
 	end
-	table.insert(darkTbl, header)
-	table.insert(darkTbl, table.concat(rows, "\n"))
-	table.insert(darkTbl, "|}")
-	return table.concat(darkTbl, "\n")
+	return table.concat(rows, "\n")
 end
 
 -- there is only QuestWatchConsts in QuestConstantsDocumentation.lua
@@ -60,22 +69,10 @@ function Wowpedia:GetTableSystem(apiTable)
 	end
 end
 
-function Wowpedia:GetTableTemplate(complexTable)
+function Wowpedia:GetTableTranscludeText(complexTable)
 	local shortType = shortComplex[complexTable.Type]
 	local system = self:GetTableSystem(complexTable)
-	return tableTemplate:format(shortType, system, complexTable.Name)
-end
-
-function Wowpedia:GetTableCaption(apiTable)
-	local isTransclude = select(2, self:GetComplexTypeInfo(apiTable))
-	if isTransclude then
-		local system = self:GetTableSystem(apiTable)
-		if apiTable.Type == "Enumeration" then
-			return enumCaption:format(system, apiTable.Name, apiTable.Name)
-		elseif apiTable.Type == "Structure" then
-			return structCaption:format(system, apiTable.Name, apiTable.Name)
-		end
-	else
-		return apiTable:GetFullName()
-	end
+	local base = string.format("%s %s.%s", shortType, system, complexTable.Name)
+	local transclude = string.format("{{:%s}}", base)
+	return transclude, base
 end

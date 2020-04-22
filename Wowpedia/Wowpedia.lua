@@ -14,11 +14,16 @@ function Wowpedia:GetPageText(apiTable)
 		template = string.format("{{wowapievent|%s}}", apiTable.System.Namespace)
 		params = self:GetEventText(apiTable)
 	end
-	table.insert(tbl, template)
-	table.insert(tbl, self:GetDescription())
-	table.insert(tbl, params)
-	table.insert(tbl, self:GetPatchSection())
-	table.insert(tbl, self:GetElinksSection())
+	local sections = {
+		template,
+		self:GetDescription(),
+		params,
+		self:GetPatchSection(),
+		self:GetElinksSection(),
+	}
+	for _, v in pairs(sections) do
+		table.insert(tbl, v)
+	end
 	return table.concat(tbl, "\n")
 end
 
