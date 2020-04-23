@@ -38,5 +38,3 @@ end
 function Wowpedia:GetElinksSection()
 	return "==External Links==\n{{subst:el}}\n{{Elinks-api}}"
 end
-
-require("Wowpedia/Tests")
