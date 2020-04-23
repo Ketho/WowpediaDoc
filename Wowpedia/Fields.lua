@@ -93,7 +93,7 @@ function Wowpedia:GetStrideIndex()
 end
 
 function Wowpedia:GetParamTypeField(apiTable)
-	if apiTable.Function then
+	if apiTable.Function or apiTable.Event then
 		return apiTable.InnerType or apiTable.Type
 	elseif apiTable.Table then
 		return apiTable.Name
@@ -117,8 +117,9 @@ end
 function Wowpedia:InitComplexFieldRefs()
 	for _, field in pairs(APIDocumentation.fields) do
 		local parent = field.Function or field.Event or field.Table
-		if not self.basicTypes[field.Type] and parent.Type ~= "Enumeration" then
-			self.complexRefs[field.Type] = (self.complexRefs[field.Type] or 0) + 1
+		local typeName = self:GetParamTypeField(field)
+		if not self.basicTypes[typeName] and parent.Type ~= "Enumeration" then
+			self.complexRefs[typeName] = (self.complexRefs[typeName] or 0) + 1
 		end
 	end
 end

@@ -32,7 +32,7 @@ function Wowpedia:GetDescription()
 end
 
 function Wowpedia:GetPatchSection()
-	return "==Patch changes==\n*{{Patch 9.0.1|note=Added.}}\n"
+	return "==Patch changes==\n* {{Patch 9.0.1|note=Added.}}\n"
 end
 
 function Wowpedia:GetElinksSection()

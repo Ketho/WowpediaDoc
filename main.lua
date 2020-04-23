@@ -7,7 +7,6 @@ for line in toc:lines() do
 	end
 end
 toc:close()
-require "MissingDocumentation"
 
-print("hello main")
+require "MissingDocumentation"
 require "Wowpedia/Wowpedia"

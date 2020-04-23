@@ -32,6 +32,7 @@ end
 -- TestFunction("FindFlyoutActionButtons") -- number[] return
 -- TestFunction("GetTimeLeftBandInfo") -- transclude argument
 -- TestFunction("GetSanctumType") -- inline enum return
+-- TestFunction("QueryBids")
 
 
 local function TestEvent(name)
@@ -59,6 +60,7 @@ end
 -- TestTable("UIWidgetVisualizationType")
 -- TestTable("PowerType")
 -- TestTable("ClubType")
+-- TestTable("AuctionHouseSortOrder")
 
 -- structures
 -- TestTable("BidInfo") -- struct and enum
@@ -67,6 +69,7 @@ end
 -- TestTable("AuctionHouseBrowseQuery") -- innertype enum
 -- TestTable("ItemSearchResultInfo") -- innertype string
 -- TestTable("ItemKeyInfo") -- nilable, bool
+-- TestTable("AuctionHouseSortType")
 
 -- missing
 -- TestTable("CalendarTime")
@@ -118,9 +121,9 @@ local function GetComplexTypeStats()
 
 	-- huh this is confusing
 	print("\namount of unique complex types (via Fields):", CountKeys(uniqueTypes)) -- 285
-	print("amount of unique complex types (via Tables):", CountKeys(Wowpedia.complexTypes)) -- 361
+	print("amount of unique complex types (via Tables):", CountKeys(Wowpedia.complexTypes)) -- 364
 	print("amount of unique referenced types (via Fields):", CountKeys(referencedTypes)) -- 237
-	print("amount of unknown types (via Fields):", CountKeys(missingTypes)) -- 7
+	print("amount of unknown types (via Fields):", CountKeys(missingTypes)) -- 4
 end
 -- GetComplexTypeStats()
 
