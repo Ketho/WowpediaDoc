@@ -10,4 +10,4 @@ toc:close()
 
 require "MissingDocumentation"
 require "Wowpedia/Wowpedia"
-require("Wowpedia/Tests")
+require "Wowpedia/Tests"
