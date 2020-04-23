@@ -7,10 +7,16 @@ Wowpedia.basicTypes = {
 
 Wowpedia.complexTypes = {}
 Wowpedia.complexRefs = {}
+
 local paramFs = ";%s : %s"
 local colorFs = '<font color="#%s">%s</font>'
 local colorBasic = "ecbc2a" -- from ddcorkum api template
-local colorComplex = "4ec9b0" -- from vscode dark+ theme
+local colorStruct = "4ec9b0" -- from vscode dark+ theme
+
+local complexTypeColors = {
+	Enumeration = colorBasic,
+	Structure = colorStruct,
+}
 
 function Wowpedia:GetPrototypeString(apiTable, paramTbl)
 	local str, optionalFound
@@ -33,9 +39,10 @@ function Wowpedia:GetParameters(params, isArgument)
 		local complexTable, isTransclude = self:GetComplexTypeInfo(param)
 		if complexTable then
 			if isTransclude then
-				table.insert(tbl, (self:GetTranscludeTableText(complexTable)))
+				local transclude = string.format("{{:%s|nocaption=1}}", self:GetTranscludeBase(complexTable))
+				table.insert(tbl, transclude)
 			else
-				table.insert(tbl, self:GetInlineTableText(complexTable))
+				table.insert(tbl, self:GetTableText(complexTable))
 			end
 		end
 	end
@@ -52,7 +59,8 @@ function Wowpedia:GetPrettyType(apiTable, isArgument)
 			if self.basicTypes[apiTable.InnerType] then
 				str = colorFs:format(colorBasic, self.basicTypes[apiTable.InnerType]).."[]"
 			elseif complexInnertype then
-				str = colorFs:format(colorBasic, complexInnertype:GetFullName()).."[]"
+				local color = complexTypeColors[complexInnertype.Type]
+				str = colorFs:format(color, complexInnertype:GetFullName()).."[]"
 			else
 				error("Unknown InnerType: "..apiTable.InnerType)
 			end
@@ -60,7 +68,8 @@ function Wowpedia:GetPrettyType(apiTable, isArgument)
 	elseif self.basicTypes[apiTable.Type] then
 		str = colorFs:format(colorBasic, self.basicTypes[apiTable.Type])
 	elseif complexType then
-		str = colorFs:format(colorComplex, complexType:GetFullName())
+		local color = complexTypeColors[complexType.Type]
+		str = colorFs:format(color, complexType:GetFullName())
 	else
 		error("Unknown Type: "..apiTable.Type)
 	end
