@@ -1,5 +1,5 @@
 function Wowpedia:GetFunctionText(func)
-	local str = string.format(" %s\n", self:GetFunctionPrototype(func))
+	local str = string.format(" %s\n", self:GetFunctionSignature(func))
 	if func.Arguments then
 		str = str..string.format("\n==Arguments==\n%s\n", self:GetParameters(func.Arguments, true))
 	end
@@ -9,7 +9,7 @@ function Wowpedia:GetFunctionText(func)
 	return str
 end
 
-function Wowpedia:GetFunctionPrototype(func)
+function Wowpedia:GetFunctionSignature(func)
 	local str
 	if func.System.Namespace then
 		str = string.format("%s.%s", func.System.Namespace, func.Name)
@@ -17,7 +17,7 @@ function Wowpedia:GetFunctionPrototype(func)
 		str = func.Name
 	end
 	if func.Arguments then
-		local argumentString = self:GetPrototypeString(func, "Arguments")
+		local argumentString = self:GetSignature(func, "Arguments")
 		str = string.format("%s(%s)", str, argumentString)
 	else
 		str = str.."()"

@@ -18,7 +18,7 @@ local complexTypeColors = {
 	Structure = colorStruct,
 }
 
-function Wowpedia:GetPrototypeString(apiTable, paramTbl)
+function Wowpedia:GetSignature(apiTable, paramTbl)
 	local str, optionalFound
 	for i, param in ipairs(apiTable[paramTbl]) do
 		local name = param.Name

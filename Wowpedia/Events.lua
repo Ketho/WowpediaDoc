@@ -1,11 +1,11 @@
 function Wowpedia:GetEventText(event)
-	local proto = string.format(" %s\n", self:GetEventPrototype(event))
+	local signature = string.format(" %s\n", self:GetEventSignature(event))
 	local payload = string.format("\n==Payload==\n%s\n", self:GetEventPayload(event))
-	return proto..payload
+	return signature..payload
 end
 
-function Wowpedia:GetEventPrototype(event)
-	return event.LiteralName..(event.Payload and ": "..self:GetPrototypeString(event, "Payload") or "")
+function Wowpedia:GetEventSignature(event)
+	return event.LiteralName..(event.Payload and ": "..self:GetSignature(event, "Payload") or "")
 end
 
 function Wowpedia:GetEventPayload(event)
