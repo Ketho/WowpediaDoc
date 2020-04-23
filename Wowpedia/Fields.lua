@@ -13,7 +13,6 @@ local colorBasic = "ecbc2a" -- from ddcorkum api template
 local colorComplex = "4ec9b0" -- from vscode dark+ theme
 
 function Wowpedia:GetPrototypeString(apiTable, paramTbl)
-	print(apiTable, paramTbl)
 	local str, optionalFound
 	for i, param in ipairs(apiTable[paramTbl]) do
 		local name = param.Name
