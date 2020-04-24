@@ -13,7 +13,7 @@ function Wowpedia:GetPageText(apiTable)
 		template = "{{wowapi}}"
 		params = self:GetFunctionText(apiTable)
 	elseif apiTable.Type == "Event" then
-		template = string.format("{{wowapievent|%s}}", apiTable.System.Namespace)
+		template = format("{{wowapievent|%s}}", apiTable.System.Namespace)
 		params = self:GetEventText(apiTable)
 	end
 	local sections = {
@@ -24,7 +24,7 @@ function Wowpedia:GetPageText(apiTable)
 		self:GetElinksSection(),
 	}
 	for _, v in pairs(sections) do
-		table.insert(tbl, v)
+		tinsert(tbl, v)
 	end
 	return table.concat(tbl, "\n")
 end
@@ -37,7 +37,7 @@ function Wowpedia:GetDescription(apiTable)
 end
 
 function Wowpedia:GetPatchSection()
-	return string.format("==Patch changes==\n* {{Patch %s|note=Added.}}\n", LATEST_PATCH)
+	return format("==Patch changes==\n* {{Patch %s|note=Added.}}\n", LATEST_PATCH)
 end
 
 function Wowpedia:GetElinksSection()

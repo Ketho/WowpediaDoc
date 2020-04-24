@@ -11,6 +11,9 @@ end
 -- Lua API
 unpack = table.unpack
 
+tinsert = table.insert
+format = string.format
+
 -- why is WoW so backwards
 function string.split(delim, input)
 	delim = delim or "%s"

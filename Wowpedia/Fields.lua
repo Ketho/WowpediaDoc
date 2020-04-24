@@ -34,16 +34,16 @@ function Wowpedia:GetParameters(params, isArgument)
 	local tbl = {}
 	for _, param in ipairs(params) do
 		if param:GetStrideIndex() == 1 then
-			table.insert(tbl, string.format("(Variable %s)", isArgument and "arguments" or "returns"))
+			tinsert(tbl, format("(Variable %s)", isArgument and "arguments" or "returns"))
 		end
-		table.insert(tbl, paramFs:format(param.Name, self:GetPrettyType(param, isArgument)))
+		tinsert(tbl, paramFs:format(param.Name, self:GetPrettyType(param, isArgument)))
 		local complexTable, isTransclude = self:GetComplexTypeInfo(param)
 		if complexTable then
 			if isTransclude then
-				local transclude = string.format("{{:%s|nocaption=1}}", self:GetTranscludeBase(complexTable))
-				table.insert(tbl, transclude)
+				local transclude = format("{{:%s|nocaption=1}}", self:GetTranscludeBase(complexTable))
+				tinsert(tbl, transclude)
 			else
-				table.insert(tbl, self:GetTableText(complexTable))
+				tinsert(tbl, self:GetTableText(complexTable))
 			end
 		end
 	end
@@ -54,7 +54,7 @@ function Wowpedia:GetPrettyType(apiTable, isArgument)
 	local complexType, str = self.complexTypes[apiTable.Type]
 	if apiTable.Type == "table" then
 		if apiTable.Mixin then
-			str = string.format("[[%s]]", apiTable.Mixin) -- wiki link
+			str = format("[[%s]]", apiTable.Mixin) -- wiki link
 		elseif apiTable.InnerType then
 			local complexInnertype = self.complexTypes[apiTable.InnerType]
 			if self.basicTypes[apiTable.InnerType] then
@@ -74,9 +74,9 @@ function Wowpedia:GetPrettyType(apiTable, isArgument)
 	end
 	local nilableType = isArgument and "optional" or "nilable"
 	if apiTable.Default ~= nil then
-		str = string.format("%s (%s, default = %s)", str, nilableType, tostring(apiTable.Default))
+		str = format("%s (%s, default = %s)", str, nilableType, tostring(apiTable.Default))
 	elseif apiTable.Nilable then
-		str = string.format("%s (%s)", str, nilableType)
+		str = format("%s (%s)", str, nilableType)
 	end
 	if apiTable.Documentation then
 		str = str.." - "..apiTable.Documentation[1]
