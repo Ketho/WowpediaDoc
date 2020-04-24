@@ -8,15 +8,13 @@ Wowpedia.basicTypes = {
 Wowpedia.complexTypes = {}
 Wowpedia.complexRefs = {}
 
-local paramFs = ";%s : %s"
-local colorFs = '<font color="#%s">%s</font>'
-local colorBasic = "ecbc2a" -- from ddcorkum api template
-local colorStruct = "4ec9b0" -- from vscode dark+ theme
-
-local complexTypeColors = {
-	Enumeration = colorBasic,
-	Structure = colorStruct,
+local complexToBasic = {
+	Enumeration = "number",
+	Structure = "table",
 }
+
+local paramFs = ";%s : %s"
+local colorFs = '<font color="#ecbc2a">%s</font>' -- from ddcorkum api template
 
 function Wowpedia:GetSignature(apiTable, paramTbl)
 	local str, optionalFound
@@ -57,19 +55,17 @@ function Wowpedia:GetPrettyType(apiTable, isArgument)
 		elseif apiTable.InnerType then
 			local complexInnertype = self.complexTypes[apiTable.InnerType]
 			if self.basicTypes[apiTable.InnerType] then
-				str = colorFs:format(colorBasic, self.basicTypes[apiTable.InnerType]).."[]"
+				str = colorFs:format(self.basicTypes[apiTable.InnerType]).."[]"
 			elseif complexInnertype then
-				local color = complexTypeColors[complexInnertype.Type]
-				str = colorFs:format(color, complexInnertype:GetFullName()).."[]"
+				str = self:GetFormattedComplexType(complexInnertype).."[]"
 			else
 				error("Unknown InnerType: "..apiTable.InnerType)
 			end
 		end
 	elseif self.basicTypes[apiTable.Type] then
-		str = colorFs:format(colorBasic, self.basicTypes[apiTable.Type])
+		str = colorFs:format(self.basicTypes[apiTable.Type])
 	elseif complexType then
-		local color = complexTypeColors[complexType.Type]
-		str = colorFs:format(color, complexType:GetFullName())
+		str = self:GetFormattedComplexType(complexType)
 	else
 		error("Unknown Type: "..apiTable.Type)
 	end
@@ -80,6 +76,11 @@ function Wowpedia:GetPrettyType(apiTable, isArgument)
 		str = string.format("%s (%s)", str, nilableType)
 	end
 	return str
+end
+
+function Wowpedia:GetFormattedComplexType(apiTable)
+	local basicType = colorFs:format(complexToBasic[apiTable.Type])
+	return basicType.." "..apiTable:GetFullName()
 end
 
 function Wowpedia:GetDocumentation()
@@ -96,7 +97,7 @@ function Wowpedia:GetParamTypeField(apiTable)
 	if apiTable.Function or apiTable.Event then
 		return apiTable.InnerType or apiTable.Type
 	elseif apiTable.Table then
-		return apiTable.Name
+		return apiTable.Type
 	end
 end
 

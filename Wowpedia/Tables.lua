@@ -15,10 +15,10 @@ function Wowpedia:GetTableText(apiTable, isTemplate)
 	end
 	if apiTable.Type == "Enumeration" then
 		table.insert(tbl, "! Value !! Key !! Description")
-		table.insert(tbl, self:GetTableRows(apiTable, '|-\n| align="center" | %s || %s || '))
+		table.insert(tbl, self:GetTableRows(apiTable, '|-\n| align="center" | %s || %s ||'))
 	elseif apiTable.Type == "Structure" then
 		table.insert(tbl, "! Key !! Type !! Description")
-		table.insert(tbl, self:GetTableRows(apiTable, '|-\n| %s || %s || '))
+		table.insert(tbl, self:GetTableRows(apiTable, '|-\n| %s || %s ||'))
 	elseif apiTable.Type == "Constants" then
 		table.insert(tbl, self:GetConstants(apiTable))
 	end
