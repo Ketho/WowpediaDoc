@@ -75,17 +75,15 @@ function Wowpedia:GetPrettyType(apiTable, isArgument)
 	elseif apiTable.Nilable then
 		str = string.format("%s (%s)", str, nilableType)
 	end
+	if apiTable.Documentation then
+		str = str.." - "..apiTable.Documentation[1]
+	end
 	return str
 end
 
 function Wowpedia:GetFormattedComplexType(apiTable)
 	local basicType = colorFs:format(complexToBasic[apiTable.Type])
 	return basicType.." "..apiTable:GetFullName()
-end
-
-function Wowpedia:GetDocumentation()
-	--if apiTable.Documentation then
-	--end
 end
 
 function Wowpedia:GetStrideIndex()

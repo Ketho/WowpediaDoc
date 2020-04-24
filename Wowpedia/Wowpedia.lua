@@ -16,7 +16,7 @@ function Wowpedia:GetPageText(apiTable)
 	end
 	local sections = {
 		template,
-		self:GetDescription(),
+		self:GetDescription(apiTable),
 		params,
 		self:GetPatchSection(),
 		self:GetElinksSection(),
@@ -27,7 +27,10 @@ function Wowpedia:GetPageText(apiTable)
 	return table.concat(tbl, "\n")
 end
 
-function Wowpedia:GetDescription()
+function Wowpedia:GetDescription(apiTable)
+	if apiTable.Documentation then
+		return apiTable.Documentation[1]
+	end
 	return "Needs summary."
 end
 

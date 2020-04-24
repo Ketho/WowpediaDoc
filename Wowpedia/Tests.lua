@@ -32,7 +32,9 @@ end
 -- TestFunction("FindFlyoutActionButtons") -- number[] return
 -- TestFunction("GetTimeLeftBandInfo") -- transclude argument
 -- TestFunction("GetSanctumType") -- inline enum return
--- TestFunction("QueryBids")
+
+-- TestFunction("GetAreaPOISecondsLeft") -- documentation
+-- TestFunction("GetEquippedArtifactNumRelicSlots") -- function argument
 
 
 local function TestEvent(name)
@@ -47,6 +49,8 @@ end
 -- TestEvent("ACTIONBAR_SHOWGRID") -- no payload
 -- TestEvent("ITEM_SEARCH_RESULTS_UPDATED") -- struct, nilable
 -- TestEvent("TRACKED_ACHIEVEMENT_UPDATE") -- optional params
+-- TestEvent("AUCTION_HOUSE_AUCTION_CREATED") -- documentation
+-- TestEvent("CLUB_MESSAGE_HISTORY_RECEIVED") -- documentation in payload
 
 local function TestTable(name)
 	local apiTable = Wowpedia.complexTypes[name]
@@ -69,7 +73,7 @@ end
 -- TestTable("AuctionHouseBrowseQuery") -- innertype enum
 -- TestTable("ItemSearchResultInfo") -- innertype string
 -- TestTable("ItemKeyInfo") -- nilable, bool
--- TestTable("AuctionHouseSortType")
+-- TestTable("ClubMessageIdentifier") -- documentation in field
 
 -- missing
 -- TestTable("CalendarTime")
@@ -155,3 +159,19 @@ local function GetSignaturesWithMiddleOptionals(apiType, paramTbl, apiName)
 end
 -- GetSignaturesWithMiddleOptionals("functions", "Arguments", "Name")
 -- GetSignaturesWithMiddleOptionals("events", "Payload", "LiteralName")
+
+local function PrintDocumentation(apiType)
+	for _, apiTable in pairs(APIDocumentation[apiType]) do
+		if apiTable.Documentation then
+			if apiType == "fields" then
+				local parent = apiTable.Function or apiTable.Event or apiTable.Table
+				print(parent.Type, parent.Name, apiTable.Name, apiTable.Documentation[1])
+			else
+				print(apiTable.Name, apiTable.Documentation[1])
+			end
+		end
+	end
+end
+-- PrintDocumentation("functions")
+-- PrintDocumentation("events")
+-- PrintDocumentation("fields")
