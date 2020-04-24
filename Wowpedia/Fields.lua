@@ -89,16 +89,8 @@ function Wowpedia:GetFormattedComplexType(apiTable)
 	return basicType.." "..apiTable:GetFullName()
 end
 
-function Wowpedia:GetParamTypeField(apiTable)
-	if apiTable.Function or apiTable.Event then
-		return apiTable.InnerType or apiTable.Type
-	elseif apiTable.Table then
-		return apiTable.Type
-	end
-end
-
 function Wowpedia:GetComplexTypeInfo(apiTable)
-	local typeName = self:GetParamTypeField(apiTable)
+	local typeName = apiTable.InnerType or apiTable.Type
 	local complexTable = self.complexTypes[typeName]
 	local isTransclude = (self.complexRefs[typeName] or 0) > 1
 	return complexTable, isTransclude
@@ -114,7 +106,7 @@ end
 function Wowpedia:InitComplexFieldRefs()
 	for _, field in pairs(APIDocumentation.fields) do
 		local parent = field.Function or field.Event or field.Table
-		local typeName = self:GetParamTypeField(field)
+		local typeName = field.InnerType or field.Type
 		if not self.basicTypes[typeName] and parent.Type ~= "Enumeration" then
 			self.complexRefs[typeName] = (self.complexRefs[typeName] or 0) + 1
 		end
