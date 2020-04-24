@@ -1,6 +1,7 @@
 local shortComplex = {
 	Enumeration = "Enum",
 	Structure = "Struct",
+	Constants = "Const",
 }
 
 function Wowpedia:GetTableText(apiTable, isTemplate)
@@ -20,7 +21,8 @@ function Wowpedia:GetTableText(apiTable, isTemplate)
 		table.insert(tbl, "! Key !! Type !! Description")
 		table.insert(tbl, self:GetTableRows(apiTable, '|-\n| %s || %s ||'))
 	elseif apiTable.Type == "Constants" then
-		table.insert(tbl, self:GetConstants(apiTable))
+		table.insert(tbl, "! Constant !! Type !! Value !! Description")
+		table.insert(tbl, self:GetTableRows(apiTable, '|-\n| %s || %s || align="center" | %s ||'))
 	end
 	table.insert(tbl, "|}")
 	local text = table.concat(tbl, "\n")
@@ -38,13 +40,13 @@ function Wowpedia:GetTableRows(apiTable, row)
 			local prettyType = self:GetPrettyType(field)
 			rows[i] = row:format(field.Name, prettyType)
 		end
+	elseif apiTable.Type == "Constants" then
+		for i, field in ipairs(apiTable.Values) do
+			local prettyType = self:GetPrettyType(field)
+			rows[i] = row:format(field.Name, prettyType, field.Value)
+		end
 	end
 	return table.concat(rows, "\n")
-end
-
--- there is only QuestWatchConsts in QuestConstantsDocumentation.lua
-function Wowpedia:GetConstants(apiTable)
-	return apiTable.Type
 end
 
 function Wowpedia:GetTranscludeBase(complexTable)

@@ -73,6 +73,7 @@ end
 -- TestTable("ItemSearchResultInfo") -- innertype string
 -- TestTable("ItemKeyInfo") -- nilable, bool
 -- TestTable("ClubMessageIdentifier") -- documentation in field
+-- TestTable("QuestWatchConsts") -- constants
 
 -- missing
 -- TestTable("CalendarTime")
