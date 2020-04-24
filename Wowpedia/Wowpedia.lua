@@ -4,6 +4,8 @@ require "Wowpedia/Events"
 require "Wowpedia/Tables"
 require "Wowpedia/Fields"
 
+local LATEST_PATCH = "9.0.1"
+
 function Wowpedia:GetPageText(apiTable)
 	local tbl = {}
 	local template, params
@@ -35,7 +37,7 @@ function Wowpedia:GetDescription(apiTable)
 end
 
 function Wowpedia:GetPatchSection()
-	return "==Patch changes==\n* {{Patch 9.0.1|note=Added.}}\n"
+	return string.format("==Patch changes==\n* {{Patch %s|note=Added.}}\n", LATEST_PATCH)
 end
 
 function Wowpedia:GetElinksSection()

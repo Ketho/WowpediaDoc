@@ -33,6 +33,9 @@ end
 function Wowpedia:GetParameters(params, isArgument)
 	local tbl = {}
 	for _, param in ipairs(params) do
+		if param:GetStrideIndex() == 1 then
+			table.insert(tbl, string.format("(Variable %s)", isArgument and "arguments" or "returns"))
+		end
 		table.insert(tbl, paramFs:format(param.Name, self:GetPrettyType(param, isArgument)))
 		local complexTable, isTransclude = self:GetComplexTypeInfo(param)
 		if complexTable then
@@ -84,11 +87,6 @@ end
 function Wowpedia:GetFormattedComplexType(apiTable)
 	local basicType = colorFs:format(complexToBasic[apiTable.Type])
 	return basicType.." "..apiTable:GetFullName()
-end
-
-function Wowpedia:GetStrideIndex()
-	--if apiTable.StrideIndex then
-	--end
 end
 
 function Wowpedia:GetParamTypeField(apiTable)

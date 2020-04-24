@@ -34,7 +34,8 @@ end
 -- TestFunction("GetSanctumType") -- inline enum return
 
 -- TestFunction("GetAreaPOISecondsLeft") -- documentation
--- TestFunction("GetEquippedArtifactNumRelicSlots") -- function argument
+-- TestFunction("GetEquippedArtifactNumRelicSlots") -- argument documentation
+-- TestFunction("GetMetaPowerInfo") -- StrideIndex
 
 
 local function TestEvent(name)
@@ -51,6 +52,7 @@ end
 -- TestEvent("TRACKED_ACHIEVEMENT_UPDATE") -- optional params
 -- TestEvent("AUCTION_HOUSE_AUCTION_CREATED") -- documentation
 -- TestEvent("CLUB_MESSAGE_HISTORY_RECEIVED") -- documentation in payload
+-- TestEvent("CONTRIBUTION_CHANGED") -- StrideIndex
 
 local function TestTable(name)
 	local apiTable = Wowpedia.complexTypes[name]
@@ -59,12 +61,9 @@ local function TestTable(name)
 end
 
 -- enums
--- TestTable("AuctionHouseTimeLeftBand") -- anonymous system
--- TestTable("WidgetShownState")
 -- TestTable("UIWidgetVisualizationType")
--- TestTable("PowerType")
--- TestTable("ClubType")
--- TestTable("AuctionHouseSortOrder")
+-- TestTable("AuctionHouseTimeLeftBand") -- anonymous system
+-- TestTable("PowerType") -- Unit system
 
 -- structures
 -- TestTable("BidInfo") -- struct and enum
