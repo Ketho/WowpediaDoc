@@ -53,6 +53,7 @@ end
 -- TestEvent("AUCTION_HOUSE_AUCTION_CREATED") -- documentation
 -- TestEvent("CLUB_MESSAGE_HISTORY_RECEIVED") -- documentation in payload
 -- TestEvent("CONTRIBUTION_CHANGED") -- StrideIndex
+-- TestEvent("HONOR_XP_UPDATE") -- Unit system
 
 local function TestTable(name)
 	local apiTable = Wowpedia.complexTypes[name]

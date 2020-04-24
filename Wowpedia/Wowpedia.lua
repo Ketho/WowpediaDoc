@@ -13,7 +13,8 @@ function Wowpedia:GetPageText(apiTable)
 		template = "{{wowapi}}"
 		params = self:GetFunctionText(apiTable)
 	elseif apiTable.Type == "Event" then
-		template = format("{{wowapievent|%s}}", apiTable.System.Namespace)
+		local system = apiTable.System
+		template = format("{{wowapievent|%s}}", system.Namespace or system.Name)
 		params = self:GetEventText(apiTable)
 	end
 	local sections = {
