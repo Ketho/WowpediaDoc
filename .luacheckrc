@@ -14,8 +14,10 @@ globals = {
 	"ChatTypeInfo",
 	"CreateFromMixins",
 	"DEFAULT_CHAT_FRAME",
+	"format",
 	"Mixin",
 	"string.split",
+	"tinsert",
 	"unpack",
 	"Wowpedia",
 }
