@@ -48,10 +48,37 @@ local Missing =
 				{ Name = "emblemStyle", Type = "number" },
 			},
 		},
-		-- GarrisonTalentTreeInfo
-		-- QueueSpecificInfo
-		-- RuneforgeLegendaryCraftDescription
-		-- RuneforgePower
+		-- placeholders
+		{
+			Name = "GarrisonTalentTreeInfo",
+			Type = "Structure",
+			Fields = {},
+		},
+		{
+			Name = "ItemLevelTier",
+			Type = "Structure",
+			Fields = {},
+		},
+		{
+			Name = "OptionalReagentInfo",
+			Type = "Structure",
+			Fields = {},
+		},
+		{
+			Name = "QueueSpecificInfo",
+			Type = "Structure",
+			Fields = {},
+		},
+		{
+			Name = "RuneforgeLegendaryCraftDescription",
+			Type = "Structure",
+			Fields = {},
+		},
+		{
+			Name = "RuneforgePower",
+			Type = "Structure",
+			Fields = {},
+		},
 	},
 }
 

@@ -180,11 +180,12 @@ end
 -- GetSignaturesWithMiddleOptionals("functions", "Arguments", "Name")
 -- GetSignaturesWithMiddleOptionals("events", "Payload", "LiteralName")
 
--- BONUS_ROLL_RESULT
 -- CreateClub
--- ENTITLEMENT_DELIVERED
 -- GetInvitationCandidates
 -- GetRuneforgeModifierInfo
+
+-- BONUS_ROLL_RESULT
+-- ENTITLEMENT_DELIVERED
 -- RAF_ENTITLEMENT_DELIVERED
 -- VOICE_CHAT_PENDING_CHANNEL_JOIN_STATE
 

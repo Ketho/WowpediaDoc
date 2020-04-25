@@ -14,6 +14,7 @@ globals = {
 	"ChatTypeInfo",
 	"CreateFromMixins",
 	"DEFAULT_CHAT_FRAME",
+	"ExportSystems",
 	"format",
 	"Mixin",
 	"string.split",
