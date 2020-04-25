@@ -15,6 +15,11 @@ local function WriteSystem(systemName)
 				local pageText = Wowpedia:GetPageText(func)
 				WriteFile(path, pageText)
 			end
+			for _, event in pairs(system.Events) do
+				local path = format("out/%s.txt", event.LiteralName)
+				local pageText = Wowpedia:GetPageText(event)
+				WriteFile(path, pageText)
+			end
 			for _, apiTable in pairs(system.Tables) do
 				local isTransclude = Wowpedia.complexRefs[apiTable.Name] > 1
 				if isTransclude then
