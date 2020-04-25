@@ -5,7 +5,7 @@ local function WriteFile(path, text)
 	file:close()
 end
 
-local function WriteSystem(systemName)
+function ExportSystem(systemName)
 	for _, system in ipairs(APIDocumentation.systems) do
 		if system.Namespace == systemName then
 			local namespace = system.Namespace or system.Name
@@ -32,5 +32,3 @@ local function WriteSystem(systemName)
 		end
 	end
 end
-
--- WriteSystem("C_AuctionHouse")

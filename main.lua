@@ -12,3 +12,5 @@ require "MissingDocumentation"
 require "Wowpedia/Wowpedia"
 require "Wowpedia/Tests"
 require "Exporter"
+
+-- ExportSystem("C_AuctionHouse")

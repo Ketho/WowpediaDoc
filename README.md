@@ -1,4 +1,4 @@
 # WowpediaApiDoc
-Wikifies Blizzard API Documentation (WIP)
+Wikifies Blizzard API Documentation
 
 ![](https://raw.githubusercontent.com/Ketho/WowpediaApiDoc/master/overview.png)
