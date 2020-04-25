@@ -10,36 +10,44 @@ end
 
 local function TestFunction(name)
 	for _, func in ipairs(APIDocumentation.functions) do
-		if func.Name == name then
+		-- print(func:GetFullName(false, false))
+		local fullName
+		if func.System.Namespace then
+			fullName = format("%s.%s", func.System.Namespace, func.Name)
+		else
+			fullName = func.Name
+		end
+		if fullName == name then
 			print(Wowpedia:GetPageText(func))
 			break
 		end
 	end
 end
 
--- TestFunction("CanSendInvite") -- no arguments, one return value
--- TestFunction("EventSetTitle") -- one argument, no return values
--- TestFunction("MakeItemKey") -- three optional args
--- TestFunction("EventSetClubId") -- first argument optional
--- TestFunction("GetAppearanceInfo") -- two optional returns
--- TestFunction("CreateClub") -- optional arguments in middle
+-- TestFunction("C_Calendar.CanSendInvite") -- no arguments, one return value
+-- TestFunction("C_Calendar.EventSetTitle") -- one argument, no return values
+-- TestFunction("C_AuctionHouse.MakeItemKey") -- three optional args
+-- TestFunction("C_Calendar.EventSetClubId") -- first argument optional
+-- TestFunction("C_ArtifactUI.GetAppearanceInfo") -- two optional returns
+-- TestFunction("C_Club.CreateClub") -- optional arguments in middle
 
--- TestFunction("SendAddonMessage") -- string arguments
+-- TestFunction("C_ChatInfo.SendAddonMessage") -- string arguments
 -- TestFunction("UnitPowerDisplayMod") -- enum transclude argument
--- TestFunction("GetClubCalendarEvents") -- structure transclude arguments
--- TestFunction("IsGUIDBattleNetAccountType") -- bool return
--- TestFunction("GetItemKeyInfo") -- struct inline returns
--- TestFunction("FindFlyoutActionButtons") -- number[] return
--- TestFunction("GetTimeLeftBandInfo") -- transclude argument
--- TestFunction("GetSanctumType") -- inline enum return
+-- TestFunction("C_Calendar.GetClubCalendarEvents") -- structure transclude arguments
+-- TestFunction("C_AccountInfo.IsGUIDBattleNetAccountType") -- bool return
+-- TestFunction("C_AuctionHouse.GetItemKeyInfo") -- struct inline returns
+-- TestFunction("C_ActionBar.FindFlyoutActionButtons") -- number[] return
+-- TestFunction("C_AuctionHouse.GetTimeLeftBandInfo") -- transclude argument
+-- TestFunction("C_CovenantSanctumUI.GetSanctumType") -- inline enum return
 
--- TestFunction("GetAreaPOISecondsLeft") -- documentation
--- TestFunction("GetEquippedArtifactNumRelicSlots") -- argument documentation
--- TestFunction("GetMetaPowerInfo") -- StrideIndex
+-- TestFunction("C_AreaPoiInfo.GetAreaPOISecondsLeft") -- documentation
+-- TestFunction("C_ArtifactUI.GetEquippedArtifactNumRelicSlots") -- argument documentation
+-- TestFunction("C_ArtifactUI.GetMetaPowerInfo") -- StrideIndex
 
 
 local function TestEvent(name)
 	for _, event in ipairs(APIDocumentation.events) do
+		-- print(event:GetFullName(false, false))
 		if event.LiteralName == name then
 			print(Wowpedia:GetPageText(event))
 			break
