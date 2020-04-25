@@ -49,6 +49,7 @@ ConfigurationWarningsDocumentation.lua
 ConsoleDocumentation.lua
 ContainerDocumentation.lua
 ContributionCollectorDocumentation.lua
+CovenantCallingsDocumentation.lua
 CovenantPreviewDocumentation.lua
 CovenantSanctumDocumentation.lua
 CreatureInfoDocumentation.lua
@@ -123,6 +124,7 @@ RestrictedActionsDocumentation.lua
 ScenarioInfoDocumentation.lua
 ScrappingMachineUIDocumentation.lua
 ScriptWarningsDocumentation.lua
+ScriptedAnimationsDocumentation.lua
 SecureTransferDocumentation.lua
 SkillInfoDocumentation.lua
 SocialInfoDocumentation.lua
@@ -171,7 +173,9 @@ ActionDocumentation.lua
 AppearanceSourceDocumentation.lua
 AuctionHouseEnumsDocumentation.lua
 BaseDocumentation.lua
+BountySharedDocumentation.lua
 CalendarConstantsDocumentation.lua
+CharacterCustomizationSharedDocumentation.lua
 ChatDocumentation.lua
 ClubSharedDocumentation.lua
 ColorDocumentation.lua
