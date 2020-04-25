@@ -142,6 +142,24 @@ end
 
 -- APIDocumentation:HandleSlashCommand("stats")
 
+
+local function PrintDocumentation(apiType)
+	for _, apiTable in pairs(APIDocumentation[apiType]) do
+		if apiTable.Documentation then
+			if apiType == "fields" then
+				local parent = apiTable.Function or apiTable.Event or apiTable.Table
+				print(parent.Type, parent.Name, apiTable.Name, apiTable.Documentation[1])
+			else
+				print(apiTable.Name, apiTable.Documentation[1])
+			end
+		end
+	end
+end
+-- PrintDocumentation("functions")
+-- PrintDocumentation("events")
+-- PrintDocumentation("fields")
+
+
 local function GetSignaturesWithMiddleOptionals(apiType, paramTbl, apiName)
 	for _, apiTable in ipairs(APIDocumentation[apiType]) do
 		local optional
@@ -162,29 +180,14 @@ end
 -- GetSignaturesWithMiddleOptionals("functions", "Arguments", "Name")
 -- GetSignaturesWithMiddleOptionals("events", "Payload", "LiteralName")
 
+-- BONUS_ROLL_RESULT
 -- CreateClub
+-- ENTITLEMENT_DELIVERED
 -- GetInvitationCandidates
 -- GetRuneforgeModifierInfo
--- BONUS_ROLL_RESULT
--- VOICE_CHAT_PENDING_CHANNEL_JOIN_STATE
--- ENTITLEMENT_DELIVERED
 -- RAF_ENTITLEMENT_DELIVERED
+-- VOICE_CHAT_PENDING_CHANNEL_JOIN_STATE
 
-local function PrintDocumentation(apiType)
-	for _, apiTable in pairs(APIDocumentation[apiType]) do
-		if apiTable.Documentation then
-			if apiType == "fields" then
-				local parent = apiTable.Function or apiTable.Event or apiTable.Table
-				print(parent.Type, parent.Name, apiTable.Name, apiTable.Documentation[1])
-			else
-				print(apiTable.Name, apiTable.Documentation[1])
-			end
-		end
-	end
-end
--- PrintDocumentation("functions")
--- PrintDocumentation("events")
--- PrintDocumentation("fields")
 
 local function GetUnusedTables()
 	for _, system in ipairs(APIDocumentation.systems) do
@@ -201,13 +204,39 @@ end
 -- ClubFinderApplicationUpdateType
 -- ClubFinderSettingFlags
 -- ContributionAppearanceFlags
--- UIMapSystem
+-- ItemTryOnReason
 -- QuestTag
 -- SuperTrackingType
 -- TooltipSide
 -- TooltipTextureAnchor
 -- TooltipTextureRelativeRegion
 -- TransmogSource
--- ItemTryOnReason
+-- UIMapSystem
 -- UiwIdgetFlag
 -- WidgetCurrencyClass
+
+
+local function GetMissingTables()
+	local tbl = {}
+	for _, field in ipairs(APIDocumentation.fields) do
+		local apiType = field.InnerType or field.Type
+		local isComplex = Wowpedia.complexTypes[apiType]
+		if not Wowpedia.basicTypes[apiType] and not isComplex then
+			tbl[apiType] = true
+		end
+	end
+	for name in pairs(tbl) do
+		print(name)
+	end
+end
+-- GetMissingTables()
+
+-- AppearanceSourceInfo
+-- CalendarTime
+-- GarrisonTalentTreeInfo
+-- GuildTabardInfo
+-- ItemLevelTier
+-- OptionalReagentInfo
+-- QueueSpecificInfo
+-- RuneforgeLegendaryCraftDescription
+-- RuneforgePower
