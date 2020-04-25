@@ -142,13 +142,6 @@ end
 
 -- APIDocumentation:HandleSlashCommand("stats")
 
--- CreateClub
--- GetInvitationCandidates
--- GetRuneforgeModifierInfo
--- BONUS_ROLL_RESULT
--- VOICE_CHAT_PENDING_CHANNEL_JOIN_STATE
--- ENTITLEMENT_DELIVERED
--- RAF_ENTITLEMENT_DELIVERED
 local function GetSignaturesWithMiddleOptionals(apiType, paramTbl, apiName)
 	for _, apiTable in ipairs(APIDocumentation[apiType]) do
 		local optional
@@ -169,6 +162,14 @@ end
 -- GetSignaturesWithMiddleOptionals("functions", "Arguments", "Name")
 -- GetSignaturesWithMiddleOptionals("events", "Payload", "LiteralName")
 
+-- CreateClub
+-- GetInvitationCandidates
+-- GetRuneforgeModifierInfo
+-- BONUS_ROLL_RESULT
+-- VOICE_CHAT_PENDING_CHANNEL_JOIN_STATE
+-- ENTITLEMENT_DELIVERED
+-- RAF_ENTITLEMENT_DELIVERED
+
 local function PrintDocumentation(apiType)
 	for _, apiTable in pairs(APIDocumentation[apiType]) do
 		if apiTable.Documentation then
@@ -184,3 +185,29 @@ end
 -- PrintDocumentation("functions")
 -- PrintDocumentation("events")
 -- PrintDocumentation("fields")
+
+local function GetUnusedTables()
+	for _, system in ipairs(APIDocumentation.systems) do
+		for _, apiTable in pairs(system.Tables) do
+			local isTransclude = Wowpedia.complexRefs[apiTable.Name]
+			if not isTransclude then
+				print(apiTable.Name)
+			end
+		end
+	end
+end
+-- GetUnusedTables()
+
+-- ClubFinderApplicationUpdateType
+-- ClubFinderSettingFlags
+-- ContributionAppearanceFlags
+-- UIMapSystem
+-- QuestTag
+-- SuperTrackingType
+-- TooltipSide
+-- TooltipTextureAnchor
+-- TooltipTextureRelativeRegion
+-- TransmogSource
+-- ItemTryOnReason
+-- UiwIdgetFlag
+-- WidgetCurrencyClass
