@@ -233,6 +233,7 @@ end
 -- GetMissingTables()
 
 -- AppearanceSourceInfo
+-- BountyInfo
 -- CalendarTime
 -- GarrisonTalentTreeInfo
 -- GuildTabardInfo

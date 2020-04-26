@@ -50,6 +50,11 @@ local Missing =
 		},
 		-- placeholders
 		{
+			Name = "BountyInfo",
+			Type = "Structure",
+			Fields = {},
+		},
+		{
 			Name = "GarrisonTalentTreeInfo",
 			Type = "Structure",
 			Fields = {},
