@@ -22,7 +22,7 @@ function ExportSystems()
 		end
 		for _, apiTable in pairs(system.Tables) do
 			local isTransclude = Wowpedia.complexRefs[apiTable.Name]
-			if isTransclude then
+			if isTransclude and isTransclude > 1 then
 				local transcludeBase = Wowpedia:GetTranscludeBase(apiTable)
 				local path = format("out/%s.txt", transcludeBase)
 				local pageText = Wowpedia:GetTableText(apiTable, true)
