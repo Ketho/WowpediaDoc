@@ -43,6 +43,7 @@ end
 -- TestFunction("C_AreaPoiInfo.GetAreaPOISecondsLeft") -- documentation
 -- TestFunction("C_ArtifactUI.GetEquippedArtifactNumRelicSlots") -- argument documentation
 -- TestFunction("C_ArtifactUI.GetMetaPowerInfo") -- StrideIndex
+-- TestFunction("C_MapExplorationInfo.GetExploredMapTextures") -- structure in structure
 
 
 local function TestEvent(name)
