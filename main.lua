@@ -15,7 +15,10 @@ toc:close()
 
 require "MissingDocumentation"
 require "Wowpedia/Wowpedia"
-require "Wowpedia/Tests"
 require "Exporter"
+
+require "Tests/Pages"
+require "Tests/Stats"
+require "Tests/Special"
 
 ExportSystems()
