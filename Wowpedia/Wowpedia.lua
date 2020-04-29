@@ -58,11 +58,13 @@ function Wowpedia:GetTemplateInfo(apiTable, isElink)
 		tinsert(tbl, "wowapitype")
 	end
 	local system = apiTable.System
-	if system.Namespace then
-		tinsert(tbl, "namespace="..system.Namespace)
-	end
-	if system.Name then
-		tinsert(tbl, "system="..system.Name)
+	if system then
+		if system.Namespace then
+			tinsert(tbl, "namespace="..system.Namespace)
+		end
+		if system.Name then
+			tinsert(tbl, "system="..system.Name)
+		end
 	end
 	return format("{{%s}}", table.concat(tbl, "|"))
 end
