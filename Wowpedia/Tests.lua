@@ -45,6 +45,9 @@ end
 -- TestFunction("C_ArtifactUI.GetMetaPowerInfo") -- StrideIndex
 -- TestFunction("C_MapExplorationInfo.GetExploredMapTextures") -- structure in structure
 
+-- TestFunction("C_Map.GetMapInfo") -- incongruent system name and namespace
+-- TestFunction("GetUnitPowerBarInfo") -- no system namespace
+
 
 local function TestEvent(name)
 	for _, event in ipairs(APIDocumentation.events) do
