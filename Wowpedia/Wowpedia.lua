@@ -7,31 +7,20 @@ require "Wowpedia/Fields"
 local LATEST_PATCH = "9.0.1"
 
 function Wowpedia:GetPageText(apiTable)
-	local tbl, systemInfo = {}, {}
-	local system = apiTable.System
+	local tbl = {}
 	local params
 	if apiTable.Type == "Function" then
-		tinsert(systemInfo, "wowapi")
-		tinsert(systemInfo, "t=a")
 		params = self:GetFunctionText(apiTable)
 	elseif apiTable.Type == "Event" then
-		tinsert(systemInfo, "wowapievent")
-		tinsert(systemInfo, "t=e")
 		params = self:GetEventText(apiTable)
 	end
-	if system.Namespace then
-		tinsert(systemInfo, "namespace="..system.Namespace)
-	end
-	if system.Name then
-		tinsert(systemInfo, "system="..system.Name)
-	end
-	local template = format("{{%s}}", table.concat(systemInfo, "|"))
+	local apiTemplate = self:GetTemplateInfo(apiTable)
 	local sections = {
-		template,
+		apiTemplate,
 		self:GetDescription(apiTable),
 		params,
 		self:GetPatchSection(),
-		self:GetElinksSection(systemInfo),
+		self:GetElinkSection(apiTable),
 	}
 	for _, v in pairs(sections) do
 		tinsert(tbl, v)
@@ -50,8 +39,30 @@ function Wowpedia:GetPatchSection()
 	return format("==Patch changes==\n* {{Patch %s|note=Added.}}\n", LATEST_PATCH)
 end
 
-function Wowpedia:GetElinksSection(systemInfo)
-	systemInfo[1] = "Elinks-api"
-	local elinks = format("{{%s}}", table.concat(systemInfo, "|"))
-	return "==External Links==\n{{subst:el}}\n"..elinks
+function Wowpedia:GetElinkSection(apiTable)
+	local templateInfo = self:GetTemplateInfo(apiTable, true)
+	return "==External Links==\n{{subst:el}}\n"..templateInfo
+end
+
+function Wowpedia:GetTemplateInfo(apiTable, isElink)
+	local tbl = {}
+	if isElink then
+		tinsert(tbl, "Elinks-api")
+	elseif apiTable.Type == "Function" then
+		tinsert(tbl, "wowapi")
+		tinsert(tbl, "t=a")
+	elseif apiTable.Type == "Event" then
+		tinsert(tbl, "wowapievent")
+		tinsert(tbl, "t=e")
+	elseif apiTable.Type == "Enumeration" or apiTable.Type == "Structure" then
+		tinsert(tbl, "wowapitype")
+	end
+	local system = apiTable.System
+	if system.Namespace then
+		tinsert(tbl, "namespace="..system.Namespace)
+	end
+	if system.Name then
+		tinsert(tbl, "system="..system.Name)
+	end
+	return format("{{%s}}", table.concat(tbl, "|"))
 end

@@ -34,7 +34,8 @@ function Wowpedia:GetTableText(apiTable, isTemplate)
 	end
 	tinsert(tbl, "|}")
 	local text = table.concat(tbl, "\n")
-	return isTemplate and format("{{wowapitype}}\n<onlyinclude>%s</onlyinclude>", text) or text
+	local apiTemplate = self:GetTemplateInfo(apiTable)
+	return isTemplate and format("%s\n<onlyinclude>%s</onlyinclude>", apiTemplate, text) or text
 end
 
 function Wowpedia:GetTranscludeBase(complexTable)
