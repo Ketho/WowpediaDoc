@@ -7,6 +7,7 @@ Wowpedia.basicTypes = {
 
 Wowpedia.complexTypes = {}
 Wowpedia.complexRefs = {}
+Wowpedia.subTables = {}
 
 local complexToBasic = {
 	Enumeration = "number",
@@ -113,6 +114,14 @@ function Wowpedia:InitComplexFieldRefs()
 	end
 end
 
+function Wowpedia:InitSubtables()
+	for _, apiTable in pairs(APIDocumentation.tables) do
+		if apiTable.Type == "Structure" then
+			self.subTables[apiTable.Name] = true
+		end
+	end
+end
+
 Wowpedia:InitComplexTableTypes()
 Wowpedia:InitComplexFieldRefs()
-
+Wowpedia:InitSubtables()
