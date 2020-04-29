@@ -20,15 +20,16 @@ function ExportSystems()
 			local pageText = Wowpedia:GetPageText(event)
 			WriteFile(path, pageText)
 		end
-		for _, apiTable in pairs(system.Tables) do
-			local isTransclude = Wowpedia.complexRefs[apiTable.Name]
-			local isSubtable = Wowpedia.subTables[apiTable.Name]
-			if isTransclude and isTransclude > 1 or isSubtable then
-				local transcludeBase = Wowpedia:GetTranscludeBase(apiTable)
-				local path = format("out/%s.txt", transcludeBase)
-				local pageText = Wowpedia:GetTableText(apiTable, true)
-				WriteFile(path, pageText)
-			end
+	end
+	print("Exporting (systemless) tables")
+	for _, apiTable in pairs(APIDocumentation.tables) do
+		local isTransclude = Wowpedia.complexRefs[apiTable.Name]
+		local isSubtable = Wowpedia.subTables[apiTable.Name]
+		if isTransclude and isTransclude > 1 or isSubtable then
+			local transcludeBase = Wowpedia:GetTranscludeBase(apiTable)
+			local path = format("out/%s.txt", transcludeBase)
+			local pageText = Wowpedia:GetTableText(apiTable, true)
+			WriteFile(path, pageText)
 		end
 	end
 	print("Finished exporting!")
