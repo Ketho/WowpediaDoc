@@ -46,13 +46,11 @@ end
 
 function Wowpedia:GetTemplateInfo(apiTable, isElink)
 	local tbl = {}
-	if isElink then
-		tinsert(tbl, "Elinks-api")
-	elseif apiTable.Type == "Function" then
-		tinsert(tbl, "wowapi")
+	if apiTable.Type == "Function" then
+		tinsert(tbl, isElink and "Elinks-api" or "wowapi")
 		tinsert(tbl, "t=a")
 	elseif apiTable.Type == "Event" then
-		tinsert(tbl, "wowapievent")
+		tinsert(tbl, isElink and "Elinks-api" or "wowapievent")
 		tinsert(tbl, "t=e")
 	elseif apiTable.Type == "Enumeration" or apiTable.Type == "Structure" then
 		tinsert(tbl, "wowapitype")
