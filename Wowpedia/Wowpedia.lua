@@ -12,9 +12,11 @@ function Wowpedia:GetPageText(apiTable)
 	local params
 	if apiTable.Type == "Function" then
 		tinsert(systemInfo, "wowapi")
+		tinsert(systemInfo, "t=a")
 		params = self:GetFunctionText(apiTable)
 	elseif apiTable.Type == "Event" then
 		tinsert(systemInfo, "wowapievent")
+		tinsert(systemInfo, "t=e")
 		params = self:GetEventText(apiTable)
 	end
 	if system.Namespace then
