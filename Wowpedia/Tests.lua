@@ -161,7 +161,7 @@ end
 -- PrintDocumentation("fields")
 
 
-local function GetSignaturesWithMiddleOptionals(apiType, paramTbl, apiName)
+local function FindSignaturesWithMiddleOptionals(apiType, paramTbl, apiName)
 	for _, apiTable in ipairs(APIDocumentation[apiType]) do
 		local optional
 		if apiTable[paramTbl] then
@@ -178,8 +178,8 @@ local function GetSignaturesWithMiddleOptionals(apiType, paramTbl, apiName)
 		end
 	end
 end
--- GetSignaturesWithMiddleOptionals("functions", "Arguments", "Name")
--- GetSignaturesWithMiddleOptionals("events", "Payload", "LiteralName")
+-- FindSignaturesWithMiddleOptionals("functions", "Arguments", "Name")
+-- FindSignaturesWithMiddleOptionals("events", "Payload", "LiteralName")
 
 -- CreateClub
 -- GetInvitationCandidates
@@ -191,7 +191,7 @@ end
 -- VOICE_CHAT_PENDING_CHANNEL_JOIN_STATE
 
 
-local function GetUnusedTables()
+local function FindUnusedTables()
 	for _, system in ipairs(APIDocumentation.systems) do
 		for _, apiTable in pairs(system.Tables) do
 			local isTransclude = Wowpedia.complexRefs[apiTable.Name]
@@ -201,7 +201,7 @@ local function GetUnusedTables()
 		end
 	end
 end
--- GetUnusedTables()
+-- FindUnusedTables()
 
 -- ClubFinderApplicationUpdateType
 -- ClubFinderSettingFlags
@@ -218,7 +218,7 @@ end
 -- WidgetCurrencyClass
 
 
-local function GetMissingTables()
+local function FindMissingTables()
 	local tbl = {}
 	for _, field in ipairs(APIDocumentation.fields) do
 		local apiType = field.InnerType or field.Type
@@ -231,7 +231,7 @@ local function GetMissingTables()
 		print(name)
 	end
 end
--- GetMissingTables()
+-- FindMissingTables()
 
 -- AppearanceSourceInfo
 -- BountyInfo
@@ -243,3 +243,48 @@ end
 -- QueueSpecificInfo
 -- RuneforgeLegendaryCraftDescription
 -- RuneforgePower
+
+
+local function FindIncongruentSystemNames()
+	for _, system in ipairs(APIDocumentation.systems) do
+		if system.Namespace then
+			if system.Namespace:gsub("C_", "") ~= system.Name then
+				print(system.Namespace, system.Name)
+			end
+		end
+	end
+end
+-- FindIncongruentSystemNames()
+
+-- C_AnimaDiversion, AnimaDiversionInfo
+-- C_CVar, CVarScripts
+-- C_ChallengeMode, ChallengeModeInfo
+-- C_ChromieTime, ChromieTimeInfo
+-- C_ClubFinder, ClubFinderInfo
+-- C_Commentator, CommentatorFrame
+-- C_CurrencyInfo, CurrencySystem
+-- C_Garrison, GarrisonInfo
+-- C_Navigation, InGameNavigation
+-- C_ItemInteraction, ItemInteractionUI
+-- C_Mail, MailInfo
+-- C_Map, MapUI
+-- C_MythicPlus, MythicPlusInfo
+-- C_PetJournal, PetJournalInfo
+-- C_PlayerInfo, PlayerLocationInfo
+-- C_PvP, PvpInfo
+-- C_QuestLine, QuestLineUI
+-- C_TaskQuest, QuestTaskInfo
+-- C_Reputation, ReputationInfo
+-- C_Social, SocialInfo
+-- C_SuperTrack, SuperTrackManager
+-- C_System, SystemInfo
+-- C_Texture, TextureUtils
+-- C_Transmog, Transmogrify
+-- C_TransmogCollection, Transmogrify
+-- C_TransmogSets, Transmogrify
+-- C_Macro, UIMacros
+-- C_VideoOptions, Video
+-- C_VignetteInfo, Vignette
+-- C_CampaignInfo, WarCampaign
+-- Expansion
+-- Unit
