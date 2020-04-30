@@ -17,8 +17,8 @@ require "MissingDocumentation"
 require "Wowpedia/Wowpedia"
 require "Exporter"
 
-require "Tests/Pages"
-require "Tests/Stats"
-require "Tests/Special"
+require "tests/Pages"
+require "tests/Stats"
+require "tests/Special"
 
 ExportSystems()
