@@ -120,7 +120,7 @@ function Wowpedia:InitSubtables()
 	for _, apiTable in pairs(APIDocumentation.tables) do
 		if apiTable.Type == "Structure" then
 			for _, field in pairs(apiTable.Fields) do
-				self.subTables[field.Type] = true
+				self.subTables[field.InnerType or field.Type] = true
 			end
 		end
 	end
