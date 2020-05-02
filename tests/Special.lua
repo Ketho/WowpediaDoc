@@ -99,6 +99,35 @@ end
 -- RuneforgePower
 
 
+local function FindUnspecifiedTableFields()
+	local tbl = {}
+	for _, field in ipairs(APIDocumentation.fields) do
+		if field.Type == "table" and not field.Mixin and not field.InnerType then
+			local parent = field.Function or field.Event or field.Table
+			print(parent.Name, field.Name)
+		end
+	end
+end
+-- FindUnspecifiedTableFields()
+
+-- SetPortraitTexture, textureObject
+-- SetAvatarTexture, texture
+-- GetFrame, frame
+-- NavigationFrameCreated, region
+-- GetUserWaypoint, point
+-- GetUserWaypointFromHyperlink, point
+-- SetUserWaypoint, point
+-- ForbiddenNamePlateCreated, namePlateFrame
+-- NamePlateCreated, namePlateFrame
+-- AddActiveModelScene, modelSceneFrame
+-- AddActiveModelSceneActor, modelSceneFrameActor
+-- ClearActiveModelScene, modelSceneFrame
+-- ClearActiveModelSceneActor, modelSceneFrameActor
+-- SetPortraitTexture, textureObject
+-- SetPortraitTextureFromCreatureDisplayID, textureObject
+-- SetPortraitTexture, textureObject
+
+
 local function FindIncongruentSystemNames()
 	for _, system in ipairs(APIDocumentation.systems) do
 		if system.Namespace then

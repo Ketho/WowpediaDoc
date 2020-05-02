@@ -65,6 +65,8 @@ function Wowpedia:GetPrettyType(apiTable, isArgument)
 			else
 				error("Unknown InnerType: "..apiTable.InnerType)
 			end
+		else
+			str = "Unknown"
 		end
 	elseif self.basicTypes[apiTable.Type] then
 		str = colorFs:format(self.basicTypes[apiTable.Type])

@@ -34,6 +34,7 @@ end
 -- TestFunction("C_ArtifactUI.GetEquippedArtifactNumRelicSlots") -- argument documentation
 -- TestFunction("C_ArtifactUI.GetMetaPowerInfo") -- StrideIndex
 -- TestFunction("C_MapExplorationInfo.GetExploredMapTextures") -- structure in structure
+-- TestFunction("SetPortraitTexture") -- table type, no mixin or innertype
 
 -- TestFunction("C_Map.GetMapInfo") -- incongruent system name and namespace
 -- TestFunction("GetUnitPowerBarInfo") -- no system namespace
