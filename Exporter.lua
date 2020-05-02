@@ -9,16 +9,19 @@ function ExportSystems()
 	for _, system in ipairs(APIDocumentation.systems) do
 		print("Exporting", system:GetFullName())
 		local namespace = system.Namespace or system.Name
-		local prefix = namespace and namespace.."." or ""
-		for _, func in pairs(system.Functions) do
-			local path = format("out/API %s.txt", prefix..func.Name)
-			local pageText = Wowpedia:GetPageText(func)
-			WriteFile(path, pageText)
-		end
-		for _, event in pairs(system.Events) do
-			local path = format("out/%s.txt", event.LiteralName)
-			local pageText = Wowpedia:GetPageText(event)
-			WriteFile(path, pageText)
+		if namespace then
+			os.execute("mkdir out\\"..namespace)
+			local prefix = namespace and namespace.."." or ""
+			for _, func in pairs(system.Functions) do
+				local path = format("out/%s/API %s.txt", namespace, prefix..func.Name)
+				local pageText = Wowpedia:GetPageText(func)
+				WriteFile(path, pageText)
+			end
+			for _, event in pairs(system.Events) do
+				local path = format("out/%s/%s.txt", namespace, event.LiteralName)
+				local pageText = Wowpedia:GetPageText(event)
+				WriteFile(path, pageText)
+			end
 		end
 	end
 	print("Exporting (systemless) tables")
