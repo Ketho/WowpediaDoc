@@ -8,17 +8,17 @@ end
 function ExportSystems()
 	for _, system in ipairs(APIDocumentation.systems) do
 		print("Exporting", system:GetFullName())
-		local namespace = system.Namespace or system.Name
-		if namespace then
-			os.execute("mkdir out\\"..namespace)
-			local prefix = namespace and namespace.."." or ""
+		local systemName = system.Namespace or system.Name
+		if systemName then
+			os.execute("mkdir out\\"..systemName)
+			local prefix = system.Namespace and system.Namespace.."." or ""
 			for _, func in pairs(system.Functions) do
-				local path = format("out/%s/API %s.txt", namespace, prefix..func.Name)
+				local path = format("out/%s/API %s.txt", systemName, prefix..func.Name)
 				local pageText = Wowpedia:GetPageText(func)
 				WriteFile(path, pageText)
 			end
 			for _, event in pairs(system.Events) do
-				local path = format("out/%s/%s.txt", namespace, event.LiteralName)
+				local path = format("out/%s/%s.txt", systemName, event.LiteralName)
 				local pageText = Wowpedia:GetPageText(event)
 				WriteFile(path, pageText)
 			end
