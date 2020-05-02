@@ -82,3 +82,21 @@ end
 -- TestTable("CalendarTime")
 -- TestTable("AppearanceSourceInfo")
 -- TestTable("GuildTabardInfo")
+
+local function PrintWowpediaLinks(name)
+	local fsFunc = ": {{api|%s}}"
+	local fsEvent = ": {{api|t=e|%s}}"
+	for _, system in ipairs(APIDocumentation.systems) do
+		if (system.Namespace or system.Name) == name then
+			for _, func in ipairs(system.Functions) do
+				print(fsFunc:format(func.Name))
+			end
+			for _, event in ipairs(system.Events) do
+				print(fsEvent:format(event.LiteralName))
+			end
+			break
+		end
+	end
+end
+-- PrintWowpediaLinks("Unit")
+-- PrintWowpediaLinks("Expansion")
