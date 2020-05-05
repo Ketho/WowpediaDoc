@@ -171,3 +171,13 @@ end
 -- C_CampaignInfo, WarCampaign
 -- Expansion
 -- Unit
+
+
+local function PrintFunctionNamespaces()
+	for _, system in ipairs(APIDocumentation.systems) do
+		if system.Namespace and #system.Functions>0 then
+			print(system.Namespace)
+		end
+	end
+end
+-- PrintFunctionNamespaces()
