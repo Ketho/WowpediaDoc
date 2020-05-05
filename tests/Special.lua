@@ -177,6 +177,9 @@ local function PrintFunctionNamespaces()
 	for _, system in ipairs(APIDocumentation.systems) do
 		if system.Namespace and #system.Functions>0 then
 			print(system.Namespace)
+			for _, func in ipairs(system.Functions) do
+				print("", func.Name)
+			end
 		end
 	end
 end
