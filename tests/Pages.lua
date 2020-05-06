@@ -29,6 +29,7 @@ end
 -- TestFunction("C_ActionBar.FindFlyoutActionButtons") -- number[] return
 -- TestFunction("C_AuctionHouse.GetTimeLeftBandInfo") -- transclude argument
 -- TestFunction("C_CovenantSanctumUI.GetSanctumType") -- inline enum return
+-- TestFunction("C_BattleNet.GetAccountInfoByID")
 
 -- TestFunction("C_AreaPoiInfo.GetAreaPOISecondsLeft") -- documentation
 -- TestFunction("C_ArtifactUI.GetEquippedArtifactNumRelicSlots") -- argument documentation
@@ -78,6 +79,7 @@ end
 -- TestTable("ItemKeyInfo") -- nilable, bool
 -- TestTable("ClubMessageIdentifier") -- documentation in field
 -- TestTable("QuestWatchConsts") -- constants
+-- TestTable("BNetGameAccountInfo")
 
 -- missing
 -- TestTable("CalendarTime")

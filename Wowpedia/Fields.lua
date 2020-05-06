@@ -9,11 +9,6 @@ Wowpedia.complexTypes = {}
 Wowpedia.complexRefs = {}
 Wowpedia.subTables = {}
 
-local complexToBasic = {
-	Enumeration = "number",
-	Structure = "table",
-}
-
 local paramFs = ";%s : %s"
 local colorFs = '<font color="#ecbc2a">%s</font>' -- from ddcorkum api template
 
@@ -61,7 +56,7 @@ function Wowpedia:GetPrettyType(apiTable, isArgument)
 			if self.basicTypes[apiTable.InnerType] then
 				str = colorFs:format(self.basicTypes[apiTable.InnerType]).."[]"
 			elseif complexInnertype then
-				str = self:GetFormattedComplexType(complexInnertype).."[]"
+				str = colorFs:format(complexInnertype:GetFullName(false, false)).."[]"
 			else
 				error("Unknown InnerType: "..apiTable.InnerType)
 			end
@@ -71,24 +66,19 @@ function Wowpedia:GetPrettyType(apiTable, isArgument)
 	elseif self.basicTypes[apiTable.Type] then
 		str = colorFs:format(self.basicTypes[apiTable.Type])
 	elseif complexType then
-		str = self:GetFormattedComplexType(complexType)
+		str = colorFs:format(complexType:GetFullName(false, false))
 	else
 		error("Unknown Type: "..apiTable.Type)
 	end
 	if apiTable.Default ~= nil then
 		str = format("%s? (default = %s)", str, tostring(apiTable.Default))
 	elseif apiTable.Nilable then
-		str = format("%s?", str)
+		str = str.."?"
 	end
 	if apiTable.Documentation then
 		str = str.." - "..apiTable.Documentation[1]
 	end
 	return str
-end
-
-function Wowpedia:GetFormattedComplexType(apiTable)
-	local basicType = colorFs:format(complexToBasic[apiTable.Type])
-	return basicType.." "..apiTable:GetFullName()
 end
 
 function Wowpedia:GetComplexTypeInfo(apiTable)
@@ -98,32 +88,25 @@ function Wowpedia:GetComplexTypeInfo(apiTable)
 	return complexTable, isTransclude
 end
 
-function Wowpedia:InitComplexTableTypes()
-	for _, apiInfo in ipairs(APIDocumentation.tables) do
-		self.complexTypes[apiInfo.Name] = apiInfo
+-- InitComplexTableTypes
+for _, apiInfo in ipairs(APIDocumentation.tables) do
+	Wowpedia.complexTypes[apiInfo.Name] = apiInfo
+end
+
+-- InitComplexFieldRefs
+for _, field in pairs(APIDocumentation.fields) do
+	local parent = field.Function or field.Event or field.Table
+	local typeName = field.InnerType or field.Type
+	if not Wowpedia.basicTypes[typeName] and parent.Type ~= "Enumeration" then
+		Wowpedia.complexRefs[typeName] = (Wowpedia.complexRefs[typeName] or 0) + 1
 	end
 end
 
-function Wowpedia:InitComplexFieldRefs()
-	for _, field in pairs(APIDocumentation.fields) do
-		local parent = field.Function or field.Event or field.Table
-		local typeName = field.InnerType or field.Type
-		if not self.basicTypes[typeName] and parent.Type ~= "Enumeration" then
-			self.complexRefs[typeName] = (self.complexRefs[typeName] or 0) + 1
+-- InitSubtables
+for _, apiTable in pairs(APIDocumentation.tables) do
+	if apiTable.Type == "Structure" then
+		for _, field in pairs(apiTable.Fields) do
+			Wowpedia.subTables[field.InnerType or field.Type] = true
 		end
 	end
 end
-
-function Wowpedia:InitSubtables()
-	for _, apiTable in pairs(APIDocumentation.tables) do
-		if apiTable.Type == "Structure" then
-			for _, field in pairs(apiTable.Fields) do
-				self.subTables[field.InnerType or field.Type] = true
-			end
-		end
-	end
-end
-
-Wowpedia:InitComplexTableTypes()
-Wowpedia:InitComplexFieldRefs()
-Wowpedia:InitSubtables()
