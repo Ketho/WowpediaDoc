@@ -75,11 +75,10 @@ function Wowpedia:GetPrettyType(apiTable, isArgument)
 	else
 		error("Unknown Type: "..apiTable.Type)
 	end
-	local nilableType = isArgument and "optional" or "nilable"
 	if apiTable.Default ~= nil then
-		str = format("%s (%s, default = %s)", str, nilableType, tostring(apiTable.Default))
+		str = format("%s? (default = %s)", str, tostring(apiTable.Default))
 	elseif apiTable.Nilable then
-		str = format("%s (%s)", str, nilableType)
+		str = format("%s?", str)
 	end
 	if apiTable.Documentation then
 		str = str.." - "..apiTable.Documentation[1]
@@ -100,8 +99,7 @@ function Wowpedia:GetComplexTypeInfo(apiTable)
 end
 
 function Wowpedia:InitComplexTableTypes()
-	local tables = APIDocumentation:GetAPITableByTypeName("table")
-	for _, apiInfo in ipairs(tables) do
+	for _, apiInfo in ipairs(APIDocumentation.tables) do
 		self.complexTypes[apiInfo.Name] = apiInfo
 	end
 end

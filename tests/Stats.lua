@@ -1,4 +1,3 @@
--- no unit tests yet
 local function DumpApiList(apiType)
 	local apiTable = APIDocumentation:GetAPITableByTypeName(apiType)
 	for i, apiInfo in ipairs(apiTable) do
