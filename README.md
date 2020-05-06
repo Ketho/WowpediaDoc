@@ -1,8 +1,8 @@
-# WowpediaApiDoc
+## WowpediaApiDoc
 Wikifies Blizzard API Documentation
 
-# Usage
-Exports docs for all API systems to `out/`
+### Usage
+Exports pages for all API systems to `out/`
 ```lua
 lua53 main.lua
 ```
