@@ -32,7 +32,7 @@ function Wowpedia:GetParameters(params, isArgument)
 		if param:GetStrideIndex() == 1 then
 			tinsert(tbl, format("(Variable %s)", isArgument and "arguments" or "returns"))
 		end
-		tinsert(tbl, paramFs:format(param.Name, self:GetPrettyType(param, isArgument)))
+		tinsert(tbl, paramFs:format(param.Name, self:GetPrettyType(param)))
 		local complexTable, isTransclude = self:GetComplexTypeInfo(param)
 		if complexTable then
 			if isTransclude then
@@ -46,7 +46,7 @@ function Wowpedia:GetParameters(params, isArgument)
 	return table.concat(tbl, "\n")
 end
 
-function Wowpedia:GetPrettyType(apiTable, isArgument)
+function Wowpedia:GetPrettyType(apiTable)
 	local complexType, str = self.complexTypes[apiTable.Type]
 	if apiTable.Type == "table" then
 		if apiTable.Mixin then
