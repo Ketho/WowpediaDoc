@@ -76,7 +76,7 @@ function Wowpedia:GetPrettyType(apiTable)
 		str = str.."?"
 	end
 	if apiTable.Documentation then
-		str = str.." - "..apiTable.Documentation[1]
+		str = str.." - "..table.concat(apiTable.Documentation, "; ")
 	end
 	return str
 end
