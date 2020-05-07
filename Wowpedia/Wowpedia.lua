@@ -41,7 +41,7 @@ end
 
 function Wowpedia:GetElinkSection(apiTable)
 	local templateInfo = self:GetTemplateInfo(apiTable, true)
-	return "==External Links==\n{{subst:el}}\n"..templateInfo
+	return "==External links==\n{{subst:el}}\n"..templateInfo
 end
 
 function Wowpedia:GetTemplateInfo(apiTable, isElink)
