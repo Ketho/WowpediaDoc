@@ -34,6 +34,7 @@ end
 
 local paramFs = ";%s : %s"
 local colorFs = '<font color="#ecbc2a">%s</font>' -- from ddcorkum api template
+local tooltipFs = '<span title="%s">%s</span>'
 
 function Wowpedia:GetSignature(apiTable, paramTbl)
 	local str, optionalFound
@@ -94,9 +95,10 @@ function Wowpedia:GetPrettyType(apiTable)
 		error("Unknown Type: "..apiTable.Type)
 	end
 	if apiTable.Default ~= nil then
-		str = format("%s? (default = %s)", str, tostring(apiTable.Default))
+		local default = format(" (default = %s)", tostring(apiTable.Default))
+		str = tooltipFs:format("optional", str.."?")..default
 	elseif apiTable.Nilable then
-		str = str.."?"
+		str = tooltipFs:format("optional", str.."?")
 	end
 	if apiTable.Documentation then
 		str = str.." - "..table.concat(apiTable.Documentation, "; ")
