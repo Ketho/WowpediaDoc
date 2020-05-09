@@ -56,7 +56,7 @@ function Wowpedia:GetParameters(params, isArgument)
 		if param:GetStrideIndex() == 1 then
 			tinsert(tbl, format("(Variable %s)", isArgument and "arguments" or "returns"))
 		end
-		tinsert(tbl, paramFs:format(param.Name, self:GetPrettyType(param)))
+		tinsert(tbl, paramFs:format(param.Name, self:GetPrettyType(param, isArgument)))
 		local complexTable, isTransclude = self:GetComplexTypeInfo(param)
 		if complexTable then
 			if isTransclude then
@@ -70,7 +70,7 @@ function Wowpedia:GetParameters(params, isArgument)
 	return table.concat(tbl, "\n")
 end
 
-function Wowpedia:GetPrettyType(apiTable)
+function Wowpedia:GetPrettyType(apiTable, isArgument)
 	local complexType, str = self.complexTypes[apiTable.Type]
 	if apiTable.Type == "table" then
 		if apiTable.Mixin then
@@ -94,11 +94,11 @@ function Wowpedia:GetPrettyType(apiTable)
 	else
 		error("Unknown Type: "..apiTable.Type)
 	end
-	if apiTable.Default ~= nil then
-		local default = format(" (default = %s)", tostring(apiTable.Default))
-		str = tooltipFs:format("optional", str.."?")..default
-	elseif apiTable.Nilable then
-		str = tooltipFs:format("optional", str.."?")
+	if apiTable.Nilable or apiTable.Default ~= nil then
+		str = tooltipFs:format(isArgument and "optional" or "nilable", str.."?")
+		if apiTable.Default ~= nil then
+			str = format("%s (default = %s)", str, tostring(apiTable.Default))
+		end
 	end
 	if apiTable.Documentation then
 		str = str.." - "..table.concat(apiTable.Documentation, "; ")
