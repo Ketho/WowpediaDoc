@@ -172,15 +172,22 @@ end
 -- Expansion
 -- Unit
 
-
-local function PrintFunctionNamespaces()
+-- C_PlayerInfo is being referenced twice:
+--  PlayerInfoDocumentation.lua
+--  PlayerLocationDocumentation.lua
+local function ExportSystemNamespacesTypeScript()
+	local file = io.open("out/typescriptobject.ts", "w")
+	file:write("const names : { [key: string]: string[] } = {")
 	for _, system in ipairs(APIDocumentation.systems) do
 		if system.Namespace and #system.Functions>0 then
-			print(system.Namespace)
+			file:write(format("\t%s: [\n", system.Namespace))
 			for _, func in ipairs(system.Functions) do
-				print("", func.Name)
+				file:write(format('\t\t"%s",\n', func.Name))
 			end
+			file:write(format("\t],\n"))
 		end
 	end
+	file:write("}\n")
+	file:close()
 end
--- PrintFunctionNamespaces()
+ExportSystemNamespacesTypeScript()
