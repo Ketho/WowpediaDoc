@@ -8,7 +8,8 @@ local missing = {
 local toc = io.open("Blizzard_APIDocumentation/Blizzard_APIDocumentation.toc")
 for line in toc:lines() do
 	if line:find("%.lua") and not missing[line] then
-		dofile("Blizzard_APIDocumentation/"..line)
+		local file = assert(loadfile("Blizzard_APIDocumentation/"..line))
+		file()
 	end
 end
 toc:close()
