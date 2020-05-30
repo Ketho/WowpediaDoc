@@ -36,12 +36,12 @@ function Wowpedia:GetDescription(apiTable)
 end
 
 function Wowpedia:GetPatchSection()
-	return format("==Patch changes==\n* {{Patch %s|note=Added.}}\n", LATEST_PATCH)
+	return format("== Patch changes ==\n* {{Patch %s|note=Added.}}\n", LATEST_PATCH)
 end
 
 function Wowpedia:GetElinkSection(apiTable)
 	local templateInfo = self:GetTemplateInfo(apiTable, true)
-	return "==External links==\n{{subst:el}}\n"..templateInfo
+	return "== External links ==\n{{subst:el}}\n"..templateInfo
 end
 
 function Wowpedia:GetTemplateInfo(apiTable, isElink)

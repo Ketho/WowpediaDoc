@@ -1,10 +1,10 @@
 function Wowpedia:GetFunctionText(func)
 	local str = format(" %s\n", self:GetFunctionSignature(func))
 	if func.Arguments then
-		str = str..format("\n==Arguments==\n%s\n", self:GetParameters(func.Arguments, true))
+		str = str..format("\n== Arguments ==\n%s\n", self:GetParameters(func.Arguments, true))
 	end
 	if func.Returns then
-		str = str..format("\n==Returns==\n%s\n", self:GetParameters(func.Returns))
+		str = str..format("\n== Returns ==\n%s\n", self:GetParameters(func.Returns))
 	end
 	return str
 end
