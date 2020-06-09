@@ -1,3 +1,5 @@
+local m = {}
+
 -- FrameXML
 ChatTypeInfo = {}
 ChatTypeInfo.SYSTEM = {}
@@ -40,3 +42,17 @@ end
 function CreateFromMixins(...)
 	return Mixin({}, ...)
 end
+
+function m:LoadApiDocs()
+	local toc = io.open("FrameXML/Blizzard_APIDocumentation/Blizzard_APIDocumentation.toc")
+	for line in toc:lines() do
+		if line:find("%.lua") then
+			local file = assert(loadfile("FrameXML/Blizzard_APIDocumentation/"..line))
+			file()
+		end
+	end
+	toc:close()
+	require "MissingDocumentation"
+end
+
+return m

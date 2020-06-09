@@ -1,3 +1,5 @@
+local m = {}
+
 local function WriteFile(path, text)
 	-- print("Writing", path)
 	local file = io.open(path, "w")
@@ -5,12 +7,12 @@ local function WriteFile(path, text)
 	file:close()
 end
 
-function ExportSystems()
+function m:ExportSystems()
 	for _, system in ipairs(APIDocumentation.systems) do
 		print("Exporting", system:GetFullName())
 		local systemName = system.Namespace or system.Name
 		if systemName then
-			os.execute("mkdir out\\"..systemName)
+			os.execute("mkdir -p out\\"..systemName)
 			local prefix = system.Namespace and system.Namespace.."." or ""
 			for _, func in pairs(system.Functions) do
 				local path = format("out/%s/API %s.txt", systemName, prefix..func.Name)
@@ -37,3 +39,5 @@ function ExportSystems()
 	end
 	print("Finished exporting!")
 end
+
+return m

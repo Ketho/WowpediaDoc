@@ -1,26 +1,8 @@
-require "FrameXML"
+local FrameXML = require("FrameXML/FrameXML")
+FrameXML.LoadApiDocs()
 
-local missing = {
-	["BountySharedDocumentation.lua"] = true,
-}
-
--- load Blizzard_APIDocumentation
-local toc = io.open("Blizzard_APIDocumentation/Blizzard_APIDocumentation.toc")
-for line in toc:lines() do
-	if line:find("%.lua") and not missing[line] then
-		local file = assert(loadfile("Blizzard_APIDocumentation/"..line))
-		file()
-	end
-end
-toc:close()
-
-require "MissingDocumentation"
 require "Wowpedia/Wowpedia"
-require "Exporter"
+require "Tests/Tests"
 
--- no unit tests yet
-require "tests/Pages"
-require "tests/Stats"
-require "tests/Special"
-
-ExportSystems()
+local Exporter = require("Exporter")
+Exporter.ExportSystems()
