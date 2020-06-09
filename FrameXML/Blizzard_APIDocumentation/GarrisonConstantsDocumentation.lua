@@ -52,6 +52,22 @@ local GarrisonConstants =
 			},
 		},
 		{
+			Name = "GarrAutoCombatantRole",
+			Type = "Enumeration",
+			NumValues = 6,
+			MinValue = 0,
+			MaxValue = 5,
+			Fields =
+			{
+				{ Name = "None", Type = "GarrAutoCombatantRole", EnumValue = 0 },
+				{ Name = "Melee", Type = "GarrAutoCombatantRole", EnumValue = 1 },
+				{ Name = "RangedPhysical", Type = "GarrAutoCombatantRole", EnumValue = 2 },
+				{ Name = "RangedMagic", Type = "GarrAutoCombatantRole", EnumValue = 3 },
+				{ Name = "HealSupport", Type = "GarrAutoCombatantRole", EnumValue = 4 },
+				{ Name = "Tank", Type = "GarrAutoCombatantRole", EnumValue = 5 },
+			},
+		},
+		{
 			Name = "GarrAutoEventFlags",
 			Type = "Enumeration",
 			NumValues = 4,
@@ -118,13 +134,14 @@ local GarrisonConstants =
 		{
 			Name = "GarrTalentCostType",
 			Type = "Enumeration",
-			NumValues = 2,
+			NumValues = 3,
 			MinValue = 0,
-			MaxValue = 1,
+			MaxValue = 2,
 			Fields =
 			{
 				{ Name = "Initial", Type = "GarrTalentCostType", EnumValue = 0 },
 				{ Name = "Respec", Type = "GarrTalentCostType", EnumValue = 1 },
+				{ Name = "MakePermanent", Type = "GarrTalentCostType", EnumValue = 2 },
 			},
 		},
 		{
@@ -145,9 +162,9 @@ local GarrisonConstants =
 		{
 			Name = "GarrTalentFeatureType",
 			Type = "Enumeration",
-			NumValues = 7,
+			NumValues = 8,
 			MinValue = 0,
-			MaxValue = 6,
+			MaxValue = 7,
 			Fields =
 			{
 				{ Name = "Generic", Type = "GarrTalentFeatureType", EnumValue = 0 },
@@ -157,6 +174,7 @@ local GarrisonConstants =
 				{ Name = "ReservoirUpgrades", Type = "GarrTalentFeatureType", EnumValue = 4 },
 				{ Name = "SanctumUnique", Type = "GarrTalentFeatureType", EnumValue = 5 },
 				{ Name = "SoulBinds", Type = "GarrTalentFeatureType", EnumValue = 6 },
+				{ Name = "AnimaDiversionMap", Type = "GarrTalentFeatureType", EnumValue = 7 },
 			},
 		},
 		{
@@ -200,14 +218,15 @@ local GarrisonConstants =
 		{
 			Name = "GarrTalentUI",
 			Type = "Enumeration",
-			NumValues = 3,
+			NumValues = 4,
 			MinValue = 0,
-			MaxValue = 2,
+			MaxValue = 3,
 			Fields =
 			{
 				{ Name = "Generic", Type = "GarrTalentUI", EnumValue = 0 },
 				{ Name = "CovenantSanctum", Type = "GarrTalentUI", EnumValue = 1 },
 				{ Name = "SoulBinds", Type = "GarrTalentUI", EnumValue = 2 },
+				{ Name = "AnimaDiversionMap", Type = "GarrTalentUI", EnumValue = 3 },
 			},
 		},
 		{

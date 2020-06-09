@@ -629,6 +629,20 @@ local QuestLog =
 			},
 		},
 		{
+			Name = "IsQuestCalling",
+			Type = "Function",
+
+			Arguments =
+			{
+				{ Name = "questID", Type = "number", Nilable = false },
+			},
+
+			Returns =
+			{
+				{ Name = "isCalling", Type = "bool", Nilable = false },
+			},
+		},
+		{
 			Name = "IsQuestCriteriaForBounty",
 			Type = "Function",
 
@@ -1117,7 +1131,7 @@ local QuestLog =
 			Fields =
 			{
 				{ Name = "Group", Type = "QuestTag", EnumValue = 1 },
-				{ Name = "Pvp", Type = "QuestTag", EnumValue = 41 },
+				{ Name = "PvP", Type = "QuestTag", EnumValue = 41 },
 				{ Name = "Raid", Type = "QuestTag", EnumValue = 62 },
 				{ Name = "Dungeon", Type = "QuestTag", EnumValue = 81 },
 				{ Name = "Legendary", Type = "QuestTag", EnumValue = 83 },
