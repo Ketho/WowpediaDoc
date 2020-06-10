@@ -1,8 +1,8 @@
 local FrameXML = require("FrameXML/FrameXML")
-FrameXML.LoadApiDocs()
+FrameXML:LoadApiDocs()
 
 require "Wowpedia/Wowpedia"
 require "Tests/Tests"
 
 local Exporter = require("Exporter")
-Exporter.ExportSystems()
+Exporter:ExportSystems("out")

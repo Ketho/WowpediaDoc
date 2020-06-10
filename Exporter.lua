@@ -7,20 +7,20 @@ local function WriteFile(path, text)
 	file:close()
 end
 
-function m:ExportSystems()
+function m:ExportSystems(folder)
 	for _, system in ipairs(APIDocumentation.systems) do
 		print("Exporting", system:GetFullName())
 		local systemName = system.Namespace or system.Name
 		if systemName then
-			os.execute("mkdir out\\"..systemName)
+			os.execute(format("mkdir %s\\%s", folder, systemName))
 			local prefix = system.Namespace and system.Namespace.."." or ""
 			for _, func in pairs(system.Functions) do
-				local path = format("out/%s/API %s.txt", systemName, prefix..func.Name)
+				local path = format("%s/%s/API %s.txt", folder, systemName, prefix..func.Name)
 				local pageText = Wowpedia:GetPageText(func)
 				WriteFile(path, pageText)
 			end
 			for _, event in pairs(system.Events) do
-				local path = format("out/%s/%s.txt", systemName, event.LiteralName)
+				local path = format("%s/%s/%s.txt", folder, systemName, event.LiteralName)
 				local pageText = Wowpedia:GetPageText(event)
 				WriteFile(path, pageText)
 			end
@@ -32,7 +32,7 @@ function m:ExportSystems()
 		local isSubtable = Wowpedia.subTables[apiTable.Name]
 		if isTransclude and isTransclude > 1 or isSubtable then
 			local transcludeBase = Wowpedia:GetTranscludeBase(apiTable)
-			local path = format("out/%s.txt", transcludeBase)
+			local path = format("%s/%s.txt", folder, transcludeBase)
 			local pageText = Wowpedia:GetTableText(apiTable, true)
 			WriteFile(path, pageText)
 		end
