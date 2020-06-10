@@ -3,7 +3,7 @@ max_line_length = false
 exclude_files = {
 	".install",
 	".luarocks",
-	"Blizzard_APIDocumentation",
+	"FrameXML/Blizzard_APIDocumentation",
 }
 ignore = {
 	"211", -- unused local variable / function

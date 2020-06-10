@@ -8,7 +8,7 @@ function DEFAULT_CHAT_FRAME:AddMessage(msg)
 	print(msg)
 end
 
-function DEFAULT_CHAT_FRAME:SetMaxLines(maxLines)
+function DEFAULT_CHAT_FRAME:SetMaxLines()
 end
 
 -- Lua API
