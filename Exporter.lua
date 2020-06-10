@@ -12,7 +12,7 @@ function m:ExportSystems()
 		print("Exporting", system:GetFullName())
 		local systemName = system.Namespace or system.Name
 		if systemName then
-			os.execute("mkdir -p out\\"..systemName)
+			os.execute("mkdir out\\"..systemName)
 			local prefix = system.Namespace and system.Namespace.."." or ""
 			for _, func in pairs(system.Functions) do
 				local path = format("out/%s/API %s.txt", systemName, prefix..func.Name)

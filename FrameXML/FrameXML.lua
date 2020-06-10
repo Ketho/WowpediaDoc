@@ -1,58 +1,41 @@
+require "FrameXML/Compat"
+
 local m = {}
 
--- FrameXML
-ChatTypeInfo = {}
-ChatTypeInfo.SYSTEM = {}
+local missing = {
+	["DamageConstantsDocumentation.lua"] = true, -- 9.0.1 (34615)
+}
 
--- MessageFrame
-DEFAULT_CHAT_FRAME = {}
-function DEFAULT_CHAT_FRAME:AddMessage(msg)
-	print(msg)
-end
+-- maybe should just load all files in folder instead of TOC
+local not_in_toc = {
+	["BountiesDocumentation.lua"] = true, -- 9.0.1 (34615)
+	["CharacterCustomizationDocumentation.lua"] = true, -- 9.0.1 (34615)
+}
 
--- Lua API
-unpack = table.unpack
+-- these files share the same Namespace. they do have a different Name
+-- apparently both Name and Namespace are not unique between files
+local shared_namespaces = {
+	["PlayerInfoDocumentation.lua"] = "C_PlayerInfo", -- Name = "PlayerInfo"
+	["PlayerLocationDocumentation.lua"] = "C_PlayerInfo", -- Name = "PlayerLocationInfo"
+}
 
-tinsert = table.insert
-format = string.format
-
--- why is WoW so backwards
-function string.split(delim, input)
-	delim = delim or "%s"
-	local t = {}
-	for str in string.gmatch(input, "[^"..delim.."]+") do
-		table.insert(t, str)
-	end
-	return unpack(t)
-end
-
--- SharedXML\Mixin.lua
-function Mixin(object, ...)
-	for i = 1, select("#", ...) do
-		local mixin = select(i, ...)
-		for k, v in pairs(mixin) do
-			object[k] = v
-		end
-	end
-
-	return object
-end
-
--- where ​... are the mixins to mixin
-function CreateFromMixins(...)
-	return Mixin({}, ...)
+local function LoadApiDocFile(line)
+	local file = assert(loadfile("FrameXML/Blizzard_APIDocumentation/"..line))
+	file()
 end
 
 function m:LoadApiDocs()
 	local toc = io.open("FrameXML/Blizzard_APIDocumentation/Blizzard_APIDocumentation.toc")
 	for line in toc:lines() do
-		if line:find("%.lua") then
-			local file = assert(loadfile("FrameXML/Blizzard_APIDocumentation/"..line))
-			file()
+		if line:find("%.lua") and not missing[line] then
+			LoadApiDocFile(line)
 		end
 	end
+	for luaFile in pairs(not_in_toc) do
+		LoadApiDocFile(luaFile)
+	end
 	toc:close()
-	require "MissingDocumentation"
+	require "FrameXML/MissingDocumentation"
 end
 
 return m

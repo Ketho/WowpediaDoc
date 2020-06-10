@@ -17,6 +17,19 @@ local Missing =
 			},
 		},
 		{
+			-- C_GuildInfo
+			Name = "GuildTabardInfo",
+			Type = "Structure",
+			Fields =
+			{
+				{ Name = "backgroundColor", Type = "table", Mixin = "ColorMixin" },
+				{ Name = "borderColor", Type = "table", Mixin = "ColorMixin" },
+				{ Name = "emblemColor", Type = "table", Mixin = "ColorMixin" },
+				{ Name = "emblemFileID", Type = "number" },
+				{ Name = "emblemStyle", Type = "number" },
+			},
+		},
+		{
 			-- C_TransmogCollection
 			Name = "AppearanceSourceInfo",
 			Type = "Structure",
@@ -35,55 +48,17 @@ local Missing =
 				{ Name = "visualID", Type = "number" },
 			},
 		},
-		{
-			-- C_GuildInfo
-			Name = "GuildTabardInfo",
-			Type = "Structure",
-			Fields =
-			{
-				{ Name = "backgroundColor", Type = "table", Mixin = "ColorMixin" },
-				{ Name = "borderColor", Type = "table", Mixin = "ColorMixin" },
-				{ Name = "emblemColor", Type = "table", Mixin = "ColorMixin" },
-				{ Name = "emblemFileID", Type = "number" },
-				{ Name = "emblemStyle", Type = "number" },
-			},
-		},
 		-- placeholders
-		{
-			Name = "BountyInfo",
-			Type = "Structure",
-			Fields = {},
-		},
-		{
-			Name = "GarrisonTalentTreeInfo",
-			Type = "Structure",
-			Fields = {},
-		},
-		{
-			Name = "ItemLevelTier",
-			Type = "Structure",
-			Fields = {},
-		},
-		{
-			Name = "OptionalReagentInfo",
-			Type = "Structure",
-			Fields = {},
-		},
-		{
-			Name = "QueueSpecificInfo",
-			Type = "Structure",
-			Fields = {},
-		},
-		{
-			Name = "RuneforgeLegendaryCraftDescription",
-			Type = "Structure",
-			Fields = {},
-		},
-		{
-			Name = "RuneforgePower",
-			Type = "Structure",
-			Fields = {},
-		},
+		{Name = "GarrisonTalentTreeInfo", Type = "Structure", Fields = {}},
+		{Name = "ItemLevelTier", Type = "Structure", Fields = {}},
+		{Name = "OptionalReagentInfo", Type = "Structure", Fields = {}},
+		{Name = "QueueSpecificInfo", Type = "Structure", Fields = {}},
+		{Name = "RuneforgeLegendaryCraftDescription", Type = "Structure", Fields = {}},
+		{Name = "RuneforgePower", Type = "Structure", Fields = {}},
+		-- 9.0.1 (34615)
+		{Name = "CharacterAlternateFormData", Type = "Structure", Fields = {}},
+		{Name = "SoulbindConduitType", Type = "Structure", Fields = {}},
+		{Name = "SoulbindNodeState", Type = "Structure", Fields = {}},
 	},
 }
 
