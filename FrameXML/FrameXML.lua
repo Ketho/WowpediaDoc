@@ -1,5 +1,3 @@
-require "FrameXML/Compat"
-
 local m = {}
 
 local missing = {
@@ -19,23 +17,24 @@ local shared_namespaces = {
 	["PlayerLocationDocumentation.lua"] = "C_PlayerInfo", -- Name = "PlayerLocationInfo"
 }
 
-local function LoadApiDocFile(line)
-	local file = assert(loadfile("FrameXML/Blizzard_APIDocumentation/"..line))
+local function LoadApiDocFile(base, line)
+	local file = assert(loadfile(base.."/Blizzard_APIDocumentation/"..line))
 	file()
 end
 
-function m:LoadApiDocs()
-	local toc = io.open("FrameXML/Blizzard_APIDocumentation/Blizzard_APIDocumentation.toc")
+function m:LoadApiDocs(base)
+	require(base.."/Compat")
+	local toc = io.open(base.."/Blizzard_APIDocumentation/Blizzard_APIDocumentation.toc")
 	for line in toc:lines() do
 		if line:find("%.lua") and not missing[line] then
-			LoadApiDocFile(line)
+			LoadApiDocFile(base, line)
 		end
 	end
 	for luaFile in pairs(not_in_toc) do
-		LoadApiDocFile(luaFile)
+		LoadApiDocFile(base, luaFile)
 	end
 	toc:close()
-	require "FrameXML/MissingDocumentation"
+	require(base.."/MissingDocumentation")
 end
 
 return m

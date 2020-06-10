@@ -1,5 +1,6 @@
-local FrameXML = require("FrameXML/FrameXML")
-FrameXML:LoadApiDocs()
+local BASE = "FrameXML"
+local FrameXML = require(BASE.."/FrameXML")
+FrameXML:LoadApiDocs(BASE)
 
 require "Wowpedia/Wowpedia"
 require "Tests/Tests"
