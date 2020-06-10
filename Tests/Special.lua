@@ -88,7 +88,6 @@ end
 -- FindMissingTables()
 
 -- AppearanceSourceInfo
--- BountyInfo
 -- CalendarTime
 -- GarrisonTalentTreeInfo
 -- GuildTabardInfo
@@ -99,7 +98,7 @@ end
 -- RuneforgePower
 
 
-local function FindUnspecifiedTableFields()
+local function FindFrameObjects()
 	local tbl = {}
 	for _, field in ipairs(APIDocumentation.fields) do
 		if field.Type == "table" and not field.Mixin and not field.InnerType then
@@ -108,7 +107,7 @@ local function FindUnspecifiedTableFields()
 		end
 	end
 end
--- FindUnspecifiedTableFields()
+-- FindFrameObjects()
 
 -- SetPortraitTexture, textureObject
 -- SetAvatarTexture, texture
