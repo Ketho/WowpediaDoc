@@ -9,5 +9,5 @@ function Wowpedia:GetEventSignature(event)
 end
 
 function Wowpedia:GetEventPayload(event)
-	return event.Payload and self:GetParameters(event.Payload) or "None"
+	return event.Payload and self:GetParameters(event.Payload) or "''None''"
 end
