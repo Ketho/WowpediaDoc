@@ -9,7 +9,7 @@ jobs:
     - uses: actions/checkout@master
 
     - name: build
-      run:
+      run: |
         sudo apt-get install luarocks
         luarocks install --local luacheck
 
