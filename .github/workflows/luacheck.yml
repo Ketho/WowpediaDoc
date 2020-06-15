@@ -11,7 +11,7 @@ jobs:
     - name: build
       run: |
         sudo apt-get install luarocks
-        luarocks install luacheck
+        luarocks install --local luacheck
 
     - name: luacheck
       run:
