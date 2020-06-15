@@ -8,16 +8,10 @@ jobs:
     steps:
     - uses: actions/checkout@master
 
-    - uses: leafo/gh-actions-lua@v5
-      with:
-        luaVersion: "5.3.5"
-
-    - uses: leafo/gh-actions-luarocks@v2
-
     - name: build
-      run:
+      run: |
         sudo apt-get install luarocks
-        luarocks install luacheck
+        luarocks install --local luacheck
 
     - name: luacheck
       run:
