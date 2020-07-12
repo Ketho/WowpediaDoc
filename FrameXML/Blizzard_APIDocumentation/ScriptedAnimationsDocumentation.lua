@@ -26,9 +26,9 @@ local ScriptedAnimations =
 		{
 			Name = "ScriptedAnimationBehavior",
 			Type = "Enumeration",
-			NumValues = 5,
+			NumValues = 6,
 			MinValue = 0,
-			MaxValue = 4,
+			MaxValue = 5,
 			Fields =
 			{
 				{ Name = "None", Type = "ScriptedAnimationBehavior", EnumValue = 0 },
@@ -36,14 +36,15 @@ local ScriptedAnimations =
 				{ Name = "TargetKnockBack", Type = "ScriptedAnimationBehavior", EnumValue = 2 },
 				{ Name = "SourceRecoil", Type = "ScriptedAnimationBehavior", EnumValue = 3 },
 				{ Name = "SourceCollideWithTarget", Type = "ScriptedAnimationBehavior", EnumValue = 4 },
+				{ Name = "UIParentShake", Type = "ScriptedAnimationBehavior", EnumValue = 5 },
 			},
 		},
 		{
 			Name = "ScriptedAnimationTrajectory",
 			Type = "Enumeration",
-			NumValues = 6,
+			NumValues = 7,
 			MinValue = 0,
-			MaxValue = 5,
+			MaxValue = 6,
 			Fields =
 			{
 				{ Name = "AtSource", Type = "ScriptedAnimationTrajectory", EnumValue = 0 },
@@ -52,6 +53,7 @@ local ScriptedAnimations =
 				{ Name = "CurveLeft", Type = "ScriptedAnimationTrajectory", EnumValue = 3 },
 				{ Name = "CurveRight", Type = "ScriptedAnimationTrajectory", EnumValue = 4 },
 				{ Name = "CurveRandom", Type = "ScriptedAnimationTrajectory", EnumValue = 5 },
+				{ Name = "HalfwayBetween", Type = "ScriptedAnimationTrajectory", EnumValue = 6 },
 			},
 		},
 		{

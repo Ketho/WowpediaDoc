@@ -110,6 +110,7 @@ PetJournalInfoDocumentation.lua
 PlayerChoiceDocumentation.lua
 PlayerInfoDocumentation.lua
 PlayerLocationDocumentation.lua
+PlayerMentorshipDocumentation.lua
 PvpInfoDocumentation.lua
 QuestLineInfoDocumentation.lua
 QuestLogDocumentation.lua
@@ -167,6 +168,7 @@ VignetteInfoDocumentation.lua
 VoiceChatDocumentation.lua
 VoidStorageInfoDocumentation.lua
 WarCampaignDocumentation.lua
+WeeklyRewardsDocumentation.lua
 WorldStateInfoDocumentation.lua
 WowEntitlementInfoDocumentation.lua
 WowTokenUIDocumentation.lua
@@ -178,7 +180,7 @@ BaseDocumentation.lua
 BountySharedDocumentation.lua
 CalendarConstantsDocumentation.lua
 CharacterCustomizationSharedDocumentation.lua
-ChatDocumentation.lua
+ChatConstantsDocumentation.lua
 ClubSharedDocumentation.lua
 ColorDocumentation.lua
 CovenantCallingsConstantsDocumentation.lua
@@ -193,7 +195,9 @@ ItemSharedDocumentation.lua
 LegendaryCraftingTypesDocumentation.lua
 ModelSceneDocumentation.lua
 NamePlateDocumentation.lua
+PetScalingConstantsDocumentation.lua
 PlayerDocumentation.lua
+PlayerMentorshipConstantsDocumentation.lua
 QuestConstantsDocumentation.lua
 QuestSessionConstantsDocumentation.lua
 QueueSpecificDocumentation.lua

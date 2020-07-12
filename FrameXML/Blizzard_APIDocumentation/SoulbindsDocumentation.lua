@@ -33,6 +33,36 @@ local Soulbinds =
 			},
 		},
 		{
+			Name = "GetConduitHyperlink",
+			Type = "Function",
+
+			Arguments =
+			{
+				{ Name = "conduitID", Type = "number", Nilable = false },
+				{ Name = "rank", Type = "number", Nilable = false },
+			},
+
+			Returns =
+			{
+				{ Name = "link", Type = "string", Nilable = false },
+			},
+		},
+		{
+			Name = "GetConduitSpellID",
+			Type = "Function",
+
+			Arguments =
+			{
+				{ Name = "conduitID", Type = "number", Nilable = false },
+				{ Name = "conduitRank", Type = "number", Nilable = false },
+			},
+
+			Returns =
+			{
+				{ Name = "spellID", Type = "number", Nilable = false },
+			},
+		},
+		{
 			Name = "GetItemConduitType",
 			Type = "Function",
 
@@ -172,10 +202,6 @@ local Soulbinds =
 				{ Name = "result", Type = "bool", Nilable = false },
 			},
 		},
-		{
-			Name = "UninstallConduits",
-			Type = "Function",
-		},
 	},
 
 	Events =
@@ -196,7 +222,7 @@ local Soulbinds =
 			Payload =
 			{
 				{ Name = "nodeID", Type = "number", Nilable = false },
-				{ Name = "itemID", Type = "number", Nilable = false },
+				{ Name = "data", Type = "SoulbindConduitData", Nilable = false },
 			},
 		},
 		{
@@ -236,10 +262,28 @@ local Soulbinds =
 				{ Name = "nodeID", Type = "number", Nilable = false },
 			},
 		},
+		{
+			Name = "SoulbindNodeUpdated",
+			Type = "Event",
+			LiteralName = "SOULBIND_NODE_UPDATED",
+			Payload =
+			{
+				{ Name = "nodeID", Type = "number", Nilable = false },
+			},
+		},
 	},
 
 	Tables =
 	{
+		{
+			Name = "SoulbindConduitData",
+			Type = "Structure",
+			Fields =
+			{
+				{ Name = "conduitID", Type = "number", Nilable = false },
+				{ Name = "conduitRank", Type = "number", Nilable = false },
+			},
+		},
 		{
 			Name = "SoulbindData",
 			Type = "Structure",
@@ -252,6 +296,7 @@ local Soulbinds =
 				{ Name = "textureKit", Type = "string", Nilable = false },
 				{ Name = "tree", Type = "SoulbindTree", Nilable = false },
 				{ Name = "modelSceneData", Type = "SoulbindModelSceneData", Nilable = false },
+				{ Name = "resetData", Type = "SoulbindResetData", Nilable = false },
 			},
 		},
 		{
@@ -274,9 +319,28 @@ local Soulbinds =
 				{ Name = "icon", Type = "number", Nilable = false },
 				{ Name = "spellID", Type = "number", Nilable = false },
 				{ Name = "conduitID", Type = "number", Nilable = false },
+				{ Name = "conduitRank", Type = "number", Nilable = false },
 				{ Name = "state", Type = "SoulbindNodeState", Nilable = false },
 				{ Name = "conduitType", Type = "SoulbindConduitType", Nilable = true },
 				{ Name = "parentNodeIDs", Type = "table", InnerType = "number", Nilable = false },
+			},
+		},
+		{
+			Name = "SoulbindResetCurrencyData",
+			Type = "Structure",
+			Fields =
+			{
+				{ Name = "currencyID", Type = "number", Nilable = false },
+				{ Name = "quantity", Type = "number", Nilable = false },
+			},
+		},
+		{
+			Name = "SoulbindResetData",
+			Type = "Structure",
+			Fields =
+			{
+				{ Name = "goldCost", Type = "number", Nilable = false },
+				{ Name = "currencyCosts", Type = "table", InnerType = "SoulbindResetCurrencyData", Nilable = false },
 			},
 		},
 		{
