@@ -40,9 +40,5 @@ end
 
 function Wowpedia:GetTranscludeBase(complexTable)
 	local shortType = shortComplex[complexTable.Type]
-	local system, systemName = complexTable.System, "Unknown"
-	if system then -- Unit and Expansion systems dont have a namespace
-		systemName = system.Namespace and system.Namespace:gsub("C_", "") or system.Name
-	end
-	return format("%s %s.%s", shortType, systemName, complexTable.Name)
+	return shortType.." "..complexTable.Name, shortType
 end
