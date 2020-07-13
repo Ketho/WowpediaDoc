@@ -15,7 +15,7 @@ for _, apiInfo in ipairs(APIDocumentation.tables) do
 end
 
 -- InitComplexFieldRefs
-for _, field in pairs(APIDocumentation.fields) do
+for _, field in ipairs(APIDocumentation.fields) do
 	local parent = field.Function or field.Event or field.Table
 	local typeName = field.InnerType or field.Type
 	if not Wowpedia.basicTypes[typeName] and parent.Type ~= "Enumeration" then
@@ -24,7 +24,7 @@ for _, field in pairs(APIDocumentation.fields) do
 end
 
 -- InitSubtables
-for _, apiTable in pairs(APIDocumentation.tables) do
+for _, apiTable in ipairs(APIDocumentation.tables) do
 	if apiTable.Type == "Structure" then
 		for _, field in pairs(apiTable.Fields) do
 			Wowpedia.subTables[field.InnerType or field.Type] = true
@@ -137,4 +137,18 @@ function Wowpedia:GetComplexTypeInfo(apiTable)
 	local complexTable = self.complexTypes[typeName]
 	local isTransclude = (self.complexRefs[typeName] or 0) > 1
 	return complexTable, isTransclude
+end
+
+function Wowpedia:FindMissingTypes()
+	local missingTypes = {}
+	for _, field in ipairs(APIDocumentation.fields) do
+		local parent = field.Function or field.Event or field.Table
+		local typeName = field.InnerType or field.Type
+		if not self.basicTypes[typeName] and parent.Type ~= "Enumeration" then
+			if not self.complexTypes[typeName] then
+				missingTypes[typeName] = true
+			end
+		end
+	end
+	return missingTypes
 end

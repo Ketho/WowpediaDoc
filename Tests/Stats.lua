@@ -21,7 +21,7 @@ local function GetComplexTypeStats()
 	local uniqueTypes, missingTypes = {}, {}
 	local referencedTypes = {}
 
-	for _, field in pairs(APIDocumentation.fields) do
+	for _, field in ipairs(APIDocumentation.fields) do
 		-- find unique types
 		if not Wowpedia.basicTypes[field.Type] then
 			uniqueTypes[field.Type] = true

@@ -1,5 +1,5 @@
 local function PrintDocumentation(apiType)
-	for _, apiTable in pairs(APIDocumentation[apiType]) do
+	for _, apiTable in ipairs(APIDocumentation[apiType]) do
 		if apiTable.Documentation then
 			if apiType == "fields" then
 				local parent = apiTable.Function or apiTable.Event or apiTable.Table
@@ -47,7 +47,7 @@ end
 
 local function FindUnusedTables()
 	for _, system in ipairs(APIDocumentation.systems) do
-		for _, apiTable in pairs(system.Tables) do
+		for _, apiTable in ipairs(system.Tables) do
 			local isTransclude = Wowpedia.complexRefs[apiTable.Name]
 			if not isTransclude then
 				print(apiTable.Name)

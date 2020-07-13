@@ -22,7 +22,7 @@ function Wowpedia:GetPageText(apiTable)
 		self:GetPatchSection(),
 		self:GetElinkSection(apiTable),
 	}
-	for _, v in pairs(sections) do
+	for _, v in ipairs(sections) do
 		tinsert(tbl, v)
 	end
 	return table.concat(tbl, "\n")
