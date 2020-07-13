@@ -8,15 +8,6 @@ local function WriteFile(path, text)
 end
 
 function m:ExportSystems(folder)
-	local missingTypes = Wowpedia:FindMissingTypes()
-	if next(missingTypes) then
-		print("Found missing complex types:")
-		for complexType in pairs(missingTypes) do
-			print("Missing:", complexType)
-		end
-		return
-	end
-
 	os.execute(format("mkdir %s\\system", folder))
 	for _, system in ipairs(APIDocumentation.systems) do
 		print("Exporting", system:GetFullName())

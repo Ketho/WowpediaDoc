@@ -152,3 +152,14 @@ function Wowpedia:FindMissingTypes()
 	end
 	return missingTypes
 end
+
+function Wowpedia:HasMissingTypes()
+	local missingTypes = self:FindMissingTypes()
+	if next(missingTypes) then
+		print("Found missing complex types:")
+		for complexType in pairs(missingTypes) do
+			print("Missing:", complexType)
+		end
+		return true
+	end
+end

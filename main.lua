@@ -5,4 +5,6 @@ require "Wowpedia/Wowpedia"
 require "Tests/Tests"
 
 local Exporter = require("Exporter")
-Exporter:ExportSystems("out")
+if not Wowpedia:HasMissingTypes() then
+	Exporter:ExportSystems("out")
+end
