@@ -36,18 +36,44 @@ local paramFs = ";%s : %s"
 local colorFs = '<font color="#ecbc2a">%s</font>' -- from ddcorkum api template
 local tooltipFs = '<span title="%s">%s</span>'
 
-function Wowpedia:GetSignature(apiTable, paramTbl)
-	local str, optionalFound
-	for i, param in ipairs(apiTable[paramTbl]) do
-		local name = param.Name
-		-- usually everything after the first optional argument is also optional
-		if param:IsOptional() and not optionalFound then
-			optionalFound = true
-			name = "["..name
+local function HasMiddleOptionals(paramTbl)
+	local optional
+	for _, param in ipairs(paramTbl) do
+		if param.Nilable then
+			optional = true
+		else
+			if optional then
+				return true
+			end
 		end
-		str = (i==1) and name or str..", "..name
 	end
-	return optionalFound and str:gsub(", %[", " [, ").."]" or str
+end
+
+function Wowpedia:GetSignature(apiTable, apiType)
+	local tbl = {}
+	local paramTbl = apiTable[apiType]
+	if HasMiddleOptionals(paramTbl) then
+		for _, param in ipairs(paramTbl) do
+			local name = param.Name
+			if param:IsOptional() then
+				name = format("[%s]", name)
+			end
+			tinsert(tbl, name)
+		end
+		return table.concat(tbl, ", ")
+	else
+		local optionalFound
+		for _, param in ipairs(paramTbl) do
+			local name = param.Name
+			if param:IsOptional() and not optionalFound then
+				optionalFound = true
+				name = format("[%s", name)
+			end
+			tinsert(tbl, name)
+		end
+		local str = table.concat(tbl, ", ")
+		return optionalFound and str:gsub(", %[", " [, ").."]" or str
+	end
 end
 
 function Wowpedia:GetParameters(params, isArgument)

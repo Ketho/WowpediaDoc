@@ -60,6 +60,9 @@ local Missing =
 		{ Name = "CharacterAlternateFormData", Type = "Structure", Fields = {} }, -- BarberShopDocumentation.lua
 		{ Name = "SoulbindConduitType", Type = "Structure", Fields = {} }, -- SoulbindsDocumentation.lua
 		{ Name = "SoulbindNodeState", Type = "Structure", Fields = {} }, -- SoulbindsDocumentation.lua
+		-- 9.0.1 (35078)
+		{ Name = "CurrencyCost", Type = "Structure", Fields = {} }, -- LegendaryCraftingDocumentation.lua
+		{ Name = "WeeklyRewardChestThresholdType", Type = "Structure", Fields = {} }, -- WeeklyRewardsDocumentation.lua
 	},
 }
 
