@@ -32,8 +32,7 @@ function m:ExportSystems(folder)
 	print("Exporting (systemless) tables")
 	for _, apiTable in ipairs(APIDocumentation.tables) do
 		local isTransclude = Wowpedia.complexRefs[apiTable.Name]
-		local isSubtable = Wowpedia.subTables[apiTable.Name]
-		if isTransclude and isTransclude > 1 or isSubtable then
+		if isTransclude and isTransclude > 1 then
 			local transcludeBase, shortType = Wowpedia:GetTranscludeBase(apiTable)
 			local path = format("%s/%s/%s.txt", folder, shortType, transcludeBase)
 			local pageText = Wowpedia:GetTableText(apiTable, true)

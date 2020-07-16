@@ -25,7 +25,7 @@ function Wowpedia:GetPageText(apiTable)
 	for _, v in ipairs(sections) do
 		tinsert(tbl, v)
 	end
-	return table.concat(tbl, "\n")
+	return table.concat(tbl, "\n").."\n"
 end
 
 function Wowpedia:GetDescription(apiTable)

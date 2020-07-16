@@ -134,9 +134,11 @@ end
 
 function Wowpedia:GetComplexTypeInfo(apiTable)
 	local typeName = apiTable.InnerType or apiTable.Type
-	local complexTable = self.complexTypes[typeName]
-	local isTransclude = (self.complexRefs[typeName] or 0) > 1
-	return complexTable, isTransclude
+	if not self.basicTypes[typeName] then
+		local complexTable = self.complexTypes[typeName]
+		local isTransclude = (self.complexRefs[typeName] or 0) > 1
+		return complexTable, isTransclude
+	end
 end
 
 function Wowpedia:FindMissingTypes()

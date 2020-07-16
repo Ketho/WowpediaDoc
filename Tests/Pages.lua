@@ -29,7 +29,9 @@ end
 -- TestFunction("C_ActionBar.FindFlyoutActionButtons") -- number[] return
 -- TestFunction("C_AuctionHouse.GetTimeLeftBandInfo") -- transclude argument
 -- TestFunction("C_CovenantSanctumUI.GetSanctumType") -- inline enum return
--- TestFunction("C_BattleNet.GetAccountInfoByID")
+-- TestFunction("C_BattleNet.GetAccountInfoByID") -- bnet test
+-- TestFunction("C_UIWidgetManager.GetDoubleStateIconRowVisualizationInfo") -- non and transclude enums
+-- TestFunction("C_UIWidgetManager.GetIconAndTextWidgetVisualizationInfo") -- non and transclude enums
 
 -- TestFunction("C_AreaPoiInfo.GetAreaPOISecondsLeft") -- documentation
 -- TestFunction("C_ArtifactUI.GetEquippedArtifactNumRelicSlots") -- argument documentation
