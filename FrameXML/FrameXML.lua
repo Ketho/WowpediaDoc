@@ -2,6 +2,8 @@ local m = {}
 
 local missing = {
 	["DamageConstantsDocumentation.lua"] = true, -- 9.0.1 (34615)
+	["GamePadDocumentation.lua"] = true, -- 9.0.1 (35167)
+	["LevelConstantsDocumentation.lua"] = true, -- 9.0.1 (35167)
 }
 
 -- maybe should just load all files in folder instead of TOC

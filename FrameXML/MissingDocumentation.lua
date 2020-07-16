@@ -49,6 +49,7 @@ local Missing =
 			},
 		},
 		-- placeholders
+		{ Name = "CachedRewardType", Type = "Enumeration", Fields = {} }, -- WeeklyRewardsDocumentation.lua
 		{ Name = "CharacterAlternateFormData", Type = "Structure", Fields = {} }, -- BarberShopDocumentation.lua
 		{ Name = "CurrencyCost", Type = "Structure", Fields = {} }, -- LegendaryCraftingDocumentation.lua
 		{ Name = "GarrisonTalentTreeInfo", Type = "Structure", Fields = {} }, -- GarrisonInfoDocumentation.lua
@@ -56,6 +57,7 @@ local Missing =
 		{ Name = "QueueSpecificInfo", Type = "Structure", Fields = {} }, -- PartyInfoDocumentation.lua, SocialQueueDocumentation.lua
 		{ Name = "RuneforgeLegendaryCraftDescription", Type = "Structure", Fields = {} }, -- LegendaryCraftingDocumentation.lua
 		{ Name = "RuneforgePower", Type = "Structure", Fields = {} }, -- LegendaryCraftingDocumentation.lua
+		{ Name = "SoulbindConduitInstallResult", Type = "Enumeration", Fields = {} }, -- SoulbindsDocumentation.lua
 		{ Name = "SoulbindConduitType", Type = "Enumeration", Fields = {} }, -- SoulbindsDocumentation.lua
 		{ Name = "SoulbindNodeState", Type = "Enumeration", Fields = {} }, -- SoulbindsDocumentation.lua
 		{ Name = "WeeklyRewardChestThresholdType", Type = "Enumeration", Fields = {} }, -- WeeklyRewardsDocumentation.lua
