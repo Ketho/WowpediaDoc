@@ -170,3 +170,27 @@ end
 -- C_CampaignInfo, WarCampaign
 -- Expansion
 -- Unit
+
+-- some structures contain another complex type twice which should not be transcluded
+local function FindDoubleUsedTable()
+	for _, apiTable in ipairs(APIDocumentation.tables) do
+		if apiTable.Type == "Structure" then
+			local typeCount = {}
+			for _, tbl in pairs(apiTable.Fields) do
+				local tblType = tbl.InnerType or tbl.Type
+				if not Wowpedia.basicTypes[tblType] then
+					typeCount[tblType] = (typeCount[tblType] or 0) + 1
+					local count = typeCount[tblType]
+					if count > 1 and count == Wowpedia.complexRefs[tblType] then
+						print(apiTable.Name, tblType, count)
+					end
+				end
+			end
+		end
+	end
+end
+-- FindDoubleUsedTable()
+
+-- RafInfo, RafReward, 2
+-- ScriptedAnimationEffect, ScriptedAnimationBehavior, 2
+-- DoubleStateIconRowVisualizationInfo, UIWidgetStateIconInfo, 2
