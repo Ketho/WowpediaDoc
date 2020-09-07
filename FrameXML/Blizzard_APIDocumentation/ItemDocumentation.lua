@@ -343,6 +343,20 @@ local Item =
 			},
 		},
 		{
+			Name = "IsItemKeystoneByID",
+			Type = "Function",
+
+			Arguments =
+			{
+				{ Name = "itemInfo", Type = "string", Nilable = false },
+			},
+
+			Returns =
+			{
+				{ Name = "isKeystone", Type = "bool", Nilable = false },
+			},
+		},
+		{
 			Name = "IsLocked",
 			Type = "Function",
 
@@ -467,6 +481,16 @@ local Item =
 			{
 				{ Name = "itemID", Type = "number", Nilable = false },
 				{ Name = "success", Type = "bool", Nilable = false },
+			},
+		},
+		{
+			Name = "ItemChanged",
+			Type = "Event",
+			LiteralName = "ITEM_CHANGED",
+			Payload =
+			{
+				{ Name = "previousHyperlink", Type = "string", Nilable = false },
+				{ Name = "newHyperlink", Type = "string", Nilable = false },
 			},
 		},
 		{

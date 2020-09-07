@@ -39,6 +39,34 @@ local ChatInfo =
 			},
 		},
 		{
+			Name = "GetChannelRulesetForChannelID",
+			Type = "Function",
+
+			Arguments =
+			{
+				{ Name = "channelID", Type = "number", Nilable = false },
+			},
+
+			Returns =
+			{
+				{ Name = "ruleset", Type = "ChatChannelRuleset", Nilable = false },
+			},
+		},
+		{
+			Name = "GetChannelShortcutForChannelID",
+			Type = "Function",
+
+			Arguments =
+			{
+				{ Name = "channelID", Type = "number", Nilable = false },
+			},
+
+			Returns =
+			{
+				{ Name = "shortcut", Type = "string", Nilable = false },
+			},
+		},
+		{
 			Name = "GetClubStreamIDs",
 			Type = "Function",
 
@@ -96,6 +124,15 @@ local ChatInfo =
 			Returns =
 			{
 				{ Name = "isPartyChannelType", Type = "bool", Nilable = false },
+			},
+		},
+		{
+			Name = "IsRegionalServiceAvailable",
+			Type = "Function",
+
+			Returns =
+			{
+				{ Name = "available", Type = "bool", Nilable = false },
 			},
 		},
 		{
@@ -734,6 +771,15 @@ local ChatInfo =
 				{ Name = "isSubtitle", Type = "bool", Nilable = false },
 				{ Name = "hideSenderInLetterbox", Type = "bool", Nilable = false },
 				{ Name = "supressRaidIcons", Type = "bool", Nilable = false },
+			},
+		},
+		{
+			Name = "ChatMsgChannelLeavePrevented",
+			Type = "Event",
+			LiteralName = "CHAT_MSG_CHANNEL_LEAVE_PREVENTED",
+			Payload =
+			{
+				{ Name = "channelName", Type = "string", Nilable = false },
 			},
 		},
 		{
@@ -1909,6 +1955,20 @@ local ChatInfo =
 				{ Name = "isSubtitle", Type = "bool", Nilable = false },
 				{ Name = "hideSenderInLetterbox", Type = "bool", Nilable = false },
 				{ Name = "supressRaidIcons", Type = "bool", Nilable = false },
+			},
+		},
+		{
+			Name = "ChatRegionalSendFailed",
+			Type = "Event",
+			LiteralName = "CHAT_REGIONAL_SEND_FAILED",
+		},
+		{
+			Name = "ChatRegionalStatusChanged",
+			Type = "Event",
+			LiteralName = "CHAT_REGIONAL_STATUS_CHANGED",
+			Payload =
+			{
+				{ Name = "isServiceAvailable", Type = "bool", Nilable = false },
 			},
 		},
 		{

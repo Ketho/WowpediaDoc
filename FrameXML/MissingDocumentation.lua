@@ -55,13 +55,13 @@ local Missing =
 		{ Name = "GarrisonTalentTreeInfo", Type = "Structure", Fields = {} }, -- GarrisonInfoDocumentation.lua
 		{ Name = "OptionalReagentInfo", Type = "Structure", Fields = {} }, -- TradeSkillUIDocumentation.lua
 		{ Name = "QueueSpecificInfo", Type = "Structure", Fields = {} }, -- PartyInfoDocumentation.lua, SocialQueueDocumentation.lua
+		{ Name = "RuneforgeItemPreviewInfo", Type = "Structure", Fields = {} }, -- LegendaryCraftingDocumentation.lua
 		{ Name = "RuneforgeLegendaryComponentInfo", Type = "Structure", Fields = {} }, -- LegendaryCraftingDocumentation.lua
 		{ Name = "RuneforgeLegendaryCraftDescription", Type = "Structure", Fields = {} }, -- LegendaryCraftingDocumentation.lua
 		{ Name = "RuneforgePower", Type = "Structure", Fields = {} }, -- LegendaryCraftingDocumentation.lua
-		{ Name = "SoulbindConduitInstallResult", Type = "Enumeration", Fields = {} }, -- SoulbindsDocumentation.lua
 		{ Name = "SoulbindConduitType", Type = "Enumeration", Fields = {} }, -- SoulbindsDocumentation.lua
 		{ Name = "SoulbindNodeState", Type = "Enumeration", Fields = {} }, -- SoulbindsDocumentation.lua
-		{ Name = "TradeSkillRecipeInfo", Type = "Structure", Fields = {} }, -- MissingDocumentation.lua
+		{ Name = "TradeSkillRecipeInfo", Type = "Structure", Fields = {} }, -- TradeSkillUIDocumentation.lua
 		{ Name = "WeeklyRewardChestThresholdType", Type = "Enumeration", Fields = {} }, -- WeeklyRewardsDocumentation.lua
 	},
 }
