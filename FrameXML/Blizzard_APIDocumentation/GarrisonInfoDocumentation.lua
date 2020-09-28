@@ -805,6 +805,17 @@ local GarrisonInfo =
 			},
 		},
 		{
+			Name = "GarrisonTalentResearchStarted",
+			Type = "Event",
+			LiteralName = "GARRISON_TALENT_RESEARCH_STARTED",
+			Payload =
+			{
+				{ Name = "garrTypeID", Type = "number", Nilable = false },
+				{ Name = "garrisonTalentTreeID", Type = "number", Nilable = false },
+				{ Name = "garrTalentID", Type = "number", Nilable = false },
+			},
+		},
+		{
 			Name = "GarrisonTalentUpdate",
 			Type = "Event",
 			LiteralName = "GARRISON_TALENT_UPDATE",
@@ -1002,6 +1013,7 @@ local GarrisonInfo =
 				{ Name = "currentHealth", Type = "number", Nilable = false },
 				{ Name = "maxHealth", Type = "number", Nilable = false },
 				{ Name = "attack", Type = "number", Nilable = false },
+				{ Name = "estimatedPowerLevel", Type = "number", Nilable = false },
 				{ Name = "healingTimestamp", Type = "number", Nilable = false },
 			},
 		},
@@ -1093,6 +1105,7 @@ local GarrisonInfo =
 				{ Name = "health", Type = "number", Nilable = false },
 				{ Name = "maxHealth", Type = "number", Nilable = false },
 				{ Name = "attack", Type = "number", Nilable = false },
+				{ Name = "estimatedPowerLevel", Type = "number", Nilable = false },
 				{ Name = "boardIndex", Type = "number", Nilable = false },
 			},
 		},

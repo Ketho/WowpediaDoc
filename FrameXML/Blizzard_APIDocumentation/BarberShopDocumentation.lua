@@ -60,6 +60,15 @@ local BarberShop =
 			},
 		},
 		{
+			Name = "HasAnyChanges",
+			Type = "Function",
+
+			Returns =
+			{
+				{ Name = "hasChanges", Type = "bool", Nilable = false },
+			},
+		},
+		{
 			Name = "IsViewingAlteredForm",
 			Type = "Function",
 
@@ -181,6 +190,11 @@ local BarberShop =
 			Name = "BarberShopAppearanceApplied",
 			Type = "Event",
 			LiteralName = "BARBER_SHOP_APPEARANCE_APPLIED",
+		},
+		{
+			Name = "BarberShopCameraValuesUpdated",
+			Type = "Event",
+			LiteralName = "BARBER_SHOP_CAMERA_VALUES_UPDATED",
 		},
 		{
 			Name = "BarberShopClose",
