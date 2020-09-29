@@ -6,10 +6,11 @@ local PATH = "GithubWiki/GithubWiki.md"
 local function DownloadFile(path, url)
 	local file = io.open(path, "w")
 	cURL.easy{
-		url = url,
-		writefunction = file,
-		ssl_verifypeer = false,
-	}:perform():close()
+			url = url,
+			writefunction = file,
+			ssl_verifypeer = false,
+		}:perform()
+	:close()
 	file:close()
 end
 
@@ -27,16 +28,21 @@ DownloadFile(PATH, WIKI)
 local fileTbl = LoadFile(PATH)
 
 local descTbl = {}
+local apiType
+
 for idx, line in pairs(fileTbl) do
+	if line:find("^### ") then
+		apiType = line:match("### (.*)")
+	end
 	if line:find("#### ") then
 		local header = line:match("#### (.*)")
 		header = header:match("%[(.-)%].-") or header
 		header = header:match("(.-)[%(%s].-") or header
-		table.insert(descTbl, {header, fileTbl[idx+1]})
+		table.insert(descTbl, {apiType, header, fileTbl[idx+1]})
 	end
 end
 
-for _, tbl in pairs(descTbl) do
-	print(tbl[1])
-	print(tbl[2])
+for _, v in pairs(descTbl) do
+	print(v[1], v[2])
+	print(v[3], "\n")
 end
