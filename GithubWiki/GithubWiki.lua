@@ -3,6 +3,15 @@ local cURL = require "cURL"
 local WIKI = "https://raw.githubusercontent.com/wiki/Stanzilla/WoWUIBugs/9.0.1-Consolidated-UI-Changes.md"
 local PATH = "GithubWiki/GithubWiki.md"
 
+local apiTypes = {
+	Functions = "Function",
+	Events = "Event",
+	Enums = "Enumeration",
+	Structures = "Structure",
+	["Frame Methods"] = "Method",
+	["Script Handlers"] = "Script",
+}
+
 local function DownloadFile(path, url)
 	local file = io.open(path, "w")
 	cURL.easy{
@@ -14,7 +23,7 @@ local function DownloadFile(path, url)
 	file:close()
 end
 
-local function LoadFile(path)
+local function ReadFile(path)
 	local t = {}
 	local file = io.open(path, "r")
 	for line in file:lines() do
@@ -25,7 +34,7 @@ local function LoadFile(path)
 end
 
 DownloadFile(PATH, WIKI)
-local fileTbl = LoadFile(PATH)
+local fileTbl = ReadFile(PATH)
 
 local descTbl = {}
 local apiType
@@ -33,16 +42,18 @@ local apiType
 for idx, line in pairs(fileTbl) do
 	if line:find("^### ") then
 		apiType = line:match("### (.*)")
-	end
-	if line:find("#### ") then
-		local header = line:match("#### (.*)")
-		header = header:match("%[(.-)%].-") or header
-		header = header:match("(.-)[%(%s].-") or header
-		table.insert(descTbl, {apiType, header, fileTbl[idx+1]})
+	elseif line:find("^#### ") then
+		local name = line:match("#### (.*)")
+		name = name:match("%[(.-)%].-") or name
+		name = name:match("(.-)[%(%s].-") or name
+		local desc = fileTbl[idx+1]
+		if not desc:find("^Unknown") then
+			descTbl[name] = {
+				type = apiTypes[apiType],
+				desc = desc,
+			}
+		end
 	end
 end
 
-for _, v in pairs(descTbl) do
-	print(v[1], v[2])
-	print(v[3], "\n")
-end
+return descTbl

@@ -3,6 +3,7 @@ require "Wowpedia/Functions"
 require "Wowpedia/Events"
 require "Wowpedia/Tables"
 require "Wowpedia/Fields"
+local GithubWiki = require "GithubWiki/GithubWiki"
 
 local LATEST_PATCH = "9.0.1"
 
@@ -31,6 +32,11 @@ end
 function Wowpedia:GetDescription(apiTable)
 	if apiTable.Documentation then
 		return table.concat(apiTable.Documentation, "; ")
+	else
+		local fullName = self:GetFullName(apiTable)
+		if GithubWiki[fullName] then
+			return GithubWiki[fullName].desc
+		end
 	end
 	return "Needs summary."
 end
@@ -65,4 +71,18 @@ function Wowpedia:GetTemplateInfo(apiTable, isElink)
 		end
 	end
 	return format("{{%s}}", table.concat(tbl, "|"))
+end
+
+function Wowpedia:GetFullName(apiTable)
+	local str = ""
+	if apiTable.Type == "Function" then
+		if apiTable.System.Namespace then
+			str = format("%s.%s", apiTable.System.Namespace, apiTable.Name)
+		else
+			str = apiTable.Name
+		end
+	elseif apiTable.Type == "Event" then
+		str = apiTable.LiteralName
+	end
+	return str
 end
