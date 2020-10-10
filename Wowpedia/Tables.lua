@@ -12,7 +12,7 @@ function Wowpedia:GetTableText(apiTable, isTemplate, isSubTable)
 	if isTemplate then
 		tinsert(tbl, format("|+ {{#if:{{{nocaption|}}}||[[%s|%s]]}}", transclude, fullName))
 	elseif isSubTable then
-		tinsert(tbl, format("|+ [[%s|%s]]", transclude, fullName))
+		tinsert(tbl, format("|+ %s", fullName))
 	end
 	if apiTable.Type == "Enumeration" then
 		tinsert(tbl, "! Value !! Key !! Description")
