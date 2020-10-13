@@ -10,7 +10,13 @@ function Wowpedia:GetTableText(apiTable, isTemplate, isSubTable)
 	local fullName = apiTable:GetFullName()
 	tinsert(tbl, '{| class="sortable darktable zebra" style="margin-left: 2em"')
 	if isTemplate then
-		tinsert(tbl, format("|+ {{#if:{{{nocaption|}}}||[[%s|%s]]}}", transclude, fullName))
+		local link
+		if transclude == fullName then -- Enum; save some space
+			link = transclude
+		else -- Struct
+			link = format("%s|%s", transclude, fullName)
+		end
+		tinsert(tbl, format("|+ {{#if:{{{nocaption|}}}||[[%s]]}}", link))
 	elseif isSubTable then
 		tinsert(tbl, format("|+ %s", fullName))
 	end
