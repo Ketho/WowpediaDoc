@@ -63,5 +63,6 @@ end
 
 function Wowpedia:GetTranscludeBase(complexTable)
 	local shortType = shortComplex[complexTable.Type]
-	return shortType.." "..complexTable.Name, shortType
+	local divider = shortType == "Enum" and "." or " "
+	return shortType..divider..complexTable.Name, shortType
 end
