@@ -564,7 +564,6 @@ local Soulbinds =
 				{ Name = "cvarIndex", Type = "number", Nilable = false },
 				{ Name = "tree", Type = "SoulbindTree", Nilable = false },
 				{ Name = "modelSceneData", Type = "SoulbindModelSceneData", Nilable = false },
-				{ Name = "activationSoundKitID", Type = "number", Nilable = false },
 			},
 		},
 		{

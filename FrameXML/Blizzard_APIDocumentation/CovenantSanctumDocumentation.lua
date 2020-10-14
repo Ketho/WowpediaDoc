@@ -7,15 +7,6 @@ local CovenantSanctum =
 	Functions =
 	{
 		{
-			Name = "CanDepositAnima",
-			Type = "Function",
-
-			Returns =
-			{
-				{ Name = "canDeposit", Type = "bool", Nilable = false },
-			},
-		},
-		{
 			Name = "DepositAnima",
 			Type = "Function",
 		},
