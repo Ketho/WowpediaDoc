@@ -1,3 +1,7 @@
+local Empty = {
+	{ Name = "Undocumented", Type = "bool" },
+}
+
 local Missing =
 {
 	Tables =
@@ -49,20 +53,20 @@ local Missing =
 			},
 		},
 		-- placeholders
-		{ Name = "CachedRewardType", Type = "Enumeration", Fields = {} }, -- WeeklyRewardsDocumentation.lua
-		{ Name = "CharacterAlternateFormData", Type = "Structure", Fields = {} }, -- BarberShopDocumentation.lua
-		{ Name = "CurrencyCost", Type = "Structure", Fields = {} }, -- LegendaryCraftingDocumentation.lua
-		{ Name = "GarrisonTalentTreeInfo", Type = "Structure", Fields = {} }, -- GarrisonInfoDocumentation.lua
-		{ Name = "OptionalReagentInfo", Type = "Structure", Fields = {} }, -- TradeSkillUIDocumentation.lua
-		{ Name = "QueueSpecificInfo", Type = "Structure", Fields = {} }, -- PartyInfoDocumentation.lua, SocialQueueDocumentation.lua
-		{ Name = "RuneforgeItemPreviewInfo", Type = "Structure", Fields = {} }, -- LegendaryCraftingDocumentation.lua
-		{ Name = "RuneforgeLegendaryComponentInfo", Type = "Structure", Fields = {} }, -- LegendaryCraftingDocumentation.lua
-		{ Name = "RuneforgeLegendaryCraftDescription", Type = "Structure", Fields = {} }, -- LegendaryCraftingDocumentation.lua
-		{ Name = "RuneforgePower", Type = "Structure", Fields = {} }, -- LegendaryCraftingDocumentation.lua
-		{ Name = "SoulbindConduitType", Type = "Enumeration", Fields = {} }, -- SoulbindsDocumentation.lua
-		{ Name = "SoulbindNodeState", Type = "Enumeration", Fields = {} }, -- SoulbindsDocumentation.lua
-		{ Name = "TradeSkillRecipeInfo", Type = "Structure", Fields = {} }, -- TradeSkillUIDocumentation.lua
-		{ Name = "WeeklyRewardChestThresholdType", Type = "Enumeration", Fields = {} }, -- WeeklyRewardsDocumentation.lua
+		{ Name = "CachedRewardType", Type = "Enumeration", Fields = Empty }, -- WeeklyRewardsDocumentation.lua
+		{ Name = "CharacterAlternateFormData", Type = "Structure", Fields = Empty }, -- BarberShopDocumentation.lua
+		{ Name = "CurrencyCost", Type = "Structure", Fields = Empty }, -- LegendaryCraftingDocumentation.lua
+		{ Name = "GarrisonTalentTreeInfo", Type = "Structure", Fields = Empty }, -- GarrisonInfoDocumentation.lua
+		{ Name = "OptionalReagentInfo", Type = "Structure", Fields = Empty }, -- TradeSkillUIDocumentation.lua
+		{ Name = "QueueSpecificInfo", Type = "Structure", Fields = Empty }, -- PartyInfoDocumentation.lua, SocialQueueDocumentation.lua
+		{ Name = "RuneforgeItemPreviewInfo", Type = "Structure", Fields = Empty }, -- LegendaryCraftingDocumentation.lua
+		{ Name = "RuneforgeLegendaryComponentInfo", Type = "Structure", Fields = Empty }, -- LegendaryCraftingDocumentation.lua
+		{ Name = "RuneforgeLegendaryCraftDescription", Type = "Structure", Fields = Empty }, -- LegendaryCraftingDocumentation.lua
+		{ Name = "RuneforgePower", Type = "Structure", Fields = Empty }, -- LegendaryCraftingDocumentation.lua
+		{ Name = "SoulbindConduitType", Type = "Enumeration", Fields = Empty }, -- SoulbindsDocumentation.lua
+		{ Name = "SoulbindNodeState", Type = "Enumeration", Fields = Empty }, -- SoulbindsDocumentation.lua
+		{ Name = "TradeSkillRecipeInfo", Type = "Structure", Fields = Empty }, -- TradeSkillUIDocumentation.lua
+		{ Name = "WeeklyRewardChestThresholdType", Type = "Enumeration", Fields = Empty }, -- WeeklyRewardsDocumentation.lua
 	},
 }
 

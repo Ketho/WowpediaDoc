@@ -123,7 +123,7 @@ function Wowpedia:GetPrettyType(apiTable, isArgument)
 	if apiTable.Nilable or apiTable.Default ~= nil then
 		str = tooltipFs:format(isArgument and "optional" or "nilable", str.."?")
 		if apiTable.Default ~= nil then
-			str = format("%s (default = %s)", str, tostring(apiTable.Default))
+			str = format("%s (Default = %s)", str, tostring(apiTable.Default))
 		end
 	end
 	if apiTable.Documentation then
