@@ -1,9 +1,8 @@
-import os
 import pywikibot
+import os
 
-# im kinda new to python
 site = pywikibot.Site('en', 'wowpedia')
-PATH = "out/system"
+PATH = "wowpedia"
 
 def getFileText(p):
 	f = open(p)
@@ -15,8 +14,10 @@ for line1 in os.listdir(PATH):
 	if os.path.isdir(p1):
 		for line2 in os.listdir(p1):
 			pageName = line2.replace(".txt", "")
+			print("-- reading "+pageName)
 			page = pywikibot.Page(site, pageName)
-			page.text = getFileText(p1+"/"+line2)
-			page.save()
+			if not page.text:
+				page.text = getFileText(p1+"/"+line2)
+				page.save()
 
 print("done")
