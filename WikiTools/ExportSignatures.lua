@@ -14,7 +14,7 @@ local function GetFunctionName(func)
 	return str
 end
 
-local function GetWikiFunctions(name)
+local function GetWikiFunctions()
 	local apidocs = {}
 	for _, func in ipairs(APIDocumentation.functions) do
 		-- print(func:GetFullName(false, false))
