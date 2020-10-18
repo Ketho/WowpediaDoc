@@ -23,7 +23,7 @@ local function GetWikiFunctions()
 		if func.Arguments then
 			signature = Wowpedia:GetSignature(func, "Arguments")
 		end
-		apidocs[baseName] = signature
+		apidocs[baseName] = signature --or true
 	end
 	local fs_noone = ': [[API %s|%s]]()'
 	local fs_args = ': [[API %s|%s]](<span style="font-size:smaller; color:#ecbc2a">%s</span>)'
@@ -33,6 +33,7 @@ local function GetWikiFunctions()
 			str = fs_args:format(funcName, funcName, apidocs[funcName])
 		else
 			str = fs_noone:format(funcName, funcName)
+			--print(funcName)
 		end
 		print(str)
 	end
