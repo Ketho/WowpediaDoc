@@ -5,9 +5,10 @@ local missing = {
 }
 
 -- maybe should just load all files in folder instead of TOC
+-- these seems like old documentation, but the structures are still used in other docs
 local not_in_toc = {
-	["BountiesDocumentation.lua"] = true, -- 9.0.1 (34615)
-	["CharacterCustomizationDocumentation.lua"] = true, -- 9.0.1 (34615)
+	["BountiesDocumentation.lua"] = true, -- 9.0.1 (34615); C_Bounties -> C_QuestLog
+	["CharacterCustomizationDocumentation.lua"] = true, -- 9.0.1 (34615); C_CharacterCustomization -> C_BarberShop
 }
 
 -- these files share the same Namespace. they do have a different Name
