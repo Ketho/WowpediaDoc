@@ -63,6 +63,7 @@ local Missing =
 		{ Name = "RuneforgeLegendaryComponentInfo", Type = "Structure", Fields = Empty }, -- LegendaryCraftingDocumentation.lua
 		{ Name = "RuneforgeLegendaryCraftDescription", Type = "Structure", Fields = Empty }, -- LegendaryCraftingDocumentation.lua
 		{ Name = "RuneforgePower", Type = "Structure", Fields = Empty }, -- LegendaryCraftingDocumentation.lua
+		{ Name = "SoulbindConduitTransactionType", Type = "Enumeration", Fields = Empty }, -- CurrencyConstantsDocumentation.lua
 		{ Name = "SoulbindConduitType", Type = "Enumeration", Fields = Empty }, -- SoulbindsDocumentation.lua
 		{ Name = "SoulbindNodeState", Type = "Enumeration", Fields = Empty }, -- SoulbindsDocumentation.lua
 		{ Name = "TradeSkillRecipeInfo", Type = "Structure", Fields = Empty }, -- TradeSkillUIDocumentation.lua
