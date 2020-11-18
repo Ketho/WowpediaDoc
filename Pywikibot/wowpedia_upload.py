@@ -9,15 +9,22 @@ def getFileText(p):
 	lines = f.readlines()
 	return "".join(lines)
 
-for line1 in os.listdir(PATH):
-	p1 = PATH+"/"+line1
-	if os.path.isdir(p1):
-		for line2 in os.listdir(p1):
-			pageName = line2.replace(".txt", "")
-			print("-- reading "+pageName)
-			page = pywikibot.Page(site, pageName)
-			if not page.text:
-				page.text = getFileText(p1+"/"+line2)
-				page.save()
+def saveFile(path, fileName):
+	name = fileName.replace(".txt", "")
+	print("-- reading "+name)
+	page = pywikibot.Page(site, name)
+	if not page.text:
+		page.text = getFileText(path)
+		page.save(summary="9.0.2")
+
+def recursiveFiles(path):
+	for base in os.listdir(path):
+		newPath = path+"/"+base
+		if os.path.isdir(newPath):
+			recursiveFiles(newPath)
+		else:
+			saveFile(newPath, base)
+
+recursiveFiles(PATH)
 
 print("done")
