@@ -1,6 +1,3 @@
-local FrameXML = require("FrameXML/FrameXML")
-FrameXML:LoadApiDocs("FrameXML")
-require "Wowpedia/Wowpedia"
 local WikiText = require "WikiTools/WikiText"
 
 local file = io.open("WikiTools/Parser/World_of_Warcraft_API.txt", "r")
