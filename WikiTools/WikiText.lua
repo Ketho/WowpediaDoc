@@ -36,7 +36,7 @@ function WikiText:GetSignatures()
 		end
 		if func.Returns then
 			local returnString = func:GetReturnString(false, false)
-			if #returnString > 150 then -- limit too many return values
+			if #returnString > 120 then -- limit too many return values
 				local shortRetStr = TrimReturnString(6, returnString)
 				returns = fs_returns:format(shortRetStr)
 			else
