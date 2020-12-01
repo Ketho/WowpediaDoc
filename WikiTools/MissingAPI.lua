@@ -1,3 +1,5 @@
+local wowpedia = {} -- uhh
+
 local globalapi = {
 	"AbandonSkill",
 	"AcceptAreaSpiritHeal",

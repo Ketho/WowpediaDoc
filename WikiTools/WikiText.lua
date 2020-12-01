@@ -1,4 +1,4 @@
-WikiText = {}
+local WikiText = {}
 
 local FrameXML = require("FrameXML/FrameXML")
 FrameXML:LoadApiDocs("FrameXML")
