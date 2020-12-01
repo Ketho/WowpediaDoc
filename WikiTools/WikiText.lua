@@ -19,7 +19,8 @@ local RETURN_MAX_LENGTH = 60
 
 -- uh this looks really ugly
 local function TrimReturnString(s)
-	local pos, lastpos = 1, 1
+	local pos = 1
+	local lastpos
 	while true do
 		lastpos = pos
 		pos = s:find(",", pos)
