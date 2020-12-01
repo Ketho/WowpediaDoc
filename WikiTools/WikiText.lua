@@ -15,10 +15,23 @@ local function GetFullName(func)
 	return str
 end
 
-local function TrimReturnString(limit, s)
-	local pos = 1
-	for i = 1, limit do
-		pos = s:find(",", pos) + 1
+local RETURN_MAX_LENGTH = 60
+
+-- uh this looks really ugly
+local function TrimReturnString(s)
+	local pos, lastpos = 1, 1
+	while true do
+		lastpos = pos
+		pos = s:find(",", pos)
+		if pos then
+			pos = pos + 1
+			if pos > RETURN_MAX_LENGTH then
+				break
+			end
+		else
+			pos = lastpos
+			break
+		end
 	end
 	return s:sub(1, pos-2)..", ..."
 end
@@ -36,8 +49,8 @@ function WikiText:GetSignatures()
 		end
 		if func.Returns then
 			local returnString = func:GetReturnString(false, false)
-			if #returnString > 120 then -- limit too many return values
-				local shortRetStr = TrimReturnString(6, returnString)
+			if #returnString > RETURN_MAX_LENGTH then
+				local shortRetStr = TrimReturnString(returnString)
 				returns = fs_returns:format(shortRetStr)
 			else
 				returns = fs_returns:format(returnString)
