@@ -5,9 +5,10 @@ local newFile = io.open("WikiTools/Parser/World_of_Warcraft_API_out.txt", "w")
 
 local tags = {
 	SECURE = true,
-	COMBAT = true,
+	NOCOMBAT = true,
 	HW = true,
-	UI = true,
+	--UI = true,
+	--Lua = true,
 }
 
 local signatures = WikiText:GetSignatures()
@@ -21,7 +22,7 @@ for line in file:lines() do
 		--local returns = line:match("%) : (.+</span>)")
 		local desc = line:match("%) %- (.+)") or line:match("%</span> %- (.+)")
 		-- UI can have both styles of text formatting
-		if  signatures[name] and (not tag or (tags[tag] and tag ~= "UI")) then
+		if signatures[name] and (not tag or tags[tag]) then
 			if tag then -- format tags back in
 				signatures[name] = signatures[name]:gsub("^: ", ": <small>"..tag.."</small> ")
 			end
