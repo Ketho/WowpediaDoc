@@ -3,7 +3,6 @@ local WikiText = {}
 local FrameXML = require("FrameXML/FrameXML")
 FrameXML:LoadApiDocs("FrameXML")
 require "Wowpedia/Wowpedia"
-local data = require "WikiTools/Data"
 
 local function GetFullName(func)
 	local str
