@@ -7,7 +7,7 @@ local Missing =
 	Tables =
 	{
 		{
-			-- C_Calendar
+			-- C_Calendar; CalendarDocumentation.lua
 			Name = "CalendarTime",
 			Type = "Structure",
 			Fields =
@@ -21,7 +21,22 @@ local Missing =
 			},
 		},
 		{
-			-- C_GuildInfo
+			-- C_Garrison; GarrisonInfoDocumentation.lua
+			Name = "GarrisonTalentTreeInfo",
+			Type = "Structure",
+			Fields =
+			{
+				{ Name = "featureSubtype", Type = "number" },
+				{ Name = "featureType", Type = "number" },
+				{ Name = "isClassAgnostic", Type = "bool" },
+				{ Name = "isThemed", Type = "bool" },
+				{ Name = "talents", Type = "table" },
+				{ Name = "title", Type = "string" },
+				{ Name = "treeID", Type = "number" },
+			},
+		},
+		{
+			-- C_GuildInfo; GuildInfoDocumentation.lua
 			Name = "GuildTabardInfo",
 			Type = "Structure",
 			Fields =
@@ -34,7 +49,34 @@ local Missing =
 			},
 		},
 		{
-			-- C_TransmogCollection
+			-- C_TradeSkillUI; TradeSkillUIDocumentation.lua
+			Name = "TradeSkillRecipeInfo",
+			Type = "Structure",
+			Fields =
+			{
+				{ Name = "alternateVerb", Type = "string", Nilable = true },
+				{ Name = "categoryID", Type = "number" },
+				{ Name = "craftable", Type = "bool" },
+				{ Name = "difficulty", Type = "string" },
+				{ Name = "disabled", Type = "bool" },
+				{ Name = "favorite", Type = "bool" },
+				{ Name = "hiddenUnlessLearned", Type = "bool" },
+				{ Name = "icon", Type = "number" },
+				{ Name = "learned", Type = "bool" },
+				{ Name = "name", Type = "string" },
+				{ Name = "nextRecipeID", Type = "number", Nilable = true },
+				{ Name = "numAvailable", Type = "number" },
+				{ Name = "numIndents", Type = "number" },
+				{ Name = "numSkillUps", Type = "number" },
+				{ Name = "previousRecipeID", Type = "number", Nilable = true },
+				{ Name = "productQuality", Type = "number" },
+				{ Name = "recipeID", Type = "number" },
+				{ Name = "sourceType", Type = "number" },
+				{ Name = "type", Type = "string" },
+			},
+		},
+		{
+			-- C_TransmogCollection; TransmogItemsDocumentation.lua
 			Name = "AppearanceSourceInfo",
 			Type = "Structure",
 			Fields =
@@ -56,7 +98,6 @@ local Missing =
 		{ Name = "CachedRewardType", Type = "Enumeration", Fields = Empty }, -- WeeklyRewardsDocumentation.lua
 		{ Name = "CharacterAlternateFormData", Type = "Structure", Fields = Empty }, -- BarberShopDocumentation.lua
 		{ Name = "CurrencyCost", Type = "Structure", Fields = Empty }, -- LegendaryCraftingDocumentation.lua
-		{ Name = "GarrisonTalentTreeInfo", Type = "Structure", Fields = Empty }, -- GarrisonInfoDocumentation.lua
 		{ Name = "OptionalReagentInfo", Type = "Structure", Fields = Empty }, -- TradeSkillUIDocumentation.lua
 		{ Name = "QueueSpecificInfo", Type = "Structure", Fields = Empty }, -- PartyInfoDocumentation.lua, SocialQueueDocumentation.lua
 		{ Name = "RuneforgeItemPreviewInfo", Type = "Structure", Fields = Empty }, -- LegendaryCraftingDocumentation.lua
@@ -66,7 +107,6 @@ local Missing =
 		{ Name = "SoulbindConduitTransactionType", Type = "Enumeration", Fields = Empty }, -- CurrencyConstantsDocumentation.lua; beta 9.0.2 (36401)
 		{ Name = "SoulbindConduitType", Type = "Enumeration", Fields = Empty }, -- SoulbindsDocumentation.lua
 		{ Name = "SoulbindNodeState", Type = "Enumeration", Fields = Empty }, -- SoulbindsDocumentation.lua
-		{ Name = "TradeSkillRecipeInfo", Type = "Structure", Fields = Empty }, -- TradeSkillUIDocumentation.lua
 		{ Name = "WeeklyRewardChestThresholdType", Type = "Enumeration", Fields = Empty }, -- WeeklyRewardsDocumentation.lua
 	},
 }
