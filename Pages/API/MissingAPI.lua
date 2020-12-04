@@ -8,7 +8,6 @@ local api = require(api_path:gsub("%.lua", ""))
 local global_api = util:ToMap(api[1])
 
 local file = io.open("Pages/API/World_of_Warcraft_API.txt", "r")
-local newFile = io.open("Pages/API/World_of_Warcraft_API_out.txt", "w")
 
 -- having difficulties getting the plain wikitext from
 -- https://wow.gamepedia.com/api.php?action=parse&page=World_of_Warcraft_API&format=json&contentmodel=wikitext

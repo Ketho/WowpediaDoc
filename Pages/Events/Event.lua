@@ -7,6 +7,7 @@ table.sort(APIDocumentation.systems, function(a, b)
 end)
 
 local file = io.open("Pages/Events/Events.txt", "w")
+
 for _, system in pairs(APIDocumentation.systems) do
 	if system.Events and #system.Events > 0 then
 		file:write(format("=== %s ===\n", system.Namespace or system.Name))
@@ -16,11 +17,12 @@ for _, system in pairs(APIDocumentation.systems) do
 			if #payload>160 and (event.LiteralName:find("^CHAT_MSG") or event.LiteralName:find("^CHAT_COMBAT_MSG")) then
 				payload = "''CHAT_MSG''"
 			end
-			payload = #payload>0 and "<small>: "..payload.."</small>" or ""
+			payload = #payload>0 and format("<small>: %s</small>", payload) or payload
 			file:write(format(": %s%s\n", link, payload))
 		end
 		file:write("\n")
 	end
 end
+
 file:close()
 print("done!")
