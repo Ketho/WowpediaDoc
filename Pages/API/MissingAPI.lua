@@ -1,15 +1,14 @@
 local util = require "util"
 
-os.execute("mkdir out\\cache")
-local api_path = "out/cache/GlobalAPI.lua"
+local api_path = "Pages/API/GlobalAPI.lua"
 local api_url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/live/Resources/GlobalAPI.lua"
 
 util:DownloadFile(api_path, api_url)
 local api = require(api_path:gsub("%.lua", ""))
 local global_api = util:ToMap(api[1])
 
-local file = io.open("WikiTools/Parser/World_of_Warcraft_API.txt", "r")
-local newFile = io.open("WikiTools/Parser/World_of_Warcraft_API_out.txt", "w")
+local file = io.open("Pages/API/World_of_Warcraft_API.txt", "r")
+local newFile = io.open("Pages/API/World_of_Warcraft_API_out.txt", "w")
 
 -- having difficulties getting the plain wikitext from
 -- https://wow.gamepedia.com/api.php?action=parse&page=World_of_Warcraft_API&format=json&contentmodel=wikitext

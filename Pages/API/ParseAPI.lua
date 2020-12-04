@@ -1,7 +1,7 @@
-local WikiText = require "WikiTools/WikiText"
+local WikiText = require "Pages/API/WikiText"
 
-local file = io.open("WikiTools/Parser/World_of_Warcraft_API.txt", "r")
-local newFile = io.open("WikiTools/Parser/World_of_Warcraft_API_out.txt", "w")
+local file = io.open("Pages/API/World_of_Warcraft_API.txt", "r")
+local newFile = io.open("Pages/API/World_of_Warcraft_API_out.txt", "w")
 
 local tags = {
 	SECURE = true,
