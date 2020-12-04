@@ -1,3 +1,4 @@
+-- automatically adds/updates blizzard-documented arguments and return values to listed api
 local WikiText = require "Pages/API/WikiText"
 
 local file = io.open("Pages/API/World_of_Warcraft_API.txt", "r")
@@ -21,8 +22,7 @@ for line in file:lines() do
 		--local args = line:match("%((.-)%)")
 		--local returns = line:match("%) : (.+</span>)")
 		local desc = line:match("%) %- (.+)") or line:match("%</span> %- (.+)")
-		-- UI can have both styles of text formatting
-		if signatures[name] and (not tag or tags[tag]) then
+		if signatures[name] then
 			if tag then -- format tags back in
 				signatures[name] = signatures[name]:gsub("^: ", ": <small>"..tag.."</small> ")
 			end
