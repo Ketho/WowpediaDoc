@@ -1,4 +1,4 @@
-local util = require "util"
+local util = require "Util/util"
 
 local WIKI = "https://raw.githubusercontent.com/wiki/Stanzilla/WoWUIBugs/9.0.1-Consolidated-UI-Changes.md"
 local PATH = "GithubWiki/GithubWiki.md"

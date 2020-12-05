@@ -1,6 +1,7 @@
-local util = require "util"
+local util = require "Util/util"
 
-local api_path = "Pages/API/GlobalAPI.lua"
+os.execute("mkdir out\\lua")
+local api_path = "out/lua/GlobalAPI.lua"
 local api_url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/live/Resources/GlobalAPI.lua"
 
 util:DownloadFile(api_path, api_url)
