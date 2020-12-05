@@ -43,6 +43,32 @@ local handlers = {
 			return t
 		end,
 	},
+	battlepetspecies = {
+		fs = '\t[%d] = {%d, %d, %d},\n',
+		func = function(csv)
+			local t = {}
+			for l in csv:lines() do
+				local ID = tonumber(l.ID)
+				if ID then
+					t[ID] = {tonumber(l.SummonSpellID), tonumber(l.Flags), tonumber(l.SourceTypeEnum)}
+				end
+			end
+			return t
+		end,
+	},
+	toy = {
+		fs = '\t[%d] = {%d, %d, %d},\n',
+		func = function(csv)
+			local t = {}
+			for l in csv:lines() do
+				local ID = tonumber(l.ID)
+				if ID then
+					t[tonumber(l.ItemID)] = {ID, tonumber(l.Flags), tonumber(l.SourceTypeEnum)}
+				end
+			end
+			return t
+		end,
+	},
 }
 
 local function ParseDBC(name)
