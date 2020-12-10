@@ -5,7 +5,7 @@ function Wowpedia:GetEventText(event)
 end
 
 function Wowpedia:GetEventSignature(event)
-	return event.LiteralName..(event.Payload and ": "..self:GetSignature(event, "Payload") or "")
+	return event.LiteralName..(event.Payload and ": "..event:GetPayloadString(false, false) or "")
 end
 
 function Wowpedia:GetEventPayload(event)
