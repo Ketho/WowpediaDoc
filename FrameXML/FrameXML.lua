@@ -4,11 +4,11 @@ local missing = {
 	-- ["CurrencyConstantsDocumentation.lua"] = true, -- 9.0.2 (36165)
 }
 
--- maybe should just load all files in folder instead of TOC
--- these seems like old documentation, but the structures are still used in other docs
+-- documentation that was moved to another file
+-- but still has used structures that only exist in the old file which is not loaded from TOC
 local not_in_toc = {
-	["BountiesDocumentation.lua"] = true, -- 9.0.1 (34615); C_Bounties -> C_QuestLog
-	["CharacterCustomizationDocumentation.lua"] = true, -- 9.0.1 (34615); C_CharacterCustomization -> C_BarberShop
+	["BountiesDocumentation.lua"] = "QuestLogDocumentation.lua", -- 9.0.1 (34615)
+	["CharacterCustomizationDocumentation.lua"] = "BarberShopDocumentation.lua", --  9.0.1 (34615)
 }
 
 -- these files share the same Namespace. they do have a different Name
@@ -30,9 +30,6 @@ function m:LoadApiDocs(base)
 		if line:find("%.lua") and not missing[line] then
 			LoadApiDocFile(base, line)
 		end
-	end
-	for luaFile in pairs(not_in_toc) do
-		LoadApiDocFile(base, luaFile)
 	end
 	toc:close()
 	require(base.."/MissingDocumentation")

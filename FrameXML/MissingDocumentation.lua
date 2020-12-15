@@ -6,7 +6,7 @@ local Missing =
 {
 	Tables =
 	{
-		-- placeholders
+		-- placeholder structures
 		{ Name = "CharacterAlternateFormData", Type = "Structure", Fields = Empty }, -- BarberShopDocumentation.lua
 		{ Name = "CurrencyCost", Type = "Structure", Fields = Empty }, -- LegendaryCraftingDocumentation.lua
 		{ Name = "OptionalReagentInfo", Type = "Structure", Fields = Empty }, -- TradeSkillUIDocumentation.lua
@@ -15,6 +15,15 @@ local Missing =
 		{ Name = "RuneforgeLegendaryComponentInfo", Type = "Structure", Fields = Empty }, -- LegendaryCraftingDocumentation.lua
 		{ Name = "RuneforgeLegendaryCraftDescription", Type = "Structure", Fields = Empty }, -- LegendaryCraftingDocumentation.lua
 		{ Name = "RuneforgePower", Type = "Structure", Fields = Empty }, -- LegendaryCraftingDocumentation.lua
+		-- placeholder enums, unused in apidocs
+		{ Name = "AddSoulbindConduitReason", Type = "Enumeration", Fields = Empty },
+		{ Name = "CharacterServiceInfoFlag", Type = "Enumeration", Fields = Empty },
+		{ Name = "ManipulatorEventType", Type = "Enumeration", Fields = Empty },
+		{ Name = "QuestPOIQuestTypes", Type = "Enumeration", Fields = Empty },
+		{ Name = "ScriptedAnimationTransformation", Type = "Enumeration", Fields = Empty },
+		{ Name = "ScriptedAnimationTransformationTiming", Type = "Enumeration", Fields = Empty },
+		{ Name = "SoulbindConduitInstallResult", Type = "Enumeration", Fields = Empty },
+		{ Name = "VasPurchaseProgress", Type = "Enumeration", Fields = Empty },
 		-- structures
 		{
 			-- C_Calendar; CalendarDocumentation.lua
@@ -104,7 +113,35 @@ local Missing =
 				{ Name = "visualID", Type = "number" },
 			},
 		},
-		-- enums
+		-- structures which are not copied to the new file, but only exist in the old file which is not loaded from TOC
+		-- BountiesDocumentation.lua -> QuestLogDocumentation.lua; 9.0.1 (34615)
+		{
+			Name = "BountyInfo",
+			Type = "Structure",
+			Fields =
+			{
+				{ Name = "questID", Type = "number", Nilable = false },
+				{ Name = "factionID", Type = "number", Nilable = false },
+				{ Name = "icon", Type = "number", Nilable = false },
+				{ Name = "numObjectives", Type = "number", Nilable = false },
+				{ Name = "turninRequirementText", Type = "string", Nilable = true },
+			},
+		},
+		-- CharacterCustomizationDocumentation.lua -> Blizzard_APIDocumentation\BarberShopDocumentation.lua; 9.0.1 (34615)
+		{
+			Name = "CharCustomizationCategory",
+			Type = "Structure",
+			Fields =
+			{
+				{ Name = "id", Type = "number", Nilable = false },
+				{ Name = "orderIndex", Type = "number", Nilable = false },
+				{ Name = "name", Type = "string", Nilable = false },
+				{ Name = "icon", Type = "string", Nilable = false },
+				{ Name = "selectedIcon", Type = "string", Nilable = false },
+				{ Name = "options", Type = "table", InnerType = "CharCustomizationOption", Nilable = false },
+			},
+		},
+		-- enums used in apidocs
 		{
 			-- WeeklyRewardsDocumentation.lua
 			Name = "CachedRewardType",
