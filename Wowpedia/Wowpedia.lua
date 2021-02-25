@@ -3,7 +3,7 @@ require "Wowpedia/Functions"
 require "Wowpedia/Events"
 require "Wowpedia/Tables"
 require "Wowpedia/Fields"
-local GithubWiki = require "GithubWiki/GithubWiki"
+-- local GithubWiki = require "GithubWiki/GithubWiki"
 
 local LATEST_PATCH = "9.0.2"
 
@@ -32,11 +32,11 @@ end
 function Wowpedia:GetDescription(apiTable)
 	if apiTable.Documentation then
 		return table.concat(apiTable.Documentation, "; ")
-	else
-		local fullName = self:GetFullName(apiTable)
-		if GithubWiki[fullName] then
-			return GithubWiki[fullName].desc
-		end
+	-- else
+	-- 	local fullName = self:GetFullName(apiTable)
+	-- 	if GithubWiki[fullName] then
+	-- 		return GithubWiki[fullName].desc
+	-- 	end
 	end
 	return "Needs summary."
 end
