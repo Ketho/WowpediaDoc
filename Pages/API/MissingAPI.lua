@@ -14,7 +14,7 @@ local file = io.open("Pages/API/World_of_Warcraft_API.txt", "r")
 -- https://wow.gamepedia.com/api.php?action=parse&page=World_of_Warcraft_API&format=json&contentmodel=wikitext
 local wowpedia = {}
 local tags = {
-	SECURE = true,
+	PROTECTED = true,
 	NOCOMBAT = true,
 	HW = true,
 	--UI = true,

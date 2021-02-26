@@ -97,7 +97,8 @@ function Wowpedia:GetParameters(params, isArgument)
 end
 
 function Wowpedia:GetPrettyType(apiTable, isArgument)
-	local complexType, str = self.complexTypes[apiTable.Type]
+	local complexType = self.complexTypes[apiTable.Type]
+	local str
 	if apiTable.Type == "table" then
 		if apiTable.Mixin then
 			str = format("[[%s]]", apiTable.Mixin) -- wiki link
