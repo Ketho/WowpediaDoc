@@ -20,7 +20,7 @@ end
 local emmy = "---[Documentation](https://wow.gamepedia.com/API_%s_%s)\nfunction %s:%s(%s) end\n\n"
 local file = io.open("out/emmylua/widget.lua", "w")
 
-for k, v in pairs(api) do
+for _, v in pairs(api) do
 	local fullName, args = v[1], v[2]
 	local widget, funcName = fullName:match("(%w+):(%w+)")
 	file:write(emmy:format(widget, funcName, widget, funcName, args))
