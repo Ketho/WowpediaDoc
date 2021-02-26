@@ -52,12 +52,12 @@ local outputFile = GetOutputFile()
 -- since the wowpedia page is already semi-automatically updated for documented api
 for _, v in pairs(global_api) do
 	if not blizzdocs[v] then
+		outputFile:write(fs:format(v, v, wowpedia_arguments[v] or ""))
 		count = count + 1
 		if count == 500 then
 			count = 0
 			outputFile:close()
 			outputFile = GetOutputFile()
 		end
-		outputFile:write(fs:format(v, v, wowpedia_arguments[v] or ""))
 	end
 end
