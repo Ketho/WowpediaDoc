@@ -10,7 +10,7 @@ local api = require(api_path:gsub("%.lua", ""))
 local global_api = api[1]
 
 -- parse arguments from wowpedia
-local wowpedia_arguments = require "Pages/API/GetArguments"
+local wowpedia_arguments = require "Pages/API/EmmyLua/GetArguments"
 
 -- get blizzard documented api
 local FrameXML = require("FrameXML/FrameXML")
