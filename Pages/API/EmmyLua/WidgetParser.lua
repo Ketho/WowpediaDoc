@@ -1,4 +1,3 @@
-local socket = require "socket"
 local https = require "ssl.https"
 local request = https.request
 
