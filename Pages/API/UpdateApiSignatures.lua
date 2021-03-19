@@ -1,8 +1,10 @@
--- automatically adds/updates blizzard-documented arguments and return values to listed api
 local WikiText = require "Pages/API/WikiText"
 
-local file = io.open("Pages/API/World_of_Warcraft_API.txt", "r")
-local newFile = io.open("Pages/API/World_of_Warcraft_API_out.txt", "w")
+local fileName = "Pages/API/World_of_Warcraft_API.txt"
+local fileName_temp = "Pages/API/World_of_Warcraft_API_temp.txt"
+
+local file = io.open(fileName, "r")
+local file_temp = io.open(fileName_temp, "w")
 
 local tags = {
 	SECURE = true,
@@ -30,9 +32,13 @@ for line in file:lines() do
 			newStr = signatures[name]..desc
 		end
 	end
-	newFile:write((newStr or line).."\n")
+	file_temp:write((newStr or line).."\n")
 end
 
 file:close()
-newFile:close()
+file_temp:close()
+
+os.remove(fileName)
+os.rename(fileName_temp, fileName)
+
 print("done!")
