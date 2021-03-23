@@ -1,5 +1,6 @@
 local Util = require("Util/Util")
 
+Util:MakeDir("out")
 local m = {}
 
 local function WriteFile(path, text)
