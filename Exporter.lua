@@ -1,3 +1,5 @@
+local Util = require("Util/Util")
+
 local m = {}
 
 local function WriteFile(path, text)
@@ -8,12 +10,12 @@ local function WriteFile(path, text)
 end
 
 function m:ExportSystems(folder)
-	os.execute(format("mkdir %s\\system", folder))
+	Util:MakeDir(format("%s/system", folder))
 	for _, system in ipairs(APIDocumentation.systems) do
 		print("Exporting", system:GetFullName())
 		local systemName = system.Namespace or system.Name
 		if systemName then
-			os.execute(format("mkdir %s\\system\\%s", folder, systemName))
+			Util:MakeDir(format("%s/system/%s", folder, systemName))
 			local prefix = system.Namespace and system.Namespace.."." or ""
 			for _, func in ipairs(system.Functions) do
 				local path = format("%s/system/%s/API %s.txt", folder, systemName, prefix..func.Name)
@@ -27,8 +29,8 @@ function m:ExportSystems(folder)
 			end
 		end
 	end
-	os.execute(format("mkdir %s\\enum", folder))
-	os.execute(format("mkdir %s\\struct", folder))
+	Util:MakeDir(format("%s/enum", folder))
+	Util:MakeDir(format("%s/struct", folder))
 	print("Exporting (systemless) tables")
 	for _, apiTable in ipairs(APIDocumentation.tables) do
 		local isTransclude = Wowpedia.complexRefs[apiTable.Name]

@@ -1,3 +1,4 @@
+local lfs = require "lfs"
 local cURL = require "cURL"
 local cjson = require "cjson"
 local cjsonutil = require "cjson.util"
@@ -12,7 +13,9 @@ local versions_url = "https://api.wow.tools/databases/%s/versions"
 local csv_url = "https://wow.tools/api/export/?name=%s&build=%s"
 local json_url = "https://wow.tools/api/data/%s/?build=%s&length=%d" -- saves them a slice call
 
-os.execute("mkdir out\\cache")
+if not lfs.attributes("out/cache") then
+	lfs.mkdir("out/cache")
+end
 local listfile_cache = "out/cache/listfile.csv"
 local versions_cache = "out/cache/%s_versions.json"
 local csv_cache = "out/cache/%s_%s.csv"
@@ -77,9 +80,8 @@ function parser.ReadCSV(name, options)
 	local build = FindBuild(name, options.build)
 	-- cache csv
 	local path = csv_cache:format(name, build)
-	local file = io.open(path, "r")
-	if not file then
-		file = io.open(path, "w")
+	if not lfs.attributes(path) then
+		local file = io.open(path, "w")
 		HTTP_GET(csv_url:format(name, build), file)
 		file:close()
 	end
@@ -97,9 +99,8 @@ function parser.ReadJSON(name, options)
 	local build = FindBuild(name, options.build)
 	-- cache json
 	local path = json_cache:format(name, build)
-	local file = io.open(path, "r")
-	if not file then
-		file = io.open(path, "w")
+	if not lfs.attributes(path) then
+		local file = io.open(path, "w")
 		-- get number of records
 		local initialRequest = HTTP_GET(json_url:format(name, build, 0))
 		local recordsTotal = cjson.decode(initialRequest).recordsTotal
@@ -117,10 +118,9 @@ end
 -- @param refresh (optional) if the listfile should be redownloaded
 function parser.ReadListfile(refresh)
 	-- cache listfile
-	local file = io.open(listfile_cache, "r")
-	if refresh or not file then
+	if refresh or not lfs.attributes(listfile_cache) then
 		print("downloading listfile...")
-		file = io.open(listfile_cache, "w")
+		local file = io.open(listfile_cache, "w")
 		HTTP_GET(listfile_url, file)
 		file:close()
 	end

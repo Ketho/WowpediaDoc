@@ -1,6 +1,8 @@
-local util = require "Util/util"
+local util = require "Util/Util"
 
-os.execute("mkdir out\\lua")
+if not lfs.attributes("out/lua") then
+	lfs.mkdir("out/lua")
+end
 local api_path = "out/lua/GlobalAPI.lua"
 local api_url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/live/Resources/GlobalAPI.lua"
 

@@ -1,6 +1,7 @@
 -- export to lua tables for in-game use
-local parser = require "util/wowtoolsparser"
-os.execute("mkdir out\\lua")
+local parser = require "Util/wowtoolsparser"
+local Util = require "Util/Util"
+Util:MakeDir("out/lua")
 local OUT = "out/lua/%s.lua"
 
 local handlers = {

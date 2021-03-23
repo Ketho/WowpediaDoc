@@ -1,3 +1,4 @@
+local lfs = require "lfs"
 local cURL = require "cURL"
 
 local Util = {}
@@ -27,6 +28,12 @@ function Util:DownloadAndRead(path, url)
 	self:DownloadFile(path, url)
 	local t = self:ReadFile(path)
 	return t
+end
+
+function Util:MakeDir(path)
+	if not lfs.attributes(path) then
+		lfs.mkdir(path)
+	end
 end
 
 function Util:ToMap(tbl)
