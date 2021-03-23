@@ -1,7 +1,8 @@
 local cURL = require "cURL"
-local util = {}
 
-function util:DownloadFile(path, url)
+local Util = {}
+
+function Util:DownloadFile(path, url)
 	local file = io.open(path, "w")
 	cURL.easy{
 			url = url,
@@ -12,7 +13,7 @@ function util:DownloadFile(path, url)
 	file:close()
 end
 
-function util:ReadFile(path)
+function Util:ReadFile(path)
 	local t = {}
 	local file = io.open(path, "r")
 	for line in file:lines() do
@@ -22,13 +23,13 @@ function util:ReadFile(path)
 	return t
 end
 
-function util:DownloadAndRead(path, url)
+function Util:DownloadAndRead(path, url)
 	self:DownloadFile(path, url)
 	local t = self:ReadFile(path)
 	return t
 end
 
-function util:ToMap(tbl)
+function Util:ToMap(tbl)
 	local t = {}
 	for _, v in pairs(tbl) do
 		t[v] = true
@@ -36,4 +37,4 @@ function util:ToMap(tbl)
 	return t
 end
 
-return util
+return Util
