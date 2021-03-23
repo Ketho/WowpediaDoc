@@ -1,14 +1,12 @@
-local util = require "Util/Util"
+local Util = require "Util/Util"
 
-if not lfs.attributes("out/lua") then
-	lfs.mkdir("out/lua")
-end
+Util:MakeDir("out/lua")
 local api_path = "out/lua/GlobalAPI.lua"
 local api_url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/live/Resources/GlobalAPI.lua"
 
-util:DownloadFile(api_path, api_url)
+Util:DownloadFile(api_path, api_url)
 local api = require(api_path:gsub("%.lua", ""))
-local global_api = util:ToMap(api[1])
+local global_api = Util:ToMap(api[1])
 
 local file = io.open("Pages/API/World_of_Warcraft_API.txt", "r")
 
@@ -49,7 +47,7 @@ end
 FindDuplicates()
 
 local function FindMissing()
-	local wowpedia_map = util:ToMap(wowpedia)
+	local wowpedia_map = Util:ToMap(wowpedia)
 	print("-- missing")
 	for k in pairs(global_api) do
 		if not wowpedia_map[k] then
