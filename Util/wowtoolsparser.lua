@@ -1,11 +1,12 @@
 local lfs = require "lfs"
+local csv = require "csv"
 local cURL = require "cURL"
 local cjson = require "cjson"
 local cjsonutil = require "cjson.util"
-local csv = require "csv"
 local parser = {}
 
 local user_agent = "your user agent here"
+local CACHE_INVALIDATION_TIME = 600
 
 local listfile_url = "https://wow.tools/casc/listfile/download/csv/unverified"
 --local databases_url = "https://api.wow.tools/databases"
@@ -13,13 +14,35 @@ local versions_url = "https://api.wow.tools/databases/%s/versions"
 local csv_url = "https://wow.tools/api/export/?name=%s&build=%s"
 local json_url = "https://wow.tools/api/data/%s/?build=%s&length=%d" -- saves them a slice call
 
-if not lfs.attributes("out/cache") then
-	lfs.mkdir("out/cache")
+local listfile_cache = "cache/listfile.csv"
+local versions_cache = "cache/%s_versions.json"
+local csv_cache = "cache/%s.csv"
+local json_cache = "cache/%s.json"
+
+if not lfs.attributes("cache") then
+	lfs.mkdir("cache")
 end
-local listfile_cache = "out/cache/listfile.csv"
-local versions_cache = "out/cache/%s_versions.json"
-local csv_cache = "out/cache/%s_%s.csv"
-local json_cache = "out/cache/%s_%s.json"
+
+local function GetBaseName(name, build, options)
+	local base = name
+	base = base.."_"..build
+	if options.locale then
+		base = base.."_"..options.locale
+	end
+	return base
+end
+
+local function shouldDownload(path)
+	local attr = lfs.attributes(path)
+	if not attr then
+		return true
+	else
+		local modified = attr.modification
+		if os.time() > modified + CACHE_INVALIDATION_TIME then
+			return true
+		end
+	end
+end
 
 --- Sends an HTTP GET request.
 -- @param url the URL of the request
@@ -44,9 +67,11 @@ end
 -- @return table available build versions
 local function GetVersions(name)
 	local path = versions_cache:format(name)
-	local file = io.open(path, "w")
-	HTTP_GET(versions_url:format(name), file)
-	file:close()
+	if shouldDownload(path) then
+		local file = io.open(path, "w")
+		HTTP_GET(versions_url:format(name), file)
+		file:close()
+	end
 	local json = cjsonutil.file_load(path)
 	local tbl = cjson.decode(json)
 	return tbl
@@ -72,43 +97,53 @@ end
 
 --- Parses the DBC (with header) from CSV.
 -- @param name the DBC name
--- @param options.build (optional) the build version, otherwise falls back to the most recent build
--- @param options.header (optional) if true, each set of fields will be keyed by header name, otherwise by column index
+-- @param options.build (optional) the build version, otherwise uses the most recent build
+-- @param options.header (optional) if true, fields will be keyed by header name instead of column index
+-- @param options.locale (optional) the locale, otherwise uses english
 -- @return function the csv iterator
 function parser.ReadCSV(name, options)
 	options = options or {}
 	local build = FindBuild(name, options.build)
-	-- cache csv
-	local path = csv_cache:format(name, build)
-	if not lfs.attributes(path) then
+	local base = GetBaseName(name, build, options)
+	local path = csv_cache:format(base)
+	if not lfs.attributes(path) then -- cache csv
 		local file = io.open(path, "w")
-		HTTP_GET(csv_url:format(name, build), file)
+		local url = csv_url:format(name, build)
+		if options.locale then
+			url = url.."&locale="..options.locale
+		end
+		HTTP_GET(url, file)
 		file:close()
 	end
-	print(string.format("reading %s.csv build %s", name, build))
-	local iter = csv.open(path, options.header and {header = true})
+	print("reading "..path)
+	local iter = csv.open(path, {header = options.header})
 	return iter
 end
 
 --- Parses the DBC from JSON.
 -- @param name the DBC name
--- @param options.build (optional) the build version, otherwise falls back to the most recent build
+-- @param options.build (optional) the build version, otherwise uses the most recent build
+-- @param options.locale (optional) the locale, otherwise uses english
 -- @return table the converted json table
 function parser.ReadJSON(name, options)
 	options = options or {}
 	local build = FindBuild(name, options.build)
-	-- cache json
-	local path = json_cache:format(name, build)
-	if not lfs.attributes(path) then
+	local base = GetBaseName(name, build, options)
+	local path = json_cache:format(base)
+	if not lfs.attributes(path) then -- cache json
 		local file = io.open(path, "w")
 		-- get number of records
 		local initialRequest = HTTP_GET(json_url:format(name, build, 0))
 		local recordsTotal = cjson.decode(initialRequest).recordsTotal
 		-- write json to file
-		HTTP_GET(json_url:format(name, build, recordsTotal), file)
+		local url = json_url:format(name, build, recordsTotal)
+		if options.locale then
+			url = url.."&locale="..options.locale
+		end
+		HTTP_GET(url, file)
 		file:close()
 	end
-	print(string.format("reading %s.json build %s", name, build))
+	print("reading "..path)
 	local json = cjsonutil.file_load(path)
 	local tbl = cjson.decode(json).data
 	return tbl
@@ -116,9 +151,9 @@ end
 
 --- Parses the CSV listfile.
 -- @param refresh (optional) if the listfile should be redownloaded
-function parser.ReadListfile(refresh)
+function parser.ReadListfile()
 	-- cache listfile
-	if refresh or not lfs.attributes(listfile_cache) then
+	if shouldDownload(listfile_cache) then
 		print("downloading listfile...")
 		local file = io.open(listfile_cache, "w")
 		HTTP_GET(listfile_url, file)
