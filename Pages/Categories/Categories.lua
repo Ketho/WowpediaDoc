@@ -9,7 +9,7 @@ function m:LoadApiDocs(base)
 	local toc = io.open(base.."/Blizzard_APIDocumentation/Blizzard_APIDocumentation.toc")
 	local isDoc
 	local t = {}
-	tinsert(t, "namespaces = {")
+	tinsert(t, "namespaces = [")
 	for line in toc:lines() do
 		if line:find("%.lua") then
 			local path = base.."/Blizzard_APIDocumentation/"..line
@@ -32,7 +32,7 @@ function m:LoadApiDocs(base)
 		end
 	end
 	toc:close()
-	tinsert(t, "}")
+	tinsert(t, "]\n")
 	catFile:write(table.concat(t, "\n"))
 end
 
