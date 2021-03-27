@@ -12,17 +12,15 @@ def load_file_as_module(name, location):
 
 mod = load_file_as_module('mymodule', 'wowpedia/categories/namespaces.py')
 
-fs = """[[Category:API namespaces]]
-==External links==
+fs = """[[Category:API namespaces|{!s}]]
+===External links===
 {{{{#invoke:API namespaces|main|filename={!s}|system={!s}}}}}"""
 
 for v in mod.namespaces:
 	fileName, systemName, sytemNamespace = v[0], v[1], v[2]
 	if sytemNamespace:
 		page = pywikibot.Page(site, "Category:API_namespaces/"+sytemNamespace)
-		# if page.text == "":
-		if mod.fix.get(sytemNamespace):
-			page.text = fs.format(fileName, systemName)
-			page.save("escape curly brackets")
+		page.text = fs.format(sytemNamespace.replace("C_", ""), fileName, systemName)
+		page.save(summary="Category sortkey")
 
 print("done")

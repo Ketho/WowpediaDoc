@@ -1,3 +1,4 @@
+#pylint: disable = import-error
 import os
 import re
 import pywikibot
@@ -5,34 +6,33 @@ import pywikibot
 site = pywikibot.Site('en', 'wowpedia')
 PATH = "Wowpedia"
 
-def getFileTextThirdLine(p):
+def getFileTextLines(p):
 	f = open(p)
 	lines = f.readlines()
-	trimmed = "".join(lines[2].splitlines())
-	return trimmed
+	first = "".join(lines[0].splitlines())
+	third = "".join(lines[2].splitlines())
+	return first, third
 
-# my python really sucks
-def main():
-	for line1 in os.listdir(PATH):
-		p1 = PATH+"/"+line1
-		if os.path.isdir(p1):
-			for line2 in os.listdir(p1):
-				pageName = line2.replace(".txt", "")
-				print(pageName)
-				page = pywikibot.Page(site, pageName)
-				wp_sign = re.findall(r" [\w_]+: .*", page.text)
-				if wp_sign:
-					wp_sign = wp_sign[0]
-				else:
-					continue
-				# print(wp_sign)
+def replaceSignature(newPath, base):
+	first, third = getFileTextLines(newPath)
+	if first.find("wowapievent") > -1:
+		page = pywikibot.Page(site, base.replace(".txt", ""))
+		# replace events with brackets for optionals
+		wp_sign = re.findall(r"\s[\w_]+: .*", page.text)
+		if wp_sign:
+			wp_sign = wp_sign[0]
+			if wp_sign != third:
+				page.text = page.text.replace(wp_sign, third)
+				page.save(summary = "Remove brackets for nilable params in signature")
 
-				doc_sign = getFileTextThirdLine(p1+"/"+line2)
-				# print(doc_sign)
+def recursiveFiles(path):
+	for base in os.listdir(path):
+		newPath = path+"/"+base
+		if os.path.isdir(newPath):
+			recursiveFiles(newPath)
+		else:
+			replaceSignature(newPath, base)
 
-				if wp_sign != doc_sign:
-					page.text = page.text.replace(wp_sign, doc_sign)
-					page.save(summary="Update signature")
+recursiveFiles("Wowpedia/system")
 
-main()
 print("done")
