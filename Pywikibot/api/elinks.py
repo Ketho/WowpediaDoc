@@ -1,3 +1,4 @@
+#pylint: disable = import-error
 import os
 import re
 import pywikibot
@@ -12,7 +13,7 @@ def getFileText(p):
 def replaceElinks(newPath, base):
 	apiName = base.replace(".txt", "")
 	page = pywikibot.Page(site, apiName)
-	wp_seealso = re.findall("==See also==\n\* \[https://www.townlong-yak.com.*", page.text)
+	wp_seealso = re.findall(r"==\s?See also\s?==\n\* \[https://www.townlong-yak.com.*", page.text)
 	if wp_seealso:
 		fileText = getFileText(newPath)
 		doc_elinks = re.findall("==External links==\n.*\n.*", fileText)
