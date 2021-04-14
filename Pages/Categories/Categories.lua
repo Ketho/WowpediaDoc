@@ -1,7 +1,7 @@
 local FrameXML = require("FrameXML/FrameXML")
 FrameXML:LoadApiDocs("FrameXML")
 
-local catFile = io.open("Pages/Categories/Categories.txt", "w")
+local catFile = io.open("Pages/Categories/Categories.py", "w")
 local m = {}
 
 function m:LoadApiDocs(base)
