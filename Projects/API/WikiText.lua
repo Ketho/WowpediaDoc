@@ -1,8 +1,8 @@
 local WikiText = {}
 
-local FrameXML = require("FrameXML/FrameXML")
-FrameXML:LoadApiDocs("FrameXML")
-require "Wowpedia/Wowpedia"
+local FrameXML = require("Documenter/FrameXML/FrameXML")
+FrameXML:LoadApiDocs("Documenter/FrameXML")
+require "Documenter/Wowpedia/Wowpedia"
 
 local function GetFullName(func)
 	local str

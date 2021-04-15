@@ -26,5 +26,4 @@ def recursiveFiles(path):
 			saveFile(newPath, base)
 
 recursiveFiles(PATH)
-
 print("done")

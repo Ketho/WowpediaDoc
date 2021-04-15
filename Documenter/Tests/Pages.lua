@@ -14,12 +14,12 @@ local function TestFunction(name)
 	end
 end
 
--- TestFunction("C_Calendar.CanSendInvite") -- no arguments, one return value
--- TestFunction("C_Calendar.EventSetTitle") -- one argument, no return values
--- TestFunction("C_AuctionHouse.MakeItemKey") -- three optional args
--- TestFunction("C_Calendar.EventSetClubId") -- first argument optional
--- TestFunction("C_ArtifactUI.GetAppearanceInfo") -- two optional returns
--- TestFunction("C_Club.CreateClub") -- optional arguments in middle
+TestFunction("C_Calendar.CanSendInvite") -- no arguments, one return value
+TestFunction("C_Calendar.EventSetTitle") -- one argument, no return values
+TestFunction("C_AuctionHouse.MakeItemKey") -- three optional args
+TestFunction("C_Calendar.EventSetClubId") -- first argument optional
+TestFunction("C_ArtifactUI.GetAppearanceInfo") -- two optional returns
+TestFunction("C_Club.CreateClub") -- optional arguments in middle
 
 -- TestFunction("C_ChatInfo.SendAddonMessage") -- string arguments
 -- TestFunction("UnitPowerDisplayMod") -- enum transclude argument

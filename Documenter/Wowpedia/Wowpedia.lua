@@ -1,8 +1,8 @@
 Wowpedia = {}
-require "Wowpedia/Functions"
-require "Wowpedia/Events"
-require "Wowpedia/Tables"
-require "Wowpedia/Fields"
+require("Documenter/Wowpedia/Functions")
+require("Documenter/Wowpedia/Events")
+require("Documenter/Wowpedia/Tables")
+require("Documenter/Wowpedia/Fields")
 -- local GithubWiki = require "GithubWiki/GithubWiki"
 
 local LATEST_PATCH = "9.0.2"

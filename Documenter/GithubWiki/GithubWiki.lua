@@ -1,7 +1,7 @@
-local util = require "Util/Util"
+local util = require("Util/Util")
 
 local WIKI = "https://raw.githubusercontent.com/wiki/Stanzilla/WoWUIBugs/9.0.1-Consolidated-UI-Changes.md"
-local PATH = "GithubWiki/GithubWiki.md"
+local PATH = "Documenter/GithubWiki/GithubWiki.md"
 
 local apiTypes = {
 	Functions = "Function",

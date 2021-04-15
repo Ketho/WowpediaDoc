@@ -1,7 +1,4 @@
-local FrameXML = require("FrameXML/FrameXML")
-FrameXML:LoadApiDocs("FrameXML")
-
-local catFile = io.open("Pages/Categories/Categories.py", "w")
+local catFile = io.open("Projects/Categories/Categories.py", "w")
 local m = {}
 
 function m:LoadApiDocs(base)
@@ -36,7 +33,7 @@ function m:LoadApiDocs(base)
 	catFile:write(table.concat(t, "\n"))
 end
 
-m:LoadApiDocs("FrameXML")
+m:LoadApiDocs("Documenter/FrameXML")
 
 catFile:close()
-print("done!")
+print("done")

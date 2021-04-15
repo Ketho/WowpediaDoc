@@ -1,0 +1,20 @@
+## Interface: 90005
+## Title: KethoWowpedia
+
+KethoWowpedia.lua
+editbox.lua
+
+date/mount.lua
+date/battlepetspecies.lua
+date/toy.lua
+
+dbc/battlepetspecies.lua
+dbc/mount.lua
+dbc/toy.lua
+dbc/creaturedisplayinfo.lua
+dbc/creaturemodeldata.lua
+
+scripts/mount.lua
+scripts/battlepetspecies.lua
+scripts/toy.lua
+scripts/GameError.lua

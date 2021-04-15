@@ -2,6 +2,8 @@
 *.md
 *.txt
 *.xml
+*.html
+*.csv
 out
 cache
 

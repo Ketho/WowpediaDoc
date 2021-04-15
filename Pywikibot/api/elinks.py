@@ -29,5 +29,4 @@ def recursiveFiles(path):
 			replaceElinks(newPath, base)
 
 recursiveFiles("wowpedia/system")
-
 print("done")

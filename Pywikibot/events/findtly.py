@@ -21,5 +21,4 @@ def recursiveFiles(path):
 			findtly(newPath, base)
 
 recursiveFiles("Wowpedia/system")
-
 print("done")

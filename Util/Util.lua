@@ -44,4 +44,14 @@ function Util:ToMap(tbl)
 	return t
 end
 
+function Util:ProxySort(tbl)
+	local t = {}
+	for k in pairs(tbl) do
+		table.insert(t, k)
+	end
+	table.sort(t)
+	return t
+end
+
+
 return Util

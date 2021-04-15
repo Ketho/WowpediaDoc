@@ -8,7 +8,7 @@ Util:DownloadFile(api_path, api_url)
 local api = require(api_path:gsub("%.lua", ""))
 local global_api = Util:ToMap(api[1])
 
-local file = io.open("Pages/API/World_of_Warcraft_API.txt", "r")
+local file = io.open("Projects/API/World_of_Warcraft_API.txt", "r")
 
 -- having difficulties getting the plain wikitext from
 -- https://wow.gamepedia.com/api.php?action=parse&page=World_of_Warcraft_API&format=json&contentmodel=wikitext
@@ -63,4 +63,4 @@ local function FindMissing()
 end
 FindMissing()
 
-print("done!")
+print("done")

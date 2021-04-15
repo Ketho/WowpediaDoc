@@ -1,7 +1,7 @@
-local WikiText = require "Pages/API/WikiText"
+local WikiText = require "Projects/API/WikiText"
 
-local fileName = "Pages/API/World_of_Warcraft_API.txt"
-local fileName_temp = "Pages/API/World_of_Warcraft_API_temp.txt"
+local fileName = "Projects/API/World_of_Warcraft_API.txt"
+local fileName_temp = "Projects/API/World_of_Warcraft_API_temp.txt"
 
 local file = io.open(fileName, "r")
 local file_temp = io.open(fileName_temp, "w")
@@ -40,5 +40,4 @@ file_temp:close()
 
 os.remove(fileName)
 os.rename(fileName_temp, fileName)
-
-print("done!")
+print("done")

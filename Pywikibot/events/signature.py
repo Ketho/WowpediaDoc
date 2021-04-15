@@ -34,5 +34,4 @@ def recursiveFiles(path):
 			replaceSignature(newPath, base)
 
 recursiveFiles("Wowpedia/system")
-
 print("done")
