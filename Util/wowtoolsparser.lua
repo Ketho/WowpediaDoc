@@ -11,7 +11,7 @@ local versions_url = "https://api.wow.tools/databases/%s/versions"
 local csv_url = "https://wow.tools/api/export/?name=%s&build=%s&useHotfixes=true"
 local json_url = "https://wow.tools/api/data/%s/?build=%s&useHotfixes=true&length=%d" -- saves them a slice call
 
-local USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36"
+local USER_AGENT = "your user agent here"
 local CACHE_PATH = "cache"
 local CACHE_INVALIDATION_TIME = 600
 
