@@ -1,5 +1,4 @@
 -- https://wow.gamepedia.com/ToyID
-local KW = KethoWowpedia
 local eb = KethoEditBox
 
 -- C_ToyBox.GetToyInfo does not return names for these
@@ -27,7 +26,7 @@ local expansion_icon = {
 }
 
 -- /run KethoWowpedia:GetToyIDs(2e5)
-function KW:GetToyIDs(num)
+function KethoWowpedia:GetToyIDs(num)
 	eb:Show()
 	local header = '{| class="sortable darktable zebra"\n! ID !! Item ID !! !! Name !! Source !! Patch'
 	eb:InsertLine(header)
@@ -76,8 +75,7 @@ function KW:GetToyIDs(num)
 	eb:InsertLine("|}")
 end
 
--- /spew KethoWowpedia:GetToySources()
-function KW:GetToySources()
+function KethoWowpedia:GetToySources()
 	local sources = {}
 	local expansions = {}
 	local uncategorized = {}

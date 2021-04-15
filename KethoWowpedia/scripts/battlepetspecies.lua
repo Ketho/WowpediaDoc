@@ -1,5 +1,4 @@
 -- https://wow.gamepedia.com/BattlePetSpeciesID
-local KW = KethoWowpedia
 local eb = KethoEditBox
 
 local wpPetIcon = {
@@ -40,7 +39,7 @@ local wpLink = {
 }
 
 -- /run KethoWowpedia:GetPetSpeciesIDs(3500)
-function KW:GetPetSpeciesIDs(num)
+function KethoWowpedia:GetPetSpeciesIDs(num)
 	eb:Show()
 	local header = '{| class="sortable darktable zebra"\n! ID !! !! !! !! Name !! Source !! [[CreatureDisplayID|Display ID]] !! Spell ID !! NPC ID !! Patch'
 	eb:InsertLine(header)
@@ -75,8 +74,7 @@ function KW:GetPetSpeciesIDs(num)
 	eb:InsertLine("|}")
 end
 
--- /spew KethoWowpedia:GetPetSources()
-function KW:GetPetSources()
+function KethoWowpedia:GetPetSources()
 	local t = {}
 	C_PetJournal.SetAllPetSourcesChecked(false)
 	for i = 1, C_PetJournal.GetNumPetSources() do

@@ -1,5 +1,4 @@
 -- https://wow.gamepedia.com/MountID
-local KW = KethoWowpedia
 local eb = KethoEditBox
 
 local MountType = {
@@ -25,7 +24,7 @@ local wpName = {
 }
 
 -- /run KethoWowpedia:GetMountIDs(2000)
-function KW:GetMountIDs(num)
+function KethoWowpedia:GetMountIDs(num)
 	eb:Show()
 	local header = '{| class="sortable darktable zebra"\n! ID !! !! !! Name !! Source !! [[CreatureDisplayID|Display ID]] !! Spell ID !! Patch'
 	eb:InsertLine(header)
