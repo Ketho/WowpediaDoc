@@ -1,6 +1,4 @@
-
 if KethoEditBox then return end
-
 KethoEditBox = {}
 
 function KethoEditBox:Create()
