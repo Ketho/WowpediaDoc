@@ -205,22 +205,3 @@ namespaces = [
 	["VectorSharedDocumentation.lua", None, None],
 	["VehicleConstantsDocumentation.lua", None, None],
 ]
-
-fix = {
-	"C_ArdenwealdGardening": True,
-	"C_CovenantPreview": True,
-	"C_GamePad": True,
-	"C_Navigation": True,
-	"C_LegendaryCrafting": True,
-	"C_LevelSquish": True,
-	"C_LoreText": True,
-	"C_PlayerChoice": True,
-	"C_PlayerMentorship": True,
-	"C_ScriptedAnimations": True,
-	"C_SplashScreen": True,
-	"C_SuperTrack": True,
-	"C_Tooltip": True,
-	"C_UserFeedback": True,
-	"C_WeeklyRewards": True,
-	"C_ZoneAbility": True,
-}
