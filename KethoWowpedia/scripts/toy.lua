@@ -10,7 +10,7 @@ local noToyData = {
 	[163206] = "Weary Spirit Binding",
 	[163565] = "Vulpera Scrapper's Armor",
 	[163566] = "Vulpera Battle Banner",
-	--[168836] = "???",
+	[168836] = "", -- unknown
 }
 
 local expansion_icon = {
