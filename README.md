@@ -4,13 +4,13 @@ Wikifies [Blizzard API Documentation](https://github.com/Gethe/wow-ui-source/tre
 ### Usage
 Exports wikitext to `out/`
 ```lua
-lua53 main.lua
+lua53 Documenter/Documenter.lua
 ```
 
 ![](https://i.imgur.com/MqdgasV.png)
 
 ### Other scripts
-* `Pages/API/MissingAPI.lua` - Prints API that is still missing from the `World_of_Warcraft_API` wikitext.
-* `Pages/API/ParseAPI.lua` - Updates API signatures for the `World_of_Warcraft_API` wikitext.
-* `Pages/Events/` - Generates wikitext for https://wow.gamepedia.com/Events.
+* `Projects/API/` - Updates the [World of Warcraft API](https://wowpedia.fandom.com/wiki/World_of_Warcraft_API) page.
+* `Projects/Events/` - Updates the [Events](https://wow.gamepedia.com/Events) page.
+* `Projects/Collections/` - Generates data for the `KethoWowpedia` addon.
 * `Pywikibot/` - [Pywikibot](https://pypi.org/project/pywikibot/) scripts for using the MediaWiki API.
