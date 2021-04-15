@@ -61,7 +61,7 @@ function KethoWowpedia:GetToyIDs(num)
 					toyID,
 					itemID, itemID,
 					expansion_icon[expansions[itemID]] or "",
-					(linkName and format("[[:%s]]", linkName) or ""),
+					(linkName and #linkName>0 and format("[[:%s]]", linkName) or ""),
 					sourceText or "",
 					self.date.toy[toyID] or ""
 				)
