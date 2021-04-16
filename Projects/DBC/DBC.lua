@@ -1,3 +1,4 @@
-require("Projects/DBC/patch")
-require("Projects/DBC/DBC")
+require("Projects/DBC/patch"):UpdateAddOn()
+require("Projects/DBC/exporter")
+
 print("done")

@@ -1,7 +1,10 @@
 local Util = require("Util/Util")
 local parser = require("Util/wowtoolsparser")
+local OUT = "KethoWowpedia/patch/%s.lua"
 
 Util:MakeDir("KethoWowpedia/patch")
+
+local m = {}
 
 local patches = {
 	"7.3.5",
@@ -23,7 +26,7 @@ local dbc = {
 	"toy",
 }
 
-local function GetFirstSeen(name)
+function m:GetFirstSeen(name)
 	local t = {}
 	for _, patch in pairs(patches) do
 		local iter = parser.ReadCSV(name, {
@@ -45,7 +48,7 @@ local function GetFirstSeen(name)
 	return t
 end
 
-local function WriteData(tbl, path, tblName)
+function m:WriteData(tbl, path, tblName)
 	local file = io.open(path, "w")
 	file:write(tblName)
 	local fs = '\t[%d] = "%s",\n'
@@ -56,10 +59,12 @@ local function WriteData(tbl, path, tblName)
 	file:close()
 end
 
-local path = "KethoWowpedia/patch/%s.lua"
-local tblName = "KethoWowpedia.patch.%s = {\n"
-
-for _, name in pairs(dbc) do
-	local data = GetFirstSeen(name)
-	WriteData(data, path:format(name), tblName:format(name))
+function m:UpdateAddOn()
+	local tblName = "KethoWowpedia.patch.%s = {\n"
+	for _, name in pairs(dbc) do
+		local data = self:GetFirstSeen(name)
+		self:WriteData(data, OUT:format(name), tblName:format(name))
+	end
 end
+
+return m
