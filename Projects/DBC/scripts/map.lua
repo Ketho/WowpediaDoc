@@ -131,19 +131,21 @@ local function main(dbc, BUILD)
 	for l in map:lines() do
 		local ID = tonumber(l.ID)
 		if ID then
-			local dir, name = l.Directory, l.MapName_lang
 			local expansion = wpExpansion[tonumber(l.ExpansionID)] or ""
-			local instance = InstanceTypes[tonumber(l.InstanceType)] or ""
 			local flags = l["Flags[0]"]
 			local devmap = flags&0x2 > 0 and "[[File:ProfIcons_engineering.png|16px|link=]]" or ""
-			local patch = patchTbl[ID] or ""
+
+			local dir, name = l.Directory, l.MapName_lang
+			dir = dir:gsub("�", "&#65533;") -- triggers wiki spam filter
 			local linkName = name
 			if wpLink[ID] then
 				linkName = string.format("[[%s|%s]]", wpLink[ID], name)
 			elseif not noLink[ID] and IsValidLink(name) then
 				linkName = string.format("[[:%s]]", name)
 			end
-			dir = dir:gsub("�", "&#65533;") -- triggers wiki spam filter
+
+			local instance = InstanceTypes[tonumber(l.InstanceType)] or ""
+			local patch = patchTbl[ID] or ""
 			file:write(fs:format(ID, expansion, devmap, dir, linkName, instance, patch))
 		end
 	end
