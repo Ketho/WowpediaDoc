@@ -120,9 +120,9 @@ local function IsValidLink(s)
 	return true
 end
 
-local function main(BUILD)
-	local map = parser.ReadCSV("map", {build=BUILD, header=true})
-	local patchTbl = patchDBC:GetFirstSeen("map")
+local function main(dbc, BUILD)
+	local map = parser.ReadCSV(dbc, {header=true, build=BUILD})
+	local patchTbl = patchDBC:GetFirstSeen(dbc)
 
 	local file = io.open(output, "w")
 	local header = '{| class="sortable darktable zebra"\n! ID !! !! Directory !! Map Name !! Type !! Patch\n'
@@ -150,5 +150,5 @@ local function main(BUILD)
 	file:close()
 end
 
-main()
+main("map")
 print("done")
