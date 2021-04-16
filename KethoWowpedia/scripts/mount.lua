@@ -31,41 +31,43 @@ function KethoWowpedia:GetMountIDs(num)
 	local fs = "|-\n| align=\"center\" | %d |||| %s |||| %s |||| %s |||| %s |||| %s |||| [https://www.wowhead.com/spell=%d %d] |||| %s"
 
 	local count = 0
-	for i = 1, num do
-		local name, spellID, _, _, _, sourceType, _, isFactionSpecific, faction, shouldHideOnChar = C_MountJournal.GetMountInfoByID(i)
+	for id = 1, num do
+		local name, spellID, _, _, _, sourceType, _, isFactionSpecific, faction, shouldHideOnChar = C_MountJournal.GetMountInfoByID(id)
 		if name then
 			count = count + 1
-			local displayID, _, _, _, mTypeID = C_MountJournal.GetMountInfoExtraByID(i)
-			local allDisplayIDs = C_MountJournal.GetMountAllCreatureDisplayInfoByID(i)
-			local isMultipleDisplay
-			if allDisplayIDs and #allDisplayIDs > 1 then
-				isMultipleDisplay = true
-				sort(allDisplayIDs, function(a, b)
+			local factionIcon = faction == 0 and "{{Horde}}" or faction == 1 and "{{Alliance}}" or ""
+			local linkName = self.util:GetLinkName(wpLink[id], wpName[id] or name, 40)
+			-- EnumeratedString 105: 6: Exclude from Journal if not learned
+			local flags = self.dbc.mount[id]
+			local sourceText = bit.band(flags, 0x40) > 0 and "❌ " or ""
+			sourceText = sourceText..(self.data.SourceTypeEnum[sourceType] or "")
+			-- displayID can sometimes be nil when there are multiple ids
+			-- and the IDs returned by GetMountAllCreatureDisplayInfoByID() are in a seemingly random order
+			local displayID, _, _, _, mTypeID = C_MountJournal.GetMountInfoExtraByID(id)
+			local allDisplay = C_MountJournal.GetMountAllCreatureDisplayInfoByID(id)
+			local isMultiple
+			if allDisplay and #allDisplay > 1 then
+				isMultiple = true
+				sort(allDisplay, function(a, b)
 					return a.creatureDisplayID < b.creatureDisplayID
 				end)
-				displayID = allDisplayIDs[1].creatureDisplayID
+				displayID = allDisplay[1].creatureDisplayID
 			end
-
 			local model = self.dbc.creaturedisplayinfo[displayID]
 			local filemodel = self.dbc.creaturemodeldata[model]
-			local displayIDLink = format("[https://wow.tools/mv/?filedataid=%d&type=m2 %d]", filemodel, displayID)
-			if isMultipleDisplay then
-				displayIDLink = displayIDLink.." {{api|C_MountJournal.GetMountAllCreatureDisplayInfoByID#Values|+}}"
+			local displayLink = format("[https://wow.tools/mv/?filedataid=%d&type=m2 %d]", filemodel, displayID)
+			if isMultiple then
+				displayLink = displayLink.." {{api|C_MountJournal.GetMountAllCreatureDisplayInfoByID#Values|+}}"
 			end
-
-			local factionIcon = faction == 0 and "{{Horde}}" or faction == 1 and "{{Alliance}}" or ""
-			local linkName = self.util:GetLinkName(wpLink[i], wpName[i] or name, 40)
-			-- EnumeratedString 105: 6: Exclude from Journal if not learned
-			local flags = self.dbc.mount[i]
-			local isHidden = bit.band(flags, 0x40) > 0 and "❌ " or ""
-			eb:InsertLine(fs:format(i,
+			eb:InsertLine(fs:format(
+				id,
 				factionIcon,
 				MountType[mTypeID] or mTypeID,
 				linkName,
-				isHidden..(self.data.SourceTypeEnum[sourceType] or ""),
-				displayIDLink,
+				sourceText,
+				displayLink,
 				spellID, spellID,
-				self.patch.mount[i] or ""
+				self.patch.mount[id] or ""
 			))
 		end
 	end

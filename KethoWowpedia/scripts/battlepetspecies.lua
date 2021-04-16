@@ -47,26 +47,32 @@ function KethoWowpedia:GetPetSpeciesIDs(num)
 	local sources = self:GetPetSources()
 
 	local count = 0
-	for i = 1, num do
-		local name, _, petType, companionID, tooltipSource, _, isWild, canBattle, isTradeable, _, obtainable, creatureDisplayID = C_PetJournal.GetPetInfoBySpeciesID(i)
+	for id = 1, num do
+		local name, _, petType, companionID, tooltipSource, _, isWild, canBattle, isTradeable, _, obtainable, creatureDisplayID = C_PetJournal.GetPetInfoBySpeciesID(id)
 		if type(name) == "string" then
 			count = count + 1
+			local linkName = self.util:GetLinkName(wpLink[id], name, 32)
+
 			local model = self.dbc.creaturedisplayinfo[creatureDisplayID]
 			local filemodel = self.dbc.creaturemodeldata[model]
 			local displayLink = format("[https://wow.tools/mv/?filedataid=%d&type=m2 %d]", filemodel, creatureDisplayID)
-			local spellID = self.dbc.battlepetspecies[i]
-			local linkName = self.util:GetLinkName(wpLink[i], name, 32)
+			local numDisplayIDs = C_PetJournal.GetNumDisplays(id)
+			if numDisplayIDs and numDisplayIDs > 1 then
+				displayLink = displayLink.." {{api|C_PetJournal.GetDisplayIDByIndex#Values|+}}"
+			end
 
-			eb:InsertLine(fs:format(i,
+			local spellID = self.dbc.battlepetspecies[id]
+			eb:InsertLine(fs:format(
+				id,
 				canBattle and "{{Pet||Yes}}" or "",
 				isTradeable and "{{Pet||Trade}}" or "",
 				format("{{PetIcon||%s}}", wpPetIcon[petType]),
 				linkName,
-				self.data.SourceTypeEnum[sources[i]] or "❌",
+				self.data.SourceTypeEnum[sources[id]] or "❌",
 				displayLink,
 				spellID and spellID > 0 and format("[https://www.wowhead.com/spell=%d %d]", spellID, spellID) or "",
 				companionID, companionID,
-				self.patch.battlepetspecies[i] or ""
+				self.patch.battlepetspecies[id] or ""
 			))
 		end
 	end

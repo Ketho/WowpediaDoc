@@ -14,14 +14,15 @@ local noToyData = {
 }
 
 local wpExpansion = {
-	[1] = "{{Bc-inline}}",
-	[2] = "{{Wotlk-inline}}",
-	[3] = "{{Cata-inline}}",
-	[4] = "{{Mop-inline}}",
-	[5] = "{{Wod-inline}}",
-	[6] = "{{Legion-inline}}",
-	[7] = "{{Bfa-inline}}",
-	[8] = "{{Sl-inline}}",
+	[1] = "{{Wow-inline}}",
+	[2] = "{{Bc-inline}}",
+	[3] = "{{Wotlk-inline}}",
+	[4] = "{{Cata-inline}}",
+	[5] = "{{Mop-inline}}",
+	[6] = "{{Wod-inline}}",
+	[7] = "{{Legion-inline}}",
+	[8] = "{{Bfa-inline}}",
+	[9] = "{{Sl-inline}}",
 }
 
 -- /run KethoWowpedia:GetToyIDs(2e5)
@@ -34,16 +35,16 @@ function KethoWowpedia:GetToyIDs(num)
 	local sources, expansions, uncategorized = self:GetToySources()
 	local toys = {}
 	local count, countNotValid = 0, 0
-	for i = 1, num do
-		local itemID, name = C_ToyBox.GetToyInfo(i)
-		local notValid = (i>=72220 and i<=72233) -- 14 IDs not valid
+	for id = 1, num do
+		local itemID, name = C_ToyBox.GetToyInfo(id)
+		local notValid = (id>=72220 and id<=72233) -- 14 IDs not valid
 		if itemID then
 			if notValid then
 				countNotValid = countNotValid + 1
 			else
 				count = count + 1
-				local linkName = noToyData[itemID] or name
 				local toyID, flags, sourceType = unpack(self.dbc.toy[itemID])
+				local linkName = noToyData[itemID] or name
 				local source = self.data.SourceTypeEnum[sourceType+1]
 				local hidden = bit.band(flags, 0x2) > 0
 				local sourceText
