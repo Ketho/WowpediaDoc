@@ -1,4 +1,4 @@
-KethoWowpedia.date.toy = {
+KethoWowpedia.patch.toy = {
 	[680] = "8.0.1",
 	[682] = "8.0.1",
 	[683] = "8.0.1",

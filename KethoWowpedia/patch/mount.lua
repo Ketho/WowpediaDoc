@@ -1,4 +1,4 @@
-KethoWowpedia.date.mount = {
+KethoWowpedia.patch.mount = {
 	[32] = "8.2.5",
 	[925] = "8.1.0",
 	[926] = "8.0.1",

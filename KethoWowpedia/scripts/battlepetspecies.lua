@@ -66,7 +66,7 @@ function KethoWowpedia:GetPetSpeciesIDs(num)
 				displayLink,
 				spellID and spellID > 0 and format("[https://www.wowhead.com/spell=%d %d]", spellID, spellID) or "",
 				companionID, companionID,
-				self.date.battlepetspecies[i] or ""
+				self.patch.battlepetspecies[i] or ""
 			))
 		end
 	end

@@ -4,9 +4,9 @@
 KethoWowpedia.lua
 editbox.lua
 
-date/mount.lua
-date/battlepetspecies.lua
-date/toy.lua
+patch/mount.lua
+patch/battlepetspecies.lua
+patch/toy.lua
 
 dbc/battlepetspecies.lua
 dbc/mount.lua

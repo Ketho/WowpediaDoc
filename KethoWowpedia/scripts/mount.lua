@@ -65,7 +65,7 @@ function KethoWowpedia:GetMountIDs(num)
 				isHidden..(self.data.SourceTypeEnum[sourceType] or ""),
 				displayIDLink,
 				spellID, spellID,
-				self.date.mount[i] or ""
+				self.patch.mount[i] or ""
 			))
 		end
 	end

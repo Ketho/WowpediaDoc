@@ -63,7 +63,7 @@ function KethoWowpedia:GetToyIDs(num)
 					expansion_icon[expansions[itemID]] or "",
 					(linkName and #linkName>0 and format("[[:%s]]", linkName) or ""),
 					sourceText or "",
-					self.date.toy[toyID] or ""
+					self.patch.toy[toyID] or ""
 				)
 			end
 		end

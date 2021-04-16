@@ -1,4 +1,4 @@
-KethoWowpedia.date.battlepetspecies = {
+KethoWowpedia.patch.battlepetspecies = {
 	[2076] = "8.0.1",
 	[2143] = "8.0.1",
 	[2144] = "8.0.1",

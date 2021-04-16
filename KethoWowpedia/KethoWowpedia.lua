@@ -1,7 +1,7 @@
 KethoWowpedia = {
 	data = {},
 	util = {},
-	date = {},
+	patch = {},
 	dbc = {},
 }
 local w = KethoWowpedia
