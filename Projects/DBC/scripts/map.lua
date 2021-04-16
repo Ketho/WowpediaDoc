@@ -125,17 +125,18 @@ local function main(dbc, BUILD)
 	local patchTbl = patchDBC:GetFirstSeen(dbc)
 
 	local file = io.open(output, "w")
-	local header = '{| class="sortable darktable zebra"\n! ID !! !! Directory !! Map Name !! Type !! Patch\n'
+	local header = '{| class="sortable darktable zebra"\n! ID !! !! !! Directory !! Map Name !! Type !! Patch\n'
 	file:write(header)
-	local fs = '|-\n| align="center" | %s || %s || %s || %s || %s || %s\n'
+	local fs = '|-\n| align="center" | %s || %s || %s || %s || %s || %s || %s\n'
 	for l in map:lines() do
 		local ID = tonumber(l.ID)
 		if ID then
 			local dir, name = l.Directory, l.MapName_lang
 			local expansion = wpExpansion[tonumber(l.ExpansionID)] or ""
 			local instance = InstanceTypes[tonumber(l.InstanceType)] or ""
+			local flags = l["Flags[0]"]
+			local devmap = flags&0x2 > 0 and "[[File:ProfIcons_engineering.png|16px|link=]]" or ""
 			local patch = patchTbl[ID] or ""
-
 			local linkName = name
 			if wpLink[ID] then
 				linkName = string.format("[[%s|%s]]", wpLink[ID], name)
@@ -143,7 +144,7 @@ local function main(dbc, BUILD)
 				linkName = string.format("[[:%s]]", name)
 			end
 			dir = dir:gsub("�", "&#65533;") -- triggers wiki spam filter
-			file:write(fs:format(ID, expansion, dir, linkName, instance, patch))
+			file:write(fs:format(ID, expansion, devmap, dir, linkName, instance, patch))
 		end
 	end
 	file:write("|}\n")
