@@ -4,7 +4,7 @@ Util:MakeDir("out")
 local m = {}
 
 local function WriteFile(path, text)
-	-- print("Writing", path)
+	--print("Writing", path)
 	local file = io.open(path, "w")
 	file:write(text)
 	file:close()
@@ -42,7 +42,7 @@ function m:ExportSystems(folder)
 			WriteFile(path, pageText)
 		end
 	end
-	print("Finished exporting!")
+	print("Finished exporting")
 end
 
 return m

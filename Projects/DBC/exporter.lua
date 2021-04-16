@@ -1,7 +1,7 @@
 -- export to lua tables for in-game use
-local parser = require "Util/wowtoolsparser"
-local Util = require "Util/Util"
-local OUT = "KethoWowpedia/dbc/%s.lua"
+local parser = require("Util/wowtoolsparser")
+local Util = require("Util/Util")
+local output = "KethoWowpedia/dbc/%s.lua"
 
 Util:MakeDir("KethoWowpedia/dbc")
 
@@ -80,7 +80,7 @@ end
 
 local function SerializeTable(name, BUILD)
 	local dbc, build = ParseDBC(name, BUILD)
-	local file = io.open(OUT:format(name), "w")
+	local file = io.open(output:format(name), "w")
 	file:write("-- "..build.."\n")
 	file:write(string.format("KethoWowpedia.dbc.%s = {\n", name))
 	local fs = handlers[name].fs

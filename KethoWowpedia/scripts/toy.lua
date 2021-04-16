@@ -13,16 +13,15 @@ local noToyData = {
 	[168836] = "", -- unknown
 }
 
-local expansion_icon = {
-	"{{Wow-inline}}",
-	"{{Bc-inline}}",
-	"{{Wotlk-inline}}",
-	"{{Cata-inline}}",
-	"{{Mop-inline}}",
-	"{{Wod-inline}}",
-	"{{Legion-inline}}",
-	"{{Bfa-inline}}",
-	"{{Sl-inline}}",
+local wpExpansion = {
+	[1] = "{{Bc-inline}}",
+	[2] = "{{Wotlk-inline}}",
+	[3] = "{{Cata-inline}}",
+	[4] = "{{Mop-inline}}",
+	[5] = "{{Wod-inline}}",
+	[6] = "{{Legion-inline}}",
+	[7] = "{{Bfa-inline}}",
+	[8] = "{{Sl-inline}}",
 }
 
 -- /run KethoWowpedia:GetToyIDs(2e5)
@@ -60,7 +59,7 @@ function KethoWowpedia:GetToyIDs(num)
 				toys[toyID] = fs:format(
 					toyID,
 					itemID, itemID,
-					expansion_icon[expansions[itemID]] or "",
+					wpExpansion[expansions[itemID]] or "",
 					(linkName and #linkName>0 and format("[[:%s]]", linkName) or ""),
 					sourceText or "",
 					self.patch.toy[toyID] or ""

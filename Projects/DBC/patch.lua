@@ -1,6 +1,6 @@
 local Util = require("Util/Util")
 local parser = require("Util/wowtoolsparser")
-local OUT = "KethoWowpedia/patch/%s.lua"
+local output = "KethoWowpedia/patch/%s.lua"
 
 Util:MakeDir("KethoWowpedia/patch")
 
@@ -63,7 +63,7 @@ function m:UpdateAddOn()
 	local tblName = "KethoWowpedia.patch.%s = {\n"
 	for _, name in pairs(dbc) do
 		local data = self:GetFirstSeen(name)
-		self:WriteData(data, OUT:format(name), tblName:format(name))
+		self:WriteData(data, output:format(name), tblName:format(name))
 	end
 end
 
