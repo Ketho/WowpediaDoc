@@ -35,7 +35,8 @@ local dbc = {
 
 function m:GetFirstSeen(name)
 	local t = {}
-	for _, patch in pairs(dbc[name]) do
+	local patchTbl = dbc[name] or patches
+	for _, patch in pairs(patchTbl) do
 		local iter = parser.ReadCSV(name, {header = true, build = patch})
 		for l in iter:lines() do
 			local ID = tonumber(l.ID)
@@ -45,7 +46,7 @@ function m:GetFirstSeen(name)
 		end
 	end
 	for id, patch in pairs(t) do
-		if patch == dbc[name][1] then
+		if patch == patchTbl[1] then
 			t[id] = nil
 		end
 	end

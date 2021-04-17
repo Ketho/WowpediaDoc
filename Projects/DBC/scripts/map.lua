@@ -136,6 +136,10 @@ local function main(dbc, BUILD)
 
 			local dir, name = l.Directory, l.MapName_lang
 			dir = dir:gsub("�", "&#65533;") -- triggers wiki spam filter
+			if dir == l.ID then
+				dir = ""
+			end
+
 			local linkName = name
 			if wpLink[ID] then
 				linkName = string.format("[[%s|%s]]", wpLink[ID], name)
