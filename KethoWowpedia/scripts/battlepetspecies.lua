@@ -48,7 +48,19 @@ function KethoWowpedia:GetPetSpeciesIDs(num)
 	for id = 1, num do
 		local name, _, petType, npcID, tooltipSource, _, isWild, canBattle, isTradeable, _, obtainable, creatureDisplayID = C_PetJournal.GetPetInfoBySpeciesID(id)
 		if type(name) == "string" then
+			local spellID, sourceType = unpack(self.dbc.battlepetspecies[id])
 			local linkName = self.util:GetLinkName(wpLink[id], name, 32)
+
+			local sourceText
+			if sources[id] then
+				sourceText = self.data.SourceTypeEnum[sources[id]]
+			else
+				sourceText = "❌"
+				local dbcSource = self.data.SourceTypeEnum[sourceType]
+				if dbcSource then
+					sourceText = sourceText.." "..dbcSource
+				end
+			end
 
 			local model = self.dbc.creaturedisplayinfo[creatureDisplayID]
 			local filemodel = self.dbc.creaturemodeldata[model]
@@ -58,14 +70,13 @@ function KethoWowpedia:GetPetSpeciesIDs(num)
 				displayLink = displayLink.." {{api|C_PetJournal.GetDisplayIDByIndex#Values|+}}"
 			end
 
-			local spellID = self.dbc.battlepetspecies[id]
 			eb:InsertLine(fs:format(
 				id,
 				canBattle and "{{Pet||Yes}}" or "",
 				isTradeable and "{{Pet||Trade}}" or "",
 				format("{{PetIcon||%s}}", wpPetIcon[petType]),
 				linkName,
-				self.data.SourceTypeEnum[sources[id]] or "❌",
+				sourceText,
 				displayLink,
 				spellID and spellID > 0 and format("[https://www.wowhead.com/spell=%d %d]", spellID, spellID) or "",
 				format("[https://www.wowhead.com/npc=%d %d]", npcID, npcID),
