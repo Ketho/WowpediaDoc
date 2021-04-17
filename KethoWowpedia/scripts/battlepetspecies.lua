@@ -41,16 +41,13 @@ local wpLink = {
 -- /run KethoWowpedia:GetPetSpeciesIDs(3500)
 function KethoWowpedia:GetPetSpeciesIDs(num)
 	eb:Show()
-	local header = '{| class="sortable darktable zebra"\n! ID !! !! !! !! Name !! Source !! [[CreatureDisplayID|Display ID]] !! Spell ID !! NPC ID !! Patch'
-	eb:InsertLine(header)
-	local fs = "|-\n| align=\"center\" | %d |||| %s |||| %s |||| %s |||| %s |||| %s |||| %s |||| %s |||| [https://www.wowhead.com/npc=%d %d] |||| %s"
+	eb:InsertLine('{| class="sortable darktable zebra"\n! ID !! !! !! !! Name !! Source !! [[CreatureDisplayID|Display ID]] !! Spell ID !! NPC ID !! Patch')
+	local fs = "|-\n| align=\"center\" | %d |||| %s |||| %s |||| %s |||| %s |||| %s |||| %s |||| %s |||| %s |||| %s"
 	local sources = self:GetPetSources()
 
-	local count = 0
 	for id = 1, num do
-		local name, _, petType, companionID, tooltipSource, _, isWild, canBattle, isTradeable, _, obtainable, creatureDisplayID = C_PetJournal.GetPetInfoBySpeciesID(id)
+		local name, _, petType, npcID, tooltipSource, _, isWild, canBattle, isTradeable, _, obtainable, creatureDisplayID = C_PetJournal.GetPetInfoBySpeciesID(id)
 		if type(name) == "string" then
-			count = count + 1
 			local linkName = self.util:GetLinkName(wpLink[id], name, 32)
 
 			local model = self.dbc.creaturedisplayinfo[creatureDisplayID]
@@ -71,12 +68,11 @@ function KethoWowpedia:GetPetSpeciesIDs(num)
 				self.data.SourceTypeEnum[sources[id]] or "❌",
 				displayLink,
 				spellID and spellID > 0 and format("[https://www.wowhead.com/spell=%d %d]", spellID, spellID) or "",
-				companionID, companionID,
+				format("[https://www.wowhead.com/npc=%d %d]", npcID, npcID),
 				self.patch.battlepetspecies[id] or ""
 			))
 		end
 	end
-	print(count)
 	eb:InsertLine("|}")
 end
 

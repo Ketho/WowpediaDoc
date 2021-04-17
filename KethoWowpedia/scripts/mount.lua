@@ -26,15 +26,12 @@ local wpName = {
 -- /run KethoWowpedia:GetMountIDs(2000)
 function KethoWowpedia:GetMountIDs(num)
 	eb:Show()
-	local header = '{| class="sortable darktable zebra"\n! ID !! !! !! Name !! Source !! [[CreatureDisplayID|Display ID]] !! Spell ID !! Patch'
-	eb:InsertLine(header)
-	local fs = "|-\n| align=\"center\" | %d |||| %s |||| %s |||| %s |||| %s |||| %s |||| [https://www.wowhead.com/spell=%d %d] |||| %s"
+	eb:InsertLine('{| class="sortable darktable zebra"\n! ID !! !! !! Name !! Source !! [[CreatureDisplayID|Display ID]] !! Spell ID !! Patch')
+	local fs = "|-\n| align=\"center\" | %d |||| %s |||| %s |||| %s |||| %s |||| %s |||| %s |||| %s"
 
-	local count = 0
 	for id = 1, num do
 		local name, spellID, _, _, _, sourceType, _, isFactionSpecific, faction, shouldHideOnChar = C_MountJournal.GetMountInfoByID(id)
 		if name then
-			count = count + 1
 			local factionIcon = faction == 0 and "{{Horde}}" or faction == 1 and "{{Alliance}}" or ""
 			local linkName = self.util:GetLinkName(wpLink[id], wpName[id] or name, 40)
 			-- EnumeratedString 105: 6: Exclude from Journal if not learned
@@ -66,11 +63,10 @@ function KethoWowpedia:GetMountIDs(num)
 				linkName,
 				sourceText,
 				displayLink,
-				spellID, spellID,
+				format("[https://www.wowhead.com/spell=%d %d]", spellID, spellID),
 				self.patch.mount[id] or ""
 			))
 		end
 	end
-	print(count, #C_MountJournal.GetMountIDs())
 	eb:InsertLine("|}")
 end

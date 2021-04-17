@@ -7,6 +7,7 @@ editbox.lua
 patch/mount.lua
 patch/battlepetspecies.lua
 patch/toy.lua
+patch/uimap.lua
 
 dbc/battlepetspecies.lua
 dbc/mount.lua
@@ -17,4 +18,5 @@ dbc/creaturemodeldata.lua
 scripts/mount.lua
 scripts/battlepetspecies.lua
 scripts/toy.lua
+scripts/uimap.lua
 scripts/GameError.lua

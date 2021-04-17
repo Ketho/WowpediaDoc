@@ -20,19 +20,23 @@ local patches = {
 	"9.1.0",
 }
 
+local uimap_patches = {}
+for k, v in pairs(patches) do
+	uimap_patches[k] = v
+end
+table.remove(uimap_patches, 1) -- remove 7.3.5
+
 local dbc = {
-	"mount",
-	"battlepetspecies",
-	"toy",
+	mount = patches,
+	battlepetspecies = patches,
+	toy = patches,
+	uimap = uimap_patches,
 }
 
 function m:GetFirstSeen(name)
 	local t = {}
-	for _, patch in pairs(patches) do
-		local iter = parser.ReadCSV(name, {
-			header = true,
-			build = patch
-		})
+	for _, patch in pairs(dbc[name]) do
+		local iter = parser.ReadCSV(name, {header = true, build = patch})
 		for l in iter:lines() do
 			local ID = tonumber(l.ID)
 			if ID and not t[ID] then
@@ -41,7 +45,7 @@ function m:GetFirstSeen(name)
 		end
 	end
 	for id, patch in pairs(t) do
-		if patch == patches[1] then
+		if patch == dbc[name][1] then
 			t[id] = nil
 		end
 	end
@@ -61,7 +65,7 @@ end
 
 function m:UpdateAddOn()
 	local tblName = "KethoWowpedia.patch.%s = {\n"
-	for _, name in pairs(dbc) do
+	for name in pairs(dbc) do
 		local data = self:GetFirstSeen(name)
 		self:WriteData(data, output:format(name), tblName:format(name))
 	end

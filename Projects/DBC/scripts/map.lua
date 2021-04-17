@@ -125,8 +125,7 @@ local function main(dbc, BUILD)
 	local patchTbl = patchDBC:GetFirstSeen(dbc)
 
 	local file = io.open(output, "w")
-	local header = '{| class="sortable darktable zebra"\n! ID !! !! !! Directory !! Map Name !! Type !! Patch\n'
-	file:write(header)
+	file:write('{| class="sortable darktable zebra"\n! ID !! !! !! Directory !! Map Name !! Type !! Patch\n')
 	local fs = '|-\n| align="center" | %s || %s || %s || %s || %s || %s || %s\n'
 	for l in map:lines() do
 		local ID = tonumber(l.ID)
