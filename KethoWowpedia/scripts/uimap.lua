@@ -34,6 +34,8 @@ local wpLinkFloor = {
 	[221] = "Pool of Ask'ar", -- The Pool of Ask'Ar
 	[296] = "Twilight Caverns", -- The Twilight Caverns
 	[856] = "Twisting Nether (Tomb of Sargeras)", -- The Twisting Nether
+	-- also used as a whitelist
+	[819] = "Library Floor", -- Library Floor
 }
 
 local patternsMap = {
