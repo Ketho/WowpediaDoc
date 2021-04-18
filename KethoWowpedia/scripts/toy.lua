@@ -45,11 +45,11 @@ function KethoWowpedia:GetToyIDs(num)
 			if noToyData[itemID] then
 				sourceText = "❌"
 			elseif source and hidden then
-				sourceText = format("(%s)", source)
+				sourceText = format("❓ %s", source)
 			elseif source then
 				sourceText = source
 			elseif hidden then
-				sourceText = "(Hidden)"
+				sourceText = "❓"
 			end
 			lines[toyID] = fs:format(
 				toyID,
