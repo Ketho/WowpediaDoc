@@ -43,7 +43,7 @@ function KethoWowpedia:GetPetSpeciesIDs(num)
 	eb:Show()
 	eb:InsertLine('{| class="sortable darktable zebra"\n! ID !! !! !! !! Name !! Source !! [[CreatureDisplayID|Display ID]] !! Spell ID !! NPC ID !! Patch')
 	local fs = "|-\n| align=\"center\" | %d |||| %s |||| %s |||| %s |||| %s |||| %s |||| %s |||| %s |||| %s |||| %s"
-	local sources = self:GetPetSources()
+	local sources, visible = self:GetPetSources()
 
 	for id = 1, num do
 		local name, _, petType, npcID, ttSource, ttDesc, isWild, canBattle, isTradeable, _, obtainable, creatureDisplayID = C_PetJournal.GetPetInfoBySpeciesID(id)
@@ -55,6 +55,8 @@ function KethoWowpedia:GetPetSpeciesIDs(num)
 			local sourceText
 			if sources[id] then
 				sourceText = self.data.SourceTypeEnum[sources[id]]
+			elseif visible[id] then
+				sourceText = "😕"
 			else
 				sourceText = "❓"
 				local dbcSource = self.data.SourceTypeEnum[sourceType]
@@ -89,16 +91,23 @@ function KethoWowpedia:GetPetSpeciesIDs(num)
 end
 
 function KethoWowpedia:GetPetSources()
-	local t = {}
+	local sources = {}
 	C_PetJournal.SetAllPetSourcesChecked(false)
 	for i = 1, C_PetJournal.GetNumPetSources() do
 		C_PetJournal.SetPetSourceChecked(i, true)
 		for j = 1, C_PetJournal.GetNumPets() do
 			local _, speciesId = C_PetJournal.GetPetInfoByIndex(j)
-			t[speciesId] = i
+			sources[speciesId] = i
 		end
 		C_PetJournal.SetPetSourceChecked(i, false)
 	end
 	C_PetJournal.SetAllPetSourcesChecked(true)
-	return t
+	-- some pets are not filtered by a specific source category
+	-- but still get hidden when using "Uncheck All"
+	local visible = {}
+	for i = 1, C_PetJournal.GetNumPets() do
+		local _, speciesID = C_PetJournal.GetPetInfoByIndex(i)
+		visible[speciesID] = true
+	end
+	return sources, visible
 end
