@@ -56,7 +56,7 @@ function KethoWowpedia:GetPetSpeciesIDs(num)
 			if sources[id] then
 				sourceText = self.data.SourceTypeEnum[sources[id]]
 			elseif visible[id] then
-				sourceText = "😕"
+				sourceText = ""
 			else
 				sourceText = "❓"
 				local dbcSource = self.data.SourceTypeEnum[sourceType]
