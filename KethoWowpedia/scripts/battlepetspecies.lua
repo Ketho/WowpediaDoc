@@ -46,22 +46,32 @@ function KethoWowpedia:GetPetSpeciesIDs(num)
 	local sources, visible = self:GetPetSources()
 
 	for id = 1, num do
-		local name, _, petType, npcID, ttSource, ttDesc, isWild, canBattle, isTradeable, _, obtainable, creatureDisplayID = C_PetJournal.GetPetInfoBySpeciesID(id)
+		local name, _, petType, npcID, ttSource, ttDesc, wild, canBattle, tradeable, _, obtainable, creatureDisplayID = C_PetJournal.GetPetInfoBySpeciesID(id)
 		if type(name) == "string" then
+			local hasDesc = #ttDesc > 0
 			local spellID, sourceType = unpack(self.dbc.battlepetspecies[id])
-			local isObtainable = #ttDesc > 0 -- difficult to ascertain whether a pet is actually obtainable
 			local linkName = self.util:GetLinkName(wpLink[id], name, 32)
 
 			local sourceText
-			if sources[id] then
-				sourceText = self.data.SourceTypeEnum[sources[id]]
-			elseif visible[id] then
-				sourceText = ""
+			if hasDesc then
+				if sources[id] then
+					sourceText = self.data.SourceTypeEnum[sources[id]]
+				elseif visible[id] then
+					sourceText = ""
+				else
+					sourceText = "❓"
+					local dbcSource = self.data.SourceTypeEnum[sourceType]
+					if not obtainable then
+						sourceText = sourceText.." ".."Unobtainable"
+					elseif dbcSource then
+						sourceText = sourceText.." "..dbcSource
+					end
+				end
 			else
-				sourceText = "❓"
-				local dbcSource = self.data.SourceTypeEnum[sourceType]
-				if dbcSource then
-					sourceText = sourceText.." "..dbcSource
+				if wild then
+					sourceText = "❌ Wild"
+				else
+					sourceText = "❌"
 				end
 			end
 
@@ -76,10 +86,10 @@ function KethoWowpedia:GetPetSpeciesIDs(num)
 			eb:InsertLine(fs:format(
 				id,
 				canBattle and "{{Pet||Yes}}" or "",
-				isObtainable and isTradeable and "{{Pet||Trade}}" or "",
+				hasDesc and tradeable and "{{Pet||Trade}}" or "",
 				format("{{PetIcon||%s}}", wpPetIcon[petType]),
 				linkName,
-				isObtainable and sourceText or "❌",
+				sourceText,
 				displayLink,
 				spellID and spellID > 0 and format("[https://www.wowhead.com/spell=%d %d]", spellID, spellID) or "",
 				format("[https://www.wowhead.com/npc=%d %d]", npcID, npcID),
