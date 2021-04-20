@@ -38,6 +38,33 @@ local wpLink = {
 	[2921] = "Gorm Harrier (companion)",
 }
 
+local devPet = {
+	[2] = true, -- Dumptruck; Unobtainable, Wild
+	[462] = true, -- Jacob the Test Seagull; DBC Vendor, Unobtainable, Wild, Description
+	[1257] = true, -- Crafty; DBC Drop, Unobtainable, Wild, Description
+	[1410] = true, -- Mechanical Training Dummy; Unobtainable
+	[2046] = true, -- Arne's Test Pet; DBC Drop, Unobtainable, Description
+	[2076] = true, -- SpeedyNumberIII; Wild
+	[2144] = true, -- REUSE; DBC Drop, Unobtainable
+	[2480] = true, -- Test Pet; DBC Drop, Unobtainable, Description
+	[2871] = true, -- Pet Training Dummy; Unobtainable, Wild
+}
+
+local unobtainablePet = {
+	[344] = true, -- Green Balloon; DBC Vendor, Unobtainable
+	[345] = true, -- Yellow Balloon; DBC Vendor, Unobtainable
+	[1757] = true, -- Brown Piglet; DBC Pet Battle, Unobtainable, Wild
+	[1758] = true, -- Black Piglet; DBC Pet Battle, Unobtainable, Wild
+}
+
+local function GetNumKeys(tbl)
+	local v = 0
+	for _ in pairs(tbl) do
+		v = v + 1
+	end
+	return v
+end
+
 -- /run KethoWowpedia:GetPetSpeciesIDs(3500)
 function KethoWowpedia:GetPetSpeciesIDs(num)
 	eb:Show()
@@ -46,31 +73,36 @@ function KethoWowpedia:GetPetSpeciesIDs(num)
 	local sources, visible = self:GetPetSources()
 
 	for id = 1, num do
-		local name, _, petType, npcID, ttSource, ttDesc, wild, canBattle, tradeable, _, obtainable, creatureDisplayID = C_PetJournal.GetPetInfoBySpeciesID(id)
+		local name, _, petType, npcID, ttSource, ttDesc, isWild, canBattle, tradeable, _, obtainable, creatureDisplayID = C_PetJournal.GetPetInfoBySpeciesID(id)
 		if type(name) == "string" then
-			local hasDesc = #ttDesc > 0
 			local spellID, sourceType = unpack(self.dbc.battlepetspecies[id])
 			local linkName = self.util:GetLinkName(wpLink[id], name, 32)
-
-			local sourceText
-			if hasDesc then
-				if sources[id] then
-					sourceText = self.data.SourceTypeEnum[sources[id]]
-				elseif visible[id] then
-					sourceText = ""
-				else
-					sourceText = "❓"
-					local dbcSource = self.data.SourceTypeEnum[sourceType+1]
-					if not obtainable then
-						sourceText = sourceText.." ".."Unobtainable"
-					elseif dbcSource then
-						sourceText = sourceText.." "..dbcSource
-					end
-				end
+			-- categorizing pet sources is annoying as hell
+			local sourceText = "😕"
+			if sources[id] then
+				sourceText = self.data.SourceTypeEnum[sources[id]]
+			elseif visible[id] then
+				sourceText = ""
 			else
-				if wild then
-					sourceText = "❌ Wild"
-				else
+				local dbcSource = self.data.SourceTypeEnum[sourceType+1]
+				local pred = { -- predicates
+					dbcSource = dbcSource,
+					desc = #ttDesc > 0 and true or nil, -- false counts as a key
+					isWild = isWild and true or nil,
+					unobtainable = not obtainable and true or nil,
+				}
+				local numPred = GetNumKeys(pred)
+				if devPet[id] then
+					sourceText = "[[File:ProfIcons_engineering.png|16px|link=]]"
+				elseif unobtainablePet[id] then
+					sourceText = "❌"
+				elseif ((dbcSource and numPred == 3) or numPred == 2) and pred.unobtainable and pred.isWild then
+					sourceText = "❌ Battle"
+				elseif ((dbcSource and numPred == 2) or numPred == 1) and pred.unobtainable then
+					sourceText = "❌ Tamer Battle"
+				elseif dbcSource and numPred == 2 and pred.desc then
+					sourceText = "❓ "..dbcSource
+				elseif pred.unobtainable then
 					sourceText = "❌"
 				end
 			end
@@ -86,7 +118,7 @@ function KethoWowpedia:GetPetSpeciesIDs(num)
 			eb:InsertLine(fs:format(
 				id,
 				canBattle and "{{Pet||Yes}}" or "",
-				hasDesc and tradeable and "{{Pet||Trade}}" or "",
+				tradeable and obtainable and "{{Pet||Trade}}" or "",
 				format("{{PetIcon||%s}}", wpPetIcon[petType]),
 				linkName,
 				sourceText,
