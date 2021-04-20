@@ -60,7 +60,7 @@ function KethoWowpedia:GetPetSpeciesIDs(num)
 					sourceText = ""
 				else
 					sourceText = "❓"
-					local dbcSource = self.data.SourceTypeEnum[sourceType]
+					local dbcSource = self.data.SourceTypeEnum[sourceType+1]
 					if not obtainable then
 						sourceText = sourceText.." ".."Unobtainable"
 					elseif dbcSource then
