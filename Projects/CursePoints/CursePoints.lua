@@ -1,3 +1,5 @@
+-- https://authors.curseforge.com/store/transactions
+
 -- repeatedly click the "SHOW MORE" button
 -- moreBtn = document.querySelector("#more"); window.setInterval(function() {moreBtn.click()}, 1000)
 

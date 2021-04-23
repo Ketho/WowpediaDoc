@@ -1,3 +1,4 @@
+-- https://wowpedia.fandom.com/wiki/Category:API_namespaces
 local catFile = io.open("Pywikibot/categories/namespaces.py", "w")
 local m = {}
 
