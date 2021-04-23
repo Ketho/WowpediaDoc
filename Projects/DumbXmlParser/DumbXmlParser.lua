@@ -1,7 +1,7 @@
 -- first strip out UTF8 BOM from files with powershell
 local lfs = require "lfs"
 
-local FRAMEXML_PATH = "FrameXML"
+local FRAMEXML_PATH = "D:/Dev/Repo/wow-dev/#FrameXML/wow-ui-source gethe"
 
 local folders = {
 	"AddOns",
@@ -45,7 +45,9 @@ local function SortTable(tbl)
 	for k in pairs(tbl) do
 		table.insert(t, k)
 	end
-	table.sort(t)
+	table.sort(t, function(a, b)
+		return a:lower() < b:lower()
+	end)
 	return t
 end
 
@@ -53,7 +55,7 @@ local m = {}
 
 function m:main()
 	for _, folder in pairs(folders) do
-		m:IterateFiles("FrameXML/"..folder)
+		m:IterateFiles(FRAMEXML_PATH.."/"..folder)
 	end
 
 	local fs = '\t"%s",\n'
