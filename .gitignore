@@ -6,6 +6,7 @@
 *.csv
 out
 cache
+FrameXML
 
 # python
 apicache-py3
