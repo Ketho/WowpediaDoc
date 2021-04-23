@@ -21,7 +21,7 @@ local searchTbl = {
 
 local outputName = {
 	mixin = "Mixins",
-	inherits = "Template",
+	inherits = "Templates",
 }
 
 local mixinFunc = {
@@ -85,7 +85,7 @@ function m:IterateFiles(folder)
 				local file = io.open(path, "r")
 				for line in file:lines() do
 					for word, tbl in pairs(searchTbl) do
-						self:FindAttribute(line, tbl, word)
+						self:FindAttribute(tbl, line, word)
 					end
 				end
 			elseif fileName:find("%.lua") then
@@ -105,7 +105,7 @@ function m:IterateFiles(folder)
 	end
 end
 
-function m:FindAttribute(line, tbl, attrName)
+function m:FindAttribute(tbl, line, attrName)
 	-- CharacterModelFrameMixin the only one with a space
 	local pattern = attrName..'%s?="(.-)"'
 	local attrValue = line:match(pattern)
