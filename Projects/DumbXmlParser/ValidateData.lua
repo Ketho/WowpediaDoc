@@ -90,3 +90,14 @@ for k, v in pairs(templates) do
 end
 -- AddOns\Blizzard_GuildControlUI\Blizzard_GuildControlUI.xml
 --   GuildBankTabPermissionsTabTemplate (Button) is commented out
+
+-- defined more than once
+--BlackMarketColumnButtonTemplate -- first instance commented out
+--Tutorial_PointerUp
+--Tutorial_PointerDown
+--Tutorial_PointerLeft
+--Tutorial_PointerRight
+--TutorialPointerFrame
+--GameFontGreen
+--GameFontHighlightLarge
+--GameFontDisableLarge
