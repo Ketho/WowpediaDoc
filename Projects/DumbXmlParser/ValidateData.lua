@@ -101,3 +101,15 @@ end
 --GameFontGreen
 --GameFontHighlightLarge
 --GameFontDisableLarge
+
+-- templates are LoadOnDemand too
+-- returns false for FontFamily (Font ObjectType)
+-- they seem to just exist even if they are virtual
+--[[
+for k in pairs(Templates) do
+	local exists = DoesTemplateExist(k)
+	if not exists then
+		print(k, DoesTemplateExist(k))
+	end
+end
+]]
