@@ -113,3 +113,13 @@ for k in pairs(Templates) do
 	end
 end
 ]]
+
+-- note there can be no space after a comma
+--[[
+["CovenantFollowerTabTemplate"] = {type = "Frame", mixin = "GarrisonFollowerTabMixin,CovenantFollowerTabMixin", inherits = "CovenantMissionBaseFrameTemplate"},
+["FloatingChatFrameTemplate"] = {type = "ScrollingMessageFrame", inherits = "ChatFrameTemplate,FloatingBorderedFrame"},
+["GarrisonFollowerTooltipTemplate"] = {type = "Frame", inherits = "GarrisonFollowerTooltipContentsTemplate,TooltipBorderedFrameTemplate"},
+["PetBattleUnitTooltipTemplate"] = {type = "Frame", inherits = "PetBattleUnitFrameUnclickable,TooltipBorderedFrameTemplate"},
+["SpellFlyoutButtonTemplate"] = {type = "CheckButton", inherits = "ActionButtonTemplate,SecureFrameTemplate"},
+["UIPanelButtonNoTooltipResizeToFitTemplate"] = {type = "Button", mixin = "UIPanelButtonNoTooltipResizeToFitMixin", inherits = "UIPanelButtonNoTooltipTemplate,ResizeLayoutFrame"},
+]]
