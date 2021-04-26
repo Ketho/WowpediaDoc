@@ -131,6 +131,7 @@ function m:ParseXml(path, fileName)
 		end
 		lookbackLines[lineIdx] = line
 	end
+	file:close()
 end
 
 function m:ParseLua(path)
@@ -143,6 +144,7 @@ function m:ParseLua(path)
 			end
 		end
 	end
+	file:close()
 end
 
 function m:FindAttribute(line, attrName)
@@ -172,6 +174,7 @@ function m:WriteDataFile(info)
 		file:write(text.."\n")
 	end
 	file:write(string.format("}\n\nreturn %s\n", info.label))
+	file:close()
 end
 
 m:main()
