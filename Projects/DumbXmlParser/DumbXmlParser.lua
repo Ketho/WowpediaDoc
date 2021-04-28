@@ -1,7 +1,8 @@
 -- first strip out UTF8 BOM from files with powershell
 local lfs = require "lfs"
 
-local FRAMEXML_PATH = "D:/Dev/Repo/wow-dev/#FrameXML/wow-ui-source gethe"
+local FRAMEXML_PATH = "../#FrameXML/wow-ui-source gethe"
+local OUT_PATH = "../BlizzardInterfaceResources/Resources"
 
 local folders = {
 	"AddOns",
@@ -57,7 +58,7 @@ local filterMixinArgs = {
 
 local filterTemplates = {
 	-- AddOns\Blizzard_GuildControlUI\Blizzard_GuildControlUI.xml
-	GuildBankTabPermissionsTabTemplate = true, 	-- commented out
+	GuildBankTabPermissionsTabTemplate = true, -- commented out
 }
 
 local function SortTable(tbl)
@@ -77,9 +78,6 @@ function m:main()
 	for _, folder in pairs(folders) do
 		m:IterateFiles(FRAMEXML_PATH.."/"..folder)
 	end
-	if not lfs.attributes("out") then
-		lfs.mkdir("out")
-	end
 	for _, info in pairs(dataTypes) do
 		self:WriteDataFile(info)
 	end
@@ -95,50 +93,58 @@ function m:IterateFiles(folder)
 			end
 		else
 			if fileName:find("%.xml") then
-				-- could use xml2lua for less dumb parsing
-				local file = io.open(path, "r")
-				local lookbackLines, lineIdx = {}, 0
-				for line in file:lines() do
-					lineIdx = lineIdx + 1
-					local mixin = self:FindAttribute(line, "mixin")
-					if mixin then
-						self:HandleCommaString(dataTypes.mixin.data, mixin)
-					end
-					local virtual = self:FindAttribute(line, "virtual")
-					if virtual == "true" then -- attribute value for IMECandidatesFrame is "false"
-						-- misses `parentKey` attributes instead of `name`
-						-- and when not everything is on 1 line e.g. SecureHandlerDragTemplate
-						local objectType = line:match('<(.-) ')
-						-- OrderHallTalentFrameTick doesnt have `name` as the first attribute
-						local name = line:match(' name%s?="(.-)"')
-						if not name and fileName == "SecureHandlerTemplates.xml" then
-							line = lookbackLines[lineIdx-2]..lookbackLines[lineIdx-1]..line
-							objectType, name = line:match('<(.-) name%s?="(.-)"')
-						end
-						if name and not filterTemplates[name] then
-							dataTypes.template.data[name] = {
-								name = name,
-								object = objectType,
-								inherits = self:FindAttribute(line, "inherits"),
-								mixin = mixin,
-							}
-						end
-					end
-					lookbackLines[lineIdx] = line
-				end
+				self:ParseXml(path, fileName)
 			elseif fileName:find("%.lua") then
-				local file = io.open(path, "r")
-				for line in file:lines() do
-					for word, pattern in pairs(mixinFunc) do
-						local attrValue = line:match(pattern)
-						if attrValue and not filterMixinArgs[attrValue] then
-							self:HandleCommaString(dataTypes.mixin.data, attrValue)
-						end
-					end
-				end
+				self:ParseLua(path)
 			end
 		end
 	end
+end
+
+function m:ParseXml(path, fileName)
+	-- could use xml2lua for less dumb parsing
+	local file = io.open(path, "r")
+	local lookbackLines, lineIdx = {}, 0
+	for line in file:lines() do
+		lineIdx = lineIdx + 1
+		local mixin = self:FindAttribute(line, "mixin")
+		if mixin then
+			self:HandleCommaString(dataTypes.mixin.data, mixin)
+		end
+		local virtual = self:FindAttribute(line, "virtual")
+		if virtual == "true" then -- attribute value for IMECandidatesFrame is "false"
+			local objectType = line:match('<(.-) ')
+			local name = line:match(' name%s?="(.-)"')
+			if not name and fileName == "SecureHandlerTemplates.xml" then
+				-- not everything is on 1 line e.g. SecureHandlerDragTemplate
+				line = lookbackLines[lineIdx-2]..lookbackLines[lineIdx-1]..line
+				objectType, name = line:match('<(.-) name%s?="(.-)"')
+			end
+			if name and not filterTemplates[name] then
+				dataTypes.template.data[name] = {
+					name = name,
+					object = objectType,
+					inherits = self:FindAttribute(line, "inherits"),
+					mixin = mixin,
+				}
+			end
+		end
+		lookbackLines[lineIdx] = line
+	end
+	file:close()
+end
+
+function m:ParseLua(path)
+	local file = io.open(path, "r")
+	for line in file:lines() do
+		for word, pattern in pairs(mixinFunc) do
+			local attrValue = line:match(pattern)
+			if attrValue and not filterMixinArgs[attrValue] then
+				self:HandleCommaString(dataTypes.mixin.data, attrValue)
+			end
+		end
+	end
+	file:close()
 end
 
 function m:FindAttribute(line, attrName)
@@ -160,7 +166,7 @@ function m:HandleCommaString(tbl, str)
 end
 
 function m:WriteDataFile(info)
-	local file = io.open("out/"..info.label..".lua", "w")
+	local file = io.open(OUT_PATH.."/"..info.label..".lua", "w")
 	file:write(string.format("local %s = {\n", info.label))
 	for _, key in pairs(SortTable(info.data)) do
 		local value = info.data[key]
@@ -168,6 +174,7 @@ function m:WriteDataFile(info)
 		file:write(text.."\n")
 	end
 	file:write(string.format("}\n\nreturn %s\n", info.label))
+	file:close()
 end
 
 m:main()
