@@ -80,6 +80,7 @@ local widgetObjects = {
 	-- intrinsics
 	ContainedAlertFrame = true,
 	DropDownToggleButton = true,
+	EventFrame = true,
 }
 
 print("\n-- missing widget types:")
@@ -90,6 +91,34 @@ for k, v in pairs(templates) do
 end
 -- AddOns\Blizzard_GuildControlUI\Blizzard_GuildControlUI.xml
 --   GuildBankTabPermissionsTabTemplate (Button) is commented out
+
+print("\n-- mixin not used in templates:")
+local templateMixins = {}
+for k, v in pairs(templates) do
+	if v.mixin then
+		if v.mixin:find(",") then
+			for part in v.mixin:gmatch("[^%s,]+") do
+				templateMixins[part] = true
+			end
+		else
+			templateMixins[v.mixin] = true
+		end
+	end
+end
+for _, name in pairs(mixins) do
+	if not templateMixins[name] then
+		-- print(name)
+	end
+end
+
+-- CovenantFollowerTabTemplate     GarrisonFollowerTabMixin,CovenantFollowerTabMixin
+-- CovenantMissionListTemplate     GarrisonMissionListMixin, CovenantMissionListMixin
+-- HorizontalLayoutFrame   LayoutMixin, HorizontalLayoutMixin
+-- PropertyButtonTemplate  PropertyBindingMixin, PropertyButtonMixin
+-- PropertyFontStringTemplate      PropertyBindingMixin, PropertyFontStringMixin  
+-- PropertySliderTemplate  PropertyBindingMixin, PropertySliderMixin
+-- VerticalLayoutFrame     LayoutMixin, VerticalLayoutMixin
+-- WorldMapFrameTemplate   QuestLogOwnerMixin, WorldMapMixin
 
 -- defined more than once
 --BlackMarketColumnButtonTemplate -- first instance commented out
