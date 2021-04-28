@@ -50,9 +50,7 @@ function KethoWowpedia:GetMountIDs(num)
 				end)
 				displayID = allDisplay[1].creatureDisplayID
 			end
-			local model = self.dbc.creaturedisplayinfo[displayID]
-			local filemodel = self.dbc.creaturemodeldata[model]
-			local displayLink = format("[https://wow.tools/mv/?filedataid=%d&type=m2 %d]", filemodel, displayID)
+			local displayLink = format("[https://wow.tools/mv/?displayID=%d %d]", displayID, displayID)
 			if isMultiple then
 				displayLink = displayLink.." {{api|C_MountJournal.GetMountAllCreatureDisplayInfoByID#Values|+}}"
 			end
