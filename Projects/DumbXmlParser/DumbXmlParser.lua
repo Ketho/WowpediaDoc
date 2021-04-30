@@ -1,7 +1,7 @@
 -- first strip out UTF8 BOM from files with powershell
 local lfs = require "lfs"
 
-local FRAMEXML_PATH = "../#FrameXML/wow-ui-source gethe"
+local FRAMEXML_PATH = "../#FrameXML/Generate-Globals/wow-ui-source"
 local OUT_PATH = "../BlizzardInterfaceResources/Resources"
 
 local folders = {
