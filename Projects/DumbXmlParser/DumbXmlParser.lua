@@ -147,12 +147,9 @@ function m:ParseLua(path)
 	file:close()
 end
 
-function m:FindAttribute(line, attrName)
-	local pattern = attrName..'%s?="(.-)"'
-	local attrValue = line:match(pattern)
-	if attrValue then
-		return attrValue
-	end
+function m:FindAttribute(line, name)
+	local pattern = name..'%s?="(.-)"'
+	return line:match(pattern)
 end
 
 function m:HandleCommaString(tbl, str)
