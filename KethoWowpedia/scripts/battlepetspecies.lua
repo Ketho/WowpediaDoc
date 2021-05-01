@@ -23,6 +23,7 @@ local wpLink = {
 	[960] = "Gnasher (crocolisk)",
 	[968] = "Mort (pet)",
 	[969] = "Stitch (pet)",
+	[1187] = "Gorespine (porcupine)",
 	[1271] = "Chaos (NPC)",
 	[1290] = "Rikki (otter)",
 	[1805] = "Alarm-o-Bot (companion)",
@@ -73,7 +74,7 @@ function KethoWowpedia:GetPetSpeciesIDs(num)
 	local sources, visible = self:GetPetSources()
 
 	for id = 1, num do
-		local name, _, petType, npcID, ttSource, ttDesc, isWild, canBattle, tradeable, _, obtainable, creatureDisplayID = C_PetJournal.GetPetInfoBySpeciesID(id)
+		local name, _, petType, npcID, ttSource, ttDesc, isWild, canBattle, tradeable, _, obtainable, displayID = C_PetJournal.GetPetInfoBySpeciesID(id)
 		if type(name) == "string" then
 			local spellID, sourceType = unpack(self.dbc.battlepetspecies[id])
 			local linkName = self.util:GetLinkName(wpLink[id], name, 32)
@@ -107,9 +108,7 @@ function KethoWowpedia:GetPetSpeciesIDs(num)
 				end
 			end
 
-			local model = self.dbc.creaturedisplayinfo[creatureDisplayID]
-			local filemodel = self.dbc.creaturemodeldata[model]
-			local displayLink = format("[https://wow.tools/mv/?filedataid=%d&type=m2 %d]", filemodel, creatureDisplayID)
+			local displayLink = format("[https://wow.tools/mv/?displayID=%d %d]", displayID, displayID)
 			local numDisplayIDs = C_PetJournal.GetNumDisplays(id)
 			if numDisplayIDs and numDisplayIDs > 1 then
 				displayLink = displayLink.." {{api|C_PetJournal.GetDisplayIDByIndex#Values|+}}"
