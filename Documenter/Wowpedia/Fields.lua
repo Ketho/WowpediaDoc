@@ -121,11 +121,12 @@ function Wowpedia:GetPrettyType(apiTable, isArgument)
 	else
 		error("Unknown Type: "..apiTable.Type)
 	end
-	if apiTable.Nilable or apiTable.Default ~= nil then
+	if apiTable.Nilable then
 		str = tooltipFs:format(isArgument and "optional" or "nilable", str.."?")
-		if apiTable.Default ~= nil then
-			str = format("%s (Default = %s)", str, tostring(apiTable.Default))
-		end
+	end
+	-- nilable can be false even if default is defined
+	if apiTable.Default ~= nil then
+		str = format("%s (Default = %s)", str, tostring(apiTable.Default))
 	end
 	if apiTable.Documentation then
 		str = str.." - "..table.concat(apiTable.Documentation, "; ")
