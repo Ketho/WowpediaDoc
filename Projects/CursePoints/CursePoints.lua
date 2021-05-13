@@ -20,7 +20,7 @@ end
 local function WriteMonthDay()
 	local file = io.open(folder.."/day.csv", "w")
 	local year = {}
-	for k, v in pairs(transactions) do
+	for _, v in pairs(transactions) do
 		if type(v) == "table" then
 			local dataepoch = v.children[1].children[1].children[1].attributes[3].value
 			local reward = v.children[2].children[1].children[1]
@@ -40,7 +40,7 @@ end
 local function WriteMonth()
 	local file = io.open(folder.."/month.csv", "w")
 	local yearmonth = {}
-	for k, v in pairs(transactions) do
+	for _, v in pairs(transactions) do
 		if type(v) == "table" then
 			local dataepoch = v.children[1].children[1].children[1].attributes[3].value
 			local reward = v.children[2].children[1].children[1]

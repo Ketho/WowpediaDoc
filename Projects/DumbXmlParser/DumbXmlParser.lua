@@ -137,7 +137,7 @@ end
 function m:ParseLua(path)
 	local file = io.open(path, "r")
 	for line in file:lines() do
-		for word, pattern in pairs(mixinFunc) do
+		for _, pattern in pairs(mixinFunc) do
 			local attrValue = line:match(pattern)
 			if attrValue and not filterMixinArgs[attrValue] then
 				self:HandleCommaString(dataTypes.mixin.data, attrValue)

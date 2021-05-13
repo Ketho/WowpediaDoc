@@ -94,7 +94,7 @@ end
 
 print("\n-- mixin not used in templates:")
 local templateMixins = {}
-for k, v in pairs(templates) do
+for _, v in pairs(templates) do
 	if v.mixin then
 		if v.mixin:find(",") then
 			for part in v.mixin:gmatch("[^%s,]+") do
@@ -105,17 +105,17 @@ for k, v in pairs(templates) do
 		end
 	end
 end
-for _, name in pairs(mixins) do
-	if not templateMixins[name] then
-		-- print(name)
-	end
-end
+-- for _, name in pairs(mixins) do
+-- 	if not templateMixins[name] then
+-- 		print(name)
+-- 	end
+-- end
 
 -- CovenantFollowerTabTemplate     GarrisonFollowerTabMixin,CovenantFollowerTabMixin
 -- CovenantMissionListTemplate     GarrisonMissionListMixin, CovenantMissionListMixin
 -- HorizontalLayoutFrame   LayoutMixin, HorizontalLayoutMixin
 -- PropertyButtonTemplate  PropertyBindingMixin, PropertyButtonMixin
--- PropertyFontStringTemplate      PropertyBindingMixin, PropertyFontStringMixin  
+-- PropertyFontStringTemplate      PropertyBindingMixin, PropertyFontStringMixin
 -- PropertySliderTemplate  PropertyBindingMixin, PropertySliderMixin
 -- VerticalLayoutFrame     LayoutMixin, VerticalLayoutMixin
 -- WorldMapFrameTemplate   QuestLogOwnerMixin, WorldMapMixin

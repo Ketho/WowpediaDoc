@@ -1,7 +1,7 @@
 std = "lua53"
 max_line_length = false
 exclude_files = {
-	"FrameXML/Blizzard_APIDocumentation",
+	"Documenter/FrameXML/Blizzard_APIDocumentation",
 }
 ignore = {
 	"211", -- unused local variable / function
@@ -20,4 +20,17 @@ globals = {
 	"string.split",
 	"tinsert",
 	"unpack",
+	"KethoWowpedia",
+	"KethoEditBox",
+	"CreateFrame",
+	"UIParent",
+	"sort",
+	"strmatch",
+	"GetGameMessageInfo",
+	"C_PetJournal",
+	"C_MountJournal",
+	"bit",
+	"C_ToyBox",
+	"GetNumExpansions",
+	"C_Map",
 }
