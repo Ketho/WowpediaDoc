@@ -92,6 +92,7 @@ end
 -- AddOns\Blizzard_GuildControlUI\Blizzard_GuildControlUI.xml
 --   GuildBankTabPermissionsTabTemplate (Button) is commented out
 
+--[[
 print("\n-- mixin not used in templates:")
 local templateMixins = {}
 for _, v in pairs(templates) do
@@ -105,11 +106,13 @@ for _, v in pairs(templates) do
 		end
 	end
 end
--- for _, name in pairs(mixins) do
--- 	if not templateMixins[name] then
--- 		print(name)
--- 	end
--- end
+
+for _, name in pairs(mixins) do
+	if not templateMixins[name] then
+		print(name)
+	end
+end
+]]
 
 -- CovenantFollowerTabTemplate     GarrisonFollowerTabMixin,CovenantFollowerTabMixin
 -- CovenantMissionListTemplate     GarrisonMissionListMixin, CovenantMissionListMixin
