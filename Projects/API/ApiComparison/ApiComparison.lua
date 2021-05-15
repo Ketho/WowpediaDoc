@@ -79,16 +79,16 @@ local file = io.open("out/lua/ApiCompare.txt", "w")
 file:write('{| class="sortable darktable zebra"\n')
 file:write('! !! !! !! align="left" | API Name\n')
 
-local sectionfs = '|-\n! colspan="4" style="text-align:left; padding-left: 9em;" | %s \n'
-local fs = "|-\n| %s || %s || %s || [[API %s|%s]]\n"
+local section_fs = '|-\n! colspan="4" style="text-align:left; padding-left: 9em;" | %s\n'
+local row_fs = "|-\n| %s || %s || %s || [[API %s|%s]]\n"
 
 for _, tbl in pairs(sectionOrder) do
-	file:write(sectionfs:format(sections[tbl].label))
+	file:write(section_fs:format(sections[tbl].label))
 	for _, name in pairs(Util:SortTable(sections[tbl].data)) do
 		local retail = apiNames.live[name] and wp_icons.live or ""
 		local bcc = apiNames.classic_beta[name] and wp_icons.bcc or ""
 		local classic = apiNames.classic[name] and wp_icons.classic or ""
-		file:write(fs:format(retail, bcc, classic, name, name))
+		file:write(row_fs:format(retail, bcc, classic, name, name))
 	end
 end
 
