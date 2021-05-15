@@ -1,5 +1,6 @@
 local lfs = require "lfs"
 local cURL = require "cURL"
+local https = require "ssl.https"
 
 local Util = {}
 
@@ -14,6 +15,13 @@ function Util:DownloadFile(path, url)
 	file:close()
 end
 
+function Util:CacheFile(path, url)
+	if not lfs.attributes(path) then
+		local body = https.request(url)
+		self:WriteFile(path, body)
+	end
+end
+
 function Util:ReadFile(path)
 	local t = {}
 	local file = io.open(path, "r")
@@ -23,6 +31,14 @@ function Util:ReadFile(path)
 	file:close()
 	return t
 end
+
+function Util:WriteFile(path, text)
+	print("Writing", path)
+	local file = io.open(path, "w")
+	file:write(text)
+	file:close()
+end
+
 
 function Util:DownloadAndRead(path, url)
 	self:DownloadFile(path, url)
@@ -44,12 +60,12 @@ function Util:ToMap(tbl)
 	return t
 end
 
-function Util:ProxySort(tbl)
+function Util:SortTable(tbl, func)
 	local t = {}
 	for k in pairs(tbl) do
 		table.insert(t, k)
 	end
-	table.sort(t)
+	table.sort(t, func)
 	return t
 end
 

@@ -21,7 +21,7 @@ w.data.SourceTypeEnum = {
 	[11] = BATTLE_PET_SOURCE_11, -- discovery
 }
 
-function w.util:ProxySort(tbl)
+function w.util:SortTable(tbl)
 	local t = {}
 	for k in pairs(tbl) do
 		tinsert(t, k)

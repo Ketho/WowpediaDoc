@@ -57,7 +57,7 @@ function m:WriteData(tbl, path, tblName)
 	local file = io.open(path, "w")
 	file:write(tblName)
 	local fs = '\t[%d] = "%s",\n'
-	for _, k in pairs(Util:ProxySort(tbl)) do
+	for _, k in pairs(Util:SortTable(tbl)) do
 		file:write(fs:format(k, tbl[k]))
 	end
 	file:write("}\n")
