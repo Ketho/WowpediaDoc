@@ -1,6 +1,7 @@
 local Util = require("Util/Util")
 local path = "cache/GlobalAPI_%s.lua"
 local url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/GlobalAPI.lua"
+local out_path = "out/lua/ApiCompare.txt"
 
 local branches = {
 	"live",
@@ -47,8 +48,8 @@ local sections = {
 }
 
 local sectionOrder = {
-	"bcc", "classic", "both",
-	"retail_bcc", "retail_classic", "retail_both"
+	"bcc", "both", "retail_bcc",
+	"classic", "retail_classic", "retail_both"
 }
 
 for _, name in pairs(Util:SortTable(combinedApi)) do
@@ -75,7 +76,7 @@ for _, name in pairs(Util:SortTable(combinedApi)) do
 	end
 end
 
-local file = io.open("out/lua/ApiCompare.txt", "w")
+local file = io.open(out_path, "w")
 file:write('{| class="sortable darktable zebra"\n')
 file:write('! !! !! !! align="left" | API Name\n')
 
