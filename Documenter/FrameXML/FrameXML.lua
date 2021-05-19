@@ -1,3 +1,4 @@
+local lfs = require "lfs"
 local m = {}
 
 local missing = {
@@ -19,19 +20,24 @@ local shared_namespaces = {
 }
 
 local function LoadApiDocFile(base, line)
-	local file = assert(loadfile(base.."/Blizzard_APIDocumentation/"..line))
-	file()
+	local path = base.."/Blizzard_APIDocumentation/"..line
+	if lfs.attributes(path) then
+		local file = loadfile(path)
+		file()
+	end
 end
 
 function m:LoadApiDocs(base)
 	require(base.."/Compat")
 	local toc = io.open(base.."/Blizzard_APIDocumentation/Blizzard_APIDocumentation.toc")
-	for line in toc:lines() do
-		if line:find("%.lua") and not missing[line] then
-			LoadApiDocFile(base, line)
+	if toc then
+		for line in toc:lines() do
+			if line:find("%.lua") and not missing[line] then
+				LoadApiDocFile(base, line)
+			end
 		end
+		toc:close()
 	end
-	toc:close()
 	require(base.."/MissingDocumentation")
 end
 

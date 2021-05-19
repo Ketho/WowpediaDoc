@@ -1,7 +1,43 @@
+-- https://wowpedia.fandom.com/wiki/Global_functions/Classic
+-- https://wowpedia.fandom.com/wiki/Events/Classic
 local Util = require("Util/Util")
-local path = "cache/GlobalAPI_%s.lua"
-local url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/GlobalAPI.lua"
-local out_path = "out/lua/ApiCompare.txt"
+
+local m = {}
+
+local sources = {
+	api = {
+		label = "API Name",
+		url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/GlobalAPI.lua",
+		cache = "cache/GlobalAPI_%s.lua",
+		out = "out/lua/CompareApi.txt",
+		location = function(tbl)
+			return tbl[1]
+		end,
+		map = function(tbl)
+			return Util:ToMap(tbl)
+		end,
+		fs = "[[API %s|%s]]",
+	},
+	event = {
+		label = "Event Name",
+		url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/Events.lua",
+		cache = "cache/Events_%s.lua",
+		out = "out/lua/CompareEvent.txt",
+		location = function(tbl)
+			return tbl
+		end,
+		map = function(tbl)
+			local t = {}
+			for _, system in pairs(tbl) do
+				for _, event in pairs(system) do
+					t[event] = true
+				end
+			end
+			return t
+		end,
+		fs = "[[%s]]",
+	},
+}
 
 local branches = {
 	"live",
@@ -16,83 +52,107 @@ local wp_icons = {
 	classic = "[[File:WoW Icon update.png|link=]]",
 }
 
-local apiNames = {}
-local combinedApi = {}
+local sections = {
+	{id = "bcc", label = "BCC only"},
+	{id = "both", label = "BCC & Classic"},
+	{id = "retail_bcc", label = "Retail & BCC"},
+	{id = "classic", label = "Classic only"},
+	{id = "retail_classic", label = "Retail & Classic"},
+	{id = "retail_both", label = "Retail & BCC & Classic"},
+}
 
-local function ToMap(tbl)
+function m:GetEventPayload()
+	local FrameXML = require("Documenter/FrameXML/FrameXML")
+	FrameXML:LoadApiDocs("Documenter/FrameXML")
 	local t = {}
-	for _, v in pairs(tbl) do
-		t[v] = true
+	for _, event in pairs(APIDocumentation.events) do
+		if event.Payload then
+			local payload = event:GetPayloadString(false, false)
+			if #payload>160 and (event.LiteralName:find("^CHAT_MSG") or event.LiteralName:find("^CHAT_COMBAT_MSG")) then
+				payload = "''CHAT_MSG''"
+			end
+			t[event.LiteralName] = payload
+		end
 	end
 	return t
 end
 
-for _, branch in pairs(branches) do
-	local filePath = path:format(branch)
-	Util:CacheFile(filePath, url:format(branch))
-	local globalApi = require(filePath:gsub("%.lua", ""))[1]
-	apiNames[branch] = ToMap(globalApi)
-	for _, v in pairs(globalApi) do
-		combinedApi[v] = true
+function m:GetData(sourceType)
+	local info = sources[sourceType]
+	local parts = {}
+	local mainTbl = {}
+	local sectionData = {}
+	for _, tbl in pairs(sections) do
+		sectionData[tbl.id] = {}
 	end
-end
 
-local sections = {
-	bcc = {label = "BCC only", data = {}},
-	classic = {label = "Classic only", data = {}},
-	both = {label = "BCC & Classic", data = {}},
-
-	retail_bcc = {label = "Retail & BCC", data = {}},
-	retail_classic = {label = "Retail & Classic", data = {}},
-	retail_both = {label = "Retail & BCC & Classic", data = {}},
-}
-
-local sectionOrder = {
-	"bcc", "both", "retail_bcc",
-	"classic", "retail_classic", "retail_both"
-}
-
-for _, name in pairs(Util:SortTable(combinedApi)) do
-	local retail = apiNames.live[name]
-	local bcc = apiNames.classic_beta[name]
-	local classic = apiNames.classic[name]
-
-	if retail then
-		if bcc and classic then
-			sections.retail_both.data[name] = true
-		elseif bcc then
-			sections.retail_bcc.data[name] = true
-		elseif classic then
-			sections.retail_classic.data[name] = true
-		end
-	else
-		if bcc and classic then
-			sections.both.data[name] = true
-		elseif bcc then
-			sections.bcc.data[name] = true
-		elseif classic then
-			sections.classic.data[name] = true
+	for _, branch in pairs(branches) do
+		local path = info.cache:format(branch)
+		Util:CacheFile(path, info.url:format(branch))
+		local fileTbl = require(path:gsub("%.lua", ""))
+		local location = info.location(fileTbl)
+		parts[branch] = info.map(location)
+		for name in pairs(parts[branch]) do
+			mainTbl[name] = true
 		end
 	end
+
+	for _, name in pairs(Util:SortTable(mainTbl)) do
+		local retail = parts.live[name]
+		local bcc = parts.classic_beta[name]
+		local classic = parts.classic[name]
+
+		if retail then
+			if bcc and classic then
+				sectionData.retail_both[name] = true
+			elseif bcc then
+				sectionData.retail_bcc[name] = true
+			elseif classic then
+				sectionData.retail_classic[name] = true
+			end
+		else
+			if bcc and classic then
+				sectionData.both[name] = true
+			elseif bcc then
+				sectionData.bcc[name] = true
+			elseif classic then
+				sectionData.classic[name] = true
+			end
+		end
+	end
+	return parts, sectionData
 end
 
-local file = io.open(out_path, "w")
-file:write('{| class="sortable darktable zebra"\n')
-file:write('! !! !! !! align="left" | API Name\n')
+function m:main()
+	local eventDoc = self:GetEventPayload()
+	for source, info in pairs(sources) do
+		local parts, data = self:GetData(source)
 
-local section_fs = '|-\n! colspan="4" style="text-align:left; padding-left: 9em;" | %s\n'
-local row_fs = "|-\n| %s || %s || %s || [[API %s|%s]]\n"
+		local file = io.open(info.out, "w")
+		file:write('{| class="sortable darktable zebra"\n')
+		file:write(string.format('! !! !! !! align="left" | %s\n', info.label))
 
-for _, tbl in pairs(sectionOrder) do
-	file:write(section_fs:format(sections[tbl].label))
-	for _, name in pairs(Util:SortTable(sections[tbl].data)) do
-		local retail = apiNames.live[name] and wp_icons.live or ""
-		local bcc = apiNames.classic_beta[name] and wp_icons.bcc or ""
-		local classic = apiNames.classic[name] and wp_icons.classic or ""
-		file:write(row_fs:format(retail, bcc, classic, name, name))
+		local section_fs = '|-\n! colspan="4" style="text-align:left; padding-left: 9em;" | %s\n'
+		local row_fs = "|-\n| %s || %s || %s || %s"
+
+		for _, sectionInfo in pairs(sections) do
+			file:write(section_fs:format(sectionInfo.label))
+			for _, name in pairs(Util:SortTable(data[sectionInfo.id])) do
+				local retail = parts.live[name] and wp_icons.live or ""
+				local bcc = parts.classic_beta[name] and wp_icons.bcc or ""
+				local classic = parts.classic[name] and wp_icons.classic or ""
+				local nameLink = info.fs:format(name, name)
+				file:write(row_fs:format(retail, bcc, classic, nameLink))
+				if source == "event" and eventDoc[name] then
+					file:write(string.format("<small>: %s</small>", eventDoc[name]))
+				end
+				file:write("\n")
+			end
+		end
+		file:write("|}\n")
+		file:close()
 	end
 end
 
-file:write("|}\n")
-file:close()
+m:main()
 print("done")

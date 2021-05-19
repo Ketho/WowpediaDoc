@@ -4,6 +4,8 @@ local https = require "ssl.https"
 
 local Util = {}
 
+local CACHE_INVALIDATION_TIME = 600
+
 function Util:DownloadFile(path, url)
 	local file = io.open(path, "w")
 	cURL.easy{
@@ -16,7 +18,9 @@ function Util:DownloadFile(path, url)
 end
 
 function Util:CacheFile(path, url)
-	if not lfs.attributes(path) then
+	local attr = lfs.attributes(path)
+	local modified = attr.modification
+	if not attr or os.time() > modified + CACHE_INVALIDATION_TIME then
 		local body = https.request(url)
 		self:WriteFile(path, body)
 	end
