@@ -1,5 +1,6 @@
 -- https://wowpedia.fandom.com/wiki/Global_functions/Classic
 -- https://wowpedia.fandom.com/wiki/Events/Classic
+-- https://wowpedia.fandom.com/wiki/Console_variables/Complete_list/Classic
 local Util = require("Util/Util")
 
 local m = {}
@@ -16,7 +17,7 @@ local sources = {
 		map = function(tbl)
 			return Util:ToMap(tbl)
 		end,
-		fs = "[[API %s|%s]]",
+		name_fs = "[[API %s|%s]]",
 	},
 	event = {
 		label = "Event Name",
@@ -35,14 +36,33 @@ local sources = {
 			end
 			return t
 		end,
-		fs = "[[%s]]",
+		name_fs = "[[%s]]",
+	},
+	cvar = {
+		label = "CVar Name",
+		url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/CVars.lua",
+		cache = "cache/CVars_%s.lua",
+		out = "out/lua/CompareCVars.txt",
+		location = function(tbl)
+			return tbl[1].var
+		end,
+		map = function(tbl)
+			local t = {}
+			for cvar, info in pairs(tbl) do
+				t[cvar] = info
+			end
+			return t
+		end,
+		name_fs = "[[CVar %s|%s]]",
+		header_fs = '! !! !! !! align="left" | %s !! Default !! Category !! Scope !! align="left" | Description\n',
+		sectioncols = 8,
 	},
 }
 
 local branches = {
 	"live",
+	"classic_era",
 	"classic",
-	"classic_beta",
 }
 
 -- avoid using templates as that increases page processing time
@@ -59,6 +79,21 @@ local sections = {
 	{id = "classic", label = "Classic only"},
 	{id = "retail_classic", label = "Retail & Classic"},
 	{id = "retail_both", label = "Retail & BCC & Classic"},
+}
+
+local cvar_enum = {
+	[0] = "Debug",
+	[1] = "Graphics",
+	[2] = "Console",
+	[3] = "Combat",
+	[4] = "Game",
+	--[5] = "Default",
+	[5] = "",
+	[6] = "Net",
+	[7] = "Sound",
+	[8] = "Gm",
+	[9] = "Reveal",
+	[10] = "None",
 }
 
 function m:GetEventPayload()
@@ -99,24 +134,24 @@ function m:GetData(sourceType)
 
 	for _, name in pairs(Util:SortTable(mainTbl)) do
 		local retail = parts.live[name]
-		local bcc = parts.classic_beta[name]
-		local classic = parts.classic[name]
+		local bcc = parts.classic[name]
+		local classic = parts.classic_era[name]
 
 		if retail then
 			if bcc and classic then
-				sectionData.retail_both[name] = true
+				sectionData.retail_both[name] = bcc
 			elseif bcc then
-				sectionData.retail_bcc[name] = true
+				sectionData.retail_bcc[name] = bcc
 			elseif classic then
-				sectionData.retail_classic[name] = true
+				sectionData.retail_classic[name] = classic
 			end
 		else
 			if bcc and classic then
-				sectionData.both[name] = true
+				sectionData.both[name] = bcc
 			elseif bcc then
-				sectionData.bcc[name] = true
+				sectionData.bcc[name] = bcc
 			elseif classic then
-				sectionData.classic[name] = true
+				sectionData.classic[name] = classic
 			end
 		end
 	end
@@ -130,21 +165,31 @@ function m:main()
 
 		local file = io.open(info.out, "w")
 		file:write('{| class="sortable darktable zebra"\n')
-		file:write(string.format('! !! !! !! align="left" | %s\n', info.label))
+		if info.header_fs then
+			file:write(info.header_fs:format(info.label))
+		else
+			file:write(string.format('! !! !! !! align="left" | %s\n', info.label))
+		end
 
-		local section_fs = '|-\n! colspan="4" style="text-align:left; padding-left: 9em;" | %s\n'
-		local row_fs = "|-\n| %s || %s || %s || %s"
+		local section_fs = string.format('|-\n! colspan="%d" style="text-align:left; padding-left: 9em;" | %%s\n', info.sectioncols or 4)
+		local row_fs = "|-\n| "..string.rep("%s", 4, " || ")
 
 		for _, sectionInfo in pairs(sections) do
 			file:write(section_fs:format(sectionInfo.label))
 			for _, name in pairs(Util:SortTable(data[sectionInfo.id])) do
 				local retail = parts.live[name] and wp_icons.live or ""
-				local bcc = parts.classic_beta[name] and wp_icons.bcc or ""
-				local classic = parts.classic[name] and wp_icons.classic or ""
-				local nameLink = info.fs:format(name, name)
+				local bcc = parts.classic[name] and wp_icons.bcc or ""
+				local classic = parts.classic_era[name] and wp_icons.classic or ""
+				local nameLink = info.name_fs:format(name, name)
 				file:write(row_fs:format(retail, bcc, classic, nameLink))
 				if source == "event" and eventDoc[name] then
 					file:write(string.format("<small>: %s</small>", eventDoc[name]))
+				elseif source == "cvar" then
+					local cvarInfo = parts.classic[name] or parts.classic_era[name]
+					local default, category, account, character, description = table.unpack(cvarInfo)
+					local categoryName = cvar_enum[category] or ""
+					local scope = account and "Account" or character and "Character" or ""
+					file:write(string.format(" || %s || %s || %s || %s", default, categoryName, scope, description))
 				end
 				file:write("\n")
 			end

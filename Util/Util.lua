@@ -19,8 +19,7 @@ end
 
 function Util:CacheFile(path, url)
 	local attr = lfs.attributes(path)
-	local modified = attr.modification
-	if not attr or os.time() > modified + CACHE_INVALIDATION_TIME then
+	if not attr or os.time() > attr.modification + CACHE_INVALIDATION_TIME then
 		local body = https.request(url)
 		self:WriteFile(path, body)
 	end
