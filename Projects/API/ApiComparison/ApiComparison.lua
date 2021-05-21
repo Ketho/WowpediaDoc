@@ -1,6 +1,6 @@
 -- https://wowpedia.fandom.com/wiki/Global_functions/Classic
 -- https://wowpedia.fandom.com/wiki/Events/Classic
--- https://wowpedia.fandom.com/wiki/Console_variables/Complete_list/Classic
+-- https://wowpedia.fandom.com/wiki/Console_variables/Classic
 local Util = require("Util/Util")
 
 local m = {}
