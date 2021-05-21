@@ -96,20 +96,50 @@ local cvar_enum = {
 	[10] = "None",
 }
 
-function m:GetEventPayload()
-	local FrameXML = require("Documenter/FrameXML/FrameXML")
-	FrameXML:LoadApiDocs("Documenter/FrameXML")
-	local t = {}
-	for _, event in pairs(APIDocumentation.events) do
-		if event.Payload then
-			local payload = event:GetPayloadString(false, false)
-			if #payload>160 and (event.LiteralName:find("^CHAT_MSG") or event.LiteralName:find("^CHAT_COMBAT_MSG")) then
-				payload = "''CHAT_MSG''"
-			end
-			t[event.LiteralName] = payload
+local function sortLowerCase(a, b)
+	return a:lower() < b:lower()
+end
+
+function m:main()
+	local eventDoc = self:GetEventPayload()
+	for source, info in pairs(sources) do
+		local parts, data = self:GetData(source)
+
+		local file = io.open(info.out, "w")
+		file:write('{| class="sortable darktable zebra"\n')
+		if info.header_fs then
+			file:write(info.header_fs:format(info.label))
+		else
+			file:write(string.format('! !! !! !! align="left" | %s\n', info.label))
 		end
+
+		local section_fs = string.format('|-\n! colspan="%d" style="text-align:left; padding-left: 9em;" | %%s\n', info.sectioncols or 4)
+		local row_fs = "|-\n| "..string.rep("%s", 4, " || ")
+
+		for _, sectionInfo in pairs(sections) do
+			file:write(section_fs:format(sectionInfo.label))
+			local sortFunc = source == "cvar" and sortLowerCase or nil
+			for _, name in pairs(Util:SortTable(data[sectionInfo.id], sortFunc)) do
+				local retail = parts.live[name] and wp_icons.live or ""
+				local bcc = parts.classic[name] and wp_icons.bcc or ""
+				local classic = parts.classic_era[name] and wp_icons.classic or ""
+				local nameLink = info.name_fs:format(name, name)
+				file:write(row_fs:format(retail, bcc, classic, nameLink))
+				if source == "event" and eventDoc[name] then
+					file:write(string.format("<small>: %s</small>", eventDoc[name]))
+				elseif source == "cvar" then
+					local cvarInfo = parts.classic[name] or parts.classic_era[name]
+					local default, category, account, character, description = table.unpack(cvarInfo)
+					local categoryName = cvar_enum[category] or ""
+					local scope = account and "Account" or character and "Character" or ""
+					file:write(string.format(" || %s || %s || %s || %s", default, categoryName, scope, description))
+				end
+				file:write("\n")
+			end
+		end
+		file:write("|}\n")
+		file:close()
 	end
-	return t
 end
 
 function m:GetData(sourceType)
@@ -132,7 +162,7 @@ function m:GetData(sourceType)
 		end
 	end
 
-	for _, name in pairs(Util:SortTable(mainTbl)) do
+	for name in pairs(mainTbl) do
 		local retail = parts.live[name]
 		local bcc = parts.classic[name]
 		local classic = parts.classic_era[name]
@@ -158,45 +188,20 @@ function m:GetData(sourceType)
 	return parts, sectionData
 end
 
-function m:main()
-	local eventDoc = self:GetEventPayload()
-	for source, info in pairs(sources) do
-		local parts, data = self:GetData(source)
-
-		local file = io.open(info.out, "w")
-		file:write('{| class="sortable darktable zebra"\n')
-		if info.header_fs then
-			file:write(info.header_fs:format(info.label))
-		else
-			file:write(string.format('! !! !! !! align="left" | %s\n', info.label))
-		end
-
-		local section_fs = string.format('|-\n! colspan="%d" style="text-align:left; padding-left: 9em;" | %%s\n', info.sectioncols or 4)
-		local row_fs = "|-\n| "..string.rep("%s", 4, " || ")
-
-		for _, sectionInfo in pairs(sections) do
-			file:write(section_fs:format(sectionInfo.label))
-			for _, name in pairs(Util:SortTable(data[sectionInfo.id])) do
-				local retail = parts.live[name] and wp_icons.live or ""
-				local bcc = parts.classic[name] and wp_icons.bcc or ""
-				local classic = parts.classic_era[name] and wp_icons.classic or ""
-				local nameLink = info.name_fs:format(name, name)
-				file:write(row_fs:format(retail, bcc, classic, nameLink))
-				if source == "event" and eventDoc[name] then
-					file:write(string.format("<small>: %s</small>", eventDoc[name]))
-				elseif source == "cvar" then
-					local cvarInfo = parts.classic[name] or parts.classic_era[name]
-					local default, category, account, character, description = table.unpack(cvarInfo)
-					local categoryName = cvar_enum[category] or ""
-					local scope = account and "Account" or character and "Character" or ""
-					file:write(string.format(" || %s || %s || %s || %s", default, categoryName, scope, description))
-				end
-				file:write("\n")
+function m:GetEventPayload()
+	local FrameXML = require("Documenter/FrameXML/FrameXML")
+	FrameXML:LoadApiDocs("Documenter/FrameXML")
+	local t = {}
+	for _, event in pairs(APIDocumentation.events) do
+		if event.Payload then
+			local payload = event:GetPayloadString(false, false)
+			if #payload>160 and (event.LiteralName:find("^CHAT_MSG") or event.LiteralName:find("^CHAT_COMBAT_MSG")) then
+				payload = "''CHAT_MSG''"
 			end
+			t[event.LiteralName] = payload
 		end
-		file:write("|}\n")
-		file:close()
 	end
+	return t
 end
 
 m:main()
