@@ -56,6 +56,9 @@ local sources = {
 		name_fs = "[[CVar %s|%s]]",
 		header_fs = '! !! !! !! align="left" | %s !! Default !! Category !! Scope !! align="left" | Description\n',
 		sectioncols = 8,
+		sortFunc = function(a, b)
+			return a:lower() < b:lower()
+		end
 	},
 }
 
@@ -118,8 +121,7 @@ function m:main()
 
 		for _, sectionInfo in pairs(sections) do
 			file:write(section_fs:format(sectionInfo.label))
-			local sortFunc = source == "cvar" and sortLowerCase or nil
-			for _, name in pairs(Util:SortTable(data[sectionInfo.id], sortFunc)) do
+			for _, name in pairs(Util:SortTable(data[sectionInfo.id], info.sortFunc)) do
 				local retail = parts.live[name] and wp_icons.live or ""
 				local bcc = parts.classic[name] and wp_icons.bcc or ""
 				local classic = parts.classic_era[name] and wp_icons.classic or ""
