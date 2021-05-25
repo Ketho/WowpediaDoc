@@ -37,6 +37,7 @@ globals = {
 	"KethoEditBox",
 	"KethoWowpedia",
 	"Mixin",
+	"mw",
 	"sort",
 	"string.split",
 	"strmatch",
