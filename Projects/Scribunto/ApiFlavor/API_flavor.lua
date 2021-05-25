@@ -20,7 +20,7 @@ local function GetInfobox(f, name, flavors)
 		title = 'Infobox',
 		args = {
 			header1 = name,
-			label2 = "Flavors",
+			label2 = "[[Global_functions/Classic|Flavors]]",
 			data2 = table.concat(t, "<br>"),
 		}
 	}
