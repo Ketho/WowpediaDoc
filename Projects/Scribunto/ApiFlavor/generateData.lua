@@ -33,12 +33,12 @@ function m:main()
 	for source, info in pairs(sources) do
 		local data = self:GetData(source)
 		local file = io.open(info.out, "w")
-		file:write('local ApiFlavor = {\n')
+		file:write('local data = {\n')
 		for _, name in pairs(Util:SortTable(data)) do
 			local flavors = data[name]
 			file:write(string.format('\t["%s"] = 0x%X,\n', name, flavors))
 		end
-		file:write("}\n\nreturn ApiFlavor\n")
+		file:write("}\n\nreturn data\n")
 		file:close()
 	end
 end
