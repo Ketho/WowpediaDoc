@@ -4,8 +4,8 @@ local m = {}
 
 local flags = {
 	[0x1] = "[[File:Shadowlands-Logo-Small.png|34px|link=]] live",
-	[0x2] = "[[File:Bc icon.gif|link=]]&nbsp; bcc",
-	[0x4] = "[[File:WoW Icon update.png|link=]] classic_era",
+	[0x2] = "[[File:WoW Icon update.png|link=]] classic_era",
+	[0x4] = "[[File:Bc icon.gif|link=]]&nbsp; bcc",
 }
 
 -- todo: make our own derivative infobox template
