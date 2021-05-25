@@ -3,17 +3,17 @@ local data = mw.loadData("Module:API_flavor/data")
 local m = {}
 
 local flags = {
-	[0x1] = "[[File:Shadowlands-Logo-Small.png|34px|link=]] live",
-	[0x2] = "[[File:WoW Icon update.png|link=]] classic_era",
-	[0x4] = "[[File:Bc icon.gif|link=]]&nbsp; bcc",
+	{id = 0x1, label = "[[File:Shadowlands-Logo-Small.png|34px|link=]] live"},
+	{id = 0x4, label = "[[File:Bc icon.gif|link=]]&nbsp; bcc"},
+	{id = 0x2, label = "[[File:WoW Icon update.png|link=]] classic_era"},
 }
 
 -- todo: make our own derivative infobox template
 local function GetInfobox(f, name, flavors)
 	local t = {}
-	for flag, text in pairs(flags) do
-		if bit.band(flavors, flag) > 0 then
-			table.insert(t, text)
+	for _, v in pairs(flags) do
+		if bit.band(flavors, v.id) > 0 then
+			table.insert(t, v.label)
 		end
 	end
 	local infobox = f:expandTemplate{
