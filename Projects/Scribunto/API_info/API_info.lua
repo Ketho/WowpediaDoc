@@ -15,7 +15,7 @@ local flags = {
 -- mimicks [[Template:apinav]
 local boxPattern = [=[
 {| class="darktable nomobile" style="min-width:142px; float:right; clear:right;"
-! [[Global_functions/Classic|Classic]] Flavors
+! Game [[Global_functions/Classic|Flavors]]
 |-
 | %s
 |-
@@ -25,7 +25,7 @@ local boxPattern = [=[
 |}
 ]=]
 
-local function GetInfobox(f, name, flavors)
+local function GetInfobox(name, flavors)
 	local t = {}
 	for _, v in pairs(flags) do
 		if bit.band(flavors, v.id) > 0 then
@@ -43,7 +43,7 @@ function m.main(f)
 	name = name:gsub(" ", "_")
 	local flavors = flavor_data[name]
 	if flavors then
-		local infobox = GetInfobox(f, name, flavors)
+		local infobox = GetInfobox(name, flavors)
 		return infobox
 	end
 end
