@@ -1,4 +1,5 @@
--- https://wowpedia.fandom.com/wiki/Module:API_flavor/data
+-- https://wowpedia.fandom.com/wiki/Module:API_info/flavor
+-- https://github.com/Ketho/WowpediaApiDoc/blob/master/Projects/Scribunto/API_info/data_flavor.lua
 local Util = require("Util/Util")
 
 local flavor = {
@@ -13,7 +14,7 @@ local sources = {
 	api = {
 		url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/GlobalAPI.lua",
 		cache = "cache/GlobalAPI_%s.lua",
-		out = "out/lua/API_info_flavor.lua",
+		out = "out/lua/API_info__flavor.lua",
 		location = function(tbl)
 			return tbl[1]
 		end,

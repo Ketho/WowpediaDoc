@@ -72,5 +72,28 @@ function Util:SortTable(tbl, func)
 	return t
 end
 
+function Util:GetFullName(apiTable)
+	local fullName
+	if apiTable.System.Namespace then
+		fullName = format("%s.%s", apiTable.System.Namespace, apiTable.Name)
+	else
+		fullName = apiTable.Name
+	end
+	return fullName
+end
+
+--- combines table keys
+---@vararg string
+---@return table
+function Util:CombineTable(...)
+	local t = {}
+	for i = 1, select("#", ...) do
+		local tbl = select(i, ...)
+		for k in pairs(tbl) do
+			t[k] = true
+		end
+	end
+	return t
+end
 
 return Util
