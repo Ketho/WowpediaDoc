@@ -13,7 +13,7 @@ local sources = {
 	api = {
 		url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/GlobalAPI.lua",
 		cache = "cache/GlobalAPI_%s.lua",
-		out = "out/lua/ApiFlavor.lua",
+		out = "out/lua/API_info_flavor.lua",
 		location = function(tbl)
 			return tbl[1]
 		end,
