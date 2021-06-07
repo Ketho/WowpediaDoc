@@ -5,11 +5,10 @@ local flavor_data = mw.loadData("Module:API_info/flavor")
 local elink_module = require("Module:API_info/elink")
 local m = {}
 
--- directly use icons instead of templates
-local flags = {
-	{id = 0x1, label = "[[File:Shadowlands-Logo-Small.png|34px|link=]] retail"}, -- {{sl-inline}}
-	{id = 0x4, label = "[[File:Bc icon.gif|link=]]&nbsp; bcc"}, -- {{bc-inline}}
-	{id = 0x2, label = "[[File:WoW Icon update.png|link=]] classic_era"}, -- {{wow-inline}}
+local icons = {
+	{id = 0x1, label = "[[File:Shadowlands-Logo-Small.png|34px|link=]] retail"},
+	{id = 0x4, label = "[[File:Bc icon.gif|link=]]&nbsp; bcc"},
+	{id = 0x2, label = "[[File:WoW Icon update.png|link=]] classic_era"},
 }
 
 -- mimicks [[Template:apinav]
@@ -27,7 +26,7 @@ local boxPattern = [=[
 
 local function GetInfobox(name, flavors)
 	local t = {}
-	for _, v in pairs(flags) do
+	for _, v in pairs(icons) do
 		if bit.band(flavors, v.id) > 0 then
 			table.insert(t, v.label)
 		end
