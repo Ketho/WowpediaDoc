@@ -1,4 +1,5 @@
--- https://wowpedia.fandom.com/wiki/Module:API_info/flavor_data
+-- https://wowpedia.fandom.com/wiki/Module:API_info/api_flavor
+-- https://wowpedia.fandom.com/wiki/Module:API_info/event_flavor
 local Util = require("Util/Util")
 
 local flavor = {
