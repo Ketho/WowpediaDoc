@@ -1,5 +1,4 @@
--- https://wowpedia.fandom.com/wiki/Module:API_info/flavor
--- https://github.com/Ketho/WowpediaApiDoc/blob/master/Projects/Scribunto/API_info/data_flavor.lua
+-- https://wowpedia.fandom.com/wiki/Module:API_info/flavor_data
 local Util = require("Util/Util")
 
 local flavor = {
