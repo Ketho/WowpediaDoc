@@ -1,8 +1,8 @@
--- https://wowpedia.fandom.com/wiki/Module:API_info/blizzdoc
+-- https://wowpedia.fandom.com/wiki/Module:API_info/api_doc
 local Util = require("Util/Util")
-local BlizzDoc = require("Projects/Scribunto/API_info/data_blizzdoc_get")
+local ApiDoc = require("Projects/Scribunto/API_info/apidoc_get")
 
-local OUT = "out/lua/API_info__blizzdoc.lua"
+local OUT = "out/lua/API_info__apidoc.lua"
 
 local api_flags = {
 	undocumented = 0x1,
@@ -12,7 +12,7 @@ local api_flags = {
 local m = {}
 
 function m:main()
-	local doc, non_doc = table.unpack(BlizzDoc)
+	local doc, non_doc = table.unpack(ApiDoc)
 	local full = Util:CombineTable(doc, non_doc)
 	for name in pairs(full) do
 		local flag1 = non_doc[name] and api_flags.undocumented or 0

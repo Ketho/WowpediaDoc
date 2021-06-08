@@ -13,12 +13,29 @@ local sources = {
 	api = {
 		url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/GlobalAPI.lua",
 		cache = "cache/GlobalAPI_%s.lua",
-		out = "out/lua/API_info__flavor.lua",
+		out = "out/lua/API_info__api.lua",
 		location = function(tbl)
 			return tbl[1]
 		end,
 		map = function(tbl)
 			return Util:ToMap(tbl)
+		end,
+	},
+	event = {
+		url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/Events.lua",
+		cache = "cache/Events_%s.lua",
+		out = "out/lua/API_info__event.lua",
+		location = function(tbl)
+			return tbl
+		end,
+		map = function(tbl)
+			local t = {}
+			for _, events in pairs(tbl) do
+				for _, event in pairs(events) do
+					t[event] = true
+				end
+			end
+			return t
 		end,
 	},
 }
