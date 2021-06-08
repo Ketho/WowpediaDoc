@@ -25,14 +25,15 @@ def removeOldElinkStyle():
 			page.text = page.text.replace(wp_elinks[0], "")
 			page.save(summary="Remove elinks")
 
-def findWhitespace():
+def trimWhitespace():
 	for name in globalapi:
 		page = pywikibot.Page(site, "API "+name)
 		whitespace_refs = re.findall(r"\n\n\n==\s?References\s?==", page.text)
 		if whitespace_refs:
-			print(name)
+			page.text = page.text.replace(whitespace_refs[0], "\n==References==")
+			page.save(summary="Trim whitespace")
 
 # findElinkSection()
 # removeOldElinkStyle()
-# findWhitespace()
+# trimWhitespace()
 print("done")
