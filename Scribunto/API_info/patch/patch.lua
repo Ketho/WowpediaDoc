@@ -1,6 +1,6 @@
 local Util = require("Util/Util")
 
-local PATH = "Projects/Scribunto/API_info/patch/"
+local PATH = "Scribunto/API_info/patch/"
 
 local flavors = {
 	retail = {

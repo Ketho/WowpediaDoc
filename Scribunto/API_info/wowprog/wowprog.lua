@@ -1,7 +1,7 @@
 -- https://wowprogramming.com/docs/api.html
 -- https://wowpedia.fandom.com/wiki/Module:API_info/wowprog
 local gumbo = require "gumbo"
-local document = gumbo.parseFile("Projects/API/wowprogramming/api.html")
+local document = gumbo.parseFile("Scribunto/API_info/wowprog/api.html")
 
 local Util = require("Util/Util")
 
