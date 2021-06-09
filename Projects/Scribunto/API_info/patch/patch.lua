@@ -1,7 +1,18 @@
 local Util = require("Util/Util")
-local PatchData = require("Projects/Scribunto/API_info/data_patch/LoadFiles")
 
-local OUT = "out/lua/API_info__apipatch.lua"
+local PATH = "Projects/Scribunto/API_info/patch/"
+
+local flavors = {
+	retail = {
+		data = require(PATH.."LoadFiles")(PATH.."api_retail"),
+		out = "out/lua/API_info.patch_api_retail.lua",
+	},
+	classic = {
+		data = require(PATH.."LoadFiles")(PATH.."api_classic"),
+		out = "out/lua/API_info.patch_api_classic.lua",
+	},
+}
+
 local m = {}
 
 local underscorePatterns = {
@@ -39,9 +50,9 @@ function m:IsFrameXML(s)
 	end
 end
 
-function m:GetPatchData()
+function m:GetPatchData(tbl)
 	local added, removed = {}, {}
-	for _, patch in pairs(PatchData) do
+	for _, patch in pairs(tbl) do
 		for name in pairs(patch.data) do
 			if not added[name] then
 				added[name] = patch.version
@@ -57,20 +68,22 @@ function m:GetPatchData()
 end
 
 function m:main()
-	local added, removed = self:GetPatchData()
-	local file = io.open(OUT, "w")
-	file:write("local data = {\n")
-	for _, name in pairs(Util:SortTable(added)) do
-		if not self:IsFrameXML(name) then
-			file:write(string.format('\t["%s"] = {"%s"', name, added[name]))
-			if removed[name] then
-				file:write(string.format(', "%s"', removed[name]))
+	for _, info in pairs(flavors) do
+		local added, removed = self:GetPatchData(info.data)
+		local file = io.open(info.out, "w")
+		file:write("local data = {\n")
+		for _, name in pairs(Util:SortTable(added)) do
+			if not self:IsFrameXML(name) then
+				file:write(string.format('\t["%s"] = {"%s"', name, added[name]))
+				if removed[name] then
+					file:write(string.format(', "%s"', removed[name]))
+				end
+				file:write("},\n")
 			end
-			file:write("},\n")
 		end
+		file:write("}\n\nreturn data\n")
+		file:close()
 	end
-	file:write("}\n\nreturn data\n")
-	file:close()
 end
 
 m.LuaAPI = {
