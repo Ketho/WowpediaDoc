@@ -39,26 +39,34 @@ function m:IsFrameXML(s)
 	end
 end
 
-function m:GetFirstSeen()
-	local t = {}
+function m:GetPatchData()
+	local added, removed = {}, {}
 	for _, patch in pairs(PatchData) do
 		for name in pairs(patch.data) do
-			if not t[name] then
-				t[name] = patch.version
+			if not added[name] then
+				added[name] = patch.version
+			end
+		end
+		for name in pairs(added) do
+			if not patch.data[name] and not removed[name] then
+				removed[name] = patch.version
 			end
 		end
 	end
-	return t
+	return added, removed
 end
 
 function m:main()
-	local firstSeen = self:GetFirstSeen()
+	local added, removed = self:GetPatchData()
 	local file = io.open(OUT, "w")
 	file:write("local data = {\n")
-	for _, name in pairs(Util:SortTable(firstSeen)) do
-		local patch = firstSeen[name]
+	for _, name in pairs(Util:SortTable(added)) do
 		if not self:IsFrameXML(name) then
-			file:write(string.format('\t["%s"] = "%s",\n', name, patch))
+			file:write(string.format('\t["%s"] = {"%s"', name, added[name]))
+			if removed[name] then
+				file:write(string.format(', "%s"', removed[name]))
+			end
+			file:write("},\n")
 		end
 	end
 	file:write("}\n\nreturn data\n")
