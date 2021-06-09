@@ -1,6 +1,6 @@
 local lfs = require "lfs"
 
-local PATH = "Projects/API/PatchData/api"
+local PATH = "Projects/Scribunto/API_info/data_patch/api"
 
 local t = {}
 

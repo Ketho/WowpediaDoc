@@ -1,5 +1,5 @@
 local Util = require("Util/Util")
-local PatchData = require("Projects/API/PatchData/LoadFiles")
+local PatchData = require("Projects/Scribunto/API_info/data_patch/LoadFiles")
 
 local OUT = "out/lua/API_info__apipatch.lua"
 local m = {}
@@ -213,3 +213,4 @@ m.LuaAPI = {
 }
 
 m:main()
+print("done")
