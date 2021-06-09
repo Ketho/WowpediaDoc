@@ -1,6 +1,6 @@
--- https://wowpedia.fandom.com/wiki/Module:API_info/event_doc
+-- https://wowpedia.fandom.com/wiki/Module:API_info/doc_event
 local Util = require("Util/Util")
-local OUT = "out/lua/API_info.eventdoc.lua"
+local OUT = "out/lua/API_info.doc_event.lua"
 
 local m = {}
 

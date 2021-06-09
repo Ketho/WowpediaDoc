@@ -1,3 +1,5 @@
+-- https://wowpedia.fandom.com/wiki/Module:API_info/patch_api_retail
+-- https://wowpedia.fandom.com/wiki/Module:API_info/patch_api_classic
 local Util = require("Util/Util")
 
 local PATH = "Scribunto/API_info/patch/"

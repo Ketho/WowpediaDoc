@@ -14,7 +14,7 @@ local sources = {
 	api = {
 		url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/GlobalAPI.lua",
 		cache = "cache/GlobalAPI_%s.lua",
-		out = "out/lua/API_info.api.lua",
+		out = "out/lua/API_info.flavor_api.lua",
 		location = function(tbl)
 			return tbl[1]
 		end,
@@ -25,7 +25,7 @@ local sources = {
 	event = {
 		url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/Events.lua",
 		cache = "cache/Events_%s.lua",
-		out = "out/lua/API_info.event.lua",
+		out = "out/lua/API_info.flavor_event.lua",
 		location = function(tbl)
 			return tbl
 		end,
