@@ -1,3 +1,4 @@
+-- actually 2.4.2 dump
 return {
 	["AbandonQuest"] = true,
 	["AbandonSkill"] = true,
