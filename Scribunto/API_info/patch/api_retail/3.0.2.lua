@@ -1,3 +1,5 @@
+-- actually 3.1.3 data
+-- https://wowpedia.fandom.com/wiki/Global_functions?diff=1970752&oldid=1903175
 return {
 	["AbandonQuest"] = true,
 	["AbandonSkill"] = true,
