@@ -1,5 +1,5 @@
--- https://wowpedia.fandom.com/wiki/Module:API_info/api_flavor
--- https://wowpedia.fandom.com/wiki/Module:API_info/event_flavor
+-- https://wowpedia.fandom.com/wiki/Module:API_info/flavor/api
+-- https://wowpedia.fandom.com/wiki/Module:API_info/flavor/event
 local Util = require("Util/Util")
 
 local flavor = {
@@ -14,7 +14,7 @@ local sources = {
 	api = {
 		url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/GlobalAPI.lua",
 		cache = "cache/GlobalAPI_%s.lua",
-		out = "out/lua/API_info.flavor_api.lua",
+		out = "out/lua/API_info.flavor.api.lua",
 		location = function(tbl)
 			return tbl[1]
 		end,
@@ -25,7 +25,7 @@ local sources = {
 	event = {
 		url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/Events.lua",
 		cache = "cache/Events_%s.lua",
-		out = "out/lua/API_info.flavor_event.lua",
+		out = "out/lua/API_info.flavor.event.lua",
 		location = function(tbl)
 			return tbl
 		end,

@@ -1,8 +1,8 @@
--- https://wowpedia.fandom.com/wiki/Module:API_info/doc_api
+-- https://wowpedia.fandom.com/wiki/Module:API_info/elink/api
 local Util = require("Util/Util")
-local ApiDoc = require("Scribunto/API_info/doc/doc_api_get")
+local ApiDoc = require("Scribunto/API_info/elink/api_get")
 
-local OUT = "out/lua/API_info.doc_api.lua"
+local OUT = "out/lua/API_info.elink.api.lua"
 
 local api_flags = {
 	undocumented = 0x1,
