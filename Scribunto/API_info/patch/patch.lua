@@ -75,7 +75,8 @@ function m:main()
 		local file = io.open(info.out, "w")
 		file:write("local data = {\n")
 		for _, name in pairs(Util:SortTable(added)) do
-			if not self:IsFrameXML(name) then
+			local isFrameXML = (added[name] == "7.3.0" and removed[name] == "8.1.0")
+			if not self:IsFrameXML(name) and not isFrameXML then
 				file:write(string.format('\t["%s"] = {"%s"', name, added[name]))
 				if removed[name] then
 					file:write(string.format(', "%s"', removed[name]))
