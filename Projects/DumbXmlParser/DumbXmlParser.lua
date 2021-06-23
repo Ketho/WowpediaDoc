@@ -120,7 +120,7 @@ function m:ParseXml(path, fileName)
 				line = lookbackLines[lineIdx-2]..lookbackLines[lineIdx-1]..line
 				objectType, name = line:match('<(.-) name%s?="(.-)"')
 			end
-			if name and not filterTemplates[name] then
+			if name and not filterTemplates[name] and not name:find("%$") then
 				dataTypes.template.data[name] = {
 					name = name,
 					object = objectType,
