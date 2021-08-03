@@ -1,4 +1,4 @@
--- 9.1.0.39069
+-- 9.1.0.39617
 KethoWowpedia.dbc.mount = {
 	[6] = 0, -- Brown Horse
 	[7] = 64, -- Gray Wolf
@@ -911,6 +911,7 @@ KethoWowpedia.dbc.mount = {
 	[1450] = 0, -- Soaring Razorwing
 	[1454] = 0, -- Tamed Mauler
 	[1455] = 0, -- Beryl Shardhide
+	[1456] = 0, -- Sapphire Skyblazer
 	[1458] = 0, -- Wandering Ancient
 	[1459] = 4, -- Vicious War Gorm
 	[1460] = 4, -- Vicious War Gorm
