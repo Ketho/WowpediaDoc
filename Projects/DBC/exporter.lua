@@ -74,7 +74,7 @@ local handlers = {
 }
 
 local function ParseDBC(name, BUILD)
-	local csv, build = parser.ReadCSV(name, {header=true, build = BUILD})
+	local csv, build = parser:ReadCSV(name, {header=true, build = BUILD})
 	return handlers[name].func(csv), build
 end
 

@@ -1,7 +1,7 @@
 -- https://wowpedia.fandom.com/wiki/InstanceID#Complete_list
 local parser = require("Util/wowtoolsparser")
 local patchDBC = require("Projects/DBC/patch")
-local output = "Projects/DBC/scripts/map.txt"
+local output = "out/Map.txt"
 
 local InstanceTypes = {
 	[1] = "Dungeon",
@@ -121,7 +121,7 @@ local function IsValidLink(s)
 end
 
 local function main(dbc, BUILD)
-	local map = parser.ReadCSV(dbc, {header=true, build=BUILD})
+	local map = parser:ReadCSV(dbc, {header=true, build=BUILD})
 	local patchTbl = patchDBC:GetFirstSeen(dbc)
 
 	local file = io.open(output, "w")
