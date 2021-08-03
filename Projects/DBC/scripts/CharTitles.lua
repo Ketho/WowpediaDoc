@@ -124,7 +124,7 @@ local wplink = {
 	[383] = "Contender (title)",
 }
 
-local function GetMajorVersion(v)
+local function GetPatchVersion(v)
 	return v:match("%d+%.%d+%.%d+")
 end
 
@@ -135,7 +135,7 @@ local function GetPatchData()
 	local found = {}
 
 	for _, v in pairs(versions) do
-		local major = GetMajorVersion(v)
+		local major = GetPatchVersion(v)
 		if major == "2.5.2" then
 			break
 		elseif not found[major] then
@@ -187,7 +187,7 @@ local function main(BUILD)
 			elseif nameSuffixComma then
 				titleText = string.format("%%s, [[%s]]", link)
 			end
-			local seen = patchData[ID] and GetMajorVersion(patchData[ID]) or ""
+			local seen = patchData[ID] and GetPatchVersion(patchData[ID]) or ""
 			file:write(fs:format(maskID, ID, ID, titleText, seen))
 		end
 	end
