@@ -25,6 +25,7 @@ local wpExpansion = {
 	[9] = "{{Sl-inline}}",
 }
 
+-- dont know how to get expansion source when the toy is not collected
 -- /run KethoWowpedia:GetToyIDs(2e5)
 function KethoWowpedia:GetToyIDs(num)
 	eb:Show()
