@@ -187,7 +187,6 @@ local function main(BUILD)
 		if ID then
 			local nameText
 			if l.Name_lang ~= l.Name1_lang then
-				print(l.Name_lang, l.Name1_lang)
 				local male = GetNameText(l.Name_lang, maskID)
 				local female = GetNameText(l.Name1_lang, maskID)
 				nameText = string.format("%s / %s", male, female)
