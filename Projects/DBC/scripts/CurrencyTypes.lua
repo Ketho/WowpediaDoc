@@ -76,7 +76,7 @@ end
 local function IsValidLink(id, name, categoryID)
 	if nolink[id] then
 		return false
-	elseif categoryID == 248 then
+	elseif categoryID == 248 then -- Torghast UI (Hidden)
 		return false
 	end
 	for _, v in pairs(ignoredStrings) do
