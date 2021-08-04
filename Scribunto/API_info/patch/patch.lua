@@ -69,15 +69,15 @@ function m:GetPatchData(tbl)
 	return added, removed
 end
 
-function m:GetLatestData()
-	local retail = flavors.retail.data
-	return retail[#retail].data
+function m:GetLatestData(flavor)
+	local info = flavors[flavor].data
+	return info[#info].data
 end
 
 function m:main()
-	for _, info in pairs(flavors) do
+	for flavor, info in pairs(flavors) do
 		local added, removed = self:GetPatchData(info.data)
-		local latest = self:GetLatestData()
+		local latest = self:GetLatestData(flavor)
 		local file = io.open(info.out, "w")
 		file:write("local data = {\n")
 		for _, name in pairs(Util:SortTable(added)) do
