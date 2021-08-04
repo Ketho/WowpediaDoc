@@ -1,9 +1,11 @@
 -- https://wowpedia.fandom.com/wiki/InstanceID#Complete_list
 local parser = require("Util/wowtoolsparser")
-local patchDBC = require("Projects/DBC/patch")
-local output = "out/Map.txt"
+local Util = require("Util/Util")
+local dbc_patch = require("Projects/DBC/patch")
+local output = "out/page/Map.txt"
 
 local InstanceTypes = {
+	--[0] = "Not Instanced",
 	[1] = "Dungeon",
 	[2] = "Raid",
 	[3] = "Battleground",
@@ -50,7 +52,7 @@ local wpLink = {
 	[628] = "Isle of Conquest", -- Isle of Conquest (quest)
 }
 
-local noLink = {
+local nolink = {
 	[13] = true, -- Art Team Map
 	[449] = true, -- Alliance PVP Barracks
 	[450] = true, -- Horde PVP Barracks
@@ -73,6 +75,7 @@ local noLink = {
 	[2103] = true, -- Darkshore Prepatch Darnassian Ship
 	[2128] = true, -- Dagger Realm
 	[2174] = true, -- Scarlet Halls, Dark Ranger
+	[2267] = true, -- city
 	[2438] = true, -- SpellPref
 }
 
@@ -120,9 +123,27 @@ local function IsValidLink(s)
 	return true
 end
 
-local function main(dbc, BUILD)
-	local map = parser:ReadCSV(dbc, {header=true, build=BUILD})
-	local patchTbl = patchDBC:GetFirstSeen(dbc)
+local function GetPatchData(name)
+	local versions = parser:GetVersions(name)
+	local patches = {}
+	local found = {}
+	for _, v in pairs(versions) do
+		local major = Util:GetPatchVersion(v)
+		if major == "3.3.3" then -- status 400
+			break
+		elseif not found[major] then
+			found[major] = true
+			table.insert(patches, v)
+		end
+	end
+	table.sort(patches)
+	local firstSeen = dbc_patch:GetFirstSeen(name, patches)
+	return firstSeen
+end
+
+local function main(BUILD)
+	local map = parser:ReadCSV("map", {header=true, build=BUILD})
+	local patchData = GetPatchData("map")
 
 	local file = io.open(output, "w")
 	file:write('{| class="sortable darktable zebra"\n! ID !! !! !! Directory !! Map Name !! Type !! Patch\n')
@@ -134,27 +155,27 @@ local function main(dbc, BUILD)
 			local flags = l["Flags[0]"]
 			local devmap = flags&0x2 > 0 and "[[File:ProfIcons_engineering.png|16px|link=]]" or ""
 
-			local dir, name = l.Directory, l.MapName_lang
-			dir = dir:gsub("�", "&#65533;") -- triggers wiki spam filter
+			local dir = l.Directory:gsub("�", "&#65533;") -- triggers wiki spam filter otherwise
 			if dir == l.ID then
 				dir = ""
 			end
 
-			local linkName = name
+			local nameText
 			if wpLink[ID] then
-				linkName = string.format("[[%s|%s]]", wpLink[ID], name)
-			elseif not noLink[ID] and IsValidLink(name) then
-				linkName = string.format("[[:%s]]", name)
+				nameText = string.format("[[%s|%s]]", wpLink[ID], l.MapName_lang)
+			elseif not nolink[ID] and IsValidLink(l.MapName_lang) then
+				nameText = string.format("[[:%s]]", l.MapName_lang)
+			else
+				nameText = l.MapName_lang
 			end
-
 			local instance = InstanceTypes[tonumber(l.InstanceType)] or ""
-			local patch = patchTbl[ID] or ""
-			file:write(fs:format(ID, expansion, devmap, dir, linkName, instance, patch))
+			local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
+			file:write(fs:format(ID, expansion, devmap, dir, nameText, instance, patch))
 		end
 	end
 	file:write("|}\n")
 	file:close()
 end
 
-main("map")
+main()
 print("done")

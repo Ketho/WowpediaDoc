@@ -1,4 +1,4 @@
--- 9.1.0.39617
+-- 9.1.0.39653
 KethoWowpedia.dbc.battlepetspecies = {
 	[2] = {0, -1},
 	[39] = {4055, 3},

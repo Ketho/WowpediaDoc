@@ -1,4 +1,4 @@
--- 9.1.0.39617
+-- 9.1.0.39653
 KethoWowpedia.dbc.creaturemodeldata = {
 	[1] = 123020,
 	[2] = 123105,

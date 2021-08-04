@@ -1,7 +1,7 @@
 -- https://wowpedia.fandom.com/wiki/CurrencyID
 local parser = require("Util/wowtoolsparser")
 local Util = require("Util/Util")
-local patch = require("Projects/DBC/patch")
+local dbc_patch = require("Projects/DBC/patch")
 local output = "out/page/CurrencyTypes.txt"
 
 local wplink = {
@@ -69,7 +69,7 @@ local function GetPatchData(name)
 		end
 	end
 	table.sort(patches)
-	local firstSeen = patch:GetFirstSeen(name, patches)
+	local firstSeen = dbc_patch:GetFirstSeen(name, patches)
 	return firstSeen
 end
 

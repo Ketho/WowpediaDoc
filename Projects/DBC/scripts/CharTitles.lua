@@ -1,7 +1,7 @@
 -- https://wowpedia.fandom.com/wiki/TitleId
 local parser = require("Util/wowtoolsparser")
 local Util = require("Util/Util")
-local patch = require("Projects/DBC/patch")
+local dbc_patch = require("Projects/DBC/patch")
 local output = "out/page/CharTitles.txt"
 
 -- by mask id
@@ -140,7 +140,7 @@ local function GetPatchData(name)
 	end
 	table.insert(patches, "2.4.3") -- 2.1.0 to 2.4.2 is broken (status 400)
 	table.sort(patches)
-	local firstSeen = patch:GetFirstSeen(name, patches)
+	local firstSeen = dbc_patch:GetFirstSeen(name, patches)
 	return firstSeen
 end
 

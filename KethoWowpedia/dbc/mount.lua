@@ -1,4 +1,4 @@
--- 9.1.0.39617
+-- 9.1.0.39653
 KethoWowpedia.dbc.mount = {
 	[6] = 0, -- Brown Horse
 	[7] = 64, -- Gray Wolf

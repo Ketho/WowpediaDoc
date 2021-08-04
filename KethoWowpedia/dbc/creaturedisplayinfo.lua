@@ -1,4 +1,4 @@
--- 9.1.0.39617
+-- 9.1.0.39653
 KethoWowpedia.dbc.creaturedisplayinfo = {
 	[4] = 8231,
 	[13] = 13,
