@@ -96,4 +96,8 @@ function Util:CombineTable(...)
 	return t
 end
 
+function Util:GetPatchVersion(v)
+	return v:match("%d+%.%d+%.%d+")
+end
+
 return Util

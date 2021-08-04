@@ -1,5 +1,6 @@
 -- https://wowpedia.fandom.com/wiki/TitleId
 local parser = require("Util/wowtoolsparser")
+local Util = require("Util/Util")
 local patch = require("Projects/DBC/patch")
 local output = "out/page/CharTitles.txt"
 
@@ -124,18 +125,12 @@ local wplink = {
 	[383] = "Contender (title)",
 }
 
-local function GetPatchVersion(v)
-	return v:match("%d+%.%d+%.%d+")
-end
-
-local function GetPatchData()
-	local versions = parser:GetVersions("chartitles")
-
+local function GetPatchData(name)
+	local versions = parser:GetVersions(name)
 	local patches = {}
 	local found = {}
-
 	for _, v in pairs(versions) do
-		local major = GetPatchVersion(v)
+		local major = Util:GetPatchVersion(v)
 		if major == "2.5.2" then
 			break
 		elseif not found[major] then
@@ -145,8 +140,7 @@ local function GetPatchData()
 	end
 	table.insert(patches, "2.4.3") -- 2.1.0 to 2.4.2 is broken
 	table.sort(patches)
-
-	local firstSeen = patch:GetFirstSeen("chartitles", patches)
+	local firstSeen = patch:GetFirstSeen(name, patches)
 	return firstSeen
 end
 
@@ -157,37 +151,37 @@ local function main(BUILD)
 	local dbc, build = parser:ReadCSV("chartitles", {header=true, build=BUILD})
 	print("writing to "..output)
 	local file = io.open(output, "w")
-	local patchData = GetPatchData()
+	local patchData = GetPatchData("chartitles")
 
 	file:write(header)
 	for l in dbc:lines() do
 		local ID = tonumber(l.ID)
 		local maskID = tonumber(l.Mask_ID)
 		if ID then
-			local nameBothL, nameBothR = l.Name_lang:match("(.+) %%s (.+)")
+			local nameL, nameR = l.Name_lang:match("(.+) %%s (.+)")
 			local namePrefix = l.Name_lang:match("(.+) %%s")
 			local nameSuffix = l.Name_lang:match("%%s (.+)")
 			local nameSuffixComma = l.Name_lang:match("%%s, (.+)")
 			local titleName = namePrefix or nameSuffix or nameSuffixComma
 
-			local link
+			local nameText
 			if wplink[maskID] then
-				link = string.format("%s|%s", wplink[maskID], titleName)
+				nameText = string.format("%s|%s", wplink[maskID], titleName)
 			else
-				link = string.format(":%s", titleName)
+				nameText = string.format(":%s", titleName)
 			end
 
 			local titleText
-			if nameBothL then -- 408: Pilgrim %s the Mallet Bearer
-				titleText = string.format("[[%s %s|%s %%s %s]]", nameBothL, nameBothR, nameBothL, nameBothR)
+			if nameL then -- 408: Pilgrim %s the Mallet Bearer
+				titleText = string.format("[[%s %s|%s %%s %s]]", nameL, nameR, nameL, nameR)
 			elseif namePrefix then
-				titleText = string.format("[[%s]] %%s", link)
+				titleText = string.format("[[%s]] %%s", nameText)
 			elseif nameSuffix then
-				titleText = string.format("%%s [[%s]]", link)
+				titleText = string.format("%%s [[%s]]", nameText)
 			elseif nameSuffixComma then
-				titleText = string.format("%%s, [[%s]]", link)
+				titleText = string.format("%%s, [[%s]]", nameText)
 			end
-			local seen = patchData[ID] and GetPatchVersion(patchData[ID]) or ""
+			local seen = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
 			file:write(fs:format(maskID, ID, ID, titleText, seen))
 		end
 	end
