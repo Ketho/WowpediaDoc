@@ -138,10 +138,37 @@ local function GetPatchData(name)
 			table.insert(patches, v)
 		end
 	end
-	table.insert(patches, "2.4.3") -- 2.1.0 to 2.4.2 is broken
+	table.insert(patches, "2.4.3") -- 2.1.0 to 2.4.2 is broken (status 400)
 	table.sort(patches)
 	local firstSeen = patch:GetFirstSeen(name, patches)
 	return firstSeen
+end
+
+local function GetNameText(v, maskID)
+	local nameL, nameR = v:match("(.+) %%s (.+)")
+	local namePrefix = v:match("(.+) %%s")
+	local nameSuffix = v:match("%%s (.+)")
+	local nameSuffixComma = v:match("%%s, (.+)")
+	local titleName = namePrefix or nameSuffix or nameSuffixComma
+
+	local base
+	if wplink[maskID] then
+		base = string.format("%s|%s", wplink[maskID], titleName)
+	else
+		base = string.format(":%s", titleName)
+	end
+
+	local nameText
+	if nameL then -- 408: Pilgrim %s the Mallet Bearer
+		nameText = string.format("[[%s %s|%s %%s %s]]", nameL, nameR, nameL, nameR)
+	elseif namePrefix then
+		nameText = string.format("[[%s]] %%s", base)
+	elseif nameSuffix then
+		nameText = string.format("%%s [[%s]]", base)
+	elseif nameSuffixComma then
+		nameText = string.format("%%s, [[%s]]", base)
+	end
+	return nameText
 end
 
 local header = '{| class="sortable darktable zebra"\n! Mask ID !! Title ID !! Name !! Patch\n'
@@ -158,31 +185,17 @@ local function main(BUILD)
 		local ID = tonumber(l.ID)
 		local maskID = tonumber(l.Mask_ID)
 		if ID then
-			local nameL, nameR = l.Name_lang:match("(.+) %%s (.+)")
-			local namePrefix = l.Name_lang:match("(.+) %%s")
-			local nameSuffix = l.Name_lang:match("%%s (.+)")
-			local nameSuffixComma = l.Name_lang:match("%%s, (.+)")
-			local titleName = namePrefix or nameSuffix or nameSuffixComma
-
 			local nameText
-			if wplink[maskID] then
-				nameText = string.format("%s|%s", wplink[maskID], titleName)
+			if l.Name_lang ~= l.Name1_lang then
+				print(l.Name_lang, l.Name1_lang)
+				local male = GetNameText(l.Name_lang, maskID)
+				local female = GetNameText(l.Name1_lang, maskID)
+				nameText = string.format("%s / %s", male, female)
 			else
-				nameText = string.format(":%s", titleName)
-			end
-
-			local titleText
-			if nameL then -- 408: Pilgrim %s the Mallet Bearer
-				titleText = string.format("[[%s %s|%s %%s %s]]", nameL, nameR, nameL, nameR)
-			elseif namePrefix then
-				titleText = string.format("[[%s]] %%s", nameText)
-			elseif nameSuffix then
-				titleText = string.format("%%s [[%s]]", nameText)
-			elseif nameSuffixComma then
-				titleText = string.format("%%s, [[%s]]", nameText)
+				nameText = GetNameText(l.Name_lang, maskID)
 			end
 			local seen = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
-			file:write(fs:format(maskID, ID, ID, titleText, seen))
+			file:write(fs:format(maskID, ID, ID, nameText, seen))
 		end
 	end
 	file:write("|}\n")

@@ -50,7 +50,7 @@ local ignoredStrings = {
 	"Sanctum Anima Weaver%-",
 }
 
-local broken = {
+local broken = { -- status 400
 	["5.4.7"] = true,
 	["5.4.8"] = true,
 }
