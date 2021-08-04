@@ -31,6 +31,7 @@ local wpLink = {
 	[1972] = "Cosmos (pet)",
 	[2062] = "Shadow (companion)",
 	[2100] = "Gnasher (felstalker)",
+	[2107] = "Watcher (guardian eye)",
 	[2337] = "Bloodtusk (Nazmir)",
 	[2347] = "Milo (spider)",
 	[2401] = "Rooter (item)",
@@ -76,12 +77,15 @@ function KethoWowpedia:GetPetSpeciesIDs(num)
 	for id = 1, num do
 		local name, _, petType, npcID, ttSource, ttDesc, isWild, canBattle, tradeable, _, obtainable, displayID = C_PetJournal.GetPetInfoBySpeciesID(id)
 		if type(name) == "string" then
-			local spellID, sourceType = unpack(self.dbc.battlepetspecies[id])
+			local spellID, sourceType, flags = unpack(self.dbc.battlepetspecies[id])
 			local linkName = self.util:GetLinkName(wpLink[id], name, 32)
-			-- categorizing pet sources is annoying as hell
+			local hideUntilLearned = bit.band(flags, 0x4000) > 0
 			local sourceText = "😕"
 			if sources[id] then
 				sourceText = self.data.SourceTypeEnum[sources[id]]
+				if hideUntilLearned then
+					sourceText = "❓ "..sourceText
+				end
 			elseif visible[id] then
 				sourceText = ""
 			else

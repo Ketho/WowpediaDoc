@@ -14,7 +14,7 @@ function KethoWowpedia:GameError()
 
 	eb:Show()
 	eb:InsertLine('{| class="sortable darktable zebra"\n! ID !! skit !! voice !! stringId !! GlobalString')
-	local fs = "|-\n| <center>%d</center> |||| %s |||| %s |||| %s |||| %s"
+	local fs = '|-\n| align="center" | %d |||| %s |||| %s |||| %s |||| %s'
 	for _, tbl in pairs(enums) do
 		local k, v = unpack(tbl)
 		local stringId, soundKitID, voiceID = GetGameMessageInfo(v)

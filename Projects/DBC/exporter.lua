@@ -46,13 +46,13 @@ local handlers = {
 		end,
 	},
 	battlepetspecies = {
-		fs = '\t[%d] = {%d, %d},\n',
+		fs = '\t[%d] = {%d, %d, %d},\n',
 		func = function(csv)
 			local t = {}
 			for l in csv:lines() do
 				local ID = tonumber(l.ID)
 				if ID then
-					t[ID] = {tonumber(l.SummonSpellID), tonumber(l.SourceTypeEnum)}
+					t[ID] = {tonumber(l.SummonSpellID), tonumber(l.SourceTypeEnum), l.Flags}
 				end
 			end
 			return t
