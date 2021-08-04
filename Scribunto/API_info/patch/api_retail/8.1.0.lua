@@ -1,4 +1,4 @@
-return { -- self generated
+return {
 	["AbandonQuest"] = true,
 	["AbandonSkill"] = true,
 	["AcceptAreaSpiritHeal"] = true,

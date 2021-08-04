@@ -69,16 +69,23 @@ function m:GetPatchData(tbl)
 	return added, removed
 end
 
+function m:GetLatestData()
+	local retail = flavors.retail.data
+	return retail[#retail].data
+end
+
 function m:main()
 	for _, info in pairs(flavors) do
 		local added, removed = self:GetPatchData(info.data)
+		local latest = self:GetLatestData()
 		local file = io.open(info.out, "w")
 		file:write("local data = {\n")
 		for _, name in pairs(Util:SortTable(added)) do
 			local isFrameXML = (added[name] == "7.3.0" and removed[name] == "8.1.0")
 			if not self:IsFrameXML(name) and not isFrameXML then
 				file:write(string.format('\t["%s"] = {"%s"', name, added[name]))
-				if removed[name] then
+				-- also verify if something was marked as removed but actually exists
+				if removed[name] and not latest[name] then
 					file:write(string.format(', "%s"', removed[name]))
 				end
 				file:write("},\n")

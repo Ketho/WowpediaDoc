@@ -1,4 +1,4 @@
- -- resike
+-- resike
 return {
 	["C_AccountInfo"] = true,
 	["C_AccountInfo.IsGUIDBattleNetAccountType"] = true,
