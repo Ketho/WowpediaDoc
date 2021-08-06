@@ -17,6 +17,26 @@ local wplink = {
 	[1748] = "Bladesman Inowari",
 	[1749] = "Hunter Akana",
 	[1750] = "Farseer Ori",
+	[1829] = "Renown",
+	[1830] = "Renown",
+	[1831] = "Renown",
+	[1832] = "Renown",
+	[1859] = "Reservoir Anima",
+	[1860] = "Reservoir Anima",
+	[1861] = "Reservoir Anima",
+	[1862] = "Reservoir Anima",
+	[1863] = "Redeemed Soul",
+	[1864] = "Redeemed Soul",
+	[1865] = "Redeemed Soul",
+	[1866] = "Redeemed Soul",
+	[1867] = "Sanctum Architect",
+	[1868] = "Sanctum Architect",
+	[1869] = "Sanctum Architect",
+	[1870] = "Sanctum Architect",
+	[1871] = "Sanctum Anima Weaver",
+	[1872] = "Sanctum Anima Weaver",
+	[1873] = "Sanctum Anima Weaver",
+	[1874] = "Sanctum Anima Weaver",
 }
 
 local nolink = {
@@ -111,12 +131,10 @@ local function main(BUILD)
 		if ID then
 			local categoryID = tonumber(l.CategoryID)
 			local nameText = l.Name_lang
-			if IsValidLink(ID, l.Name_lang, categoryID) then
-				if wplink[ID] then
-					nameText = string.format("[[%s|%s]]", wplink[ID], l.Name_lang)
-				elseif not nolink[ID] then
-					nameText = string.format("[[:%s]]", l.Name_lang)
-				end
+			if wplink[ID] then
+				nameText = string.format("[[%s|%s]]", wplink[ID], l.Name_lang)
+			elseif IsValidLink(ID, l.Name_lang, categoryID) then
+				nameText = string.format("[[:%s]]", l.Name_lang)
 			end
 			local categoryText = string.format('<span title="ID %d">%s</span>', categoryID, categories[categoryID])
 			local seen = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
