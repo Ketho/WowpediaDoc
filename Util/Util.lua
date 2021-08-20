@@ -77,7 +77,7 @@ function Util.Sort_Nocase(a, b)
 end
 
 function Util:Wipe(tbl)
-	for k, v in pairs(tbl) do
+	for k in pairs(tbl) do
 		tbl[k] = nil
 	end
 end
