@@ -102,6 +102,11 @@ function m:SanitizeCVars()
 end
 
 function m:GetWikiTable(info, section)
+	-- need to sort events at least, and cvars
+	if section ~= "WidgetAPI" then
+		table.sort(info.changes["+"], Util.Sort_Nocase)
+		table.sort(info.changes["-"], Util.Sort_Nocase)
+	end
 	local t = {}
 	table.insert(t, string.format('==%s==', info.label or section))
 	table.insert(t, '{| class="wikitable" style="min-width: 600px"')
@@ -110,14 +115,11 @@ function m:GetWikiTable(info, section)
 	table.insert(t, string.format('! style="width: 50%%" | <font color="pink">Removed</font> <small>(%d)</small>', #info.changes["-"]))
 	table.insert(t, string.format('|- class="mw-collapsible" id="%s"', info.id))
 	table.insert(t, '| valign="top" | <div style="margin-left:-1.5em">')
-	-- need to sort events at least, and cvars
-	table.sort(info.changes["+"], Util.Sort_Nocase)
 	for _, v in pairs(info.changes["+"]) do
 		table.insert(t, v)
 	end
 	table.insert(t, '</div>')
 	table.insert(t, '| valign="top" | <div style="margin-left:-1.5em">')
-	table.sort(info.changes["-"], Util.Sort_Nocase)
 	for _, v in pairs(info.changes["-"]) do
 		table.insert(t, v)
 	end
