@@ -72,6 +72,16 @@ function Util:SortTable(tbl, func)
 	return t
 end
 
+function Util.Sort_Nocase(a, b)
+	return a:lower() < b:lower()
+end
+
+function Util:Wipe(tbl)
+	for k, v in pairs(tbl) do
+		tbl[k] = nil
+	end
+end
+
 function Util:GetFullName(apiTable)
 	local fullName
 	if apiTable.System.Namespace then

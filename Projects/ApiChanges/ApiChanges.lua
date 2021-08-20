@@ -1,4 +1,5 @@
 local lfs = require "lfs"
+local Util = require("Util/Util")
 local m = {}
 local OUT_FILE = "out/page/Changes.txt"
 
@@ -73,9 +74,25 @@ function m:ParseDiff(path)
 	end
 end
 
--- for cvar sorting
-local function sort_nocase(a, b)
-	return a:lower() < b:lower()
+-- check if it's not a CVar name change
+function m:SanitizeCVars()
+	local added = Util:ToMap(self.ApiTypes.CVars.changes["+"])
+	local removed = Util:ToMap(self.ApiTypes.CVars.changes["-"])
+	for k in pairs(added) do
+		if removed[k] then
+			added[k] = nil
+			removed[k] = nil
+		end
+	end
+	-- cba safely removing while iterating
+	Util:Wipe(self.ApiTypes.CVars.changes["+"])
+	Util:Wipe(self.ApiTypes.CVars.changes["-"])
+	for k in pairs(added) do
+		table.insert(self.ApiTypes.CVars.changes["+"], k)
+	end
+	for k in pairs(removed) do
+		table.insert(self.ApiTypes.CVars.changes["-"], k)
+	end
 end
 
 function m:GetWikiTable(info, section)
@@ -87,13 +104,14 @@ function m:GetWikiTable(info, section)
 	table.insert(t, string.format('! style="width: 50%%" | <font color="pink">Removed</font> <small>(%d)</small>', #info.changes["-"]))
 	table.insert(t, string.format('|- class="mw-collapsible" id="%s"', info.id))
 	table.insert(t, '| valign="top" | <div style="margin-left:-1.5em">')
-	table.sort(info.changes["+"], sort_nocase) -- need to sort events at least
+	-- need to sort events at least, and cvars
+	table.sort(info.changes["+"], Util.Sort_Nocase)
 	for _, v in pairs(info.changes["+"]) do
 		table.insert(t, v)
 	end
 	table.insert(t, '</div>')
 	table.insert(t, '| valign="top" | <div style="margin-left:-1.5em">')
-	table.sort(info.changes["-"], sort_nocase)
+	table.sort(info.changes["-"], Util.Sort_Nocase)
 	for _, v in pairs(info.changes["-"]) do
 		table.insert(t, v)
 	end
@@ -104,6 +122,7 @@ end
 local function main()
 	local path = m:FindDiff()
 	m:ParseDiff(path)
+	m:SanitizeCVars()
 	local file = io.open(OUT_FILE, "w+")
 	for _, section in pairs(api_order) do
 		local info = m.ApiTypes[section]
