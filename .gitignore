@@ -4,6 +4,7 @@
 *.xml
 *.html
 *.csv
+*.diff
 out
 cache
 FrameXML
