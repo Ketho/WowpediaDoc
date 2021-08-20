@@ -73,6 +73,11 @@ function m:ParseDiff(path)
 	end
 end
 
+-- for cvar sorting
+local function sort_nocase(a, b)
+	return a:lower() < b:lower()
+end
+
 function m:GetWikiTable(info, section)
 	local t = {}
 	table.insert(t, string.format('==%s==', info.label or section))
@@ -82,11 +87,13 @@ function m:GetWikiTable(info, section)
 	table.insert(t, string.format('! style="width: 50%%" | <font color="pink">Removed</font> <small>(%d)</small>', #info.changes["-"]))
 	table.insert(t, string.format('|- class="mw-collapsible" id="%s"', info.id))
 	table.insert(t, '| valign="top" | <div style="margin-left:-1.5em">')
+	table.sort(info.changes["+"], sort_nocase) -- need to sort events at least
 	for _, v in pairs(info.changes["+"]) do
 		table.insert(t, v)
 	end
 	table.insert(t, '</div>')
 	table.insert(t, '| valign="top" | <div style="margin-left:-1.5em">')
+	table.sort(info.changes["-"], sort_nocase)
 	for _, v in pairs(info.changes["-"]) do
 		table.insert(t, v)
 	end
@@ -105,3 +112,4 @@ local function main()
 end
 
 main()
+print("done")
