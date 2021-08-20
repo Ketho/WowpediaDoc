@@ -13,9 +13,15 @@ m.ApiTypes = {
 		class = "mw-customtoggle-global-c",
 		id = "mw-customcollapsible-global-c",
 	},
---	WidgetAPI = {
---		text = ": {{api|t=w|%s}}",
---	},
+	WidgetAPI = {
+		label = "Widgets",
+		text = ": {{api|t=w|%s}}",
+		parseName = function(innerLine)
+			return innerLine:match('\t\t\t"(.+)",')
+		end,
+		class = "mw-customtoggle-widgets",
+		id = "mw-customcollapsible-widgets",
+	},
 	Events = {
 		text = ": {{api|t=e|%s}}",
 		parseName = function(innerLine)
@@ -34,7 +40,7 @@ m.ApiTypes = {
 	},
 }
 
-local api_order = {"GlobalAPI", "Events", "CVars"}
+local api_order = {"GlobalAPI", "WidgetAPI", "Events", "CVars"}
 
 for _, v in pairs(m.ApiTypes) do
 	v.changes = {
