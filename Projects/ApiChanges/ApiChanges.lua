@@ -1,3 +1,4 @@
+-- https://wowpedia.fandom.com/wiki/API_change_summaries
 local lfs = require "lfs"
 local Util = require("Util/Util")
 local m = {}
