@@ -17,6 +17,8 @@ local wpLinkMap = {
 	[308] = "Scholomance (Classic)", -- ScholomanceOLD
 	[309] = "Scholomance (Classic)", -- ScholomanceOLD
 	[329] = "Hyjal Summit (Caverns of Time)", -- Hyjal Summit
+	[453] = "Crimson Assembly Hall", -- The Crimson Assembly Hall
+	[454] = "Vault of Kings Past", -- Vaults of Kings Past
 	[589] = "Ashran Excavation", -- Ashran Mine
 	[623] = "Southshore vs Tarren Mill", -- Hillsbrad Foothills (Southshore vs. Tarren Mill)
 	[1045] = "Thros, the Blighted Lands", -- Thros, The Blighted Lands
@@ -27,6 +29,8 @@ local wpLinkMap = {
 	[1372] = "Gnomeregan", -- GnomereganB
 	[1374] = "Gnomeregan", -- GnomereganD
 	[1380] = "Gnomeregan", -- GnomereganC
+	[1544] = "Crimson Assembly Hall", -- The Crimson Assembly Hall
+	[1545] = "Vault of Kings Past", -- Vaults of Kings Past
 }
 
 local wpLinkFloor = {
