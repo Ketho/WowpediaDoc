@@ -39,8 +39,8 @@ end
 function WikiText:GetSignatures()
 	local t = {}
 	local fs_base = ': [[API %s|%s]](%s)%s'
-	local fs_args = '<span style="font-size:smaller; color:#ecbc2a">%s</span>'
-	local fs_returns = " : <span style=\"font-size:smaller; color:#4ec9b0\">%s</span>"
+	local fs_args = '<span class="apiarg">%s</span>'
+	local fs_returns = ' : <span class="apiret">%s</span>'
 	for _, func in ipairs(APIDocumentation.functions) do
 		local name = GetFullName(func)
 		local args, returns = "", ""
