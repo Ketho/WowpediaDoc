@@ -26,8 +26,8 @@ local wpName = {
 -- /run KethoWowpedia:GetMountIDs(2000)
 function KethoWowpedia:GetMountIDs(num)
 	eb:Show()
-	eb:InsertLine('{| class="sortable darktable zebra"\n! ID !! !! !! Name !! Source !! [[CreatureDisplayID|Display ID]] !! Spell ID !! Patch')
-	local fs = "|-\n| align=\"center\" | %d |||| %s |||| %s |||| %s |||| %s |||| %s |||| %s |||| %s"
+	eb:InsertLine('{| class="sortable darktable zebra col1-center col2-center col3-center"\n! ID !! !! !! Name !! Source !! [[CreatureDisplayID|Display ID]] !! Spell ID !! Patch')
+	local fs = "|-\n| %d |||| %s |||| %s |||| %s |||| %s |||| %s |||| %s |||| %s"
 
 	for id = 1, num do
 		local name, spellID, _, _, _, sourceType, _, isFactionSpecific, faction, shouldHideOnChar = C_MountJournal.GetMountInfoByID(id)
