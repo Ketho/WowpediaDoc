@@ -34,6 +34,9 @@ local dataTypes = {
 			if tbl.inherits then
 				s = s..string.format(', inherits = "%s"', tbl.inherits)
 			end
+			if tbl.intrinsic then
+				s = s..string.format(', intrinsic = true', tbl.inherits)
+			end
 			s = s.."},"
 			return s
 		end,
@@ -112,7 +115,8 @@ function m:ParseXml(path, fileName)
 			self:HandleCommaString(dataTypes.mixin.data, mixin)
 		end
 		local virtual = self:FindAttribute(line, "virtual")
-		if virtual == "true" then -- attribute value for IMECandidatesFrame is "false"
+		local intrinsic = self:FindAttribute(line, "intrinsic")
+		if virtual == "true" or intrinsic then -- attribute value for IMECandidatesFrame is "false"
 			local objectType = line:match('<(.-) ')
 			local name = line:match(' name%s?="(.-)"')
 			if not name and fileName == "SecureHandlerTemplates.xml" then
@@ -126,6 +130,7 @@ function m:ParseXml(path, fileName)
 					object = objectType,
 					inherits = self:FindAttribute(line, "inherits"),
 					mixin = mixin,
+					intrinsic = intrinsic,
 				}
 			end
 		end
