@@ -14,7 +14,8 @@ function m:main()
 	local file = io.open(OUT, "w")
 	file:write('local data = {\n')
 	for _, event in ipairs(APIDocumentation.events) do
-		file:write(string.format('\t["%s"] = {Name = "%s", System = "%s"},\n', event.LiteralName, event.Name, event.System.Name))
+		file:write(string.format('\t["%s"] = {Name = "%s", System = "%s"},\n',
+			event.LiteralName, event.Name, event.System.Name))
 	end
 	file:write("}\n\nreturn data\n")
 	file:close()
