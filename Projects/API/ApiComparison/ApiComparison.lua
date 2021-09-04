@@ -62,26 +62,27 @@ local sources = {
 	},
 }
 
+-- https://github.com/Ketho/BlizzardInterfaceResources/branches
 local branches = {
 	"live",
-	"classic_era",
-	"classic",
+	"vanilla",
+	"tbc",
 }
 
 -- avoid using templates as that increases page processing time
 local wp_icons = {
 	live = "[[File:Shadowlands-Logo-Small.png|34px|link=]]",
-	bcc = "[[File:Bc icon.gif|link=]]",
-	classic = "[[File:WoW Icon update.png|link=]]",
+	tbc = "[[File:Bc icon.gif|link=]]",
+	vanilla = "[[File:WoW Icon update.png|link=]]",
 }
 
 local sections = {
-	{id = "bcc", label = "BCC only"},
-	{id = "both", label = "BCC & Classic"},
-	{id = "retail_bcc", label = "Retail & BCC"},
-	{id = "classic", label = "Classic only"},
-	{id = "retail_classic", label = "Retail & Classic"},
-	{id = "retail_both", label = "Retail & BCC & Classic"},
+	{id = "tbc", label = "TBC only"},
+	{id = "both", label = "TBC & Vanilla"},
+	{id = "retail_tbc", label = "Retail & TBC"},
+	{id = "vanilla", label = "Vanilla only"},
+	{id = "retail_vanilla", label = "Retail & Vanilla"},
+	{id = "retail_both", label = "Retail & TBC & Vanilla"},
 }
 
 local cvar_enum = {
@@ -123,14 +124,14 @@ function m:main()
 			file:write(section_fs:format(sectionInfo.label))
 			for _, name in pairs(Util:SortTable(data[sectionInfo.id], info.sortFunc)) do
 				local retail = parts.live[name] and wp_icons.live or ""
-				local bcc = parts.classic[name] and wp_icons.bcc or ""
-				local classic = parts.classic_era[name] and wp_icons.classic or ""
+				local tbc = parts.tbc[name] and wp_icons.tbc or ""
+				local vanilla = parts.vanilla[name] and wp_icons.vanilla or ""
 				local nameLink = info.name_fs:format(name, name)
-				file:write(row_fs:format(retail, bcc, classic, nameLink))
+				file:write(row_fs:format(retail, tbc, vanilla, nameLink))
 				if source == "event" and eventDoc[name] then
 					file:write(string.format("<small>: %s</small>", eventDoc[name]))
 				elseif source == "cvar" then
-					local cvarInfo = parts.classic[name] or parts.classic_era[name]
+					local cvarInfo = parts.tbc[name] or parts.vanilla[name]
 					local default, category, account, character, description = table.unpack(cvarInfo)
 					local categoryName = cvar_enum[category] or ""
 					local scope = account and "Account" or character and "Character" or ""
@@ -166,24 +167,24 @@ function m:GetData(sourceType)
 
 	for name in pairs(mainTbl) do
 		local retail = parts.live[name]
-		local bcc = parts.classic[name]
-		local classic = parts.classic_era[name]
+		local tbc = parts.tbc[name]
+		local vanilla = parts.vanilla[name]
 
 		if retail then
-			if bcc and classic then
-				sectionData.retail_both[name] = bcc
-			elseif bcc then
-				sectionData.retail_bcc[name] = bcc
-			elseif classic then
-				sectionData.retail_classic[name] = classic
+			if tbc and vanilla then
+				sectionData.retail_both[name] = tbc
+			elseif tbc then
+				sectionData.retail_tbc[name] = tbc
+			elseif vanilla then
+				sectionData.retail_vanilla[name] = vanilla
 			end
 		else
-			if bcc and classic then
-				sectionData.both[name] = bcc
-			elseif bcc then
-				sectionData.bcc[name] = bcc
-			elseif classic then
-				sectionData.classic[name] = classic
+			if tbc and vanilla then
+				sectionData.both[name] = tbc
+			elseif tbc then
+				sectionData.tbc[name] = tbc
+			elseif vanilla then
+				sectionData.vanilla[name] = vanilla
 			end
 		end
 	end
