@@ -66,23 +66,23 @@ local sources = {
 local branches = {
 	"live",
 	"vanilla_ptr",
-	"tbc",
+	"bcc",
 }
 
 -- avoid using templates as that increases page processing time
 local wp_icons = {
 	live = "[[File:Shadowlands-Logo-Small.png|34px|link=]]",
-	tbc = "[[File:Bc icon.gif|link=]]",
+	bcc = "[[File:Bc icon.gif|link=]]",
 	vanilla = "[[File:WoW Icon update.png|link=]]",
 }
 
 local sections = {
-	{id = "tbc", label = "TBC only"},
-	{id = "both", label = "TBC & Vanilla"},
-	{id = "retail_tbc", label = "Retail & TBC"},
+	{id = "bcc", label = "BCC only"},
+	{id = "both", label = "BCC & Vanilla"},
+	{id = "retail_bcc", label = "Retail & BCC"},
 	{id = "vanilla", label = "Vanilla only"},
 	{id = "retail_vanilla", label = "Retail & Vanilla"},
-	{id = "retail_both", label = "Retail & TBC & Vanilla"},
+	{id = "retail_both", label = "Retail & BCC & Vanilla"},
 }
 
 local cvar_enum = {
@@ -125,14 +125,14 @@ function m:main()
 				file:write(section_fs:format(sectionInfo.label))
 				for _, name in pairs(Util:SortTable(data[sectionInfo.id], info.sortFunc)) do
 					local retail = parts.live[name] and wp_icons.live or ""
-					local tbc = parts.tbc[name] and wp_icons.tbc or ""
+					local bcc = parts.bcc[name] and wp_icons.bcc or ""
 					local vanilla = parts.vanilla_ptr[name] and wp_icons.vanilla or ""
 					local nameLink = info.name_fs:format(name, name)
-					file:write(row_fs:format(retail, tbc, vanilla, nameLink))
+					file:write(row_fs:format(retail, bcc, vanilla, nameLink))
 					if source == "event" and eventDoc[name] then
 						file:write(string.format("<small>: %s</small>", eventDoc[name]))
 					elseif source == "cvar" then
-						local cvarInfo = parts.tbc[name] or parts.vanilla_ptr[name]
+						local cvarInfo = parts.bcc[name] or parts.vanilla_ptr[name]
 						local default, category, account, character, description = table.unpack(cvarInfo)
 						local categoryName = cvar_enum[category] or ""
 						local scope = account and "Account" or character and "Character" or ""
@@ -169,22 +169,22 @@ function m:GetData(sourceType)
 
 	for name in pairs(mainTbl) do
 		local retail = parts.live[name]
-		local tbc = parts.tbc[name]
+		local bcc = parts.bcc[name]
 		local vanilla = parts.vanilla_ptr[name]
 
 		if retail then
-			if tbc and vanilla then
-				sectionData.retail_both[name] = tbc
-			elseif tbc then
-				sectionData.retail_tbc[name] = tbc
+			if bcc and vanilla then
+				sectionData.retail_both[name] = bcc
+			elseif bcc then
+				sectionData.retail_bcc[name] = bcc
 			elseif vanilla then
 				sectionData.retail_vanilla[name] = vanilla
 			end
 		else
-			if tbc and vanilla then
-				sectionData.both[name] = tbc
-			elseif tbc then
-				sectionData.tbc[name] = tbc
+			if bcc and vanilla then
+				sectionData.both[name] = bcc
+			elseif bcc then
+				sectionData.bcc[name] = bcc
 			elseif vanilla then
 				sectionData.vanilla[name] = vanilla
 			end

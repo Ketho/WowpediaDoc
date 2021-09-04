@@ -5,7 +5,7 @@ require("Documenter/Wowpedia/Tables")
 require("Documenter/Wowpedia/Fields")
 -- local GithubWiki = require "GithubWiki/GithubWiki"
 
-local LATEST_PATCH = "9.1.0"
+local LATEST_PATCH = "9.1.5"
 
 function Wowpedia:GetPageText(apiTable)
 	local tbl = {}
