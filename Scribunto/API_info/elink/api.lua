@@ -13,7 +13,7 @@ function m:main()
 	file:write('local data = {\n')
 	for _, name in pairs(Util:SortTable(full)) do
 		if doc[name] then
-			file:write(string.format('\t["%s"] = {System = "%s"},\n', name, doc[name]))
+			file:write(string.format('\t["%s"] = "%s",\n', name, doc[name]))
 		end
 	end
 	file:write("}\n\nreturn data\n")
