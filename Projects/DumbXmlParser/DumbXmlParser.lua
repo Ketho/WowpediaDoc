@@ -1,7 +1,11 @@
 -- first strip out UTF8 BOM from files with powershell
 local lfs = require "lfs"
 
-local FRAMEXML_PATH = "../#FrameXML/Generate-Globals/wow-ui-source"
+-- too lazy to parse FrameXML_TBC.toc or whatever the new file loading structure is
+local flavors = {
+	retail = "../#FrameXML/Generate-Globals/wow-ui-source/Interface",
+	classic = "../#FrameXML/Generate-Globals/wow-ui-source/Interface_TBC",
+}
 local OUT_PATH = "../BlizzardInterfaceResources/Resources"
 
 local folders = {
@@ -78,8 +82,10 @@ end
 local m = {}
 
 function m:main()
-	for _, folder in pairs(folders) do
-		m:IterateFiles(FRAMEXML_PATH.."/"..folder)
+	for _, flavor in pairs(flavors) do
+		for _, folder in pairs(folders) do
+			m:IterateFiles(flavor.."/"..folder)
+		end
 	end
 	for _, info in pairs(dataTypes) do
 		self:WriteDataFile(info)
