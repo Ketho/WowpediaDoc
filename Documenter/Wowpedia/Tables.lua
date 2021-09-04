@@ -4,11 +4,21 @@ local shortComplex = {
 	Constants = "Const",
 }
 
+local alignFirstCol = {
+	Enumeration = true,
+	Constants = true,
+}
+
 function Wowpedia:GetTableText(apiTable, isTemplate, isSubTable)
 	local tbl = {}
 	local transclude = self:GetTranscludeBase(apiTable)
 	local fullName = apiTable:GetFullName()
-	tinsert(tbl, '{| class="sortable darktable zebra" style="margin-left: 2em"')
+	local tableClass = '{| class="sortable darktable zebra'
+	if alignFirstCol[apiTable.Type] then
+		tableClass = tableClass.." col1-center"
+	end
+	tableClass = tableClass..'" style="margin-left: 2em"'
+	tinsert(tbl, tableClass)
 	if isTemplate then
 		local link
 		if transclude == fullName then -- Enum; save some space
@@ -23,7 +33,7 @@ function Wowpedia:GetTableText(apiTable, isTemplate, isSubTable)
 	if apiTable.Type == "Enumeration" then
 		tinsert(tbl, "! Value !! Key !! Description")
 		for _, field in ipairs(apiTable.Fields) do
-			tinsert(tbl, format('|-\n| align="center" | %s || %s || ', field.EnumValue, field.Name))
+			tinsert(tbl, format('|-\n| %s || %s || ', field.EnumValue, field.Name))
 		end
 	elseif apiTable.Type == "Structure" then
 		tinsert(tbl, "! Key !! Type !! Description")
@@ -35,7 +45,7 @@ function Wowpedia:GetTableText(apiTable, isTemplate, isSubTable)
 		tinsert(tbl, "! Constant !! Type !! Value !! Description")
 		for _, field in ipairs(apiTable.Values) do
 			local prettyType = self:GetPrettyType(field)
-			tinsert(tbl, format('|-\n| %s || %s || align="center" | %s || ', field.Name, prettyType, field.Value))
+			tinsert(tbl, format('|-\n| %s || %s || %s || ', field.Name, prettyType, field.Value))
 		end
 	end
 	tinsert(tbl, "|}")

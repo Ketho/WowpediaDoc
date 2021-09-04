@@ -5,7 +5,7 @@ require("Documenter/Wowpedia/Tables")
 require("Documenter/Wowpedia/Fields")
 -- local GithubWiki = require "GithubWiki/GithubWiki"
 
-local LATEST_PATCH = "9.0.5"
+local LATEST_PATCH = "9.1.0"
 
 function Wowpedia:GetPageText(apiTable)
 	local tbl = {}
@@ -21,12 +21,12 @@ function Wowpedia:GetPageText(apiTable)
 		self:GetDescription(apiTable),
 		params,
 		self:GetPatchSection(),
-		self:GetElinkSection(apiTable),
+		-- self:GetElinkSection(apiTable),
 	}
 	for _, v in ipairs(sections) do
 		tinsert(tbl, v)
 	end
-	return table.concat(tbl, "\n").."\n"
+	return table.concat(tbl, "\n")
 end
 
 function Wowpedia:GetDescription(apiTable)

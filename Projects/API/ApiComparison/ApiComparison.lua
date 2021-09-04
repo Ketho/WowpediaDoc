@@ -65,7 +65,7 @@ local sources = {
 -- https://github.com/Ketho/BlizzardInterfaceResources/branches
 local branches = {
 	"live",
-	"vanilla",
+	"vanilla_ptr",
 	"tbc",
 }
 
@@ -121,23 +121,25 @@ function m:main()
 		local row_fs = "|-\n| "..string.rep("%s", 4, " || ")
 
 		for _, sectionInfo in pairs(sections) do
-			file:write(section_fs:format(sectionInfo.label))
-			for _, name in pairs(Util:SortTable(data[sectionInfo.id], info.sortFunc)) do
-				local retail = parts.live[name] and wp_icons.live or ""
-				local tbc = parts.tbc[name] and wp_icons.tbc or ""
-				local vanilla = parts.vanilla[name] and wp_icons.vanilla or ""
-				local nameLink = info.name_fs:format(name, name)
-				file:write(row_fs:format(retail, tbc, vanilla, nameLink))
-				if source == "event" and eventDoc[name] then
-					file:write(string.format("<small>: %s</small>", eventDoc[name]))
-				elseif source == "cvar" then
-					local cvarInfo = parts.tbc[name] or parts.vanilla[name]
-					local default, category, account, character, description = table.unpack(cvarInfo)
-					local categoryName = cvar_enum[category] or ""
-					local scope = account and "Account" or character and "Character" or ""
-					file:write(string.format(" || %s || %s || %s || %s", default, categoryName, scope, description))
+			if next(data[sectionInfo.id]) then
+				file:write(section_fs:format(sectionInfo.label))
+				for _, name in pairs(Util:SortTable(data[sectionInfo.id], info.sortFunc)) do
+					local retail = parts.live[name] and wp_icons.live or ""
+					local tbc = parts.tbc[name] and wp_icons.tbc or ""
+					local vanilla = parts.vanilla_ptr[name] and wp_icons.vanilla or ""
+					local nameLink = info.name_fs:format(name, name)
+					file:write(row_fs:format(retail, tbc, vanilla, nameLink))
+					if source == "event" and eventDoc[name] then
+						file:write(string.format("<small>: %s</small>", eventDoc[name]))
+					elseif source == "cvar" then
+						local cvarInfo = parts.tbc[name] or parts.vanilla_ptr[name]
+						local default, category, account, character, description = table.unpack(cvarInfo)
+						local categoryName = cvar_enum[category] or ""
+						local scope = account and "Account" or character and "Character" or ""
+						file:write(string.format(" || %s || %s || %s || %s", default, categoryName, scope, description))
+					end
+					file:write("\n")
 				end
-				file:write("\n")
 			end
 		end
 		file:write("|}\n")
@@ -168,7 +170,7 @@ function m:GetData(sourceType)
 	for name in pairs(mainTbl) do
 		local retail = parts.live[name]
 		local tbc = parts.tbc[name]
-		local vanilla = parts.vanilla[name]
+		local vanilla = parts.vanilla_ptr[name]
 
 		if retail then
 			if tbc and vanilla then

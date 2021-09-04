@@ -33,7 +33,7 @@ for _, apiTable in ipairs(APIDocumentation.tables) do
 end
 
 local paramFs = ";%s : %s"
-local colorFs = '<font color="#ecbc2a">%s</font>' -- from ddcorkum api template
+local colorFs = '<span class="apitype">%s</span>'
 local tooltipFs = '<span title="%s">%s</span>'
 
 local function HasMiddleOptionals(paramTbl)
