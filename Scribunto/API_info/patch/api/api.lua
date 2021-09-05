@@ -80,7 +80,6 @@ function m:main()
 	for flavor, info in pairs(flavors) do
 		local added, removed = self:GetPatchData(info.data)
 		local latest = self:GetLatestData(flavor)
-		-- something can have only removed data which is slightly annoying
 		local t = {}
 		for name in pairs(added) do
 			if not self:IsFrameXML(name, added, removed) then

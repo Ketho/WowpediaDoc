@@ -49,6 +49,17 @@ local pre252_format = {
 	["2.5.1"] = true,
 }
 
+-- doc files are not removed in >2.5.1 but rather removed from TOC
+local removed_from_toc = {
+	["2.5.1"] = {
+		["RecruitAFriendDocumentation.lua"] = true,
+	},
+	["2.5.2"] = {
+		["ClubDocumentation.lua"] = true,
+		["RecruitAFriendDocumentation.lua"] = true,
+	},
+}
+
 local m = {}
 
 function m:GetPatchData(tbl)
@@ -83,6 +94,11 @@ function m:GetPatchData(tbl)
 	return t
 end
 
+local function IsTocRemoved(fileName, version)
+	local key = removed_from_toc[version]
+	return key and key[fileName]
+end
+
 local function GetEventMap()
 	local t = {}
 	for _, info in pairs(ApiCache) do
@@ -111,7 +127,8 @@ function m:GetFrameXmlData(info)
 				end
 			end
 			for fileName in lfs.dir(path) do
-				if not nondoc[fileName] and fileName:find("%.lua") then
+				local tocRemoved = IsTocRemoved(fileName, version)
+				if not nondoc[fileName] and fileName:find("%.lua") and not tocRemoved then
 					loadfile(path.."/"..fileName)()
 				end
 			end
