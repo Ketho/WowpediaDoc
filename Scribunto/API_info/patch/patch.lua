@@ -35,11 +35,13 @@ local underscore = {
 
 -- 7.3.0, 7.3.2, 7.3.5, 8.0.1 dumps include framexml
 -- also try to filter lua api and C_namespace tables
-function m:IsFrameXML(s)
-	if self.LuaAPI[s] then
-		return true
-	elseif underscore[s] then
+function m:IsFrameXML(s, added, removed)
+	if underscore[s] then
 		return false
+	elseif self.LuaAPI[s] then
+		return true
+	elseif (added[s] == "7.3.0" and removed[s] == "8.1.0") then
+		return true
 	elseif s:find("^C_") and not s:find("%.") then
 		return true
 	elseif s:find("_") then
@@ -78,18 +80,36 @@ function m:main()
 	for flavor, info in pairs(flavors) do
 		local added, removed = self:GetPatchData(info.data)
 		local latest = self:GetLatestData(flavor)
+		-- something can have only removed data which is slightly annoying
+		local t = {}
+		for name in pairs(added) do
+			if not self:IsFrameXML(name, added, removed) then
+				t[name] = t[name] or {}
+				t[name][1] = added[name]
+			end
+		end
+		for name in pairs(removed) do
+			-- also verify if something was marked as removed but actually exists
+			if not self:IsFrameXML(name, added, removed) and not latest[name] then
+				t[name] = t[name] or {}
+				t[name][2] = removed[name]
+			end
+		end
+
 		local file = io.open(info.out, "w")
 		file:write("local data = {\n")
-		for _, name in pairs(Util:SortTable(added)) do
-			local isFrameXML = (added[name] == "7.3.0" and removed[name] == "8.1.0")
-			if not self:IsFrameXML(name) and not isFrameXML then
-				file:write(string.format('\t["%s"] = {"%s"', name, added[name]))
-				-- also verify if something was marked as removed but actually exists
-				if removed[name] and not latest[name] then
-					file:write(string.format(', "%s"', removed[name]))
-				end
-				file:write("},\n")
+		for _, name in pairs(Util:SortTable(t)) do
+			local tbl = t[name]
+			file:write(string.format('\t["%s"] = {', name))
+			if tbl[1] then
+				file:write(string.format('"%s"', tbl[1]))
+			else
+				file:write("nil")
 			end
+			if tbl[2] then
+				file:write(string.format(', "%s"', tbl[2]))
+			end
+			file:write("},\n")
 		end
 		file:write("}\n\nreturn data\n")
 		file:close()
