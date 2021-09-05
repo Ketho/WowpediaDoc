@@ -2,15 +2,15 @@
 -- https://wowpedia.fandom.com/wiki/Module:API_info/patch/api_classic
 local Util = require("Util/Util")
 
-local PATH = "Scribunto/API_info/patch/"
+local PATH = "Scribunto/API_info/patch/api"
 
 local flavors = {
 	retail = {
-		data = require(PATH.."LoadFiles")(PATH.."api/retail"),
+		data = require(PATH.."/LoadFiles")(PATH.."/retail"),
 		out = "out/lua/API_info.patch.api_retail.lua",
 	},
 	classic = {
-		data = require(PATH.."LoadFiles")(PATH.."api/classic"),
+		data = require(PATH.."/LoadFiles")(PATH.."/classic"),
 		out = "out/lua/API_info.patch.api_classic.lua",
 	},
 }
