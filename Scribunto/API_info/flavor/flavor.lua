@@ -5,7 +5,7 @@ local Util = require("Util/Util")
 local flavor = {
 	retail = 0x1,
 	vanilla = 0x2,
-	tbc = 0x4,
+	bcc = 0x4,
 }
 
 local m = {}
@@ -43,9 +43,9 @@ local sources = {
 
 -- https://github.com/Ketho/BlizzardInterfaceResources/branches
 local branches = {
-	"live",
+	"live_ptr",
 	"vanilla",
-	"tbc",
+	"bcc",
 }
 
 function m:main()
@@ -77,10 +77,10 @@ function m:GetData(sourceType)
 		end
 	end
 	for k in pairs(data) do
-		local live = parts.live[k] and flavor.retail or 0
+		local live = parts.live_ptr[k] and flavor.retail or 0
 		local vanilla = parts.vanilla[k] and flavor.vanilla or 0
-		local tbc = parts.tbc[k] and flavor.tbc or 0
-		data[k] = live | vanilla | tbc
+		local bcc = parts.bcc[k] and flavor.bcc or 0
+		data[k] = live | vanilla | bcc
 	end
 	return data
 end
