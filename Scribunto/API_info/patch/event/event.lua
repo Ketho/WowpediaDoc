@@ -49,7 +49,7 @@ local pre252_format = {
 	["2.5.1"] = true,
 }
 
--- doc files are not removed in >2.5.1 but rather removed from TOC
+-- doc files are not removed in >=2.5.1 but rather removed from TOC
 local removed_from_toc = {
 	["2.5.1"] = {
 		["RecruitAFriendDocumentation.lua"] = true,
@@ -80,10 +80,10 @@ function m:GetPatchData(tbl)
 
 	local t = {}
 	for name, version in pairs(added) do
+		t[name] = t[name] or {}
 		if version == "8.0.1" then -- event docs were added in 8.0.1
-			added[name] = nil
+			t[name][1] = "..."
 		else
-			t[name] = t[name] or {}
 			t[name][1] = version
 		end
 	end
@@ -151,8 +151,6 @@ function m:WritePatchData(info)
 		file:write(string.format('\t["%s"] = {', name))
 		if tbl[1] then
 			file:write(string.format('"%s"', tbl[1]))
-		else
-			file:write("nil")
 		end
 		if tbl[2] then
 			file:write(string.format(', "%s"', tbl[2]))
