@@ -82,7 +82,7 @@ function m:GetPatchData(tbl)
 	for name, version in pairs(added) do
 		t[name] = t[name] or {}
 		if version == "8.0.1" then -- event docs were added in 8.0.1
-			t[name][1] = "..."
+			t[name][1] = false
 		else
 			t[name][1] = version
 		end
@@ -149,8 +149,10 @@ function m:WritePatchData(info)
 	for _, name in pairs(Util:SortTable(patchData)) do
 		local tbl = patchData[name]
 		file:write(string.format('\t["%s"] = {', name))
-		if tbl[1] then
+		if type(tbl[1]) == "string" then
 			file:write(string.format('"%s"', tbl[1]))
+		elseif tbl[1] == false then
+			file:write("false")
 		end
 		if tbl[2] then
 			file:write(string.format(', "%s"', tbl[2]))
