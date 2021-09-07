@@ -155,8 +155,8 @@ function m:WritePatchData(info)
 		if type(tbl[1]) == "string" then
 			file:write(string.format('"%s"', tbl[1]))
 		elseif tbl[1] == false then
-			-- file:write("false")
-			file:write(string.format('"%s"', framexml_data[name]))
+			file:write("false")
+			-- file:write(string.format('"%s"', framexml_data[name]))
 		end
 		if tbl[2] then
 			file:write(string.format(', "%s"', tbl[2]))

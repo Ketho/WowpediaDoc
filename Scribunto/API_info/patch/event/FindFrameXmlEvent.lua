@@ -41,7 +41,7 @@ function m:GetEvents(patches, path)
 		local v = event_data[event]
 		if v[1] == false then
 			for _, patch in pairs(patches) do
-				local found = self:IterateFiles(path, event)
+				local found = self:IterateFiles(path.."/"..patch, event)
 				if found then
 					print(event, (found:gsub(path.."/", "")))
 					t[event] = found:match("%d+%.%d+%.%d+")
@@ -65,7 +65,7 @@ function m:IterateFiles(folder, search)
 				end
 			end
 		else
-			if fileName:find("%.lua") and fileName ~= "GlobalStrings.lua" then
+			if fileName:find("%.lua") and fileName ~= "GlobalStrings.lua" and fileName ~= "Events.lua" then
 				if self:ParseLua(path, search) then
 					return path
 				end
