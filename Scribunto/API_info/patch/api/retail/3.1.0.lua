@@ -1,5 +1,5 @@
 -- actually 3.1.3 dump
--- https://wowpedia.fandom.com/wiki/Global_functions?diff=1970752&oldid=1903175
+-- https://wowpedia.fandom.com/wiki/Global_functions?oldid=1976124
 return {
 	["AbandonQuest"] = true,
 	["AbandonSkill"] = true,

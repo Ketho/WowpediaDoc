@@ -1,4 +1,4 @@
--- exported from 3.0.2 (9056) exe and compared with 3.1.3 data
+-- dumped from 3.0.2 (9056) executable and compared with 3.1.3 data
 local api = {
 	["AbandonQuest"] = true,
 	["AbandonSkill"] = true,

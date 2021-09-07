@@ -1,3 +1,4 @@
+-- https://wowpedia.fandom.com/wiki/Global_functions?oldid=2308623
 return {
 	["AbandonQuest"] = true,
 	["AbandonSkill"] = true,

@@ -1,4 +1,4 @@
--- resike
+-- https://github.com/Resike/BlizzardInterfaceResources/tree/02a4eb066438fbf44daf30b5cab7c7c8867ca47a
 return {
 	["AbandonQuest"] = true,
 	["AbandonSkill"] = true,

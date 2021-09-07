@@ -1,3 +1,5 @@
+-- actually 1.6.1 dump
+-- https://wowpedia.fandom.com/wiki/Global_functions?oldid=30637
 return {
 	["AbandonQuest"] = true,
 	["AbandonSkill"] = true,

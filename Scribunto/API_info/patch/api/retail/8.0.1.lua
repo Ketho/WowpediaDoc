@@ -1,4 +1,4 @@
--- resike
+-- https://github.com/Resike/BlizzardInterfaceResources/tree/c2f37affc82f7bb74181f79aafa0117a0f03e446
 return {
 	["C_AccountInfo"] = true,
 	["C_AccountInfo.IsGUIDBattleNetAccountType"] = true,

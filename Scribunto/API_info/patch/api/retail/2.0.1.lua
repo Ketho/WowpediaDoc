@@ -1,4 +1,6 @@
-return { -- from 2.0.8
+-- actually 2.0.8 dump
+-- https://wowpedia.fandom.com/wiki/Global_functions?oldid=505438
+return {
 	["AbandonQuest"] = true,
 	["AbandonSkill"] = true,
 	["AcceptAreaSpiritHeal"] = true,

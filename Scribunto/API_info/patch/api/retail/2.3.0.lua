@@ -1,3 +1,5 @@
+-- hmmm, 2.2.0 is missing
+-- https://wowpedia.fandom.com/wiki/Global_functions?oldid=995981
 return {
 	["AbandonQuest"] = true,
 	["AbandonSkill"] = true,

@@ -1,5 +1,5 @@
+-- https://www.townlong-yak.com/framexml/4.3.4/Helix/GlobalAPI.lua
 -- AUTOMATICALLY GENERATED -- If incomplete, sacrifice additional goats.
-
 return {
 	["AbandonQuest"] = true,
 	["AbandonSkill"] = true,

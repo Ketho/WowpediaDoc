@@ -1,3 +1,5 @@
+-- the wiki didnt give a patch number
+-- https://wowpedia.fandom.com/wiki/Global_functions?oldid=4864
 return {
 	["AbandonQuest"] = true,
 	["AbandonSkill"] = true,

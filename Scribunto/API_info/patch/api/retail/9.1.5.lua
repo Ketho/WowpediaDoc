@@ -1,4 +1,5 @@
 -- ptr 9.1.5 (39977)
+-- https://github.com/Ketho/BlizzardInterfaceResources/blob/225125c9b807d9152fc026cf4b8fff2ce023fced/Resources/GlobalAPI.lua
 return {
 	["AbandonSkill"] = true,
 	["AcceptAreaSpiritHeal"] = true,

@@ -1,3 +1,4 @@
+-- https://github.com/Ketho/BlizzardInterfaceResources/blob/9.0.2/Resources/GlobalAPI.lua
 return {
 	["AbandonSkill"] = true,
 	["AcceptAreaSpiritHeal"] = true,

@@ -1,6 +1,6 @@
+-- https://www.townlong-yak.com/framexml/6.2.0/Helix/GlobalAPI.lua
 -- AUTOMATICALLY GENERATED -- If incomplete, sacrifice additional goats.
-
-return { -- from foxlit helix
+return {
 	["AbandonQuest"] = true,
 	["AbandonSkill"] = true,
 	["AcceptAreaSpiritHeal"] = true,

@@ -1,3 +1,4 @@
+-- https://github.com/Ketho/BlizzardInterfaceResources/blob/8.2.0/Resources/GlobalAPI.lua
 return {
 	["AbandonQuest"] = true,
 	["AbandonSkill"] = true,

@@ -1,3 +1,5 @@
+-- actually 1.10.1 dump; the only difference seems to be collectgarbage()
+-- https://wowpedia.fandom.com/wiki/Global_functions?oldid=164859
 return {
 	["AbandonQuest"] = true,
 	["AbandonSkill"] = true,
