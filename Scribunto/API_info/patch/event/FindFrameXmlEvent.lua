@@ -10,6 +10,10 @@ local skipDir = {
 	[".."] = true,
 }
 
+local non_framexml_added = {
+	UNIT_TARGET = "2.0.1",
+}
+
 local m = {}
 
 -- sort eg 1.2.0 to be before 1.10.0
@@ -39,7 +43,7 @@ function m:GetEvents(patches, path)
 			for _, patch in pairs(patches) do
 				local found = self:IterateFiles(path, event)
 				if found then
-					-- print(event, (found:gsub(path.."/", "")))
+					print(event, (found:gsub(path.."/", "")))
 					t[event] = found:match("%d+%.%d+%.%d+")
 					break
 				end
@@ -76,6 +80,12 @@ function m:ParseLua(path, search)
 	return text:find(string.format('"%s"', search))
 end
 
+function m:CorrectData(tbl)
+	for event, patch in pairs(non_framexml_added) do
+		tbl[event] = patch
+	end
+end
+
 function m:WriteData(tbl)
 	local file = io.open(OUT, "w")
 	file:write("local data = {\n")
@@ -89,6 +99,7 @@ end
 function m:main()
 	local patches = self:GetPatches(FRAMEXML)
 	local eventData = self:GetEvents(patches, FRAMEXML)
+	self:CorrectData(eventData)
 	self:WriteData(eventData)
 end
 

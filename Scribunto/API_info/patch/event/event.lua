@@ -1,6 +1,9 @@
 local lfs = require "lfs"
 local Util = require("Util/Util")
 
+-- run this script, then FindFrameXmlEvent and then this script again
+local framexml_data = loadfile("out/lua/API_info.patch.event_retail_framexml.lua")()
+
 local flavors = {
 	retail = {
 		id = "retail",
@@ -152,7 +155,8 @@ function m:WritePatchData(info)
 		if type(tbl[1]) == "string" then
 			file:write(string.format('"%s"', tbl[1]))
 		elseif tbl[1] == false then
-			file:write("false")
+			-- file:write("false")
+			file:write(string.format('"%s"', framexml_data[name]))
 		end
 		if tbl[2] then
 			file:write(string.format(', "%s"', tbl[2]))
