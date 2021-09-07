@@ -51,7 +51,7 @@ function m:GetEvents()
 	end
 end
 
-function m:main(path)
+function m:main()
 	-- print(self:FindEvent("UNIT_SPELL_HASTE"))
 	self:GetEvents()
 end
