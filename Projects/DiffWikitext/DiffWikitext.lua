@@ -81,7 +81,7 @@ function m:ParseDiff(path)
 	end
 end
 
--- check if it's not a CVar name change
+-- check if it's not some minor CVar attribute change
 function m:SanitizeCVars()
 	local added = Util:ToMap(self.ApiTypes.CVars.changes["+"])
 	local removed = Util:ToMap(self.ApiTypes.CVars.changes["-"])
