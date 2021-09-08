@@ -48,14 +48,14 @@ FindDuplicates()
 
 local function FindMissing()
 	local wowpedia_map = Util:ToMap(wowpedia)
-	print("-- missing")
-	for k in pairs(global_api) do
+	print("\n-- missing")
+	for _, k in pairs(Util:SortTable(global_api)) do
 		if not wowpedia_map[k] then
 			print(k)
 		end
 	end
-	print("-- unneeded")
-	for k in pairs(wowpedia_map) do
+	print("\n-- unneeded")
+	for _, k in pairs(Util:SortTable(wowpedia_map)) do
 		if not global_api[k] then
 			print(k)
 		end
