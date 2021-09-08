@@ -14,6 +14,11 @@ local non_framexml_added = {
 	UNIT_TARGET = "2.0.1",
 }
 
+local mising_builds = {
+	["1.2.1"] = "1.2.0",
+	["1.10.2"] = "1.10.0",
+}
+
 local m = {}
 
 -- sort eg 1.2.0 to be before 1.10.0
@@ -91,7 +96,8 @@ function m:WriteData(tbl)
 	file:write("local data = {\n")
 	for _, event in pairs(Util:SortTable(tbl)) do
 		local version = tbl[event]
-		file:write(string.format('\t["%s"] = "%s",\n', event, version))
+		local versionFixed = mising_builds[version] or version
+		file:write(string.format('\t["%s"] = "%s",\n', event, versionFixed))
 	end
 	file:write("}\n\nreturn data\n")
 end
