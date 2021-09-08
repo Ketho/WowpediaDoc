@@ -65,7 +65,7 @@ function m:IterateFiles(folder, search)
 				end
 			end
 		else
-			if fileName:find("%.lua") and fileName ~= "GlobalStrings.lua" and fileName ~= "Events.lua" then
+			if fileName:find("%.lua") and fileName ~= "GlobalStrings.lua" then
 				if self:ParseLua(path, search) then
 					return path
 				end
