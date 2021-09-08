@@ -118,9 +118,9 @@ CLASS_TRIAL_TIMER_START: false positive as EVENT_CLASS_TRIAL_TIMER_START in 7.0.
 CLASS_TRIAL_UPGRADE_COMPLETE: false positive as EVENT_CLASS_TRIAL_UPGRADE_COMPLETE in 7.0.3; in 8.0.1 apidocs
 TUTORIAL_HIGHLIGHT_SPELL: false positive as EVENT_TUTORIAL_HIGHLIGHT_SPELL in 7.0.3; in 8.0.1 apidocs
 TUTORIAL_UNHIGHLIGHT_SPELL: false positive as EVENT_TUTORIAL_UNHIGHLIGHT_SPELL in 7.0.3; in 8.0.1 apidocs
-UNIT_PET: false positive as UNIT_PET_EXPERIENCE in 1.1.2; in 1.10.2
-UNIT_TARGET: (?) false positive as UNIT_TARGETABLE_CHANGED in 4.0.1; in 5.4.0 helix and 6.0.2 framexml
-UPDATE_SHAPESHIFT_FORM: false positive as UPDATE_SHAPESHIFT_FORMS in 1.10.2; in 2.0.1 framexml
+UNIT_PET: false positive as UNIT_PET_EXPERIENCE in 1.1.2; in 1.5.0
+UNIT_TARGET: false positive as UNIT_TARGETABLE_CHANGED in 4.0.1; in 5.4.0 helix and 6.0.2 framexml; in 2.0.1
+UPDATE_SHAPESHIFT_FORM: false positive as UPDATE_SHAPESHIFT_FORMS in 1.0.0; in 2.0.1 framexml
 
 -- same
 CONFIRM_XP_LOSS: there is a globalstring with the same name; both 1.1.2
