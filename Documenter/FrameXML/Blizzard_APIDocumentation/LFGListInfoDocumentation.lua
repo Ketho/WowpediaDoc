@@ -85,22 +85,6 @@ local LFGListInfo =
 			},
 		},
 		{
-			Name = "GetApplicantPvpRatingInfoForListing",
-			Type = "Function",
-
-			Arguments =
-			{
-				{ Name = "localID", Type = "number", Nilable = false },
-				{ Name = "applicantIndex", Type = "number", Nilable = false },
-				{ Name = "activityID", Type = "number", Nilable = false },
-			},
-
-			Returns =
-			{
-				{ Name = "pvpRatingInfo", Type = "PvpRatingInfo", Nilable = false },
-			},
-		},
-		{
 			Name = "GetFilteredSearchResults",
 			Type = "Function",
 
@@ -108,20 +92,6 @@ local LFGListInfo =
 			{
 				{ Name = "totalResultsFound", Type = "number", Nilable = false, Default = 0 },
 				{ Name = "filteredResults", Type = "table", InnerType = "number", Nilable = false },
-			},
-		},
-		{
-			Name = "GetLfgCategoryInfo",
-			Type = "Function",
-
-			Arguments =
-			{
-				{ Name = "categoryID", Type = "number", Nilable = false },
-			},
-
-			Returns =
-			{
-				{ Name = "categoryData", Type = "LfgCategoryData", Nilable = false },
 			},
 		},
 		{
@@ -199,35 +169,6 @@ local LFGListInfo =
 			Arguments =
 			{
 				{ Name = "questID", Type = "number", Nilable = false },
-			},
-		},
-		{
-			Name = "ValidateRequiredDungeonScore",
-			Type = "Function",
-
-			Arguments =
-			{
-				{ Name = "dungeonScore", Type = "number", Nilable = false },
-			},
-
-			Returns =
-			{
-				{ Name = "passes", Type = "bool", Nilable = false },
-			},
-		},
-		{
-			Name = "ValidateRequiredPvpRatingForActivity",
-			Type = "Function",
-
-			Arguments =
-			{
-				{ Name = "activityID", Type = "number", Nilable = false },
-				{ Name = "rating", Type = "number", Nilable = false },
-			},
-
-			Returns =
-			{
-				{ Name = "passes", Type = "bool", Nilable = false },
 			},
 		},
 	},
@@ -342,20 +283,6 @@ local LFGListInfo =
 	Tables =
 	{
 		{
-			Name = "LfgEntryPlaystyle",
-			Type = "Enumeration",
-			NumValues = 4,
-			MinValue = 0,
-			MaxValue = 3,
-			Fields =
-			{
-				{ Name = "None", Type = "LfgEntryPlaystyle", EnumValue = 0 },
-				{ Name = "Standard", Type = "LfgEntryPlaystyle", EnumValue = 1 },
-				{ Name = "Casual", Type = "LfgEntryPlaystyle", EnumValue = 2 },
-				{ Name = "Hardcore", Type = "LfgEntryPlaystyle", EnumValue = 3 },
-			},
-		},
-		{
 			Name = "BestDungeonScoreMapInfo",
 			Type = "Structure",
 			Fields =
@@ -381,19 +308,6 @@ local LFGListInfo =
 			},
 		},
 		{
-			Name = "LfgCategoryData",
-			Type = "Structure",
-			Fields =
-			{
-				{ Name = "name", Type = "string", Nilable = false },
-				{ Name = "searchPromptOverride", Type = "string", Nilable = true },
-				{ Name = "separateRecommended", Type = "bool", Nilable = false },
-				{ Name = "autoChooseActivity", Type = "bool", Nilable = false },
-				{ Name = "preferCurrentArea", Type = "bool", Nilable = false },
-				{ Name = "showPlaystyleDropdown", Type = "bool", Nilable = false },
-			},
-		},
-		{
 			Name = "LfgEntryData",
 			Type = "Structure",
 			Fields =
@@ -408,9 +322,6 @@ local LFGListInfo =
 				{ Name = "autoAccept", Type = "bool", Nilable = false },
 				{ Name = "privateGroup", Type = "bool", Nilable = false },
 				{ Name = "questID", Type = "number", Nilable = true },
-				{ Name = "requiredDungeonScore", Type = "number", Nilable = true },
-				{ Name = "requiredPvpRating", Type = "number", Nilable = true },
-				{ Name = "playstyle", Type = "LfgEntryPlaystyle", Nilable = true },
 			},
 		},
 		{
@@ -437,21 +348,6 @@ local LFGListInfo =
 				{ Name = "questID", Type = "number", Nilable = true },
 				{ Name = "leaderOverallDungeonScore", Type = "number", Nilable = true },
 				{ Name = "leaderDungeonScoreInfo", Type = "BestDungeonScoreMapInfo", Nilable = true },
-				{ Name = "leaderPvpRatingInfo", Type = "PvpRatingInfo", Nilable = true },
-				{ Name = "requiredDungeonScore", Type = "number", Nilable = true },
-				{ Name = "requiredPvpRating", Type = "number", Nilable = true },
-				{ Name = "playstyle", Type = "LfgEntryPlaystyle", Nilable = true },
-			},
-		},
-		{
-			Name = "PvpRatingInfo",
-			Type = "Structure",
-			Fields =
-			{
-				{ Name = "bracket", Type = "number", Nilable = false },
-				{ Name = "rating", Type = "number", Nilable = false },
-				{ Name = "activityName", Type = "string", Nilable = false },
-				{ Name = "tier", Type = "number", Nilable = false },
 			},
 		},
 		{

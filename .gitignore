@@ -7,7 +7,7 @@
 *.diff
 out
 cache
-FrameXML
+/FrameXML
 
 # python
 apicache-py3

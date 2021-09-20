@@ -133,7 +133,7 @@ local CurrencyInfo =
 			Arguments =
 			{
 				{ Name = "type", Type = "number", Nilable = false },
-				{ Name = "amount", Type = "number", Nilable = true },
+				{ Name = "amount", Type = "number", Nilable = false },
 			},
 
 			Returns =
@@ -307,7 +307,6 @@ local CurrencyInfo =
 				{ Name = "isTypeUnused", Type = "bool", Nilable = false },
 				{ Name = "isShowInBackpack", Type = "bool", Nilable = false },
 				{ Name = "quantity", Type = "number", Nilable = false },
-				{ Name = "trackedQuantity", Type = "number", Nilable = false },
 				{ Name = "iconFileID", Type = "number", Nilable = false },
 				{ Name = "maxQuantity", Type = "number", Nilable = false },
 				{ Name = "canEarnPerWeek", Type = "bool", Nilable = false },

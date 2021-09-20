@@ -16,14 +16,12 @@ local PlayerMentorship =
 			},
 		},
 		{
-			Name = "GetMentorRequirements",
+			Name = "GetMentorOptionalAchievementIDs",
 			Type = "Function",
 
 			Returns =
 			{
 				{ Name = "achievementIDs", Type = "table", InnerType = "number", Nilable = false },
-				{ Name = "optionalAchievementIDs", Type = "table", InnerType = "number", Nilable = false },
-				{ Name = "optionalCompleteAtLeastCount", Type = "number", Nilable = false },
 			},
 		},
 		{

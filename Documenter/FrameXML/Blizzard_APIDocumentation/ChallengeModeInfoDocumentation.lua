@@ -81,7 +81,6 @@ local ChallengeModeInfo =
 				{ Name = "IsMapRecord", Type = "bool", Nilable = false },
 				{ Name = "IsAffixRecord", Type = "bool", Nilable = false },
 				{ Name = "PrimaryAffix", Type = "number", Nilable = false },
-				{ Name = "isEligibleForScore", Type = "bool", Nilable = false },
 				{ Name = "members", Type = "table", InnerType = "ChallengeModeCompletionMemberInfo", Nilable = false },
 			},
 		},
@@ -132,15 +131,6 @@ local ChallengeModeInfo =
 			Returns =
 			{
 				{ Name = "levelScore", Type = "table", Mixin = "ColorMixin", Nilable = false },
-			},
-		},
-		{
-			Name = "GetMapScoreInfo",
-			Type = "Function",
-
-			Returns =
-			{
-				{ Name = "displayScores", Type = "table", InnerType = "MythicPlusRatingLinkInfo", Nilable = false },
 			},
 		},
 		{
