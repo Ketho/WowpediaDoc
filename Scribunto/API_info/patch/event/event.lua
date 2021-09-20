@@ -1,5 +1,6 @@
 local lfs = require "lfs"
 local Util = require("Util/Util")
+local apidoc = require("Util/apidoc_nontoc")
 
 -- run this script, then FindFrameXmlEvent and then this script again
 local framexml_data = loadfile("out/lua/API_info.patch.event_retail_framexml.lua")()
@@ -17,31 +18,6 @@ local flavors = {
 	},
 }
 
-local ApiCache = {}
-APIDocumentation = {}
-Enum = {
-	PlayerCurrencyFlagsDbFlags = {
-		InBackpack = 0,
-		UnusedInUI = 0,
-	},
-}
-
-function APIDocumentation:AddDocumentationTable(info)
-	table.insert(ApiCache, info)
-end
-
--- this time I dont really want to load Blizzard_APIDocumentation.toc
-local nondoc = {
-	["."] = true,
-	[".."] = true,
-	["Blizzard_APIDocumentation.lua"] = true,
-	["EventsAPIMixin.lua"] = true,
-	["FieldsAPIMixin.lua"] = true,
-	["FunctionsAPIMixin.lua"] = true,
-	["SystemsAPIMixin.lua"] = true,
-	["TablesAPIMixin.lua"] = true,
-}
-
 local pre252_format = {
 	["1.13.2"] = true,
 	["1.13.3"] = true,
@@ -52,16 +28,7 @@ local pre252_format = {
 	["2.5.1"] = true,
 }
 
--- doc files are not removed in >=2.5.1 but rather removed from TOC
-local removed_from_toc = {
-	["2.5.1"] = {
-		["RecruitAFriendDocumentation.lua"] = true,
-	},
-	["2.5.2"] = {
-		["ClubDocumentation.lua"] = true,
-		["RecruitAFriendDocumentation.lua"] = true,
-	},
-}
+
 
 local m = {}
 
@@ -97,14 +64,9 @@ function m:GetPatchData(tbl)
 	return t
 end
 
-local function IsTocRemoved(fileName, version)
-	local key = removed_from_toc[version]
-	return key and key[fileName]
-end
-
-local function GetEventMap()
+local function GetEventMap(data)
 	local t = {}
-	for _, info in pairs(ApiCache) do
+	for _, info in pairs(data) do
 		if info.Events then
 			for _, event in pairs(info.Events) do
 				t[event.LiteralName] = true
@@ -117,7 +79,7 @@ end
 function m:GetFrameXmlData(info)
 	local t = {}
 	for folder in lfs.dir(info.input) do
-		if not nondoc[folder] then
+		if not Util.RelativePath[folder] then
 			local version = folder:match("%d+%.%d+.%d+")
 			local path
 			if info.id == "retail" then
@@ -129,16 +91,8 @@ function m:GetFrameXmlData(info)
 					path = info.input.."/"..folder.."/Interface/AddOns/Blizzard_APIDocumentation"
 				end
 			end
-			for fileName in lfs.dir(path) do
-				local tocRemoved = IsTocRemoved(fileName, version)
-				if not nondoc[fileName] and fileName:find("%.lua") and not tocRemoved then
-					loadfile(path.."/"..fileName)()
-				end
-			end
-			t[version] = GetEventMap()
-			for k in pairs(ApiCache) do
-				ApiCache[k] = nil
-			end
+			local docTables = apidoc:LoadBlizzardDocs(path)
+			t[version] = GetEventMap(docTables)
 		end
 	end
 	return t

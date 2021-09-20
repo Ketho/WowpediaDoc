@@ -17,6 +17,7 @@ local tags = {
 	PROTECTED = true,
 	NOCOMBAT = true,
 	HW = true,
+	--DEPRECATED = true,
 	--UI = true,
 	--Lua = true,
 }

@@ -6,6 +6,11 @@ local Util = {}
 
 local CACHE_INVALIDATION_TIME = 600
 
+Util.RelativePath = {
+	["."] = true,
+	[".."] = true,
+}
+
 function Util:DownloadFile(path, url)
 	local file = io.open(path, "w")
 	cURL.easy{
