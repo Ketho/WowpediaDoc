@@ -55,7 +55,7 @@ function m:LoadBlizzardDocs(folder)
 			loadfile(folder.."/"..fileName)()
 		end
 	end
-	return docTables
+	return Util:CopyTable(docTables)
 end
 
 return m

@@ -87,6 +87,14 @@ function Util:Wipe(tbl)
 	end
 end
 
+function Util:CopyTable(tbl)
+	local t = {}
+	for k, v in pairs(tbl) do
+		t[k] = v
+	end
+	return t
+end
+
 function Util:GetFullName(apiTable)
 	local fullName
 	if apiTable.System.Namespace then

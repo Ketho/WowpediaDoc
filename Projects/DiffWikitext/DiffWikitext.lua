@@ -4,7 +4,7 @@ local Util = require("Util/Util")
 local m = {}
 local OUT_FILE = "out/page/DiffWikitext.txt"
 
-m.ApiTypes = {
+local ApiTypes = {
 	GlobalAPI = {
 		label = "Global API",
 		text = ": {{api|t=a|%s}}",
@@ -43,11 +43,22 @@ m.ApiTypes = {
 
 local api_order = {"GlobalAPI", "WidgetAPI", "Events", "CVars"}
 
-for _, v in pairs(m.ApiTypes) do
+for _, v in pairs(ApiTypes) do
 	v.changes = {
 		["+"] = {},
 		["-"] = {},
 	}
+end
+
+function m:main()
+	local path = m:FindDiff()
+	m:ParseDiff(path)
+	m:SanitizeCVars()
+	local file = io.open(OUT_FILE, "w+")
+	for _, section in pairs(api_order) do
+		local info = ApiTypes[section]
+		file:write(m:GetWikiTable(info, section))
+	end
 end
 
 -- https://github.com/Ketho/BlizzardInterfaceResources/commit/9f5b92ef5ee205a4df7536a145bbee24f678d5e0.diff
@@ -71,7 +82,7 @@ function m:ParseDiff(path)
 		local isHeader = line:find("^%+%+%+ ") or line:find("^%-%-%- ")
 		local sign, innerLine = line:match("^([%+%-])(.+)")
 		if sign and not isHeader then
-			local info = self.ApiTypes[section]
+			local info = ApiTypes[section]
 			local name = info and info.parseName(innerLine)
 			if name then
 				local text = info.text:format(name)
@@ -83,8 +94,8 @@ end
 
 -- check if it's not some minor CVar attribute change
 function m:SanitizeCVars()
-	local added = Util:ToMap(self.ApiTypes.CVars.changes["+"])
-	local removed = Util:ToMap(self.ApiTypes.CVars.changes["-"])
+	local added = Util:ToMap(ApiTypes.CVars.changes["+"])
+	local removed = Util:ToMap(ApiTypes.CVars.changes["-"])
 	for k in pairs(added) do
 		if removed[k] then
 			added[k] = nil
@@ -92,13 +103,13 @@ function m:SanitizeCVars()
 		end
 	end
 	-- cba safely removing while iterating
-	Util:Wipe(self.ApiTypes.CVars.changes["+"])
-	Util:Wipe(self.ApiTypes.CVars.changes["-"])
+	Util:Wipe(ApiTypes.CVars.changes["+"])
+	Util:Wipe(ApiTypes.CVars.changes["-"])
 	for k in pairs(added) do
-		table.insert(self.ApiTypes.CVars.changes["+"], k)
+		table.insert(ApiTypes.CVars.changes["+"], k)
 	end
 	for k in pairs(removed) do
-		table.insert(self.ApiTypes.CVars.changes["-"], k)
+		table.insert(ApiTypes.CVars.changes["-"], k)
 	end
 end
 
@@ -128,16 +139,5 @@ function m:GetWikiTable(info, section)
 	return table.concat(t, "\n")
 end
 
-local function main()
-	local path = m:FindDiff()
-	m:ParseDiff(path)
-	m:SanitizeCVars()
-	local file = io.open(OUT_FILE, "w+")
-	for _, section in pairs(api_order) do
-		local info = m.ApiTypes[section]
-		file:write(m:GetWikiTable(info, section))
-	end
-end
-
-main()
+m:main()
 print("done")
