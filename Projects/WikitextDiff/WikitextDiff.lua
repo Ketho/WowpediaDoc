@@ -2,7 +2,7 @@
 local lfs = require "lfs"
 local Util = require("Util/Util")
 local m = {}
-local OUT_FILE = "out/page/DiffWikitext.txt"
+local OUT_FILE = "out/page/WikitextDiff.txt"
 
 local ApiTypes = {
 	GlobalAPI = {
@@ -64,9 +64,9 @@ end
 -- https://github.com/Ketho/BlizzardInterfaceResources/commit/9f5b92ef5ee205a4df7536a145bbee24f678d5e0.diff
 function m:FindDiff()
 	local path
-	for fileName in lfs.dir("Projects/DiffWikitext") do
+	for fileName in lfs.dir("Projects/WikitextDiff") do
 		if fileName:find("%.diff") then
-			path = "Projects/DiffWikitext/"..fileName
+			path = "Projects/WikitextDiff/"..fileName
 		end
 	end
 	return path
