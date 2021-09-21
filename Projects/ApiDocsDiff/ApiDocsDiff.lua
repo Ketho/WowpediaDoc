@@ -111,11 +111,18 @@ function m:CompareApiTables(a, b, paramTblNames)
 			for _, paramTblName in pairs(paramTblNames) do
 				local leftParam, rightParam = a[name][paramTblName], b[name][paramTblName]
 				if (leftParam and not rightParam) or (not leftParam and rightParam) then
-					print("#!", name, paramTblName)
+					print("#!", name)
+					print("", paramTblName)
 				elseif leftParam and rightParam then
-					local equals = self:CrappyTableEquals(leftParam, rightParam)
-					if not equals then
-						print("#", name, paramTblName)
+					local diff = self:CrappyTableEquals(leftParam, rightParam)
+					if #diff > 0 then
+						print("#", name)
+						if #paramTblNames > 1 then
+							print("", "# "..paramTblName)
+						end
+						for _, param in pairs(diff) do
+							print("", param[1], param[2])
+						end
 					end
 				end
 			end
@@ -124,20 +131,25 @@ function m:CompareApiTables(a, b, paramTblNames)
 end
 
 function m:CrappyTableEquals(a, b)
-	if #a ~= #b then
-		return false
+	local diff = {}
+	local left, right = {}, {}
+	for _, v in pairs(a) do
+		left[v.Name] = true
 	end
-	for k, v in pairs(a) do
-		if v.Name ~= b[k].Name then
-			return false
+	for _, v in pairs(b) do
+		right[v.Name] = true
+	end
+	for name in pairs(left) do
+		if not right[name] then
+			table.insert(diff, {"-", name})
 		end
 	end
-	for k, v in pairs(b) do
-		if v.Name ~= a[k].Name then
-			return false
+	for name in pairs(right) do
+		if not left[name] then
+			table.insert(diff, {"+", name})
 		end
 	end
-	return true
+	return diff
 end
 
 m:main()
