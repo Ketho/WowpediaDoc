@@ -2,6 +2,7 @@ local lfs = require "lfs"
 local Util = require("Util/Util")
 local apidoc = require("Util/apidoc_nontoc")
 
+-- local DEBUG = true
 local fs = "FrameXML/retail/%s/Blizzard_APIDocumentation"
 
 local apiTypes = {
@@ -50,14 +51,23 @@ local apiTypes = {
 
 local apiType_order = {"Functions", "Events", "Tables"}
 
+local function Print(...)
+	if DEBUG then
+		print(...)
+	end
+end
+
 local m = {}
 
 function m:main()
 	local versions = self:GetApiDocVersions("FrameXML/retail")
 	local framexml = self:LoadFrameXML(versions)
-	self:CompareVersions(framexml, "9.0.5.38556", "9.1.0.40000")
+	-- self:CompareVersions(framexml, "9.0.5.38556", "9.1.0.40000")
 	-- self:CompareVersions(framexml, "9.1.0.40000", "9.1.5.40071")
 	-- self:CompareVersions(framexml, "9.0.1.36577", "9.1.5.40071")
+
+	local apiHistory, paramHistory = self:GetHistory(versions, framexml)
+	self:GetChangelog(apiHistory, paramHistory, "StatusBarWidgetVisualizationInfo")
 end
 
 function m:GetApiDocVersions(path)
@@ -85,59 +95,79 @@ function m:LoadFrameXML(versions)
 end
 
 function m:CompareVersions(tbl, a, b)
-	print(string.format("Comparing %s to %s ", a, b))
+	Print(string.format("Comparing %s to %s ", a, b))
 	for _, apiType in pairs(apiType_order) do
+		Print("* "..apiType)
 		local left = tbl[a][apiType]
 		local right = tbl[b][apiType]
-		print("* "..apiType)
 		local paramTblNames = apiTypes[apiType].params
 		self:CompareApiTables(left, right, paramTblNames)
 	end
 end
 
+-- also returns a table but dont have any use for it, this might be unnecessarily complicated
 function m:CompareApiTables(a, b, paramTblNames)
+	local t = {
+		added = {},
+		removed = {},
+		modified = {},
+	}
 	for _, name in pairs(Util:SortTable(b)) do
 		if not a[name] then
-			print("+", name)
+			t.added[name] = true
+			Print("+", name)
 		end
 	end
 	for _, name in pairs(Util:SortTable(a)) do
 		if not b[name] then
-			print("-", name)
+			t.removed[name] = true
+			Print("-", name)
 		end
 	end
 	for _, name in pairs(Util:SortTable(b)) do
 		if a[name] and b[name] then
 			for _, paramTblName in pairs(paramTblNames) do
 				local leftParam, rightParam = a[name][paramTblName], b[name][paramTblName]
-				if (leftParam and not rightParam) or (not leftParam and rightParam) then
-					print("#!", name)
-					print("", paramTblName)
-				elseif leftParam and rightParam then
-					local diff = self:CrappyTableEquals(leftParam, rightParam)
-					if #diff > 0 then
-						print("#", name)
-						if #paramTblNames > 1 then
-							print("", "# "..paramTblName)
-						end
-						for _, param in pairs(diff) do
-							print("", param[1], param[2])
-						end
+				local diff = self:GetStructureDiff(leftParam, rightParam)
+				if #diff > 0 then
+					t.modified[name] = diff
+					Print("#", name)
+					if #paramTblNames > 1 then
+						Print("", "# "..paramTblName)
+					end
+					for _, param in pairs(diff) do
+						Print("", param[1], param[2])
 					end
 				end
 			end
 		end
 	end
+	return t
 end
 
-function m:CrappyTableEquals(a, b)
+function m:GetStructureDiff(a, b)
 	local diff = {}
 	local left, right = {}, {}
-	for _, v in pairs(a) do
-		left[v.Name] = true
-	end
-	for _, v in pairs(b) do
-		right[v.Name] = true
+	-- structure was added
+	if not a and b then
+		for _, param in pairs(b) do
+			table.insert(right, {"+", param.Name})
+			Print("", "+++")
+		end
+	-- structure was removed
+	elseif a and not b then
+		for _, param in pairs(a) do
+			table.insert(left, {"-", param.Name})
+			Print("", "---")
+		end
+	-- structure is possibly modified
+	elseif a and b then
+		for _, param in pairs(a) do
+			left[param.Name] = true
+		end
+		for _, param in pairs(b) do
+			right[param.Name] = true
+		end
 	end
 	for name in pairs(left) do
 		if not right[name] then
@@ -152,5 +182,94 @@ function m:CrappyTableEquals(a, b)
 	return diff
 end
 
+local function SortParamBuild(a, b)
+	local build_a = a.value:match("(%d+)$")
+	local build_b = b.value:match("(%d+)$")
+	if build_a ~= build_b then
+		return build_a < build_b
+	else
+		return a.key < b.key
+	end
+end
+
+local function SortReverse(a, b)
+	return a > b
+end
+
+-- should refactor this maybe as not even I can read this
+function m:GetHistory(builds, framexml_data)
+	local builds_sorted = {}
+	for build in pairs(builds) do
+		table.insert(builds_sorted, build)
+	end
+	table.sort(builds_sorted, function(a, b)
+		local build_a = a:match("(%d+)$")
+		local build_b = b:match("(%d+)$")
+		return build_a < build_b
+	end)
+	local apiHistory = {
+		Functions = {},
+		Events = {},
+		Tables = {},
+	}
+	local paramHistory = {}
+	for _, build in pairs(builds_sorted) do
+		local framexml = framexml_data[build]
+		for apiType, apiTable in pairs(framexml) do
+			for name, paramTbl in pairs(apiTable) do
+				apiHistory[apiType][name] = apiHistory[apiType][name] or {}
+				local apiHistoryKey = apiHistory[apiType][name]
+				if not apiHistoryKey.build then
+					apiHistoryKey.build = build
+				end
+				paramHistory[name] = paramHistory[name] or {}
+				for _, paramTblName in pairs(apiTypes[apiType].params) do
+					for k, v in pairs(paramTbl[paramTblName] or {}) do
+						if not paramHistory[name][v.Name] then
+							-- doesnt discern between function arguments/returns
+							paramHistory[name][v.Name] = build
+						end
+					end
+				end
+			end
+		end
+	end
+	for _, apiType in pairs(apiType_order) do
+		local apiTable = apiHistory[apiType]
+		Print("\n-- "..apiType)
+		for _, name in pairs(Util:SortTable(apiTable)) do
+			local build = apiTable[name].build
+			Print(build, name)
+			for _, tbl in pairs(Util:SortTableCustom(paramHistory[name], SortParamBuild)) do
+				local paramName = tbl.key
+				local paramBuild = tbl.value
+				if paramBuild ~= build then -- only show updated fields
+					Print("", paramBuild, paramName)
+				end
+			end
+		end
+	end
+	return apiHistory, paramHistory
+end
+
+local patch_fs = "* {{Patch %s|note=Added <code>%s</code>}}"
+
+-- quick output example
+function m:GetChangelog(apiHistory, paramHistory, name)
+	print("==Patch changes==")
+	local t = {}
+	for k, v in pairs(paramHistory[name]) do
+		-- print(k, v)
+		t[v] = t[v] or {}
+		table.insert(t[v], k)
+	end
+	for _, k in pairs(Util:SortTable(t, SortReverse)) do
+		local v = t[k]
+		table.sort(t[k])
+		local patch = k:match("%d+%.%d+%.%d+")
+		print(patch_fs:format(patch, table.concat(t[k], ", ")))
+	end
+end
+
 m:main()
-print("done")
+Print("done")

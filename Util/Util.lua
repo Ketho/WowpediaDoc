@@ -77,6 +77,18 @@ function Util:SortTable(tbl, func)
 	return t
 end
 
+function Util:SortTableCustom(tbl, func)
+	local t = {}
+	for k, v in pairs(tbl) do
+		table.insert(t, {
+			key = k,
+			value = v
+		})
+	end
+	table.sort(t, func)
+	return t
+end
+
 function Util.Sort_Nocase(a, b)
 	return a:lower() < b:lower()
 end
