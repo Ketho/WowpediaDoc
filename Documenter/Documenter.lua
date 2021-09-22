@@ -1,3 +1,7 @@
+-- experimental, bad code
+-- note APIDocumentation gets overwritten again
+ApiDocsDiff = require("Projects/ApiDocsDiff/ApiDocsDiff")
+
 local FrameXML = require("Documenter/FrameXML/FrameXML")
 FrameXML:LoadApiDocs("Documenter/FrameXML")
 

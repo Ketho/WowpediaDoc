@@ -3,6 +3,7 @@ require("Documenter/Wowpedia/Functions")
 require("Documenter/Wowpedia/Events")
 require("Documenter/Wowpedia/Tables")
 require("Documenter/Wowpedia/Fields")
+
 -- local GithubWiki = require "GithubWiki/GithubWiki"
 
 local LATEST_PATCH = "9.1.5"
@@ -20,8 +21,7 @@ function Wowpedia:GetPageText(apiTable)
 		apiTemplate,
 		self:GetDescription(apiTable),
 		params,
-		self:GetPatchSection(),
-		-- self:GetElinkSection(apiTable),
+		self:GetPatchSection(apiTable),
 	}
 	for _, v in ipairs(sections) do
 		tinsert(tbl, v)
@@ -41,13 +41,13 @@ function Wowpedia:GetDescription(apiTable)
 	return "Needs summary."
 end
 
-function Wowpedia:GetPatchSection()
-	return format("==Patch changes==\n* {{Patch %s|note=Added.}}\n", LATEST_PATCH)
-end
-
-function Wowpedia:GetElinkSection(apiTable)
-	local templateInfo = self:GetTemplateInfo(apiTable, true)
-	return "==External links==\n{{subst:el}}\n"..templateInfo
+function Wowpedia:GetPatchSection(apiTable)
+	local fullName = self:GetFullName(apiTable)
+	if ApiDocsDiff[fullName] then
+		return format("==Patch changes==\n%s\n", ApiDocsDiff[fullName])
+	else
+		return format("==Patch changes==\n* {{Patch %s|note=Added.}}\n", LATEST_PATCH)
+	end
 end
 
 function Wowpedia:GetTemplateInfo(apiTable, isElink)

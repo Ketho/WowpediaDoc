@@ -66,8 +66,17 @@ function m:main()
 	-- self:CompareVersions(framexml, "9.1.0.40000", "9.1.5.40071")
 	-- self:CompareVersions(framexml, "9.0.1.36577", "9.1.5.40071")
 
-	local paramHistory = self:GetHistory(versions, framexml)
-	-- self:GetChangelog(paramHistory, "StatusBarWidgetVisualizationInfo")
+	return self:GetAllChangelogs(versions, framexml)
+end
+
+function m:GetAllChangelogs(versions, framexml)
+	local t = {}
+	local paramHistory, hasUpdates = self:GetHistory(versions, framexml)
+
+	for _, tbl in pairs(hasUpdates) do
+		t[tbl.name] = self:GetChangelog(paramHistory, tbl)
+	end
+	return t
 end
 
 function m:GetApiDocVersions(path)
@@ -196,9 +205,10 @@ local function SortReverse(a, b)
 	return a > b
 end
 
--- should refactor this maybe as not even I can read this
+-- should rewrite this as this is pretty bad
 function m:GetHistory(builds, framexml_data)
 	local builds_sorted = {}
+	local hasUpdates = {}
 	for build in pairs(builds) do
 		table.insert(builds_sorted, build)
 	end
@@ -247,6 +257,10 @@ function m:GetHistory(builds, framexml_data)
 				if paramBuild ~= build then -- only show updated fields
 					if not showedName then
 						Print(build, name)
+						table.insert(hasUpdates, {
+							name = name,
+							build = build
+						})
 						showedName = true
 					end
 					Print("", paramBuild, paramName)
@@ -254,27 +268,43 @@ function m:GetHistory(builds, framexml_data)
 			end
 		end
 	end
-	return paramHistory
+	return paramHistory, hasUpdates
 end
 
-local patch_fs = "* {{Patch %s|note=Added <code>%s</code>}}"
+local url_fs = "https://wowpedia.fandom.com/wiki/API_%s"
+local patch_fs1 = "* {{Patch %s|note=Added <code>%s</code>}}"
+local patch_fs2 = "* {{Patch %s|note=Added.}}"
 
 -- quick output example
-function m:GetChangelog(paramHistory, name)
-	print("==Patch changes==")
+-- I cba writing proper code anymore
+function m:GetChangelog(paramHistory, tbl)
+
 	local t = {}
-	for k, v in pairs(paramHistory[name]) do
+	for k, v in pairs(paramHistory[tbl.name]) do
 		-- print(k, v)
 		t[v] = t[v] or {}
 		table.insert(t[v], k)
 	end
+	print(tbl.build, url_fs:format(tbl.name))
+	local basePatch = tbl.build:match("%d+%.%d+%.%d+")
+	print("==Patch changes==")
+	local text = {}
 	for _, k in pairs(Util:SortTable(t, SortReverse)) do
 		local v = t[k]
 		table.sort(t[k])
 		local patch = k:match("%d+%.%d+%.%d+")
-		print(patch_fs:format(patch, table.concat(t[k], ", ")))
+		if patch ~= basePatch then
+			print(patch_fs1:format(patch, table.concat(t[k], ", ")))
+			table.insert(text, patch_fs1:format(patch, table.concat(t[k], ", ")))
+		else
+			print(patch_fs2:format(basePatch))
+			table.insert(text, patch_fs2:format(basePatch))
+		end
 	end
+	print()
+	return table.concat(text, "\n")
 end
 
-m:main()
-Print("done")
+local data = m:main()
+print("done1")
+return data
