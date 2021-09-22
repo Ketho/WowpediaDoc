@@ -27,13 +27,13 @@ local function LoadApiDocFile(base, line)
 	end
 end
 
-function m:LoadApiDocs(base)
+function m:LoadApiDocs(base, latestFrameXML)
 	require(base.."/Compat")
-	local toc = io.open(base.."/Blizzard_APIDocumentation/Blizzard_APIDocumentation.toc")
+	local toc = io.open(latestFrameXML.."/Blizzard_APIDocumentation/Blizzard_APIDocumentation.toc")
 	if toc then
 		for line in toc:lines() do
 			if line:find("%.lua") and not missing[line] then
-				LoadApiDocFile(base, line)
+				LoadApiDocFile(latestFrameXML, line)
 			end
 		end
 		toc:close()
