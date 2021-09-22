@@ -2,7 +2,7 @@ local lfs = require "lfs"
 local Util = require("Util/Util")
 local apidoc = require("Util/apidoc_nontoc")
 
-local DEBUG = true
+local DEBUG = false
 local fs = "FrameXML/retail/%s/Blizzard_APIDocumentation"
 
 local apiTypes = {
@@ -192,8 +192,8 @@ function m:GetStructureDiff(a, b)
 end
 
 local function SortParamBuild(a, b)
-	local build_a = a.value:match("(%d+)$")
-	local build_b = b.value:match("(%d+)$")
+	local build_a = a.value.build:match("(%d+)$")
+	local build_b = b.value.build:match("(%d+)$")
 	if build_a ~= build_b then
 		return build_a < build_b
 	else
@@ -205,7 +205,7 @@ local function SortReverse(a, b)
 	return a > b
 end
 
--- should rewrite this as this is pretty bad
+-- should rewrite this as this is horifically bad
 function m:GetHistory(builds, framexml_data)
 	local builds_sorted = {}
 	local hasUpdates = {}
@@ -234,10 +234,13 @@ function m:GetHistory(builds, framexml_data)
 				end
 				paramHistory[name] = paramHistory[name] or {}
 				for _, paramTblName in pairs(apiTypes[apiType].params) do
-					for _, v in pairs(paramTbl[paramTblName] or {}) do
+					for idx, v in pairs(paramTbl[paramTblName] or {}) do
 						if not paramHistory[name][v.Name] then
 							-- doesnt discern between function arguments/returns
-							paramHistory[name][v.Name] = build
+							paramHistory[name][v.Name] = {
+								build = build,
+								idx = idx,
+							}
 						end
 					end
 				end
@@ -253,13 +256,14 @@ function m:GetHistory(builds, framexml_data)
 			-- Print(build, name)
 			for _, tbl in pairs(Util:SortTableCustom(paramHistory[name], SortParamBuild)) do
 				local paramName = tbl.key
-				local paramBuild = tbl.value
+				local paramBuild = tbl.value.build
 				if paramBuild ~= build then -- only show updated fields
 					if not showedName then
 						Print(build, name)
 						table.insert(hasUpdates, {
 							name = name,
-							build = build
+							build = build,
+							idx = idx,
 						})
 						showedName = true
 					end
@@ -275,27 +279,34 @@ local url_fs = "https://wowpedia.fandom.com/wiki/API_%s"
 local patch_fs1 = "* {{Patch %s|note=Added <code>%s</code>}}"
 local patch_fs2 = "* {{Patch %s|note=Added.}}"
 
--- quick output example
--- I cba writing proper code anymore
-function m:GetChangelog(paramHistory, tbl)
-
+local function concatName(tbl)
 	local t = {}
-	for k, v in pairs(paramHistory[tbl.name]) do
-		-- print(k, v)
-		t[v] = t[v] or {}
-		table.insert(t[v], k)
+	for k, v in pairs(tbl) do
+		table.insert(t, v.name)
 	end
-	print(tbl.build, url_fs:format(tbl.name))
+	return table.concat(t, ", ")
+end
+
+-- I cba writing proper code anymore. which was a mistake
+function m:GetChangelog(paramHistory, tbl)
+	local t = {}
+	for name, info in pairs(paramHistory[tbl.name]) do
+		t[info.build] = t[info.build] or {}
+		table.insert(t[info.build], {name = name, idx = info.idx})
+	end
+	print(tbl, url_fs:format(tbl.name))
 	local basePatch = tbl.build:match("%d+%.%d+%.%d+")
 	print("==Patch changes==")
 	local text = {}
 	for _, k in pairs(Util:SortTable(t, SortReverse)) do
-		local v = t[k]
-		table.sort(t[k], Util.Sort_Nocase)
+		local paramArray = t[k]
+		table.sort(paramArray, function(a, b)
+			return a.idx < b.idx
+		end)
 		local patch = k:match("%d+%.%d+%.%d+")
 		if patch ~= basePatch then
-			print(patch_fs1:format(patch, table.concat(t[k], ", ")))
-			table.insert(text, patch_fs1:format(patch, table.concat(t[k], ", ")))
+			print(patch_fs1:format(patch, concatName(paramArray, ", ")))
+			table.insert(text, patch_fs1:format(patch, concatName(paramArray, ", ")))
 		else
 			print(patch_fs2:format(basePatch))
 			table.insert(text, patch_fs2:format(basePatch))
