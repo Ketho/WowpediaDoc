@@ -291,7 +291,7 @@ function m:GetChangelog(paramHistory, tbl)
 	local text = {}
 	for _, k in pairs(Util:SortTable(t, SortReverse)) do
 		local v = t[k]
-		table.sort(t[k])
+		table.sort(t[k], Util.Sort_Nocase)
 		local patch = k:match("%d+%.%d+%.%d+")
 		if patch ~= basePatch then
 			print(patch_fs1:format(patch, table.concat(t[k], ", ")))
