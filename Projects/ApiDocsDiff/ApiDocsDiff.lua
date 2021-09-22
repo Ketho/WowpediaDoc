@@ -2,7 +2,7 @@ local lfs = require "lfs"
 local Util = require("Util/Util")
 local apidoc = require("Util/apidoc_nontoc")
 
--- local DEBUG = true
+local DEBUG = true
 local fs = "FrameXML/retail/%s/Blizzard_APIDocumentation"
 
 local apiTypes = {
@@ -67,7 +67,7 @@ function m:main()
 	-- self:CompareVersions(framexml, "9.0.1.36577", "9.1.5.40071")
 
 	local apiHistory, paramHistory = self:GetHistory(versions, framexml)
-	self:GetChangelog(apiHistory, paramHistory, "StatusBarWidgetVisualizationInfo")
+	-- self:GetChangelog(apiHistory, paramHistory, "StatusBarWidgetVisualizationInfo")
 end
 
 function m:GetApiDocVersions(path)
@@ -239,11 +239,16 @@ function m:GetHistory(builds, framexml_data)
 		Print("\n-- "..apiType)
 		for _, name in pairs(Util:SortTable(apiTable)) do
 			local build = apiTable[name].build
-			Print(build, name)
+			local showedName = false
+			-- Print(build, name)
 			for _, tbl in pairs(Util:SortTableCustom(paramHistory[name], SortParamBuild)) do
 				local paramName = tbl.key
 				local paramBuild = tbl.value
 				if paramBuild ~= build then -- only show updated fields
+					if not showedName then
+						Print(build, name)
+						showedName = true
+					end
 					Print("", paramBuild, paramName)
 				end
 			end
