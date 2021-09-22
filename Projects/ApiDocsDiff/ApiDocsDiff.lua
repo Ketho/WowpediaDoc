@@ -66,8 +66,8 @@ function m:main()
 	-- self:CompareVersions(framexml, "9.1.0.40000", "9.1.5.40071")
 	-- self:CompareVersions(framexml, "9.0.1.36577", "9.1.5.40071")
 
-	local apiHistory, paramHistory = self:GetHistory(versions, framexml)
-	-- self:GetChangelog(apiHistory, paramHistory, "StatusBarWidgetVisualizationInfo")
+	local paramHistory = self:GetHistory(versions, framexml)
+	-- self:GetChangelog(paramHistory, "StatusBarWidgetVisualizationInfo")
 end
 
 function m:GetApiDocVersions(path)
@@ -224,7 +224,7 @@ function m:GetHistory(builds, framexml_data)
 				end
 				paramHistory[name] = paramHistory[name] or {}
 				for _, paramTblName in pairs(apiTypes[apiType].params) do
-					for k, v in pairs(paramTbl[paramTblName] or {}) do
+					for _, v in pairs(paramTbl[paramTblName] or {}) do
 						if not paramHistory[name][v.Name] then
 							-- doesnt discern between function arguments/returns
 							paramHistory[name][v.Name] = build
@@ -254,13 +254,13 @@ function m:GetHistory(builds, framexml_data)
 			end
 		end
 	end
-	return apiHistory, paramHistory
+	return paramHistory
 end
 
 local patch_fs = "* {{Patch %s|note=Added <code>%s</code>}}"
 
 -- quick output example
-function m:GetChangelog(apiHistory, paramHistory, name)
+function m:GetChangelog(paramHistory, name)
 	print("==Patch changes==")
 	local t = {}
 	for k, v in pairs(paramHistory[name]) do
