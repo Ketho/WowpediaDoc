@@ -263,7 +263,6 @@ function m:GetHistory(builds, framexml_data)
 						table.insert(hasUpdates, {
 							name = name,
 							build = build,
-							idx = idx,
 						})
 						showedName = true
 					end
@@ -281,7 +280,7 @@ local patch_fs2 = "* {{Patch %s|note=Added.}}"
 
 local function concatName(tbl)
 	local t = {}
-	for k, v in pairs(tbl) do
+	for _, v in pairs(tbl) do
 		table.insert(t, v.name)
 	end
 	return table.concat(t, ", ")
