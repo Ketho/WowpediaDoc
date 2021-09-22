@@ -8,6 +8,7 @@ ignore = {
 	"212/self", -- unused argument self
 }
 globals = {
+	"ApiDocsDiff",
 	"APIDocumentation",
 	"BATTLE_PET_SOURCE_1",
 	"BATTLE_PET_SOURCE_2",
