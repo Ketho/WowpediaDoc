@@ -4,8 +4,6 @@ require("Documenter/Wowpedia/Events")
 require("Documenter/Wowpedia/Tables")
 require("Documenter/Wowpedia/Fields")
 
--- local GithubWiki = require "GithubWiki/GithubWiki"
-
 local LATEST_PATCH = "9.1.5"
 
 function Wowpedia:GetPageText(apiTable)
@@ -32,11 +30,6 @@ end
 function Wowpedia:GetDescription(apiTable)
 	if apiTable.Documentation then
 		return table.concat(apiTable.Documentation, "; ")
-	-- else
-	-- 	local fullName = self:GetFullName(apiTable)
-	-- 	if GithubWiki[fullName] then
-	-- 		return GithubWiki[fullName].desc
-	-- 	end
 	end
 	return "Needs summary."
 end
@@ -50,13 +43,13 @@ function Wowpedia:GetPatchSection(apiTable)
 	end
 end
 
-function Wowpedia:GetTemplateInfo(apiTable, isElink)
+function Wowpedia:GetTemplateInfo(apiTable)
 	local tbl = {}
 	if apiTable.Type == "Function" then
-		tinsert(tbl, isElink and "Elinks-api" or "wowapi")
+		tinsert(tbl, "wowapi")
 		tinsert(tbl, "t=a")
 	elseif apiTable.Type == "Event" then
-		tinsert(tbl, isElink and "Elinks-api" or "wowapievent")
+		tinsert(tbl, "wowapievent")
 		tinsert(tbl, "t=e")
 	elseif apiTable.Type == "Enumeration" or apiTable.Type == "Structure" then
 		tinsert(tbl, "wowapitype")
