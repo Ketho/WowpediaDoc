@@ -2,7 +2,7 @@ local lfs = require "lfs"
 local Util = require("Util/Util")
 local apidoc = require("Util/apidoc_nontoc")
 
-local DEBUG = false
+local DEBUG = true
 local fs = "FrameXML/retail/%s/Blizzard_APIDocumentation"
 
 local apiTypes = {
@@ -294,7 +294,7 @@ function m:GetChangelog(paramHistory, tbl)
 		t[info.build] = t[info.build] or {}
 		table.insert(t[info.build], {name = name, idx = info.idx})
 	end
-	print(tbl, url_fs:format(tbl.name))
+	print(tbl.build, url_fs:format(tbl.name))
 	local basePatch = tbl.build:match("%d+%.%d+%.%d+")
 	print("==Patch changes==")
 	local text = {}
