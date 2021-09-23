@@ -31,8 +31,8 @@ function m:GetPatches(path)
 	end
 	-- sorting by build is easier in this case
 	table.sort(t, function(a, b)
-		local build_a = tonumber(a:match("%d+%.%d+%.%d+%.(%d+)"))
-		local build_b = tonumber(b:match("%d+%.%d+%.%d+%.(%d+)"))
+		local build_a = tonumber(a:match("(%d+)$"))
+		local build_b = tonumber(b:match("(%d+)$"))
 		if build_a ~= build_b then
 			return build_a < build_b
 		end
