@@ -240,6 +240,7 @@ function m:GetHistory(builds, framexml_data)
 							paramHistory[name][v.Name] = {
 								build = build,
 								idx = idx,
+								paramType = paramTblName,
 							}
 						end
 					end
@@ -275,8 +276,15 @@ function m:GetHistory(builds, framexml_data)
 end
 
 local url_fs = "https://wowpedia.fandom.com/wiki/API_%s"
-local patch_fs1 = "* {{Patch %s|note=Added <code>%s</code>}}"
+local patch_fs1 = "* {{Patch %s|note=Added <code>%s</code> %s.}}"
 local patch_fs2 = "* {{Patch %s|note=Added.}}"
+
+local paramTypeWord = {
+	Arguments = "argument",
+	Returns = "return",
+	Payload = "param",
+	Fields = "field",
+}
 
 local function concatName(tbl)
 	local t = {}
@@ -291,7 +299,11 @@ function m:GetChangelog(paramHistory, tbl)
 	local t = {}
 	for name, info in pairs(paramHistory[tbl.name]) do
 		t[info.build] = t[info.build] or {}
-		table.insert(t[info.build], {name = name, idx = info.idx})
+		table.insert(t[info.build], {
+			name = name,
+			idx = info.idx,
+			paramType = info.paramType
+		})
 	end
 	print(tbl.build, url_fs:format(tbl.name))
 	local basePatch = tbl.build:match("%d+%.%d+%.%d+")
@@ -304,8 +316,12 @@ function m:GetChangelog(paramHistory, tbl)
 		end)
 		local patch = k:match("%d+%.%d+%.%d+")
 		if patch ~= basePatch then
-			print(patch_fs1:format(patch, concatName(paramArray, ", ")))
-			table.insert(text, patch_fs1:format(patch, concatName(paramArray, ", ")))
+			local paramWord = paramTypeWord[paramArray[1].paramType]
+			if #paramArray > 1 then
+				paramWord = paramWord.."s"
+			end
+			print(patch_fs1:format(patch, concatName(paramArray, ", "), paramWord))
+			table.insert(text, patch_fs1:format(patch, concatName(paramArray, ", "), paramWord))
 		else
 			print(patch_fs2:format(basePatch))
 			table.insert(text, patch_fs2:format(basePatch))
