@@ -63,9 +63,9 @@ function m:main()
 	local versions = self:GetApiDocVersions("FrameXML/retail")
 	local framexml = self:LoadFrameXML(versions)
 	-- self:CompareVersions(framexml, "9.0.5.38556", "9.1.0.40000")
-	-- self:CompareVersions(framexml, "9.1.0.40000", "9.1.5.40071")
-	-- self:CompareVersions(framexml, "9.0.1.36577", "9.1.5.40071")
+	-- self:CompareVersions(framexml, "9.1.0.40000", "9.1.5.40290")
 
+	-- self:CompareVersions(framexml, "9.0.1.36577", "9.1.5.40290")
 	return self:GetAllChangelogs(versions, framexml)
 end
 
