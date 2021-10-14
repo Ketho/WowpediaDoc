@@ -15,6 +15,7 @@ local MountType = {
 local wpLink = {
 	[32] = "Reins of the Bengal Tiger",
 	[253] = "Reins of the Black Drake",
+	[633] = "Fiendish Hellfire Core", -- Hellfire Infernal
 	[1025] = "The Hivemind (mount)",
 }
 
