@@ -69,8 +69,9 @@ local function main(options)
 	end
 
 	file:write('{| class="sortable darktable zebra col1-center"\n')
-	file:write("! ID !! Name !! ParentFaction !! Patch")
-	local fs = "\n|-\n| %d || %s || %s || %s"
+	file:write("! ID !! !! Name !! Parent Faction !! Patch")
+	local fs = "\n|-\n| %d || %s || %s || %s || %s"
+	local friendshipIcon = "[[File:Achievement_reputation_06.png|18px]]"
 
 	-- lazy way to read it twice
 	faction = parser:ReadCSV("faction", options)
@@ -90,6 +91,7 @@ local function main(options)
 			if repIndex > 0 then
 				local isValidParent = parentFactionID == 0 and faction_parents[ID]
 				if parentFactionID > 0 or isValidParent then
+					local friendText = friendshipID > 0 and friendshipIcon or ""
 					local nameText = name
 					if isValidName(name) then
 						nameText = string.format("[[:%s]]", name)
@@ -99,7 +101,7 @@ local function main(options)
 						parentName = string.format('<span title="%s">%s</span>', parentFactionID, faction_names[parentFactionID])
 					end
 					local seen = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
-					file:write(fs:format(ID, nameText, parentName, seen))
+					file:write(fs:format(ID, friendText, nameText, parentName, seen))
 				end
 			end
 		end
