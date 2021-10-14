@@ -46,6 +46,16 @@ local function isValidName(s)
 	return true
 end
 
+-- https://github.com/kevinclement/SimpleArmory/blob/master/dataimporter/factions.py
+local removedFaction = {
+	-- Never implemented
+	[1888] = true, -- Jandvik Vryul
+	[2111] = true, -- Zandalari Dinosaurs
+	[1351] = true, -- The Brewmasters
+	[1416] = true, -- Akama's Trust
+	[1440] = true, -- Darkspear Rebellion
+}
+
 local factionFixes = {
 	[589] = "{{Alliance}}", -- Wintersaber Trainers: seems flagged as Horde
 	[809] = "{{Alliance}}", -- Shen'dralar: no flags
@@ -109,7 +119,12 @@ local function main(options)
 			if repIndex > 0 then
 				local isValidParent = parentFactionID == 0 and faction_parents[ID]
 				if parentFactionID > 0 or isValidParent then
-					local factionIcon = GetFactionIcon(ID, repracemask0, repracemask1) or ""
+					local factionIcon
+					if removedFaction[ID] then
+						factionIcon = "❌"
+					else
+						factionIcon = GetFactionIcon(ID, repracemask0, repracemask1) or ""
+					end
 					local friendText = friendshipID > 0 and friendshipIcon or ""
 					local nameText = name
 					if isValidName(name) then
