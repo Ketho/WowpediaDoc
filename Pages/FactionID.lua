@@ -46,13 +46,19 @@ local function isValidName(s)
 	return true
 end
 
+local factionFixes = {
+	[589] = "{{Alliance}}", -- Wintersaber Trainers: seems flagged as Horde
+	[809] = "{{Alliance}}", -- Shen'dralar: no flags
+	[1085] = "{{Horde}}", -- Warsong Offensive: flagged as alliance
+}
+
 -- flag1 appears to be used for cities
 -- not sure if I'm missing some easy bitwise comparing
-local function GetRaceIcon(id, flag0, flag1)
+local function GetFactionIcon(id, flag0, flag1)
 	local v1 = 0xAA2AAAAA4E0AB3B2 -- -6184943489809468494
 	local v2 = 0x55155555B1354C4D -- 6130900294268439629
-	if id == 589 then -- Wintersaber Trainers seems marked as Horde
-		return "{{Alliance}}"
+	if factionFixes[id] then
+		return factionFixes[id]
 	elseif flag1 == v1 or flag0 == v2 then
 		return "{{Alliance}}"
 	elseif flag1 == v2 or flag0 == v1 then
@@ -103,7 +109,7 @@ local function main(options)
 			if repIndex > 0 then
 				local isValidParent = parentFactionID == 0 and faction_parents[ID]
 				if parentFactionID > 0 or isValidParent then
-					local factionIcon = GetRaceIcon(ID, repracemask0, repracemask1) or ""
+					local factionIcon = GetFactionIcon(ID, repracemask0, repracemask1) or ""
 					local friendText = friendshipID > 0 and friendshipIcon or ""
 					local nameText = name
 					if isValidName(name) then
