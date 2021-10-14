@@ -17,7 +17,9 @@ local function isValidName(s)
 		return false
 	elseif s:find("^Test") then
 		return false
-	elseif s:find("[_%-]") then
+	elseif s:find("_") then
+		return false
+	elseif s:find(" %- ") then
 		return false
 	end
 	return true
