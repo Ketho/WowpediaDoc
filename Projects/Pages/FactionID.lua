@@ -1,22 +1,27 @@
+-- https://wowpedia.fandom.com/wiki/FactionID
 local Util = require "Util/Util"
 local parser = require "Util/wowtoolsparser"
 local dbc_patch = require("Projects/DBC/patch")
 local OUT_PATH = "out/page/FactionID.txt"
-
-function SortTable(tbl, func)
-	local t = {}
-	for k in pairs(tbl) do
-		table.insert(t, k)
-	end
-	table.sort(t, func)
-	return t
-end
 
 local broken_versions = {
 	["3.3.0"] = true, -- Exception has been thrown by the target of an invocation.
 	["3.3.2"] = true,
 	["3.3.3"] = true,
 }
+
+local function isValidName(s)
+	if s:find("%(") then -- Paragon, Season
+		return false
+	elseif s:find("DEPRECATED") then
+		return false
+	elseif s:find("^Test") then
+		return false
+	elseif s:find("[_%-]") then
+		return false
+	end
+	return true
+end
 
 local function GetPatchData(name)
 	local versions = parser:GetVersions(name)
@@ -83,7 +88,10 @@ local function main(options)
 			if repIndex > 0 then
 				local isValidParent = parentFactionID == 0 and faction_parents[ID]
 				if parentFactionID > 0 or isValidParent then
-					local nameText = string.format("[[:%s]]", name)
+					local nameText = name
+					if isValidName(name) then
+						nameText = string.format("[[:%s]]", name)
+					end
 					local parentName = ""
 					if parentFactionID > 0 then
 						parentName = string.format('<span title="%s">%s</span>', parentFactionID, faction_names[parentFactionID])
