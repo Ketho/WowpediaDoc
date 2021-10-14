@@ -31,7 +31,7 @@ local function GetPatchData(name)
 	return firstSeen
 end
 
-local function isValidName(s)
+local function isValidLink(s)
 	if s:find("%(") then -- Paragon, Season
 		return false
 	elseif s:find("DEPRECATED") then
@@ -41,6 +41,16 @@ local function isValidName(s)
 	elseif s:find("_") then
 		return false
 	elseif s:find(" %- ") then
+		return false
+	end
+	return true
+end
+
+-- these IDs dont seem to return values
+local function isValidName(s)
+	if s:find("^GarInvasion_") then
+		return false
+	elseif s:find("%(Paragon") then
 		return false
 	end
 	return true
@@ -116,7 +126,7 @@ local function main(options)
 			local repracemask0 = tonumber(l["ReputationRaceMask[0]"])
 			local repracemask1 = tonumber(l["ReputationRaceMask[1]"])
 
-			if repIndex > 0 then
+			if repIndex > 0 and isValidName(name) then
 				local isValidParent = parentFactionID == 0 and faction_parents[ID]
 				if parentFactionID > 0 or isValidParent then
 					local factionIcon
@@ -127,7 +137,7 @@ local function main(options)
 					end
 					local friendText = friendshipID > 0 and friendshipIcon or ""
 					local nameText = name
-					if isValidName(name) then
+					if isValidLink(name) then
 						nameText = string.format("[[:%s]]", name)
 					end
 					local parentName = ""
