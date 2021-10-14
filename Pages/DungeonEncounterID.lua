@@ -105,7 +105,6 @@ local function GetPatchData(name)
 	return firstSeen
 end
 
-
 local function IsValidEncounterLink(id, name)
 	if noEncounter[id] then
 		return false
