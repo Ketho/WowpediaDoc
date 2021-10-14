@@ -46,9 +46,17 @@ local function isValidLink(s)
 	return true
 end
 
+local invalidFactions = {
+	-- has a description
+	[1357] = true, -- Nomi
+	[2063] = true, -- Arne Test - Paragon Reputation Stormwind
+}
+
 -- these IDs dont seem to return values
-local function isValidName(s)
-	if s:find("^GarInvasion_") then
+local function isValidName(s, id)
+	if invalidFactions[id] then
+		return false
+	elseif s:find("^GarInvasion_") then
 		return false
 	elseif s:find("%(Paragon") then
 		return false
@@ -58,7 +66,7 @@ end
 
 -- https://github.com/kevinclement/SimpleArmory/blob/master/dataimporter/factions.py
 local removedFaction = {
-	-- Never implemented
+	-- never implemented
 	[1888] = true, -- Jandvik Vryul
 	[2111] = true, -- Zandalari Dinosaurs
 	[1351] = true, -- The Brewmasters
@@ -74,9 +82,15 @@ local factionFixes = {
 
 -- flag1 appears to be used for cities
 -- not sure if I'm missing some easy bitwise comparing
-local function GetFactionIcon(id, flag0, flag1)
-	local v1 = 0xAA2AAAAA4E0AB3B2 -- -6184943489809468494
-	local v2 = 0x55155555B1354C4D -- 6130900294268439629
+local function GetFactionIcon(isClassic, id, flag0, flag1)
+	local v1, v2
+	if isClassic then
+		v1 = 690
+		v2 = 1101
+	else
+		v1 = 0xAA2AAAAA4E0AB3B2 -- -6184943489809468494
+		v2 = 0x55155555B1354C4D -- 6130900294268439629
+	end
 	if factionFixes[id] then
 		return factionFixes[id]
 	elseif flag1 == v1 or flag0 == v2 then
@@ -89,6 +103,8 @@ end
 local function main(options)
 	options = options or {}
 	options.header = true
+	-- options.build = "2.5.2"
+	-- options.isClassic = true
 	local faction = parser:ReadCSV("faction", options)
 	local patchData = GetPatchData("faction")
 
@@ -119,6 +135,7 @@ local function main(options)
 		local ID = tonumber(l.ID)
 		if ID then
 			local name = l.Name_lang
+			local desc = l.Description_lang
 			local repIndex = tonumber(l.ReputationIndex)
 			local parentFactionID = tonumber(l.ParentFactionID)
 			local friendshipID = tonumber(l.FriendshipRepID)
@@ -126,14 +143,14 @@ local function main(options)
 			local repracemask0 = tonumber(l["ReputationRaceMask[0]"])
 			local repracemask1 = tonumber(l["ReputationRaceMask[1]"])
 
-			if repIndex > 0 and isValidName(name) then
+			if repIndex > 0 and isValidName(name, ID) then
 				local isValidParent = parentFactionID == 0 and faction_parents[ID]
-				if parentFactionID > 0 or isValidParent then
+				if parentFactionID > 0 or isValidParent or #desc > 0 then
 					local factionIcon
 					if removedFaction[ID] then
 						factionIcon = "❌"
 					else
-						factionIcon = GetFactionIcon(ID, repracemask0, repracemask1) or ""
+						factionIcon = GetFactionIcon(options.isClassic, ID, repracemask0, repracemask1) or ""
 					end
 					local friendText = friendshipID > 0 and friendshipIcon or ""
 					local nameText = name
