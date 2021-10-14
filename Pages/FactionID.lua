@@ -10,21 +10,6 @@ local broken_versions = {
 	["3.3.3"] = true,
 }
 
-local function isValidName(s)
-	if s:find("%(") then -- Paragon, Season
-		return false
-	elseif s:find("DEPRECATED") then
-		return false
-	elseif s:find("^Test") then
-		return false
-	elseif s:find("_") then
-		return false
-	elseif s:find(" %- ") then
-		return false
-	end
-	return true
-end
-
 local function GetPatchData(name)
 	local versions = parser:GetVersions(name)
 	local patches = {}
@@ -44,6 +29,35 @@ local function GetPatchData(name)
 	table.sort(patches)
 	local firstSeen = dbc_patch:GetFirstSeen(name, patches)
 	return firstSeen
+end
+
+local function isValidName(s)
+	if s:find("%(") then -- Paragon, Season
+		return false
+	elseif s:find("DEPRECATED") then
+		return false
+	elseif s:find("^Test") then
+		return false
+	elseif s:find("_") then
+		return false
+	elseif s:find(" %- ") then
+		return false
+	end
+	return true
+end
+
+-- flag1 appears to be used for cities
+-- not sure if I'm missing some easy bitwise comparing
+local function GetRaceIcon(id, flag0, flag1)
+	local v1 = 0xAA2AAAAA4E0AB3B2 -- -6184943489809468494
+	local v2 = 0x55155555B1354C4D -- 6130900294268439629
+	if id == 589 then -- Wintersaber Trainers seems marked as Horde
+		return "{{Alliance}}"
+	elseif flag1 == v1 or flag0 == v2 then
+		return "{{Alliance}}"
+	elseif flag1 == v2 or flag0 == v1 then
+		return "{{Horde}}"
+	end
 end
 
 local function main(options)
@@ -68,9 +82,9 @@ local function main(options)
 		end
 	end
 
-	file:write('{| class="sortable darktable zebra col1-center"\n')
-	file:write("! ID !! !! Name !! Parent Faction !! Patch")
-	local fs = "\n|-\n| %d || %s || %s || %s || %s"
+	file:write('{| class="sortable darktable zebra col1-center col2-center col3-center"\n')
+	file:write("! ID !! !! !! Name !! Parent Faction !! Patch")
+	local fs = "\n|-\n| %d || %s || %s || %s || %s || %s"
 	local friendshipIcon = "[[File:Achievement_reputation_06.png|18px]]"
 
 	-- lazy way to read it twice
@@ -83,14 +97,13 @@ local function main(options)
 			local parentFactionID = tonumber(l.ParentFactionID)
 			local friendshipID = tonumber(l.FriendshipRepID)
 			local flags = l.Flags
-			local repflags0 = l["ReputationFlags[0]"]
-			local repflags1 = l["ReputationFlags[1]"]
-			local repflags2 = l["ReputationFlags[2]"]
-			local repflags3 = l["ReputationFlags[3]"]
+			local repracemask0 = tonumber(l["ReputationRaceMask[0]"])
+			local repracemask1 = tonumber(l["ReputationRaceMask[1]"])
 
 			if repIndex > 0 then
 				local isValidParent = parentFactionID == 0 and faction_parents[ID]
 				if parentFactionID > 0 or isValidParent then
+					local factionIcon = GetRaceIcon(ID, repracemask0, repracemask1) or ""
 					local friendText = friendshipID > 0 and friendshipIcon or ""
 					local nameText = name
 					if isValidName(name) then
@@ -98,10 +111,11 @@ local function main(options)
 					end
 					local parentName = ""
 					if parentFactionID > 0 then
-						parentName = string.format('<span title="%s">%s</span>', parentFactionID, faction_names[parentFactionID])
+						local displayName = faction_names[parentFactionID] or "unknown"
+						parentName = string.format('<span title="%s">%s</span>', parentFactionID, displayName)
 					end
 					local seen = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
-					file:write(fs:format(ID, friendText, nameText, parentName, seen))
+					file:write(fs:format(ID, factionIcon, friendText, nameText, parentName, seen))
 				end
 			end
 		end
