@@ -1,4 +1,4 @@
--- https://wowpedia.fandom.com/wiki/FactionID#Complete_list
+-- https://wowpedia.fandom.com/wiki/FactionID
 local Util = require "Util/Util"
 local parser = require "Util/wowtoolsparser"
 local dbc_patch = require("Projects/DBC/patch")
