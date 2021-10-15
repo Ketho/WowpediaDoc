@@ -74,15 +74,17 @@ local function main(options)
 			local hordeid = tonumber(l.HordeCreatureID)
 			local quality = tonumber(l.Quality)
 			local flags = tonumber(l.Flags)
-			local qualityText = Enum_Quality[quality]
-			local seen = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
 
 			if flags&0x4 == 0 then -- Internal Only
+				local qualityText = Enum_Quality[quality]
+				local seen = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
 				local followerTypeIcon = Enum_GarrisonFollowerType[garrfollowertype] or ""
-				if allianceid == hordeid then
-					file:write(fs_same:format(ID, followerTypeIcon, FormatLink(creatures[allianceid]), qualityText, seen))
+				local allianceName = creatures[allianceid]
+				local hordeName = creatures[hordeid]
+				if allianceName == hordeName then -- creature ID can be different but still have the same name
+					file:write(fs_same:format(ID, followerTypeIcon, FormatLink(allianceName), qualityText, seen))
 				else
-					file:write(fs_different:format(ID, followerTypeIcon, FormatLink(creatures[allianceid]), FormatLink(creatures[hordeid]), qualityText, seen))
+					file:write(fs_different:format(ID, followerTypeIcon, FormatLink(allianceName), FormatLink(hordeName), qualityText, seen))
 				end
 			end
 		end
