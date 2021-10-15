@@ -61,7 +61,7 @@ local function main(options)
 	print("writing "..OUT_PATH)
 	local file = io.open(OUT_PATH, "w")
 	file:write('{| class="sortable darktable zebra col1-center col2-center"\n')
-	file:write("! ID !! !! Alliance !! Horde !! Quality !! Patch")
+	file:write("! ID !! !! {{Alliance}} Alliance !! {{Horde}} Horde !! Quality !! Patch")
 	local fs_same	   = '\n|-\n| %d || %s || colspan="2" | %s || %s || %s'
 	local fs_different = "\n|-\n| %d || %s || %s || %s || %s || %s"
 
