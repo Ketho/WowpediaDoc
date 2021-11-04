@@ -1,6 +1,7 @@
 -- https://wowpedia.fandom.com/wiki/API_change_summaries
 local lfs = require "lfs"
 local Util = require("Util/Util")
+local cvar_module = require("Projects/WikitextDiff/WikitextDiff_CVar")
 local m = {}
 local OUT_FILE = "out/page/WikitextDiff.txt"
 
@@ -32,7 +33,12 @@ local ApiTypes = {
 		id = "mw-customcollapsible-events",
 	},
 	CVars = {
-		text = ": {{api|t=c|%s}}",
+		-- text = ": {{api|t=c|%s}}",
+		textfunc = function(name)
+			local link = string.format("[[CVar %s|%s]]", name, name)
+			local tt = cvar_module.GetTooltip(name, link) or link
+			return ": "..tt
+		end,
 		parseName = function(innerLine)
 			return innerLine:match('\t\t%["(.+)"%]')
 		end,
@@ -85,7 +91,12 @@ function m:ParseDiff(path)
 			local info = ApiTypes[section]
 			local name = info and info.parseName(innerLine)
 			if name then
-				local text = info.text:format(name)
+				local text
+				if info.textfunc then
+					text = info.textfunc(name)
+				else
+					text = info.text:format(name)
+				end
 				table.insert(info.changes[sign], text)
 			end
 		end
