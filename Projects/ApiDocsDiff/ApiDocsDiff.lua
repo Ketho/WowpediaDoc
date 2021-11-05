@@ -2,7 +2,7 @@ local lfs = require "lfs"
 local Util = require("Util/Util")
 local apidoc = require("Util/apidoc_nontoc")
 
-local DEBUG = true
+local DEBUG = false
 local fs = "FrameXML/retail/%s/Blizzard_APIDocumentation"
 
 local apiTypes = {
@@ -305,9 +305,9 @@ function m:GetChangelog(paramHistory, tbl)
 			paramType = info.paramType
 		})
 	end
-	print(tbl.build, url_fs:format(tbl.name))
+	Print(tbl.build, url_fs:format(tbl.name))
 	local basePatch = tbl.build:match("%d+%.%d+%.%d+")
-	print("==Patch changes==")
+	Print("==Patch changes==")
 	local text = {}
 	for _, k in pairs(Util:SortTable(t, SortReverse)) do
 		local paramArray = t[k]
@@ -320,17 +320,17 @@ function m:GetChangelog(paramHistory, tbl)
 			if #paramArray > 1 then
 				paramWord = paramWord.."s"
 			end
-			print(patch_fs1:format(patch, concatName(paramArray, ", "), paramWord))
+			Print(patch_fs1:format(patch, concatName(paramArray, ", "), paramWord))
 			table.insert(text, patch_fs1:format(patch, concatName(paramArray, ", "), paramWord))
 		else
-			print(patch_fs2:format(basePatch))
+			Print(patch_fs2:format(basePatch))
 			table.insert(text, patch_fs2:format(basePatch))
 		end
 	end
-	print()
+	Print()
 	return table.concat(text, "\n")
 end
 
 local data = m:main()
-print("done1")
+Print("done1")
 return data
