@@ -1,5 +1,5 @@
-local PATH = "cache/GlobalAPI.lua"
-local URL = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/live/Resources/GlobalAPI.lua"
+local PATH = "cache/GlobalAPI_mainline.lua"
+local URL = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/mainline/Resources/GlobalAPI.lua"
 
 local Util = require("Util/Util")
 local FrameXML = require("Documenter/FrameXML/FrameXML")

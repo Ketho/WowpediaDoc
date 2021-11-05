@@ -1,4 +1,5 @@
 local lfs = require "lfs"
+local constants = require("FrameXML/constants")
 local m = {}
 
 local missing = {
@@ -28,6 +29,10 @@ local function LoadApiDocFile(base, line)
 end
 
 function m:LoadApiDocs(base, latestFrameXML)
+	-- huh what did I do here
+	if not latestFrameXML then
+		latestFrameXML = "FrameXML/retail/"..constants.LATEST_MAINLINE
+	end
 	require(base.."/Compat")
 	local toc = io.open(latestFrameXML.."/Blizzard_APIDocumentation/Blizzard_APIDocumentation.toc")
 	if toc then
