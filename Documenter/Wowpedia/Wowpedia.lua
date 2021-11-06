@@ -36,11 +36,11 @@ end
 
 function Wowpedia:GetPatchSection(apiTable)
 	local fullName = self:GetFullName(apiTable)
-	if ApiDocsDiff[fullName] then
-		return format("==Patch changes==\n%s\n", ApiDocsDiff[fullName])
-	else
+	-- if ApiDocsDiff[fullName] then
+		-- return format("==Patch changes==\n%s\n", ApiDocsDiff[fullName])
+	-- else
 		return format("==Patch changes==\n* {{Patch %s|note=Added.}}\n", LATEST_PATCH)
-	end
+	-- end
 end
 
 function Wowpedia:GetTemplateInfo(apiTable)

@@ -2,7 +2,7 @@ local lfs = require "lfs"
 local Util = require("Util/Util")
 local apidoc = require("Util/apidoc_nontoc")
 
-local DEBUG = false
+local DEBUG = true
 local fs = "FrameXML/retail/%s/Blizzard_APIDocumentation"
 
 local apiTypes = {
@@ -62,11 +62,8 @@ local m = {}
 function m:main()
 	local versions = self:GetApiDocVersions("FrameXML/retail")
 	local framexml = self:LoadFrameXML(versions)
-	-- self:CompareVersions(framexml, "9.0.5.38556", "9.1.0.40000")
-	-- self:CompareVersions(framexml, "9.1.0.40000", "9.1.5.40290")
-
-	-- self:CompareVersions(framexml, "9.0.1.36577", "9.1.5.40290")
-	return self:GetAllChangelogs(versions, framexml)
+	self:CompareVersions(framexml, "9.1.0.40000", "9.1.5.40871")
+	-- return self:GetAllChangelogs(versions, framexml)
 end
 
 function m:GetAllChangelogs(versions, framexml)
