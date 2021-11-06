@@ -16,7 +16,6 @@ local Missing =
 		{ Name = "RuneforgeLegendaryCraftDescription", Type = "Structure", Fields = Empty }, -- LegendaryCraftingDocumentation.lua
 		{ Name = "RuneforgePower", Type = "Structure", Fields = Empty }, -- LegendaryCraftingDocumentation.lua
 		-- ptr 9.1.5 (39977)
-		{ Name = "MythicPlusAffixScoreInfo", Type = "Structure", Fields = Empty }, -- MythicPlusInfoDocumentation.lua
 		{ Name = "MythicPlusRatingLinkInfo", Type = "Structure", Fields = Empty }, -- ChallengeModeInfoDocumentation.lua
 		{ Name = "ChatChannelInfo", Type = "Structure", Fields = Empty }, -- ChatInfoDocumentation.lua
 
@@ -70,6 +69,20 @@ local Missing =
 				{ Name = "emblemColor", Type = "table", Mixin = "ColorMixin" },
 				{ Name = "emblemFileID", Type = "number" },
 				{ Name = "emblemStyle", Type = "number" },
+			},
+		},
+		{
+			-- C_MythicPlus; MythicPlusInfoDocumentation.lua; definition was removed from 9.1.5 but its still used
+			Name = "MythicPlusAffixScoreInfo",
+			Type = "Structure",
+			Documentation = { "Information about a specific M+ run" },
+			Fields =
+			{
+				{ Name = "name", Type = "string", Nilable = false },
+				{ Name = "score", Type = "number", Nilable = false },
+				{ Name = "level", Type = "number", Nilable = false },
+				{ Name = "durationSec", Type = "number", Nilable = false },
+				{ Name = "overTime", Type = "bool", Nilable = false },
 			},
 		},
 		{
