@@ -1,44 +1,16 @@
 local lfs = require "lfs"
 local cURL = require "cURL"
 local https = require "ssl.https"
+local ltn12 = require "ltn12"
 
 local Util = {}
 
-local CACHE_INVALIDATION_TIME = 600
+local INVALIDATION_TIME = 60*60
 
 Util.RelativePath = {
 	["."] = true,
 	[".."] = true,
 }
-
-function Util:DownloadFile(path, url)
-	local file = io.open(path, "w")
-	cURL.easy{
-			url = url,
-			writefunction = file,
-			ssl_verifypeer = false,
-		}:perform()
-	:close()
-	file:close()
-end
-
-function Util:CacheFile(path, url)
-	local attr = lfs.attributes(path)
-	if not attr or os.time() > attr.modification + CACHE_INVALIDATION_TIME then
-		local body = https.request(url)
-		self:WriteFile(path, body)
-	end
-end
-
-function Util:ReadFile(path)
-	local t = {}
-	local file = io.open(path, "r")
-	for line in file:lines() do
-		table.insert(t, line)
-	end
-	file:close()
-	return t
-end
 
 function Util:WriteFile(path, text)
 	print("Writing", path)
@@ -47,11 +19,50 @@ function Util:WriteFile(path, text)
 	file:close()
 end
 
+function Util:DownloadFile(path, url)
+	local file = io.open(path, "w")
+	cURL.easy{
+		url = url,
+		writefunction = file,
+		ssl_verifypeer = false,
+	}:perform():close()
+	file:close()
+end
 
-function Util:DownloadAndRead(path, url)
-	self:DownloadFile(path, url)
-	local t = self:ReadFile(path)
-	return t
+-- todo: replace with ShouldRedownload
+function Util:CacheFile(path, url)
+	local attr = lfs.attributes(path)
+	if not attr or os.time() > attr.modification + INVALIDATION_TIME then
+		local body = https.request(url)
+		self:WriteFile(path, body)
+	end
+end
+
+function Util:ShouldRedownload(path)
+	local attr = lfs.attributes(path)
+	if not attr or os.time() > attr.modification + INVALIDATION_TIME then
+		return true
+	end
+end
+
+-- https://github.com/brunoos/luasec/wiki/LuaSec-1.0.x#httpsrequesturl---body
+function Util:HttpPostRequest(url, request)
+	local response = {}
+	local _, code = https.request{
+		url = url,
+		method = "POST",
+		headers = {
+			["Content-Length"] = string.len(request),
+			["Content-Type"] = "application/x-www-form-urlencoded"
+		},
+		source = ltn12.source.string(request),
+		sink = ltn12.sink.table(response)
+	}
+	if code == "200" then
+		error("HTTP error: "..code)
+	else
+		return table.concat(response)
+	end
 end
 
 function Util:MakeDir(path)
