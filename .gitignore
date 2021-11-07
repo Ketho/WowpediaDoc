@@ -5,8 +5,9 @@
 *.html
 *.csv
 *.diff
-out
-cache
+/out
+/cache
+/cache_lua
 /FrameXML
 
 # python
