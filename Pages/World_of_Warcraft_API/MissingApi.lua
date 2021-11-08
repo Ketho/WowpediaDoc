@@ -6,13 +6,13 @@ local m = {}
 local WIKIPAGE_PATH = "cache_lua/World_of_Warcraft_API.xml"
 
 local api_tags = {
-	PROTECTED = true,
-	NOCOMBAT = true,
-	HW = true,
+	--PROTECTED = true,
+	--NOCOMBAT = true,
+	--HW = true,
 	--NOSCRIPT = true,
-	--DEPRECATED = true,
-	--UI = true,
-	--Lua = true,
+	DEPRECATED = true,
+	UI = true,
+	Lua = true,
 }
 
 function m:DownloadExport(path)
@@ -65,6 +65,15 @@ function m:FindDuplicates(wowpedia)
 	end
 end
 
+function m:HasIgnoredTag(str)
+	local tags = Util:strsplit(str, ", ")
+	for _, tag in pairs(tags) do
+		if api_tags[tag] then
+			return true
+		end
+	end
+end
+
 function m:FindMissing(wowpedia, wowpedia_tags, global_api)
 	local map = Util:ToMap(wowpedia)
 	print("\n-- to add")
@@ -76,8 +85,8 @@ function m:FindMissing(wowpedia, wowpedia_tags, global_api)
 	print("\n-- to remove")
 	table.sort(wowpedia)
 	for _, k in pairs(wowpedia) do
-		-- ignore tagged api for now
-		if not global_api[k] and not wowpedia_tags[k] then
+		local hasIgnoredTag = wowpedia_tags[k] and self:HasIgnoredTag(wowpedia_tags[k])
+		if not global_api[k] and not hasIgnoredTag then
 			print(k)
 		end
 	end
@@ -93,4 +102,3 @@ local function main()
 end
 
 main()
-print("done")

@@ -146,4 +146,13 @@ function Util:GetPatchVersion(v)
 	return v:match("%d+%.%d+%.%d+")
 end
 
+-- https://stackoverflow.com/a/7615129/1297035
+function Util:strsplit(input, sep)
+	local t = {}
+	for s in string.gmatch(input, "([^"..sep.."]+)") do
+		table.insert(t, s)
+	end
+	return t
+end
+
 return Util
