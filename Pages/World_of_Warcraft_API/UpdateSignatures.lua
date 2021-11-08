@@ -1,4 +1,4 @@
-local WikiText = require "Projects/API/WikiText"
+local WikiText = require "Projects/API/UpdateSignatures_WikiText"
 
 local fileName = "Projects/API/World_of_Warcraft_API.txt"
 local fileName_temp = "Projects/API/World_of_Warcraft_API_temp.txt"
