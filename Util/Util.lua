@@ -38,6 +38,13 @@ function Util:CacheFile(path, url)
 	end
 end
 
+function Util:CacheFilePost(path, url, requestBody)
+	if Util:ShouldRedownload(path) then
+		local page = Util:HttpPostRequest(url, requestBody)
+		Util:WriteFile(path, page)
+	end
+end
+
 function Util:ShouldRedownload(path)
 	local attr = lfs.attributes(path)
 	if not attr or os.time() > attr.modification + INVALIDATION_TIME then

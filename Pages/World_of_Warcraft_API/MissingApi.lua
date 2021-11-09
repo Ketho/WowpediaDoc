@@ -5,24 +5,11 @@ Util:MakeDir("cache_lua")
 local m = {}
 local WIKIPAGE_PATH = "cache_lua/World_of_Warcraft_API.xml"
 
-local api_tags = {
-	--PROTECTED = true,
-	--NOCOMBAT = true,
-	--HW = true,
-	--NOSCRIPT = true,
+local ignoredTags = {
 	DEPRECATED = true,
 	UI = true,
 	Lua = true,
 }
-
-function m:DownloadExport(path)
-	if Util:ShouldRedownload(path) then
-		local url = "https://wowpedia.fandom.com/wiki/Special:Export"
-		local requestBody = "pages=World_of_Warcraft_API&curonly=1"
-		local page = Util:HttpPostRequest(url, requestBody)
-		Util:WriteFile(path, page)
-	end
-end
 
 function m:ParseWikitext(PATH)
 	local file_string = io.open(PATH):read("a")
@@ -68,7 +55,7 @@ end
 function m:HasIgnoredTag(str)
 	local tags = Util:strsplit(str, ", ")
 	for _, tag in pairs(tags) do
-		if api_tags[tag] then
+		if ignoredTags[tag] then
 			return true
 		end
 	end
@@ -92,10 +79,15 @@ function m:FindMissing(wowpedia, wowpedia_tags, global_api)
 	end
 end
 
-local function main()
-	m:DownloadExport(WIKIPAGE_PATH)
-	local wowpedia_api, wowpedia_tags = m:ParseWikitext(WIKIPAGE_PATH)
+function m:SaveWowpediaExport(path)
+	local url = "https://wowpedia.fandom.com/wiki/Special:Export"
+	local requestBody = "pages=World_of_Warcraft_API&curonly=1"
+	Util:CacheFilePost(path, url, requestBody)
+end
 
+local function main()
+	m:SaveWowpediaExport(WIKIPAGE_PATH)
+	local wowpedia_api, wowpedia_tags = m:ParseWikitext(WIKIPAGE_PATH)
 	m:FindDuplicates(wowpedia_api)
 	local global_api = m:GetGlobalApi()
 	m:FindMissing(wowpedia_api, wowpedia_tags, global_api)
