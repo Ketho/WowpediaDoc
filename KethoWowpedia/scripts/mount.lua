@@ -24,6 +24,10 @@ local wpName = {
 	[43] = "Fluorescent Green Mechanostrider",
 }
 
+local unobtainable = {
+	[32] = true, -- Bengal Tiger
+}
+
 -- /run KethoWowpedia:GetMountIDs(2000)
 function KethoWowpedia:GetMountIDs(num)
 	eb:Show()
@@ -33,16 +37,24 @@ function KethoWowpedia:GetMountIDs(num)
 	for id = 1, num do
 		local name, spellID, _, _, _, sourceType, _, isFactionSpecific, faction, shouldHideOnChar = C_MountJournal.GetMountInfoByID(id)
 		if name then
-			local factionIcon = faction == 0 and "{{Horde}}" or faction == 1 and "{{Alliance}}" or ""
-			local linkName = self.util:GetLinkName(wpLink[id], wpName[id] or name, 40)
-			-- EnumeratedString 105: 6: Exclude from Journal if not learned
-			local flags = self.dbc.mount[id]
-			local sourceText = bit.band(flags, 0x40) > 0 and "❌ " or ""
-			sourceText = sourceText..(self.data.SourceTypeEnum[sourceType] or "")
 			-- displayID can sometimes be nil when there are multiple ids
 			-- and the IDs returned by GetMountAllCreatureDisplayInfoByID() are in a seemingly random order
 			local displayID, _, _, _, mTypeID = C_MountJournal.GetMountInfoExtraByID(id)
 			local allDisplay = C_MountJournal.GetMountAllCreatureDisplayInfoByID(id)
+
+			local factionIcon = faction == 0 and "{{Horde}}" or faction == 1 and "{{Alliance}}" or ""
+			local linkName = self.util:GetLinkName(wpLink[id], wpName[id] or name, 40)
+			-- EnumeratedString 105: 6: Exclude from Journal if not learned
+			local flags = self.dbc.mount[id]
+			local sourceText
+			if mTypeID == 242 then
+				sourceText = "❌ Spectral"
+			elseif unobtainable[id] then
+				sourceText = "❌"
+			else
+				sourceText = bit.band(flags, 0x40) > 0 and "❓ " or ""
+				sourceText = sourceText..(self.data.SourceTypeEnum[sourceType] or "")
+			end
 			local isMultiple
 			if allDisplay and #allDisplay > 1 then
 				isMultiple = true

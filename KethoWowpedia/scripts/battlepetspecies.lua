@@ -70,8 +70,8 @@ end
 -- /run KethoWowpedia:GetPetSpeciesIDs(3500)
 function KethoWowpedia:GetPetSpeciesIDs(num)
 	eb:Show()
-	eb:InsertLine('{| class="sortable darktable zebra"\n! ID !! !! !! !! Name !! Source !! [[CreatureDisplayID|Display ID]] !! Spell ID !! NPC ID !! Patch')
-	local fs = "|-\n| align=\"center\" | %d |||| %s |||| %s |||| %s |||| %s |||| %s |||| %s |||| %s |||| %s |||| %s"
+	eb:InsertLine('{| class="sortable darktable zebra col1-center"\n! ID !! !! !! !! Name !! Source !! [[CreatureDisplayID|Display ID]] !! Spell ID !! NPC ID !! Patch')
+	local fs = "|-\n| %d |||| %s |||| %s |||| %s |||| %s |||| %s |||| %s |||| %s |||| %s |||| %s"
 	local sources, visible = self:GetPetSources()
 
 	for id = 1, num do

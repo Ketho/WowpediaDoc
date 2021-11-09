@@ -1,7 +1,7 @@
 -- https://wowpedia.fandom.com/wiki/FactionID
 local Util = require "Util/Util"
 local parser = require "Util/wowtoolsparser"
-local dbc_patch = require("Projects/DBC/patch")
+local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUT_PATH = "out/page/FactionID.txt"
 
 local broken_versions = {

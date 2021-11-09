@@ -1,6 +1,7 @@
 -- https://wowpedia.fandom.com/wiki/API_GetGameMessageInfo
 local eb = KethoEditBox
 
+-- /run KethoWowpedia:GameError()
 function KethoWowpedia:GameError()
 	local enums = {}
 	for k, v in pairs(_G) do
@@ -13,8 +14,8 @@ function KethoWowpedia:GameError()
 	end)
 
 	eb:Show()
-	eb:InsertLine('{| class="sortable darktable zebra"\n! ID !! skit !! voice !! stringId !! GlobalString')
-	local fs = '|-\n| align="center" | %d |||| %s |||| %s |||| %s |||| %s'
+	eb:InsertLine('{| class="sortable darktable zebra col1-center"\n! ID !! skit !! voice !! stringId !! GlobalString')
+	local fs = '|-\n| %d |||| %s |||| %s |||| %s |||| %s'
 	for _, tbl in pairs(enums) do
 		local k, v = unpack(tbl)
 		local stringId, soundKitID, voiceID = GetGameMessageInfo(v)

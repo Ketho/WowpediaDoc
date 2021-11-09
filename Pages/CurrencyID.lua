@@ -1,8 +1,8 @@
 -- https://wowpedia.fandom.com/wiki/CurrencyID
 local parser = require("Util/wowtoolsparser")
 local Util = require("Util/Util")
-local dbc_patch = require("Projects/DBC/patch")
-local output = "out/page/CurrencyTypes.txt"
+local dbc_patch = require("Projects/DBC/DBC_patch")
+local output = "out/page/CurrencyID.txt"
 
 local wplink = {
 	[1101] = "Oil (currency)",
@@ -107,8 +107,8 @@ local function IsValidLink(id, name, categoryID)
 	return true
 end
 
-local header = '{| class="sortable darktable zebra"\n! ID !! Name || Category || Patch\n'
-local fs = '|-\n| align="center" | %d || %s || %s || %s\n'
+local header = '{| class="sortable darktable zebra col1-center"\n! ID !! Name || Category || Patch\n'
+local fs = '|-\n| %d || %s || %s || %s\n'
 
 local function main(BUILD)
 	local dbc_currencytypes = parser:ReadCSV("currencytypes", {header=true, build=BUILD})

@@ -29,8 +29,8 @@ local wpExpansion = {
 -- /run KethoWowpedia:GetToyIDs(2e5)
 function KethoWowpedia:GetToyIDs(num)
 	eb:Show()
-	eb:InsertLine('{| class="sortable darktable zebra"\n! ID !! Item ID !! !! Name !! Source !! Patch')
-	local fs = '|-\n| align="center" | %d |||| %s |||| %s |||| %s |||| %s |||| %s'
+	eb:InsertLine('{| class="sortable darktable zebra col1-center"\n! ID !! Item ID !! !! Name !! Source !! Patch')
+	local fs = '|-\n| %d |||| %s |||| %s |||| %s |||| %s |||| %s'
 
 	local sources, expansions, uncategorized = self:GetToySources()
 	local lines = {}

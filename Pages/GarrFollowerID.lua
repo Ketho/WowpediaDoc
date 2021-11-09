@@ -1,7 +1,7 @@
 -- https://wowpedia.fandom.com/wiki/GarrFollowerID
 local Util = require "Util/Util"
 local parser = require "Util/wowtoolsparser"
-local dbc_patch = require("Projects/DBC/patch")
+local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUT_PATH = "out/page/GarrFollowerID.txt"
 
 local Enum_GarrisonFollowerType = {
@@ -18,6 +18,10 @@ local Enum_Quality = {
 	[3] = '<span class="qc-rare">Rare</span>',
 	[4] = '<span class="qc-epic">Epic</span>',
 	[5] = '<span class="qc-legendary">Legendary</span>',
+}
+
+local wplink = {
+	[503] = "Master's Call (carrier)",
 }
 
 local function GetPatchData(name)
@@ -38,8 +42,12 @@ local function GetPatchData(name)
 	return firstSeen
 end
 
-local function FormatLink(s)
-	return string.format("[[:%s]]", s)
+local function FormatLink(ID, s)
+	if wplink[ID] then
+		return string.format("[[%s|%s]]", wplink[ID], s)
+	else
+		return string.format("[[:%s]]", s)
+	end
 end
 
 local function main(options)
@@ -82,9 +90,9 @@ local function main(options)
 				local allianceName = creatures[allianceid]
 				local hordeName = creatures[hordeid]
 				if allianceName == hordeName then -- creature ID can be different but still have the same name
-					file:write(fs_same:format(ID, followerTypeIcon, FormatLink(allianceName), qualityText, seen))
+					file:write(fs_same:format(ID, followerTypeIcon, FormatLink(ID, allianceName), qualityText, seen))
 				else
-					file:write(fs_different:format(ID, followerTypeIcon, FormatLink(allianceName), FormatLink(hordeName), qualityText, seen))
+					file:write(fs_different:format(ID, followerTypeIcon, FormatLink(ID, allianceName), FormatLink(ID, hordeName), qualityText, seen))
 				end
 			end
 		end

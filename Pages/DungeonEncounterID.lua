@@ -1,14 +1,15 @@
 -- https://wowpedia.fandom.com/wiki/DungeonEncounterID
 local parser = require("Util/wowtoolsparser")
 local Util = require("Util/Util")
-local dbc_patch = require("Projects/DBC/patch")
-local output = "out/page/DungeonEncounter.txt"
+local dbc_patch = require("Projects/DBC/DBC_patch")
+local output = "out/page/DungeonEncounterID.txt"
 
 local encounterLink = {
 	[526] = "Keristrasza (tactics)",
 	[527] = "Keristrasza (tactics)",
 	[594] = "Gahz'rilla",
 	[608] = "Illidari Council",
+	[793] = "Hakkar (tactics)",
 	[1029] = "Cho'gall (tactics)",
 	[1032] = "Valiona and Theralion",
 	[1103] = "Blood-Queen Lana'thel (tactics)",
@@ -31,6 +32,7 @@ local encounterLink = {
 	[2272] = "King Rastakhan (tactics)",
 	[2273] = "Uu'nat",
 	[2276] = "High Tinker Mekkatorque (tactics)",
+	[2395] = "Hakkar the Soulflayer (tactics)",
 }
 
 local mapLink = {
@@ -123,8 +125,8 @@ local function IsValidMapLink(id, name)
 	return true
 end
 
-local header = '{| class="sortable darktable zebra"\n! ID !! Name !! Map || Patch\n'
-local fs = '|-\n| align="center" | %d || %s || %s || %s\n'
+local header = '{| class="sortable darktable zebra col1-center"\n! ID !! Name !! Map || Patch\n'
+local fs = '|-\n| %d || %s || %s || %s\n'
 
 local function main(BUILD)
 	local dbc_dungeonencounter = parser:ReadCSV("dungeonencounter", {header=true, build=BUILD})

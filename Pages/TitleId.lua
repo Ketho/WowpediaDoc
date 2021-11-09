@@ -1,8 +1,8 @@
 -- https://wowpedia.fandom.com/wiki/TitleId
 local parser = require("Util/wowtoolsparser")
 local Util = require("Util/Util")
-local dbc_patch = require("Projects/DBC/patch")
-local output = "out/page/CharTitles.txt"
+local dbc_patch = require("Projects/DBC/DBC_patch")
+local output = "out/page/TitleId.txt"
 
 -- by mask id
 local wplink = {
@@ -171,8 +171,8 @@ local function GetNameText(v, maskID)
 	return nameText
 end
 
-local header = '{| class="sortable darktable zebra"\n! Mask ID !! Title ID !! Name !! Patch\n'
-local fs = '|-\n| align="center" | %d || align="center" | [https://www.wowhead.com/title=%d %d] || %s || %s\n'
+local header = '{| class="sortable darktable zebra col1-center col2-center"\n! Mask ID !! Title ID !! Name !! Patch\n'
+local fs = '|-\n| %d || [https://www.wowhead.com/title=%d %d] || %s || %s\n'
 
 local function main(BUILD)
 	local dbc, build = parser:ReadCSV("chartitles", {header=true, build=BUILD})
