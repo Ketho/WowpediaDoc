@@ -10,7 +10,7 @@ lua53 Documenter/Documenter.lua
 ![](https://i.imgur.com/MqdgasV.png)
 
 ### Other scripts
-* `Projects/API/` - Updates the [World of Warcraft API](https://wowpedia.fandom.com/wiki/World_of_Warcraft_API) page.
-* `Projects/Events/` - Updates the [Events](https://wow.gamepedia.com/Events) page.
-* `Projects/Collections/` - Generates data for the `KethoWowpedia` addon.
+* `KethoWowpedia/` - AddOn for dumping data in-game.
+* `Pages/API/` - Updates the [World of Warcraft API](https://wowpedia.fandom.com/wiki/World_of_Warcraft_API) page.
 * `Pywikibot/` - [Pywikibot](https://pypi.org/project/pywikibot/) scripts for using the MediaWiki API.
+* `Scribunto/` - [Scribunto](https://help.fandom.com/wiki/Extension:Scribunto) scripts that provide data for the API [infoboxes](https://wowpedia.fandom.com/wiki/Module:API_info).
