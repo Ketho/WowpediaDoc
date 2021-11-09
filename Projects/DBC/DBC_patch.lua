@@ -48,6 +48,7 @@ local patch_collections = {
 	"9.0.2",
 	"9.0.5",
 	"9.1.0",
+	"9.1.5",
 }
 
 local patch_uimap = {}
