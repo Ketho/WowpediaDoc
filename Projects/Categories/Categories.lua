@@ -1,16 +1,19 @@
 -- https://wowpedia.fandom.com/wiki/Category:API_namespaces
-local catFile = io.open("Pywikibot/categories/namespaces.py", "w")
+local constants = require("FrameXML/constants")
+
 local m = {}
+local BAD = "FrameXML/retail/"..constants.LATEST_MAINLINE.."/Blizzard_APIDocumentation"
+local catFile = io.open("Pywikibot/categories/namespaces.py", "w")
 
 function m:LoadApiDocs(base)
 	require(base.."/Compat")
-	local toc = io.open(base.."/Blizzard_APIDocumentation/Blizzard_APIDocumentation.toc")
+	local toc = io.open(BAD.."/Blizzard_APIDocumentation.toc")
 	local isDoc
 	local t = {}
 	tinsert(t, "namespaces = [")
 	for line in toc:lines() do
 		if line:find("%.lua") then
-			local path = base.."/Blizzard_APIDocumentation/"..line
+			local path = BAD.."/"..line
 			local file = assert(loadfile(path))
 			file()
 			if isDoc then -- write to emmylua
