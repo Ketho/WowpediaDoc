@@ -49,6 +49,9 @@ local function GetCvarTypes(commandType)
 	local t = {}
 	local commands = C_Console.GetAllCommands()
 	for _, v in pairs(commands) do
+		if cvar_ptr[v.command] then
+			v.isPTR = true
+		end
 		if v.commandType == commandType then
 			tinsert(t, v)
 		end
