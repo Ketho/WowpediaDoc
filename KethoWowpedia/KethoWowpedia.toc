@@ -4,19 +4,21 @@
 KethoWowpedia.lua
 editbox.lua
 
-patch/mount.lua
 patch/battlepetspecies.lua
+patch/mount.lua
 patch/toy.lua
 patch/uimap.lua
 
 dbc/battlepetspecies.lua
-dbc/mount.lua
-dbc/toy.lua
 dbc/creaturedisplayinfo.lua
 dbc/creaturemodeldata.lua
+dbc/mount.lua
+dbc/toy.lua
 
-scripts/mount.lua
 scripts/battlepetspecies.lua
+scripts/cvar.lua
+scripts/cvar_cache.lua
+scripts/GameError.lua
+scripts/mount.lua
 scripts/toy.lua
 scripts/uimap.lua
-scripts/GameError.lua
