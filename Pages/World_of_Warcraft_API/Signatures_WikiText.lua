@@ -1,4 +1,4 @@
-local Util = require "Util/Util"
+local Util = require("Util/Util")
 local FrameXML = require("Documenter/FrameXML/FrameXML")
 FrameXML:LoadApiDocs("Documenter/FrameXML")
 require "Documenter/Wowpedia/Wowpedia"

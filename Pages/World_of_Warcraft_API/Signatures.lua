@@ -1,5 +1,5 @@
-local Util = require "Util/Util"
-local WikiText = require "Pages/World_of_Warcraft_API/Signatures_WikiText"
+local Util = require("Util/Util")
+local WikiText = require("Pages/World_of_Warcraft_API/Signatures_WikiText")
 
 local m = {}
 -- this has to be done manually because symbols get turned into HTML char codes when downloaded
