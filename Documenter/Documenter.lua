@@ -2,7 +2,7 @@ local constants = require("FrameXML/constants")
 
 -- experimental, bad code
 -- note APIDocumentation gets overwritten again
-ApiDocsDiff = require("Projects/ApiDocsDiff/ApiDocsDiff")
+-- API_patchdiff = require("Projects/API_patchdiff/API_patchdiff")
 
 -- bad hack, to do: refactor
 local FrameXML = require("Documenter/FrameXML/FrameXML")
@@ -15,3 +15,4 @@ local Exporter = require("Documenter/Exporter")
 if not Wowpedia:HasMissingTypes() then
 	Exporter:ExportSystems("out/export")
 end
+print("done")

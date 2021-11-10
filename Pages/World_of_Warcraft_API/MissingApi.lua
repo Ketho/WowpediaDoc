@@ -34,7 +34,7 @@ end
 function m:GetGlobalApi()
 	local api_path = "cache_lua/GlobalAPI.lua"
 	local api_url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/mainline/Resources/GlobalAPI.lua"
-	Util:DownloadFile(api_path, api_url)
+	Util:DownloadFile(api_path, api_url, true)
 	local api = require(api_path:gsub("%.lua", ""))
 	local global_api = Util:ToMap(api[1])
 	return global_api
@@ -82,7 +82,7 @@ end
 function m:SaveWowpediaExport(path)
 	local url = "https://wowpedia.fandom.com/wiki/Special:Export"
 	local requestBody = "pages=World_of_Warcraft_API&curonly=1"
-	Util:CacheFilePost(path, url, requestBody)
+	Util:DownloadFilePost(path, url, requestBody)
 end
 
 local function main()

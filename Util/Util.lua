@@ -1,16 +1,15 @@
 local lfs = require "lfs"
-local cURL = require "cURL"
 local https = require "ssl.https"
 local ltn12 = require "ltn12"
 
 local Util = {}
-
 local INVALIDATION_TIME = 60*60
 
-Util.RelativePath = {
-	["."] = true,
-	[".."] = true,
-}
+function Util:MakeDir(path)
+	if not lfs.attributes(path) then
+		lfs.mkdir(path)
+	end
+end
 
 function Util:WriteFile(path, text)
 	print("Writing", path)
@@ -19,35 +18,25 @@ function Util:WriteFile(path, text)
 	file:close()
 end
 
-function Util:DownloadFile(path, url)
-	local file = io.open(path, "w")
-	cURL.easy{
-		url = url,
-		writefunction = file,
-		ssl_verifypeer = false,
-	}:perform():close()
-	file:close()
-end
-
--- todo: replace with ShouldRedownload
-function Util:CacheFile(path, url)
-	local attr = lfs.attributes(path)
-	if not attr or os.time() > attr.modification + INVALIDATION_TIME then
+function Util:DownloadFile(path, url, isCache)
+	if self:ShouldDownload(path, isCache) then
 		local body = https.request(url)
 		self:WriteFile(path, body)
 	end
 end
 
-function Util:CacheFilePost(path, url, requestBody)
-	if Util:ShouldRedownload(path) then
-		local page = Util:HttpPostRequest(url, requestBody)
-		Util:WriteFile(path, page)
+function Util:DownloadFilePost(path, url, requestBody)
+	if self:ShouldDownload(path, true) then
+		local body = self:HttpPostRequest(url, requestBody)
+		self:WriteFile(path, body)
 	end
 end
 
-function Util:ShouldRedownload(path)
+function Util:ShouldDownload(path, isCache)
 	local attr = lfs.attributes(path)
-	if not attr or os.time() > attr.modification + INVALIDATION_TIME then
+	if not attr then
+		return true
+	elseif isCache and os.time() > attr.modification+INVALIDATION_TIME then
 		return true
 	end
 end
@@ -65,17 +54,10 @@ function Util:HttpPostRequest(url, request)
 		source = ltn12.source.string(request),
 		sink = ltn12.sink.table(response)
 	}
-	if code == "200" then
+	if code ~= 200 then
 		error("HTTP error: "..code)
-	else
-		return table.concat(response)
 	end
-end
-
-function Util:MakeDir(path)
-	if not lfs.attributes(path) then
-		lfs.mkdir(path)
-	end
+	return table.concat(response)
 end
 
 function Util:ToMap(tbl)
