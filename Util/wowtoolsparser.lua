@@ -13,7 +13,7 @@ local json_url = "https://wow.tools/api/data/%s/?build=%s&useHotfixes=true&lengt
 
 local USER_AGENT = "your user agent here"
 local CACHE_PATH = "cache"
-local CACHE_INVALIDATION_TIME = 600
+local INVALIDATION_TIME = 60*60
 
 local listfile_cache = CACHE_PATH.."/listfile.csv"
 local versions_cache = CACHE_PATH.."/%s_versions.json"
@@ -39,7 +39,7 @@ local function ShouldDownload(path)
 		return true
 	elseif path:find("versions%.json") or path:find("listfile%.csv") then
 		local modified = attr.modification
-		if os.time() > modified + CACHE_INVALIDATION_TIME then
+		if os.time() > modified + INVALIDATION_TIME then
 			return true
 		end
 	end
