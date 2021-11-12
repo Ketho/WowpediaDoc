@@ -1,5 +1,6 @@
-local mixins = require("out/Mixins")
-local templates = require("out/Templates")
+local PATH = "../BlizzardInterfaceResources/Resources"
+local mixins = assert(loadfile(PATH.."/Mixins.lua")())
+local templates = assert(loadfile(PATH.."/Templates.lua")())
 
 local mixinTbl = {}
 for _, v in pairs(mixins) do
