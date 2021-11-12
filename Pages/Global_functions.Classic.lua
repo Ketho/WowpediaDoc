@@ -9,8 +9,8 @@ local sources = {
 	api = {
 		label = "API Name",
 		url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/GlobalAPI.lua",
-		cache = "cache/GlobalAPI_%s.lua",
-		out = "out/lua/CompareApi.txt",
+		cache = "cache_lua/GlobalAPI_%s.lua",
+		out = "out/page/CompareApi.txt",
 		location = function(tbl)
 			return tbl[1]
 		end,
@@ -22,8 +22,8 @@ local sources = {
 	event = {
 		label = "Event Name",
 		url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/Events.lua",
-		cache = "cache/Events_%s.lua",
-		out = "out/lua/CompareEvent.txt",
+		cache = "cache_lua/Events_%s.lua",
+		out = "out/page/CompareEvent.txt",
 		location = function(tbl)
 			return tbl
 		end,
@@ -41,8 +41,8 @@ local sources = {
 	cvar = {
 		label = "CVar Name",
 		url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/CVars.lua",
-		cache = "cache/CVars_%s.lua",
-		out = "out/lua/CompareCVars.txt",
+		cache = "cache_lua/CVars_%s.lua",
+		out = "out/page/CompareCVars.txt",
 		location = function(tbl)
 			return tbl[1].var
 		end,
@@ -64,25 +64,25 @@ local sources = {
 
 -- https://github.com/Ketho/BlizzardInterfaceResources/branches
 local branches = {
-	"live",
-	"vanilla_ptr",
-	"bcc",
+	"mainline",
+	"tbc",
+	"vanilla",
 }
 
 -- avoid using templates as that increases page processing time
 local wp_icons = {
-	live = "[[File:Shadowlands-Logo-Small.png|34px|link=]]",
-	bcc = "[[File:Bc icon.gif|link=]]",
+	mainline = "[[File:Shadowlands-Logo-Small.png|34px|link=]]",
+	tbc = "[[File:Bc icon.gif|link=]]",
 	vanilla = "[[File:WoW Icon update.png|link=]]",
 }
 
 local sections = {
-	{id = "bcc", label = "BCC only"},
-	{id = "both", label = "BCC & Vanilla"},
-	{id = "retail_bcc", label = "Retail & BCC"},
+	{id = "bcc", label = "TBC only"},
+	{id = "both", label = "TBC & Vanilla"},
+	{id = "retail_bcc", label = "Retail & TBC"},
 	{id = "vanilla", label = "Vanilla only"},
 	{id = "retail_vanilla", label = "Retail & Vanilla"},
-	{id = "retail_both", label = "Retail & BCC & Vanilla"},
+	{id = "retail_both", label = "Retail & TBC & Vanilla"},
 }
 
 local cvar_enum = {
@@ -91,8 +91,7 @@ local cvar_enum = {
 	[2] = "Console",
 	[3] = "Combat",
 	[4] = "Game",
-	--[5] = "Default",
-	[5] = "",
+	[5] = "", -- "Default",
 	[6] = "Net",
 	[7] = "Sound",
 	[8] = "Gm",
@@ -124,15 +123,15 @@ function m:main()
 			if next(data[sectionInfo.id]) then
 				file:write(section_fs:format(sectionInfo.label))
 				for _, name in pairs(Util:SortTable(data[sectionInfo.id], info.sortFunc)) do
-					local retail = parts.live[name] and wp_icons.live or ""
-					local bcc = parts.bcc[name] and wp_icons.bcc or ""
-					local vanilla = parts.vanilla_ptr[name] and wp_icons.vanilla or ""
+					local retail = parts.mainline[name] and wp_icons.mainline or ""
+					local bcc = parts.tbc[name] and wp_icons.tbc or ""
+					local vanilla = parts.vanilla[name] and wp_icons.vanilla or ""
 					local nameLink = info.name_fs:format(name, name)
 					file:write(row_fs:format(retail, bcc, vanilla, nameLink))
 					if source == "event" and eventDoc[name] then
 						file:write(string.format("<small>: %s</small>", eventDoc[name]))
 					elseif source == "cvar" then
-						local cvarInfo = parts.bcc[name] or parts.vanilla_ptr[name]
+						local cvarInfo = parts.tbc[name] or parts.vanilla[name]
 						local default, category, account, character, description = table.unpack(cvarInfo)
 						local categoryName = cvar_enum[category] or ""
 						local scope = account and "Account" or character and "Character" or ""
@@ -158,7 +157,7 @@ function m:GetData(sourceType)
 
 	for _, branch in pairs(branches) do
 		local path = info.cache:format(branch)
-		Util:CacheFile(path, info.url:format(branch))
+		Util:DownloadFile(path, info.url:format(branch))
 		local fileTbl = require(path:gsub("%.lua", ""))
 		local location = info.location(fileTbl)
 		parts[branch] = info.map(location)
@@ -168,9 +167,9 @@ function m:GetData(sourceType)
 	end
 
 	for name in pairs(mainTbl) do
-		local retail = parts.live[name]
-		local bcc = parts.bcc[name]
-		local vanilla = parts.vanilla_ptr[name]
+		local retail = parts.mainline[name]
+		local bcc = parts.tbc[name]
+		local vanilla = parts.vanilla[name]
 
 		if retail then
 			if bcc and vanilla then
@@ -194,12 +193,14 @@ function m:GetData(sourceType)
 end
 
 function m:GetEventPayload()
+	-- ok wtf this needs to be rewritten
 	local FrameXML = require("Documenter/FrameXML/FrameXML")
-	FrameXML:LoadApiDocs("Documenter/FrameXML")
+	FrameXML:LoadApiDocs("Documenter/FrameXML", "FrameXML/classic/2.5.2 (40892)/Interface/AddOns")
 	local t = {}
 	for _, event in pairs(APIDocumentation.events) do
 		if event.Payload then
 			local payload = event:GetPayloadString(false, false)
+			print(event.LiteralName, payload)
 			if #payload>160 and (event.LiteralName:find("^CHAT_MSG") or event.LiteralName:find("^CHAT_COMBAT_MSG")) then
 				payload = "''CHAT_MSG''"
 			end
