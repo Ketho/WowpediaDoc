@@ -6,6 +6,7 @@ local flavors = {
 	-- retail = "../#FrameXML/Generate-Globals/wow-ui-source",
 	retail = "../#FrameXML/Generate-Globals/wow-ui-source/Interface",
 	classic = "../#FrameXML/Generate-Globals/wow-ui-source/Interface_TBC",
+	-- classic = "../#FrameXML/Generate-Globals/wow-ui-source/Interface_Vanilla",
 }
 local OUT_PATH = "../BlizzardInterfaceResources/Resources"
 
