@@ -1,24 +1,26 @@
 -- first strip out UTF8 BOM from files with powershell
 local lfs = require "lfs"
 
+local CURRENT_FLAVOR = "retail"
+
 -- too lazy to parse FrameXML_TBC.toc or whatever the new file loading structure is
 local flavors = {
-	-- retail = "../#FrameXML/Generate-Globals/wow-ui-source",
-	retail = "../#FrameXML/Generate-Globals/wow-ui-source/Interface",
-	classic = "../#FrameXML/Generate-Globals/wow-ui-source/Interface_TBC",
-	-- classic = "../#FrameXML/Generate-Globals/wow-ui-source/Interface_Vanilla",
+	retail = {"../#FrameXML/Generate-Globals/wow-ui-source/Interface"},
+	tbc = {
+		"../#FrameXML/Generate-Globals/wow-ui-source/Interface",
+		"../#FrameXML/Generate-Globals/wow-ui-source/Interface_TBC",
+	},
+	vanilla = {
+		"../#FrameXML/Generate-Globals/wow-ui-source/Interface",
+		"../#FrameXML/Generate-Globals/wow-ui-source/Interface_Vanilla",
+	},
 }
 local OUT_PATH = "../BlizzardInterfaceResources/Resources"
-
-local folders = {
-	"AddOns",
-	"FrameXML",
-	"SharedXML",
-}
 
 local skipDir = {
 	["."] = true,
 	[".."] = true,
+	["GlueXML"] = true,
 }
 
 local dataTypes = {
@@ -84,10 +86,8 @@ end
 local m = {}
 
 function m:main()
-	for _, flavor in pairs(flavors) do
-		for _, folder in pairs(folders) do
-			m:IterateFiles(flavor.."/"..folder)
-		end
+	for _, folder in pairs(flavors[CURRENT_FLAVOR]) do
+		m:IterateFiles(folder)
 	end
 	for _, info in pairs(dataTypes) do
 		self:WriteDataFile(info)
