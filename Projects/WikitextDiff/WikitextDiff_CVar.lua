@@ -2,7 +2,7 @@
 local Util = require("Util/Util")
 local path = "cache/CVars_mainline.lua"
 local url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/mainline/Resources/CVars.lua"
-Util:CacheFile(path, url)
+Util:DownloadFile(path, url, true)
 local data = require(path:gsub("%.lua", ""))
 
 local m = {}

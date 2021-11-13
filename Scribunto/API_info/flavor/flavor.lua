@@ -1,6 +1,7 @@
 -- https://wowpedia.fandom.com/wiki/Module:API_info/flavor/api
 -- https://wowpedia.fandom.com/wiki/Module:API_info/flavor/event
 local Util = require("Util/Util")
+Util:MakeDir("cache_lua")
 
 local flavor = {
 	mainline = 0x1,
@@ -13,7 +14,7 @@ local m = {}
 local sources = {
 	api = {
 		url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/GlobalAPI.lua",
-		cache = "cache/GlobalAPI_%s.lua",
+		cache = "cache_lua/GlobalAPI_%s.lua",
 		out = "out/lua/API_info.flavor.api.lua",
 		location = function(tbl)
 			return tbl[1]
@@ -24,7 +25,7 @@ local sources = {
 	},
 	event = {
 		url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/Events.lua",
-		cache = "cache/Events_%s.lua",
+		cache = "cache_lua/Events_%s.lua",
 		out = "out/lua/API_info.flavor.event.lua",
 		location = function(tbl)
 			return tbl
@@ -68,7 +69,7 @@ function m:GetData(sourceType)
 	local data = {}
 	for _, branch in pairs(branches) do
 		local path = info.cache:format(branch)
-		Util:CacheFile(path, info.url:format(branch))
+		Util:DownloadFile(path, info.url:format(branch), true)
 		local fileTbl = require(path:gsub("%.lua", ""))
 		local location = info.location(fileTbl)
 		parts[branch] = info.map(location)

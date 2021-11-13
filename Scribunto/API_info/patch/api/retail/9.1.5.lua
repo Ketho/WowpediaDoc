@@ -4738,5 +4738,5 @@ return {
 	["securecallfunction"] = true,
 	["secureexecuterange"] = true,
 	["seterrorhandler"] = true,
-	["strsplittable"] = true,
+	--["strsplittable"] = true,
 }

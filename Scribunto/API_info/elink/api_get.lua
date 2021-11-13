@@ -5,7 +5,7 @@ local Util = require("Util/Util")
 local FrameXML = require("Documenter/FrameXML/FrameXML")
 FrameXML:LoadApiDocs("Documenter/FrameXML")
 
-Util:CacheFile(PATH, URL)
+Util:DownloadFile(PATH, URL, true)
 local globalApi = require(PATH:gsub("%.lua", ""))[1]
 
 local blizzDoc = {}
