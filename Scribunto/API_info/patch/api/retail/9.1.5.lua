@@ -2308,6 +2308,7 @@ return {
 	["C_Transmog.ClearAllPending"] = true,
 	["C_Transmog.ClearPending"] = true,
 	["C_Transmog.Close"] = true,
+	["C_Transmog.ExtractTransmogIDList"] = true,
 	["C_Transmog.GetApplyCost"] = true,
 	["C_Transmog.GetApplyWarnings"] = true,
 	["C_Transmog.GetBaseCategory"] = true,
