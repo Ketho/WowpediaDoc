@@ -1,12 +1,11 @@
-local PATH = "cache/GlobalAPI_mainline.lua"
-local URL = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/mainline/Resources/GlobalAPI.lua"
-
 local Util = require("Util/Util")
 local FrameXML = require("Documenter/FrameXML/FrameXML")
 FrameXML:LoadApiDocs("Documenter/FrameXML")
 
-Util:DownloadFile(PATH, URL, true)
-local globalApi = require(PATH:gsub("%.lua", ""))[1]
+local globalApi = Util:DownloadAndRun(
+	"cache/GlobalAPI_mainline.lua",
+	"https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/mainline/Resources/GlobalAPI.lua"
+)
 
 local blizzDoc = {}
 for _, func in ipairs(APIDocumentation.functions) do
@@ -15,7 +14,7 @@ for _, func in ipairs(APIDocumentation.functions) do
 end
 
 local nonBlizzDocumented = {}
-for _, name in pairs(globalApi) do
+for _, name in pairs(globalApi[1]) do
 	if not blizzDoc[name] then
 		nonBlizzDocumented[name] = true
 	end

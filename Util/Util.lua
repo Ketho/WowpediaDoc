@@ -18,6 +18,10 @@ function Util:WriteFile(path, text)
 	file:close()
 end
 
+--- Downloads a file
+---@param path string Path to write the file to
+---@param url string URL to download from
+---@param isCache boolean If the file should be redownloaded after `INVALIDATION_TIME`
 function Util:DownloadFile(path, url, isCache)
 	if self:ShouldDownload(path, isCache) then
 		local body = https.request(url)
@@ -25,6 +29,19 @@ function Util:DownloadFile(path, url, isCache)
 	end
 end
 
+--- Downloads and runs a Lua file
+---@param path string Path to write the file to
+---@param url string URL to download from
+---@return ... @ The values returned from the Lua file, if applicable
+function Util:DownloadAndRun(path, url)
+	self:DownloadFile(path, url, true)
+	return require(path:gsub("%.lua", ""))
+end
+
+--- Sends a POST request and downloads a file
+---@param path string Path to write the file to
+---@param url string URL to download from
+---@param requestBody string Contents of the request
 function Util:DownloadFilePost(path, url, requestBody)
 	if self:ShouldDownload(path, true) then
 		local body = self:HttpPostRequest(url, requestBody)
@@ -60,6 +77,20 @@ function Util:HttpPostRequest(url, request)
 	return table.concat(response)
 end
 
+function Util:CopyTable(tbl)
+	local t = {}
+	for k, v in pairs(tbl) do
+		t[k] = v
+	end
+	return t
+end
+
+function Util:Wipe(tbl)
+	for k in pairs(tbl) do
+		tbl[k] = nil
+	end
+end
+
 function Util:ToMap(tbl)
 	local t = {}
 	for _, v in pairs(tbl) do
@@ -89,32 +120,17 @@ function Util:SortTableCustom(tbl, func)
 	return t
 end
 
-function Util.Sort_Nocase(a, b)
+function Util.SortNocase(a, b)
 	return a:lower() < b:lower()
 end
 
-function Util:Wipe(tbl)
-	for k in pairs(tbl) do
-		tbl[k] = nil
-	end
-end
-
-function Util:CopyTable(tbl)
+-- https://stackoverflow.com/a/7615129/1297035
+function Util:strsplit(input, sep)
 	local t = {}
-	for k, v in pairs(tbl) do
-		t[k] = v
+	for s in string.gmatch(input, "([^"..sep.."]+)") do
+		table.insert(t, s)
 	end
 	return t
-end
-
-function Util:GetFullName(apiTable)
-	local fullName
-	if apiTable.System.Namespace then
-		fullName = format("%s.%s", apiTable.System.Namespace, apiTable.Name)
-	else
-		fullName = apiTable.Name
-	end
-	return fullName
 end
 
 --- combines table keys
@@ -131,17 +147,18 @@ function Util:CombineTable(...)
 	return t
 end
 
-function Util:GetPatchVersion(v)
-	return v:match("%d+%.%d+%.%d+")
+function Util:GetFullName(apiTable)
+	local fullName
+	if apiTable.System.Namespace then
+		fullName = format("%s.%s", apiTable.System.Namespace, apiTable.Name)
+	else
+		fullName = apiTable.Name
+	end
+	return fullName
 end
 
--- https://stackoverflow.com/a/7615129/1297035
-function Util:strsplit(input, sep)
-	local t = {}
-	for s in string.gmatch(input, "([^"..sep.."]+)") do
-		table.insert(t, s)
-	end
-	return t
+function Util:GetPatchVersion(v)
+	return v:match("%d+%.%d+%.%d+")
 end
 
 return Util

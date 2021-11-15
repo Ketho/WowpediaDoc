@@ -32,12 +32,11 @@ function m:ParseWikitext(PATH)
 end
 
 function m:GetGlobalApi()
-	local api_path = "cache_lua/GlobalAPI.lua"
-	local api_url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/mainline/Resources/GlobalAPI.lua"
-	Util:DownloadFile(api_path, api_url, true)
-	local api = require(api_path:gsub("%.lua", ""))
-	local global_api = Util:ToMap(api[1])
-	return global_api
+	local global_api = Util:DownloadAndRun(
+		"cache_lua/GlobalAPI.lua",
+		"https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/mainline/Resources/GlobalAPI.lua"
+	)
+	return Util:ToMap(global_api[1])
 end
 
 function m:FindDuplicates(wowpedia)

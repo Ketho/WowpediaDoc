@@ -68,9 +68,10 @@ function m:GetData(sourceType)
 	local parts = {}
 	local data = {}
 	for _, branch in pairs(branches) do
-		local path = info.cache:format(branch)
-		Util:DownloadFile(path, info.url:format(branch), true)
-		local fileTbl = require(path:gsub("%.lua", ""))
+		fileTbl = Util:DownloadAndRun(
+			info.cache:format(branch),
+			info.url:format(branch)
+		)
 		local location = info.location(fileTbl)
 		parts[branch] = info.map(location)
 		for name in pairs(parts[branch]) do

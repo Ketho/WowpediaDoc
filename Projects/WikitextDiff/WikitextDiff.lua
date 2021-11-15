@@ -127,8 +127,8 @@ end
 function m:GetWikiTable(info, section)
 	-- need to sort events at least, and cvars
 	if section ~= "WidgetAPI" then
-		table.sort(info.changes["+"], Util.Sort_Nocase)
-		table.sort(info.changes["-"], Util.Sort_Nocase)
+		table.sort(info.changes["+"], Util.SortNocase)
+		table.sort(info.changes["-"], Util.SortNocase)
 	end
 	local t = {}
 	table.insert(t, string.format('==%s==', info.label or section))
