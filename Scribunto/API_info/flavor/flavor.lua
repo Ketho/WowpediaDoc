@@ -68,7 +68,7 @@ function m:GetData(sourceType)
 	local parts = {}
 	local data = {}
 	for _, branch in pairs(branches) do
-		fileTbl = Util:DownloadAndRun(
+		local fileTbl = Util:DownloadAndRun(
 			info.cache:format(branch),
 			info.url:format(branch)
 		)
