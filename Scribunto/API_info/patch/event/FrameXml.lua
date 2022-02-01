@@ -1,14 +1,5 @@
 local lfs = require "lfs"
 local Util = require("Util/Util")
-local event_data = loadfile("out/lua/API_info.patch.event_retail.lua")()
-
-local FRAMEXML = "FrameXML/retail"
-local OUT = "out/lua/API_info.patch.event_retail_framexml.lua"
-
-local skipDir = {
-	["."] = true,
-	[".."] = true,
-}
 
 local non_framexml_added = {
 	UNIT_TARGET = "2.0.1",
@@ -25,7 +16,7 @@ local m = {}
 function m:GetPatches(path)
 	local t = {}
 	for folder in lfs.dir(path) do
-		if not skipDir[folder] then
+		if not Util.RelativePath[folder] then
 			table.insert(t, folder)
 		end
 	end
@@ -40,10 +31,11 @@ function m:GetPatches(path)
 	return t
 end
 
-function m:GetEvents(patches, path)
+function m:GetEvents(flavors, patches, tbl_apidoc)
+	local path = flavors.retail.input
 	local t = {}
-	for _, event in pairs(Util:SortTable(event_data)) do
-		local v = event_data[event]
+	for _, event in pairs(Util:SortTable(tbl_apidoc)) do
+		local v = tbl_apidoc[event]
 		if v[1] == false then
 			for _, patch in pairs(patches) do
 				local found = self:IterateFiles(path.."/"..patch, event)
@@ -63,7 +55,7 @@ function m:IterateFiles(folder, search)
 		local path = folder.."/"..fileName
 		local attr = lfs.attributes(path)
 		if attr.mode == "directory" then
-			if not skipDir[fileName] then
+			if not Util.RelativePath[fileName] then
 				local path2 = self:IterateFiles(path, search)
 				if path2 then
 					return path2
@@ -82,6 +74,7 @@ end
 function m:ParseLua(path, search)
 	local file = io.open(path, "r")
 	local text = file:read("a")
+	file:close()
 	return text:find(string.format('"%s"', search))
 end
 
@@ -89,28 +82,19 @@ function m:CorrectData(tbl)
 	for event, patch in pairs(non_framexml_added) do
 		tbl[event] = patch
 	end
-end
-
-function m:WriteData(tbl)
-	local file = io.open(OUT, "w")
-	file:write("local data = {\n")
-	for _, event in pairs(Util:SortTable(tbl)) do
-		local version = tbl[event]
-		local versionFixed = mising_builds[version] or version
-		file:write(string.format('\t["%s"] = "%s",\n', event, versionFixed))
+	for event, version in pairs(tbl) do
+		tbl[event] = mising_builds[version] or version
 	end
-	file:write("}\n\nreturn data\n")
 end
 
-function m:main()
-	local patches = self:GetPatches(FRAMEXML)
-	local eventData = self:GetEvents(patches, FRAMEXML)
-	self:CorrectData(eventData)
-	self:WriteData(eventData)
+function m:main(flavors, tbl_apidoc)
+	local patches = self:GetPatches(flavors.retail.input)
+	local tbl_framexml = self:GetEvents(flavors, patches, tbl_apidoc)
+	self:CorrectData(tbl_framexml)
+	return tbl_framexml
 end
 
-m:main()
-print("done")
+return m
 
 --[[
 differences when matching with/without quotes

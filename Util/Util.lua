@@ -5,6 +5,11 @@ local ltn12 = require "ltn12"
 local Util = {}
 local INVALIDATION_TIME = 60*60
 
+Util.RelativePath = {
+	["."] = true,
+	[".."] = true,
+}
+
 function Util:MakeDir(path)
 	if not lfs.attributes(path) then
 		lfs.mkdir(path)
