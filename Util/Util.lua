@@ -190,9 +190,9 @@ function Util:IsClassicVersion(v)
 end
 
 local flavorInfo = {
-	ptr = {flavor = "mainline"},
-	mainline = {flavor = "mainline", build = "9.1.5."},
-	classic = {flavor = "classic", build = "2.5.2."},
+	ptr = {flavor = "mainline", header = true},
+	mainline = {flavor = "mainline", header = true, build = "9.1.5."},
+	classic = {flavor = "classic", header = true, build = "2.5.2."},
 }
 
 -- accepts an options table or a game flavor

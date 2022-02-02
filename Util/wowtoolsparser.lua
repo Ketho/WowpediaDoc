@@ -54,15 +54,20 @@ local skip_codes = {
 	[400] = true, -- Bad Request
 }
 
+-- not really proud of this
 -- https://github.com/brunoos/luasec/wiki/LuaSec-1.0.x#httpsrequesturl---body
 local function DownloadFile(url, path)
 	local res, code, _, status = https.request(url)
 	if code == 200 then
-		print("dl", path)
-		local file = io.open(path, "w")
-		file:write(res)
-		file:close()
-		return true
+		if not path then
+			return res
+		else
+			print("dl", path)
+			local file = io.open(path, "w")
+			file:write(res)
+			file:close()
+			return true
+		end
 	elseif code == 400 and url:find("useHotfixes") then -- some csvs are broken by hotfixes
 		url = url:gsub("&useHotfixes=true", "")
 		print("retry", path, status)
@@ -109,7 +114,7 @@ end
 --- Parses the DBC (with header) from CSV
 -- @param name the DBC name
 -- @param options.build (optional) the build version, otherwise uses the most recent build
--- @param options.header (optional, default = true) whether fields will be keyed by header name instead of column index
+-- @param options.header (optional) whether fields will be keyed by header name instead of column index
 -- @param options.locale (optional) the locale, otherwise uses english
 -- @return function the csv iterator
 -- @return string the used build
@@ -128,7 +133,6 @@ function parser:ReadCSV(name, options)
 		if not success then return false end
 	end
 	print("reading "..path)
-	if options.header == nil then options.header = true end
 	local iter = csv.open(path, {header = options.header, buffer_size = 1024*4})
 	return iter, build
 end
@@ -144,9 +148,9 @@ function parser:ReadJSON(name, options)
 	CreateFolder(CACHE_PATH.."/"..name)
 	local build = self:FindBuild(name, options.build)
 	local base = GetBaseName(name, build, options)
-	local path = json_cache:format(base)
+	local path = json_cache:format(name, base)
 	if not lfs.attributes(path) then
-		local initialRequest = DownloadFile(json_url:format(name, build, 0))
+		local initialRequest = DownloadFile(json_url:format(name, build, 0), false)
 		local recordsTotal = cjson.decode(initialRequest).recordsTotal
 		local url = json_url:format(name, build, recordsTotal)
 		if options.locale then
