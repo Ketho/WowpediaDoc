@@ -18,9 +18,9 @@ local function GetFormatValue(s)
 	end
 end
 
-local function WriteTable(tbl, name, path)
+local function WriteTable(tbl, path)
 	local file = io.open(path, "w")
-	WriteLine(file, string.format("local %s = {", name))
+	WriteLine(file, "local t = {")
 	local fs = '%s["%s"] = %s,'
 	local level = 1
 	local sorted = {}
@@ -35,7 +35,7 @@ local function WriteTable(tbl, name, path)
 		WriteLine(file, fs:format(tabs, k, formatValue))
 	end
 	WriteLine(file, "}\n")
-	WriteLine(file, string.format("return %s", name))
+	WriteLine(file, "return t", name)
 	file:close()
 end
 

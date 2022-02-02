@@ -5,7 +5,7 @@ local non_framexml_added = {
 	UNIT_TARGET = "2.0.1",
 }
 
-local mising_builds = {
+local missing_builds = {
 	["1.2.1"] = "1.2.0",
 	["1.10.2"] = "1.10.0",
 }
@@ -77,7 +77,7 @@ function m:CorrectData(tbl)
 		tbl[event] = patch
 	end
 	for event, version in pairs(tbl) do
-		tbl[event] = mising_builds[version] or version
+		tbl[event] = missing_builds[version] or version
 	end
 end
 
