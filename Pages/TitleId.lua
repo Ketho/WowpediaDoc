@@ -2,7 +2,7 @@
 local parser = require("Util/wowtoolsparser")
 local Util = require("Util/Util")
 local dbc_patch = require("Projects/DBC/DBC_patch")
-local output = "out/page/TitleId.txt"
+local OUTPUT = "out/page/TitleId.txt"
 
 -- by mask id
 local wplink = {
@@ -125,25 +125,6 @@ local wplink = {
 	[383] = "Contender (title)",
 }
 
-local function GetPatchData(name)
-	local versions = parser:GetVersions(name)
-	local patches = {}
-	local found = {}
-	for _, v in pairs(versions) do
-		local major = Util:GetPatchVersion(v)
-		if major == "2.5.2" then
-			break
-		elseif not found[major] then
-			found[major] = true
-			table.insert(patches, v)
-		end
-	end
-	table.insert(patches, "2.4.3") -- 2.1.0 to 2.4.2 is broken (status 400)
-	table.sort(patches)
-	local firstSeen = dbc_patch:GetFirstSeen(name, patches)
-	return firstSeen
-end
-
 local function GetNameText(v, maskID)
 	local nameL, nameR = v:match("(.+) %%s (.+)")
 	local namePrefix = v:match("(.+) %%s")
@@ -174,11 +155,13 @@ end
 local header = '{| class="sortable darktable zebra col1-center col2-center"\n! Mask ID !! Title ID !! Name !! Patch\n'
 local fs = '|-\n| %d || [https://www.wowhead.com/title=%d %d] || %s || %s\n'
 
-local function main(BUILD)
-	local dbc, build = parser:ReadCSV("chartitles", {header=true, build=BUILD})
-	print("writing to "..output)
-	local file = io.open(output, "w")
-	local patchData = GetPatchData("chartitles")
+local function main(options)
+	options = Util:GetFlavorOptions(options)
+	options.initial = false
+	local dbc, build = parser:ReadCSV("chartitles", options)
+	local patchData = dbc_patch:GetPatchData("chartitles", options)
+	print("writing to "..OUTPUT)
+	local file = io.open(OUTPUT, "w")
 
 	file:write(header)
 	for l in dbc:lines() do
@@ -201,5 +184,5 @@ local function main(BUILD)
 	file:close()
 end
 
-main()
+main() -- ["ptr", "mainline", "classic"]
 print("done")

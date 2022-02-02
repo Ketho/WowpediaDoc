@@ -2,7 +2,7 @@
 local Util = require "Util/Util"
 local parser = require "Util/wowtoolsparser"
 local dbc_patch = require("Projects/DBC/DBC_patch")
-local OUT_PATH = "out/page/GarrFollowerID.txt"
+local OUTPUT = "out/page/GarrFollowerID.txt"
 
 local Enum_GarrisonFollowerType = {
 	[1] = "{{Wod-inline}}", -- FollowerType_6_0
@@ -24,24 +24,6 @@ local wplink = {
 	[503] = "Master's Call (carrier)",
 }
 
-local function GetPatchData(name)
-	local versions = parser:GetVersions(name)
-	local patches = {}
-	local found = {}
-	for _, v in pairs(versions) do
-		local major = Util:GetPatchVersion(v)
-		if major == "6.0.1" then
-			break
-		elseif not found[major] then
-			found[major] = true
-			table.insert(patches, v)
-		end
-	end
-	table.sort(patches)
-	local firstSeen = dbc_patch:GetFirstSeen(name, patches)
-	return firstSeen
-end
-
 local function FormatLink(ID, s)
 	if wplink[ID] then
 		return string.format("[[%s|%s]]", wplink[ID], s)
@@ -51,10 +33,10 @@ local function FormatLink(ID, s)
 end
 
 local function main(options)
-	options = options or {}
-	options.header = true
+	options = Util:GetFlavorOptions(options)
+	options.initial = "^7.3.0"
 	local faction = parser:ReadCSV("garrfollower", options)
-	local patchData = GetPatchData("garrfollower")
+	local patchData = dbc_patch:GetPatchData("garrfollower", options)
 
 	local creature_dbc = parser:ReadCSV("creature", options)
 	local creatures = {}
@@ -66,8 +48,8 @@ local function main(options)
 		end
 	end
 
-	print("writing "..OUT_PATH)
-	local file = io.open(OUT_PATH, "w")
+	print("writing "..OUTPUT)
+	local file = io.open(OUTPUT, "w")
 	file:write('{| class="sortable darktable zebra col1-center col2-center"\n')
 	file:write("! ID !! !! {{Alliance}} Alliance !! {{Horde}} Horde !! Quality !! Patch")
 	local fs_same	   = '\n|-\n| %d || %s || colspan="2" | %s || %s || %s'
@@ -99,7 +81,7 @@ local function main(options)
 	end
 	file:write("\n|}\n")
 	file:close()
-	print("finished")
 end
 
-main()
+main() -- ["ptr", "mainline", "classic"]
+print("done")

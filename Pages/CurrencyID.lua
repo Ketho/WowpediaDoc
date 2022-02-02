@@ -2,7 +2,7 @@
 local parser = require("Util/wowtoolsparser")
 local Util = require("Util/Util")
 local dbc_patch = require("Projects/DBC/DBC_patch")
-local output = "out/page/CurrencyID.txt"
+local OUTPUT = "out/page/CurrencyID.txt"
 
 local wplink = {
 	[1101] = "Oil (currency)",
@@ -70,29 +70,6 @@ local ignoredStrings = {
 	"Sanctum Anima Weaver%-",
 }
 
-local broken = { -- status 400
-	["5.4.7"] = true,
-	["5.4.8"] = true,
-}
-
-local function GetPatchData(name)
-	local versions = parser:GetVersions(name)
-	local patches = {}
-	local found = {}
-	for _, v in pairs(versions) do
-		local major = Util:GetPatchVersion(v)
-		if major == "2.5.2" then
-			break
-		elseif not found[major] and not broken[major] then
-			found[major] = true
-			table.insert(patches, v)
-		end
-	end
-	table.sort(patches)
-	local firstSeen = dbc_patch:GetFirstSeen(name, patches)
-	return firstSeen
-end
-
 local function IsValidLink(id, name, categoryID)
 	if nolink[id] then
 		return false
@@ -110,12 +87,13 @@ end
 local header = '{| class="sortable darktable zebra col1-center"\n! ID !! Name || Category || Patch\n'
 local fs = '|-\n| %d || %s || %s || %s\n'
 
-local function main(BUILD)
-	local dbc_currencytypes = parser:ReadCSV("currencytypes", {header=true, build=BUILD})
-	local dbc_currencycategory = parser:ReadCSV("currencycategory", {header=true, build=BUILD})
-	print("writing to "..output)
-	local file = io.open(output, "w")
-	local patchData = GetPatchData("currencytypes")
+local function main(options)
+	options = Util:GetFlavorOptions(options)
+	local dbc_currencytypes = parser:ReadCSV("currencytypes", options)
+	local dbc_currencycategory = parser:ReadCSV("currencycategory", options)
+	local patchData = dbc_patch:GetPatchData("currencytypes", options)
+	print("writing to "..OUTPUT)
+	local file = io.open(OUTPUT, "w")
 
 	local categories = {}
 	for l in dbc_currencycategory:lines() do
@@ -145,5 +123,5 @@ local function main(BUILD)
 	file:close()
 end
 
-main()
+main() -- ["ptr", "mainline", "classic"]
 print("done")

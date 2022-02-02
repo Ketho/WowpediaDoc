@@ -2,7 +2,7 @@
 local parser = require("Util/wowtoolsparser")
 local Util = require("Util/Util")
 local dbc_patch = require("Projects/DBC/DBC_patch")
-local output = "out/page/DungeonEncounterID.txt"
+local OUTPUT = "out/page/DungeonEncounterID.txt"
 
 local encounterLink = {
 	[526] = "Keristrasza (tactics)",
@@ -89,24 +89,6 @@ local noMap = {
 	[2360] = true, -- Sinfall Scenario
 }
 
-local function GetPatchData(name)
-	local versions = parser:GetVersions(name)
-	local patches = {}
-	local found = {}
-	for _, v in pairs(versions) do
-		local major = Util:GetPatchVersion(v)
-		if major == "2.5.2" then
-			break
-		elseif not found[major] then
-			found[major] = true
-			table.insert(patches, v)
-		end
-	end
-	table.sort(patches)
-	local firstSeen = dbc_patch:GetFirstSeen(name, patches)
-	return firstSeen
-end
-
 local function IsValidEncounterLink(id, name)
 	if noEncounter[id] then
 		return false
@@ -128,12 +110,13 @@ end
 local header = '{| class="sortable darktable zebra col1-center"\n! ID !! Name !! Map || Patch\n'
 local fs = '|-\n| %d || %s || %s || %s\n'
 
-local function main(BUILD)
-	local dbc_dungeonencounter = parser:ReadCSV("dungeonencounter", {header=true, build=BUILD})
-	local dbc_map = parser:ReadCSV("map", {header=true, build=BUILD})
-	print("writing to "..output)
-	local file = io.open(output, "w")
-	local patchData = GetPatchData("dungeonencounter")
+local function main(options)
+	options = Util:GetFlavorOptions(options)
+	local dbc_dungeonencounter = parser:ReadCSV("dungeonencounter", options)
+	local dbc_map = parser:ReadCSV("map", options)
+	local patchData = dbc_patch:GetPatchData("dungeonencounter", options)
+	print("writing to "..OUTPUT)
+	local file = io.open(OUTPUT, "w")
 
 	local mapNames = {}
 	for l in dbc_map:lines() do
@@ -175,5 +158,5 @@ local function main(BUILD)
 	file:close()
 end
 
-main()
+main() -- ["ptr", "mainline", "classic"]
 print("done")

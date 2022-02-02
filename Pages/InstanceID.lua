@@ -2,7 +2,7 @@
 local parser = require("Util/wowtoolsparser")
 local Util = require("Util/Util")
 local dbc_patch = require("Projects/DBC/DBC_patch")
-local output = "out/page/InstanceID.txt"
+local OUTPUT = "out/page/InstanceID.txt"
 
 local InstanceTypes = {
 	--[0] = "Not Instanced",
@@ -123,29 +123,14 @@ local function IsValidLink(s)
 	return true
 end
 
-local function GetPatchData(name)
-	local versions = parser:GetVersions(name)
-	local patches = {}
-	local found = {}
-	for _, v in pairs(versions) do
-		local major = Util:GetPatchVersion(v)
-		if major == "3.3.3" then -- status 400
-			break
-		elseif not found[major] then
-			found[major] = true
-			table.insert(patches, v)
-		end
-	end
-	table.sort(patches)
-	local firstSeen = dbc_patch:GetFirstSeen(name, patches)
-	return firstSeen
-end
+local function main(options)
+	options = Util:GetFlavorOptions(options)
+	options.initial = false
+	local map = parser:ReadCSV("map", options)
+	local patchData = dbc_patch:GetPatchData("map", options)
 
-local function main(BUILD)
-	local map = parser:ReadCSV("map", {header=true, build=BUILD})
-	local patchData = GetPatchData("map")
-
-	local file = io.open(output, "w")
+	print("writing to "..OUTPUT)
+	local file = io.open(OUTPUT, "w")
 	file:write('{| class="sortable darktable zebra col1-center"\n! ID !! !! !! Directory !! Map Name !! Type !! Patch\n')
 	local fs = '|-\n| %s || %s || %s || %s || %s || %s || %s\n'
 	for l in map:lines() do
@@ -177,5 +162,5 @@ local function main(BUILD)
 	file:close()
 end
 
-main()
+main() -- ["ptr", "mainline", "classic"]
 print("done")

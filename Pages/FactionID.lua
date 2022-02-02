@@ -2,34 +2,7 @@
 local Util = require "Util/Util"
 local parser = require "Util/wowtoolsparser"
 local dbc_patch = require("Projects/DBC/DBC_patch")
-local OUT_PATH = "out/page/FactionID.txt"
-
-local broken_versions = {
-	["3.3.0"] = true, -- Exception has been thrown by the target of an invocation.
-	["3.3.2"] = true,
-	["3.3.3"] = true,
-}
-
-local function GetPatchData(name)
-	local versions = parser:GetVersions(name)
-	local patches = {}
-	local found = {}
-	for _, v in pairs(versions) do
-		local major = Util:GetPatchVersion(v)
-		if not broken_versions[major] then
-			if major == "2.5.2" then
-				break
-			elseif not found[major] then
-				found[major] = true
-				table.insert(patches, v)
-			end
-		end
-	end
-	table.insert(patches, "2.4.3") -- 2.1.0 to 2.4.2 is broken (status 400)
-	table.sort(patches)
-	local firstSeen = dbc_patch:GetFirstSeen(name, patches)
-	return firstSeen
-end
+local OUTPUT = "out/page/FactionID.txt"
 
 local function isValidLink(s)
 	if s:find("%(") then -- Paragon, Season
@@ -82,9 +55,9 @@ local factionFixes = {
 
 -- flag1 appears to be used for cities
 -- not sure if I'm missing some easy bitwise comparing
-local function GetFactionIcon(isClassic, id, flag0, flag1)
+local function GetFactionIcon(options, id, flag0, flag1)
 	local v1, v2
-	if isClassic then
+	if options.flavor == "classic" then
 		v1 = 690
 		v2 = 1101
 	else
@@ -101,15 +74,12 @@ local function GetFactionIcon(isClassic, id, flag0, flag1)
 end
 
 local function main(options)
-	options = options or {}
-	options.header = true
-	-- options.build = "2.5.2"
-	-- options.isClassic = true
+	options = Util:GetFlavorOptions(options)
+	options.initial = false
 	local faction = parser:ReadCSV("faction", options)
-	local patchData = GetPatchData("faction")
+	local patchData = dbc_patch:GetPatchData("faction", options)
 
-	print("writing "..OUT_PATH)
-	local file = io.open(OUT_PATH, "w")
+	local file = io.open(OUTPUT, "w")
 	local faction_parents = {}
 	local faction_names = {}
 	for l in faction:lines() do
@@ -131,6 +101,7 @@ local function main(options)
 
 	-- lazy way to read it twice
 	faction = parser:ReadCSV("faction", options)
+	print("writing to "..OUTPUT)
 	for l in faction:lines() do
 		local ID = tonumber(l.ID)
 		if ID then
@@ -150,7 +121,7 @@ local function main(options)
 					if removedFaction[ID] then
 						factionIcon = "❌"
 					else
-						factionIcon = GetFactionIcon(options.isClassic, ID, repracemask0, repracemask1) or ""
+						factionIcon = GetFactionIcon(options, ID, repracemask0, repracemask1) or ""
 					end
 					local friendText = friendshipID > 0 and friendshipIcon or ""
 					local nameText = name
@@ -170,10 +141,10 @@ local function main(options)
 	end
 	file:write("\n|}\n")
 	file:close()
-	print("finished")
 end
 
-main()
+main() -- ["ptr", "mainline", "classic"]
+print("done")
 
 --[[
 -- top level parents
