@@ -7,7 +7,7 @@ Util:MakeDir("KethoWowpedia/patch")
 local m = {}
 
 function m:GetPatchData(name, options)
-	Util:MakeDir(WTP_CACHE_PATH..name)
+	Util:MakeDir(parser.CACHE_PATH..name)
 	local versions = parser:GetVersions(name)
 	local patches, found = {}, {}
 	for _, v in pairs(versions) do
