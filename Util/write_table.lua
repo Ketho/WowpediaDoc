@@ -35,7 +35,7 @@ local function WriteTable(tbl, path)
 		WriteLine(file, fs:format(tabs, k, formatValue))
 	end
 	WriteLine(file, "}\n")
-	WriteLine(file, "return t", name)
+	WriteLine(file, "return t")
 	file:close()
 end
 
