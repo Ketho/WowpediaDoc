@@ -1,4 +1,4 @@
--- 9.1.5.40944
+-- 9.1.5.42010
 KethoWowpedia.dbc.creaturedisplayinfo = {
 	[4] = 8231,
 	[13] = 13,
@@ -86846,4 +86846,5 @@ KethoWowpedia.dbc.creaturedisplayinfo = {
 	[104785] = 11903,
 	[104864] = 13134,
 	[104895] = 8373,
+	[105220] = 1611,
 }

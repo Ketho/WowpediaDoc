@@ -1,4 +1,4 @@
--- 9.1.5.40944
+-- 9.1.5.42010
 KethoWowpedia.dbc.mount = {
 	[6] = 0, -- Brown Horse
 	[7] = 64, -- Gray Wolf
@@ -698,8 +698,6 @@ KethoWowpedia.dbc.mount = {
 	[1051] = 0, -- The Dreadwake
 	[1053] = 0, -- Underrot Crawg
 	[1054] = 68, -- Teldrassil Hippogryph
-	[1567] = 264, -- Lightforged Ruinstrider
-	[1568] = 68, -- Lightforged Ruinstrider
 	[1057] = 64, -- Nazjatar Blood Serpent
 	[1058] = 4, -- Cobalt Pterrordax
 	[1059] = 4, -- Captured Swampstalker
@@ -956,4 +954,6 @@ KethoWowpedia.dbc.mount = {
 	[1521] = 0, -- Val'sharah Hippogryph
 	[1532] = 0, -- Soaring Spelltome
 	[1562] = 64, -- NAK's Test Mount [DNT]
+	[1567] = 264, -- Lightforged Ruinstrider
+	[1568] = 68, -- Lightforged Ruinstrider
 }
