@@ -1,9 +1,9 @@
 local lfs = require "lfs"
-local csv = require "csv"
-local cURL = require "cURL"
+local https = require "ssl.https"
 local cjson = require "cjson"
 local cjsonutil = require "cjson.util"
-local parser = {}
+
+local csv = require("Util/csv/csv")
 
 local listfile_url = "https://wow.tools/casc/listfile/download/csv/unverified"
 --local databases_url = "https://api.wow.tools/databases"
@@ -11,18 +11,15 @@ local versions_url = "https://api.wow.tools/databases/%s/versions"
 local csv_url = "https://wow.tools/api/export/?name=%s&build=%s&useHotfixes=true"
 local json_url = "https://wow.tools/api/data/%s/?build=%s&useHotfixes=true&length=%d" -- saves them a slice call
 
-local USER_AGENT = "your user agent here"
 local CACHE_PATH = "cache"
 local INVALIDATION_TIME = 60*60
 
 local listfile_cache = CACHE_PATH.."/listfile.csv"
-local versions_cache = CACHE_PATH.."/%s_versions.json"
-local csv_cache = CACHE_PATH.."/%s.csv"
-local json_cache = CACHE_PATH.."/%s.json"
+local versions_cache = CACHE_PATH.."/%s/%s_versions.json"
+local csv_cache = CACHE_PATH.."/%s/%s.csv"
+local json_cache = CACHE_PATH.."/%s/%s.json"
 
-if not lfs.attributes(CACHE_PATH) then
-	lfs.mkdir(CACHE_PATH)
-end
+local parser = {}
 
 local function GetBaseName(name, build, options)
 	local base = name
@@ -32,6 +29,13 @@ local function GetBaseName(name, build, options)
 	end
 	return base
 end
+
+local function CreateFolder(path)
+	if not lfs.attributes(path) then
+		lfs.mkdir(path)
+	end
+end
+CreateFolder(CACHE_PATH)
 
 local function ShouldDownload(path)
 	local attr = lfs.attributes(path)
@@ -45,33 +49,39 @@ local function ShouldDownload(path)
 	end
 end
 
---- Sends an HTTP GET request
--- @param url the URL of the request
--- @param file (optional) file to be written
--- @return string if file is given, the HTTP response
-local function HTTP_GET(url, file)
-	local data, idx = {}, 0
-	cURL.easy{
-		url = url,
-		writefunction = file or function(str)
-			idx = idx + 1
-			data[idx] = str
-		end,
-		ssl_verifypeer = false,
-		useragent = USER_AGENT,
-	}:perform():close()
-	return table.concat(data)
+local skip_codes = {
+	[204] = true, -- No Content
+	[400] = true, -- Bad Request
+}
+
+-- https://github.com/brunoos/luasec/wiki/LuaSec-1.0.x#httpsrequesturl---body
+local function DownloadFile(url, path)
+	local res, code, _, status = https.request(url)
+	if code == 200 then
+		print("dl", path)
+		local file = io.open(path, "w")
+		file:write(res)
+		file:close()
+		return true
+	elseif code == 400 and url:find("useHotfixes") then -- some csvs are broken by hotfixes
+		url = url:gsub("&useHotfixes=true", "")
+		print("retry", path, status)
+		DownloadFile(url, path)
+	elseif skip_codes[code] then
+		print("skip", path, status)
+		return false
+	else
+		error(string.format("%s, %s, %s", path, code, status))
+	end
 end
 
 --- Gets all build versions for a database
 -- @param name the DBC name
 -- @return table available build versions
 function parser:GetVersions(name)
-	local path = versions_cache:format(name)
+	local path = versions_cache:format(name, name)
 	if ShouldDownload(path) then
-		local file = io.open(path, "w")
-		HTTP_GET(versions_url:format(name), file)
-		file:close()
+		DownloadFile(versions_url:format(name), path)
 	end
 	local json = cjsonutil.file_load(path)
 	local tbl = cjson.decode(json)
@@ -99,26 +109,27 @@ end
 --- Parses the DBC (with header) from CSV
 -- @param name the DBC name
 -- @param options.build (optional) the build version, otherwise uses the most recent build
--- @param options.header (optional) if true, fields will be keyed by header name instead of column index
+-- @param options.header (optional, default = true) whether fields will be keyed by header name instead of column index
 -- @param options.locale (optional) the locale, otherwise uses english
 -- @return function the csv iterator
 -- @return string the used build
 function parser:ReadCSV(name, options)
 	options = options or {}
+	CreateFolder(CACHE_PATH.."/"..name)
 	local build = self:FindBuild(name, options.build)
 	local base = GetBaseName(name, build, options)
-	local path = csv_cache:format(base)
+	local path = csv_cache:format(name, base)
 	if not lfs.attributes(path) then
-		local file = io.open(path, "w")
 		local url = csv_url:format(name, build)
 		if options.locale then
 			url = url.."&locale="..options.locale
 		end
-		HTTP_GET(url, file)
-		file:close()
+		local success = DownloadFile(url, path)
+		if not success then return false end
 	end
 	print("reading "..path)
-	local iter = csv.open(path, {header = options.header})
+	if options.header == nil then options.header = true end
+	local iter = csv.open(path, {header = options.header, buffer_size = 1024*4})
 	return iter, build
 end
 
@@ -130,19 +141,19 @@ end
 -- @return string the used build
 function parser:ReadJSON(name, options)
 	options = options or {}
+	CreateFolder(CACHE_PATH.."/"..name)
 	local build = self:FindBuild(name, options.build)
 	local base = GetBaseName(name, build, options)
 	local path = json_cache:format(base)
 	if not lfs.attributes(path) then
-		local file = io.open(path, "w")
-		local initialRequest = HTTP_GET(json_url:format(name, build, 0))
+		local initialRequest = DownloadFile(json_url:format(name, build, 0))
 		local recordsTotal = cjson.decode(initialRequest).recordsTotal
 		local url = json_url:format(name, build, recordsTotal)
 		if options.locale then
 			url = url.."&locale="..options.locale
 		end
-		HTTP_GET(url, file)
-		file:close()
+		local success = DownloadFile(url, path)
+		if not success then return false end
 	end
 	print("reading "..path)
 	local json = cjsonutil.file_load(path)
@@ -154,9 +165,7 @@ end
 function parser:ReadListfile()
 	if ShouldDownload(listfile_cache) then
 		print("downloading listfile...")
-		local file = io.open(listfile_cache, "w")
-		HTTP_GET(listfile_url, file)
-		file:close()
+		DownloadFile(listfile_url, listfile_cache)
 	end
 	local iter = csv.open(listfile_cache, {separator = ";"})
 	local filedata = {}

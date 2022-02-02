@@ -129,6 +129,14 @@ function Util.SortNocase(a, b)
 	return a:lower() < b:lower()
 end
 
+function Util.SortBuild(a, b)
+	local build_a = tonumber(a:match("(%d+)$"))
+	local build_b = tonumber(b:match("(%d+)$"))
+	if build_a ~= build_b then
+		return build_a < build_b
+	end
+end
+
 -- https://stackoverflow.com/a/7615129/1297035
 function Util:strsplit(input, sep)
 	local t = {}
@@ -164,6 +172,39 @@ end
 
 function Util:GetPatchVersion(v)
 	return v:match("%d+%.%d+%.%d+")
+end
+
+local classicVersions = {
+	"^1.13.",
+	"^1.14.",
+	"^2.5.",
+}
+
+function Util:IsClassicVersion(v)
+	for _, pattern in pairs(classicVersions) do
+		if v:find(pattern) then
+			return true
+		end
+	end
+	return false
+end
+
+local flavorInfo = {
+	ptr = {flavor = "mainline"},
+	mainline = {flavor = "mainline", build = "9.1.5."},
+	classic = {flavor = "classic", build = "2.5.2."},
+}
+
+-- accepts an options table or a game flavor
+function Util:GetFlavorOptions(info)
+	local infoType = type(info)
+	if infoType == "table" then
+		return info
+	elseif infoType == "string" then
+		return flavorInfo[info]
+	elseif not info then
+		return flavorInfo.ptr
+	end
 end
 
 return Util
