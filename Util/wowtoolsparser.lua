@@ -2,22 +2,21 @@ local lfs = require "lfs"
 local https = require "ssl.https"
 local cjson = require "cjson"
 local cjsonutil = require "cjson.util"
-
 local csv = require("Util/csv/csv")
+
+WTP_CACHE_PATH = "cache_csv"
+local INVALIDATION_TIME = 60*60
+
+local listfile_cache = WTP_CACHE_PATH.."/listfile.csv"
+local versions_cache = WTP_CACHE_PATH.."/%s/%s_versions.json"
+local csv_cache = WTP_CACHE_PATH.."/%s/%s.csv"
+local json_cache = WTP_CACHE_PATH.."/%s/%s.json"
 
 local listfile_url = "https://wow.tools/casc/listfile/download/csv/unverified"
 --local databases_url = "https://api.wow.tools/databases"
 local versions_url = "https://api.wow.tools/databases/%s/versions"
 local csv_url = "https://wow.tools/api/export/?name=%s&build=%s&useHotfixes=true"
 local json_url = "https://wow.tools/api/data/%s/?build=%s&useHotfixes=true&length=%d" -- saves them a slice call
-
-local CACHE_PATH = "cache"
-local INVALIDATION_TIME = 60*60
-
-local listfile_cache = CACHE_PATH.."/listfile.csv"
-local versions_cache = CACHE_PATH.."/%s/%s_versions.json"
-local csv_cache = CACHE_PATH.."/%s/%s.csv"
-local json_cache = CACHE_PATH.."/%s/%s.json"
 
 local parser = {}
 
@@ -35,7 +34,7 @@ local function CreateFolder(path)
 		lfs.mkdir(path)
 	end
 end
-CreateFolder(CACHE_PATH)
+CreateFolder(WTP_CACHE_PATH)
 
 local function ShouldDownload(path)
 	local attr = lfs.attributes(path)
@@ -120,7 +119,7 @@ end
 -- @return string the used build
 function parser:ReadCSV(name, options)
 	options = options or {}
-	CreateFolder(CACHE_PATH.."/"..name)
+	CreateFolder(WTP_CACHE_PATH.."/"..name)
 	local build = self:FindBuild(name, options.build)
 	local base = GetBaseName(name, build, options)
 	local path = csv_cache:format(name, base)
@@ -145,7 +144,7 @@ end
 -- @return string the used build
 function parser:ReadJSON(name, options)
 	options = options or {}
-	CreateFolder(CACHE_PATH.."/"..name)
+	CreateFolder(WTP_CACHE_PATH.."/"..name)
 	local build = self:FindBuild(name, options.build)
 	local base = GetBaseName(name, build, options)
 	local path = json_cache:format(name, base)

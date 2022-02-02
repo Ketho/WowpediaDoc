@@ -1,7 +1,9 @@
--- export to lua tables for in-game use
-local parser = require("Util/wowtoolsparser")
+-- exports to lua tables for use in an addon
 local Util = require("Util/Util")
-local output = "KethoWowpedia/dbc/%s.lua"
+local parser = require("Util/wowtoolsparser")
+local dbc_patch = require("Projects/DBC/DBC_patch")
+local OUTPUT_DBC = "KethoWowpedia/dbc/%s.lua"
+local OUTPUT_PATCH = "KethoWowpedia/patch/%s.lua"
 
 Util:MakeDir("KethoWowpedia/dbc")
 
@@ -65,7 +67,7 @@ local handlers = {
 			for l in csv:lines() do
 				local ID = tonumber(l.ID)
 				if ID then
-					t[tonumber(l.ItemID)] = {ID, tonumber(l.Flags), tonumber(l.SourceTypeEnum)}
+					t[ID] = {tonumber(l.ItemID), tonumber(l.Flags), tonumber(l.SourceTypeEnum)}
 				end
 			end
 			return t
@@ -73,24 +75,55 @@ local handlers = {
 	},
 }
 
-local function ParseDBC(name, BUILD)
-	local csv, build = parser:ReadCSV(name, {header=true, build = BUILD})
+local function ParseDBC(name, options)
+	local csv, build = parser:ReadCSV(name, options)
 	return handlers[name].func(csv), build
 end
 
-local function SerializeTable(name, BUILD)
-	local dbc, build = ParseDBC(name, BUILD)
-	local file = io.open(output:format(name), "w")
+local function WriteDbcTable(name, path, options)
+	local dbc, build = ParseDBC(name, options)
+	local file = io.open(path, "w")
 	file:write("-- "..build.."\n")
 	file:write(string.format("KethoWowpedia.dbc.%s = {\n", name))
 	local fs = handlers[name].fs
-	for id, v in pairs(dbc) do
+	for _, id in pairs(Util:SortTable(dbc)) do
+		local v = dbc[id]
 		file:write(fs:format(id, table.unpack(v)))
 	end
 	file:write("}\n")
 	file:close()
 end
 
-for name in pairs(handlers) do
-	SerializeTable(name)
+local initialBuilds = {
+	mount = "^7.3.0", -- 6.0.1 broken
+	battlepetspecies = "^7.3.0", -- 6.0.1 broken
+}
+
+local function WritePatchTable(name, path, options)
+	options.initial = initialBuilds[name]
+	local data = dbc_patch:GetPatchData(name, options)
+	local file = io.open(path, "w")
+	file:write(string.format("KethoWowpedia.patch.%s = {\n", name))
+	local fs = '\t[%d] = "%s",\n'
+	for _, id in pairs(Util:SortTable(data)) do
+		local version = data[id]:match("^%d+%.%d+%.%d+")
+		file:write(fs:format(id, version))
+	end
+	file:write("}\n")
+	file:close()
 end
+
+local function main(options)
+	options = Util:GetFlavorOptions(options)
+	print("-- writing dbc data")
+	for name in pairs(handlers) do
+		WriteDbcTable(name, OUTPUT_DBC:format(name), options)
+	end
+	print("-- writing patch data")
+	for _, name in pairs({"mount", "battlepetspecies", "toy", "uimap"}) do
+		WritePatchTable(name, OUTPUT_PATCH:format(name), options)
+	end
+end
+
+main("mainline") -- ["ptr", "mainline", "classic"]
+print("done")

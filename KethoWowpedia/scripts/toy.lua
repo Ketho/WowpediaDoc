@@ -34,11 +34,15 @@ function KethoWowpedia:GetToyIDs(num)
 
 	local sources, expansions, uncategorized = self:GetToySources()
 	local lines = {}
+	local item_pk = {} -- prefer to have it sorted by toyID in lua table
+	for k, v in pairs(self.dbc.toy) do
+		item_pk[v[1]] = {k, v[2], v[3]}
+	end
 	for id = 1, num do
 		local itemID, name = C_ToyBox.GetToyInfo(id)
 		local invalid = (id>=72220 and id<=72233) -- 14 IDs not valid
 		if itemID and not invalid then
-			local toyID, flags, sourceType = unpack(self.dbc.toy[itemID])
+			local toyID, flags, sourceType = unpack(item_pk[itemID])
 			local linkName = noToyData[itemID] or name
 			local source = self.data.SourceTypeEnum[sourceType+1]
 			local hidden = bit.band(flags, 0x2) > 0

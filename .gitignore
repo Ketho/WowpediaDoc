@@ -6,7 +6,7 @@
 *.csv
 *.diff
 /out
-/cache
+/cache_csv
 /cache_lua
 /FrameXML
 
