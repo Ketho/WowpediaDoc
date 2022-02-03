@@ -45,7 +45,7 @@ function KethoWowpedia:GetMountIDs(num)
 			local factionIcon = faction == 0 and "{{Horde}}" or faction == 1 and "{{Alliance}}" or ""
 			local linkName = self.util:GetLinkName(wpLink[id], wpName[id] or name, 40)
 			-- EnumeratedString 105: 6: Exclude from Journal if not learned
-			local flags = self.dbc.mount[id]
+			local flags = self.dbc.mount[id] or 0 -- apparently some mounts can get hotfixed out (1531 Wen Lo)
 			local sourceText
 			if mTypeID == 242 then
 				sourceText = "❌ Spectral"
