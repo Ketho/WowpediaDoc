@@ -75,13 +75,13 @@ local handlers = {
 	},
 }
 
-local function ParseDBC(name, options)
+local function ParseDbc(name, options)
 	local csv, build = parser:ReadCSV(name, options)
 	return handlers[name].func(csv), build
 end
 
 local function WriteDbcTable(name, path, options)
-	local dbc, build = ParseDBC(name, options)
+	local dbc, build = ParseDbc(name, options)
 	local file = io.open(path, "w")
 	file:write("-- "..build.."\n")
 	file:write(string.format("KethoWowpedia.dbc.%s = {\n", name))
@@ -125,5 +125,5 @@ local function main(options)
 	end
 end
 
-main("mainline") -- ["ptr", "mainline", "classic"]
+main() -- ["ptr", "mainline", "classic"]
 print("done")
