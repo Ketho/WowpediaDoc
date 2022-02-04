@@ -1,6 +1,5 @@
-#pylint: disable = import-error
-import pywikibot
 import os
+import pywikibot
 
 site = pywikibot.Site('en', 'wowpedia')
 PATH = r"D:\Dev\Repo\wow-dev\WowpediaApiDoc\out"

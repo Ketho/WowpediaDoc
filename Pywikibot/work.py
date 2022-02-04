@@ -3,12 +3,11 @@ import xml.etree.ElementTree as ET
 import pywikibot
 
 def find_xml():
-	folder = "wowpedia/api/20220202 edit redirect"
+	folder = "Pywikibot/export"
 	for name in os.listdir(folder):
 		if name.find(".xml") > -1:
 			tree = ET.parse(folder+"/"+name)
-			root = tree.getroot()
-	return root
+			return tree.getroot()
 
 def read_xml(root):
 	xmlns = "{http://www.mediawiki.org/xml/export-0.10/}"
@@ -17,7 +16,7 @@ def read_xml(root):
 		name = page[0].text
 		for revision in page.findall(xmlns+"revision"):
 			for text in revision.findall(xmlns+"text"):
-				if "redirect=no" in text.text:
+				if "SendAddonMessage" in text.text:
 					l.append(name)
 	return l
 
@@ -28,11 +27,13 @@ def main():
 	site = pywikibot.Site('en', 'wowpedia')
 	for name in names:
 		page = pywikibot.Page(site, name)
-		res = re.findall("(\[.+redirect=no (.+)\(\)\])", page.text)
-		if res:
-			new = str.format("{{{{api|{0}}}}}()", res[0][1])
-			page.text = page.text.replace(res[0][0], new)
-			page.save("Clean up noredirect")
+		print(page.title)
+		# res = re.findall("(\[.+redirect=no (.+)\(\)\])", page.text)
+		# if res:
+			# new = str.format("{{{{api|{0}}}}}()", res[0][1])
+			# page.text = page.text.replace(res[0][0], new)
+			# page.save("Clean up noredirect")
+	print("done")
 
-main()
-print("done")
+if __name__ == '__main__':
+	main()

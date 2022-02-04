@@ -1,6 +1,5 @@
-#pylint: disable = import-error
-import pywikibot
 from importlib import util
+import pywikibot
 
 site = pywikibot.Site('en', 'wowpedia')
 
@@ -10,7 +9,7 @@ def load_file_as_module(name, location):
 	spec.loader.exec_module(module)
 	return module
 
-mod = load_file_as_module('mymodule', 'wowpedia/categories/namespaces.py')
+mod = load_file_as_module('mymodule', 'wowpedia/category/namespace.py')
 
 fs = """[[Category:API namespaces|{!s}]]
 ===External links===
