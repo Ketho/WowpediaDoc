@@ -94,13 +94,7 @@ local function WriteDbcTable(name, path, options)
 	file:close()
 end
 
-local initialBuilds = {
-	mount = "^7.3.0", -- 6.0.1 broken
-	battlepetspecies = "^7.3.0", -- 6.0.1 broken
-}
-
 local function WritePatchTable(name, path, options)
-	options.initial = initialBuilds[name]
 	local data = dbc_patch:GetPatchData(name, options)
 	local file = io.open(path, "w")
 	file:write(string.format("KethoWowpedia.patch.%s = {\n", name))
