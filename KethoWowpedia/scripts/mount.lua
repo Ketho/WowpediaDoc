@@ -33,6 +33,7 @@ function KethoWowpedia:GetMountIDs(num)
 	eb:Show()
 	eb:InsertLine('{| class="sortable darktable zebra col1-center col2-center col3-center"\n! ID !! !! !! Name !! Source !! [[CreatureDisplayID|Display ID]] !! Spell ID !! Patch')
 	local fs = "|-\n| %d |||| %s |||| %s |||| %s |||| %s |||| %s |||| %s |||| %s"
+	self.patch.mount[1531] = "9.1.5" -- Wen Lo, instead of 9.2.0
 
 	for id = 1, num do
 		local name, spellID, _, _, _, sourceType, _, isFactionSpecific, faction, shouldHideOnChar = C_MountJournal.GetMountInfoByID(id)
@@ -45,7 +46,7 @@ function KethoWowpedia:GetMountIDs(num)
 			local factionIcon = faction == 0 and "{{Horde}}" or faction == 1 and "{{Alliance}}" or ""
 			local linkName = self.Util:GetLinkName(wpLink[id], wpName[id] or name, 40)
 			-- EnumeratedString 105: 6: Exclude from Journal if not learned
-			local flags = self.dbc.mount[id] or 0 -- apparently some mounts can get hotfixed out (1531 Wen Lo)
+			local flags = self.dbc.mount[id] or 0
 			local sourceText
 			if mTypeID == 242 then
 				sourceText = "❌ Spectral"
