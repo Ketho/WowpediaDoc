@@ -38,6 +38,7 @@ local wpLink = {
 	[2407] = "Bloody Rabbit Fang",
 	[2838] = "C'Thuffer (companion)",
 	[2921] = "Gorm Harrier (companion)",
+	[3107] = "Gurgl (battle pet)",
 }
 
 local devPet = {
