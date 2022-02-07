@@ -78,7 +78,7 @@ function KethoWowpedia:GetPetSpeciesIDs(num)
 		local name, _, petType, npcID, ttSource, ttDesc, isWild, canBattle, tradeable, _, obtainable, displayID = C_PetJournal.GetPetInfoBySpeciesID(id)
 		if type(name) == "string" then
 			local spellID, sourceType, flags = unpack(self.dbc.battlepetspecies[id])
-			local linkName = self.util:GetLinkName(wpLink[id], name, 32)
+			local linkName = self.Util:GetLinkName(wpLink[id], name, 32)
 			local hideUntilLearned = bit.band(flags, 0x4000) > 0
 			local sourceText = "😕"
 			if sources[id] then

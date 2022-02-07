@@ -1,10 +1,32 @@
 KethoWowpedia = {
+	Util = {},
 	data = {},
-	util = {},
 	patch = {},
 	dbc = {},
 }
 local w = KethoWowpedia
+
+function w.Util:SortTable(tbl)
+	local t = {}
+	for k in pairs(tbl) do
+		tinsert(t, k)
+	end
+	sort(t)
+	return t
+end
+
+function w.Util:GetLinkName(link, name, maxLength)
+	local length = #name
+	if link then
+		name = format("[[%s||%s]]", link, name)
+	else
+		name = format("[[:%s]]", name)
+	end
+	if length > maxLength then
+		name = format("<small>%s</small>", name)
+	end
+	return name
+end
 
 w.data.SourceTypeEnum = {
 	--[0] = "Unknown",
@@ -20,25 +42,3 @@ w.data.SourceTypeEnum = {
 	[10] = BATTLE_PET_SOURCE_10, -- shop
 	[11] = BATTLE_PET_SOURCE_11, -- discovery
 }
-
-function w.util:SortTable(tbl)
-	local t = {}
-	for k in pairs(tbl) do
-		tinsert(t, k)
-	end
-	sort(t)
-	return t
-end
-
-function w.util:GetLinkName(link, name, maxLength)
-	local length = #name
-	if link then
-		name = format("[[%s||%s]]", link, name)
-	else
-		name = format("[[:%s]]", name)
-	end
-	if length > maxLength then
-		name = format("<small>%s</small>", name)
-	end
-	return name
-end

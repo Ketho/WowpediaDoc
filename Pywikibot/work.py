@@ -2,6 +2,8 @@ import os, re
 import xml.etree.ElementTree as ET
 import pywikibot
 
+c = 0
+
 def find_xml():
 	folder = "Pywikibot/export"
 	for name in os.listdir(folder):
@@ -16,23 +18,40 @@ def read_xml(root):
 		name = page[0].text
 		for revision in page.findall(xmlns+"revision"):
 			for text in revision.findall(xmlns+"text"):
-				if "SendAddonMessage" in text.text:
-					l.append(name)
+				hasChange, newText = getChangedText(name, text.text)
+				if hasChange:
+					# print(hasChange, newText)
+					l.append([name, newText])
+	print(c)
 	return l
+
+def getChangedText(name: str, s: str):
+	global c
+	name = re.sub("API ", "", name)
+	name = re.sub(" ", "_", name)
+	l = s.splitlines()
+	idx = 0
+	hasChange = False
+	for a in l[:7]:
+		if a.startswith(" ") and "(" in a:
+			if "\"" in a or ";" in a:
+				c += 1
+				# print(name, a, re.sub("[\";]", "", a))
+				l[idx] = re.sub("[\";]", "", a)
+				hasChange = True
+		idx += 1
+	return hasChange, str.join("\n", l)
 
 def main():
 	wowpedia_xml = find_xml()
 	names = read_xml(wowpedia_xml)
 
 	site = pywikibot.Site('en', 'wowpedia')
-	for name in names:
+	for l in names:
+		name, text = l
 		page = pywikibot.Page(site, name)
-		print(page.title)
-		# res = re.findall("(\[.+redirect=no (.+)\(\)\])", page.text)
-		# if res:
-			# new = str.format("{{{{api|{0}}}}}()", res[0][1])
-			# page.text = page.text.replace(res[0][0], new)
-			# page.save("Clean up noredirect")
+		page.text = text
+		page.save("Strip semicolons and double quotes")
 	print("done")
 
 if __name__ == '__main__':
