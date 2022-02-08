@@ -28,19 +28,27 @@ local function GetFrameXmlData(tbl_apidoc)
 	return data
 end
 
-local function main()
+local function WritePatchData(flavor)
 	-- get event patch data from >8.0.1 blizzard api docs
-	print("-- reading Blizzard_APIDocumentation")
+	print("-- reading Blizzard_APIDocumentation", flavor.id)
 	local BlizzardApiDoc = require("Scribunto/API_info/patch/event/BlizzardApiDoc")
 	local tbl_apidoc = BlizzardApiDoc:main(flavors)
-	-- get older event data by looking through framexml
-	print("-- reading framexml")
-	local tbl_framexml = GetFrameXmlData(tbl_apidoc)
-	-- fill in false values
-	for k, v in pairs(tbl_framexml) do
-		tbl_apidoc[k][1] = v
+	if flavor.id == "retail" then
+		-- get older event data by looking through framexml
+		print("-- reading framexml")
+		local tbl_framexml = GetFrameXmlData(tbl_apidoc)
+		-- fill in false values
+		for k, v in pairs(tbl_framexml) do
+			tbl_apidoc.retail[k][1] = v
+		end
 	end
-	write_table(tbl_apidoc, flavors.retail.out)
+	print("writing to", flavor.out)
+	write_table(tbl_apidoc[flavor.id], flavor.out)
+end
+
+local function main()
+	WritePatchData(flavors.retail)
+	WritePatchData(flavors.classic)
 end
 
 main()

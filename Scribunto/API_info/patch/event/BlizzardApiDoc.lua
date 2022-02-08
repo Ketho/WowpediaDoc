@@ -87,8 +87,10 @@ function m:GetData(info)
 end
 
 function m:main(flavors)
-	self:GetData(flavors.classic)
-	local data = self:GetData(flavors.retail)
+	local data = {
+		classic = self:GetData(flavors.classic),
+		retail = self:GetData(flavors.retail),
+	}
 	return data
 end
 

@@ -20,7 +20,7 @@ end
 
 local function WriteTable(tbl, path)
 	local file = io.open(path, "w")
-	WriteLine(file, "local t = {")
+	WriteLine(file, "local data = {")
 	local fs = '%s["%s"] = %s,'
 	local level = 1
 	local sorted = {}
@@ -35,7 +35,7 @@ local function WriteTable(tbl, path)
 		WriteLine(file, fs:format(tabs, k, formatValue))
 	end
 	WriteLine(file, "}\n")
-	WriteLine(file, "return t")
+	WriteLine(file, "return data")
 	file:close()
 end
 

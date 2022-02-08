@@ -95,6 +95,7 @@ function m:main()
 			end
 		end
 
+		print("writing to", info.out)
 		local file = io.open(info.out, "w")
 		file:write("local data = {\n")
 		for _, name in pairs(Util:SortTable(t)) do

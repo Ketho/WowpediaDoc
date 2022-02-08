@@ -52,6 +52,7 @@ local branches = {
 function m:main()
 	for source, info in pairs(sources) do
 		local data = self:GetData(source)
+		print("writing to", info.out)
 		local file = io.open(info.out, "w")
 		file:write('local data = {\n')
 		for _, name in pairs(Util:SortTable(data)) do
