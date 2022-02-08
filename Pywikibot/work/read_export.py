@@ -8,7 +8,7 @@ def find_xml():
 			tree = ET.parse(folder+"/"+name)
 			return tree.getroot()
 
-def read_xml(root):
+def read_xml(root, func):
 	xmlns = "{http://www.mediawiki.org/xml/export-0.10/}"
 	l = []
 	for page in root.findall(xmlns+"page"):
@@ -17,19 +17,9 @@ def read_xml(root):
 		name = re.sub(" ", "_", name)
 		for revision in page.findall(xmlns+"revision"):
 			for text in revision.findall(xmlns+"text"):
-				process_text(name, text.text)
+				func(name, text.text)
 	return l
 
-def process_text(name: str, s: str):
-	l = s.splitlines()
-	for a in l[:3]:
-		if re.findall("\{classic[\s_]only", a.lower()):
-				print(name, a)
-
-def main():
+def main(func):
 	wowpedia_xml = find_xml()
-	read_xml(wowpedia_xml)
-	print("done")
-
-if __name__ == '__main__':
-	main()
+	return read_xml(wowpedia_xml, func)

@@ -14,3 +14,4 @@
 apicache-py3
 *.lwp
 *.ctrl
+*.pyc
