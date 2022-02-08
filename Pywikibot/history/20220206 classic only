@@ -1,0 +1,174 @@
+AbandonQuest, {{wowapi}} {{Classic_only|9.0.1|replacement=API C_QuestLog.AbandonQuest}}
+AcceptArenaTeam, {{wowapi}} {{Classic_only|tbc=|5.4.0}}
+AcceptLevelGrant, {{wowapi}} {{Classic_only|8.2.5}}
+AddQuestWatch, {{wowapi}} {{Classic_only|9.0.1|replacement=API C_QuestLog.AddQuestWatch}}
+ArenaTeamDisband, {{wowapi}} {{Classic_only|tbc=|5.4.0}}
+ArenaTeamRoster, {{wowapi}} {{Classic_only|tbc=|5.4.0}}
+BNGetFriendGameAccountInfo, {{wowapi}} {{Classic_only|8.2.5|replacement=API C_BattleNet.GetGameAccountInfoByID}}
+BNGetFriendInfo, {{wowapi}} {{Classic_only|8.2.5|replacement=API C_BattleNet.GetFriendAccountInfo}}
+BNGetFriendInfoByID, {{wowapi}} {{Classic_only|8.2.5|replacement=API C_BattleNet.GetAccountInfoByID}}
+BNGetGameAccountInfo, {{wowapi}} {{Classic_only|8.2.5|replacement=API C_BattleNet.GetGameAccountInfoByID}}
+BNGetNumFriendGameAccounts, {{wowapi}} {{Classic_only|8.2.5|replacement=API C_BattleNet.GetFriendNumGameAccounts}}
+BuyStableSlot, {{wowapi}} {{classic only|4.0.1}}
+C_Commentator.GetPlayerInfo, {{wowapi}} {{Classic_only|9.0.1|replacement=API C_Commentator.GetPlayerData}}
+C_Commentator.GetTeamHighlightColor, {{wowapi}} {{Classic_only|9.0.1|replacement=API C_Commentator.GetTeamColor}}
+C_GossipInfo.GetGossipPoiForUiMapID, {{wowapi}} {{Classic_only|9.0.1|replacement=API C_GossipInfo.GetPoiForUiMapID}}
+C_LossOfControl.GetEventInfo, {{wowapi}} {{Classic_only|9.0.1|replacement=API C_LossOfControl.GetActiveLossOfControlData}}
+C_LossOfControl.GetNumEvents, {{wowapi}} {{Classic_only|9.0.1|replacement=API C_LossOfControl.GetActiveLossOfControlDataCount}}
+C_Map.GetBountySetIDForMap, {{classic only|8.1.0}}
+C_QuestLog.GetQuestInfo, {{wowapi}} {{Classic_only|9.0.1|replacement=API C_QuestLog.GetTitleForQuestID}}
+CanAbandonQuest, {{wowapi}} {{Classic_only|9.0.1|replacement=API C_QuestLog.CanAbandonQuest}}
+CanGrantLevel, {{wowapi}} {{Classic_only|8.2.5}}
+CanSendAuctionQuery, {{classic only|8.3.0}}
+CancelSell, {{wowapi}} {{classic only|8.3.0}}
+CancelTrackingBuff, {{wowapi}} {{classic only|2.3.0|replacement=API SetTracking}}
+CastingInfo, {{wowapi}} {{classic only}}
+ChannelInfo, {{wowapi}} {{classic only}}
+ClickAuctionSellItemButton, {{classic only|8.3.0}}
+ClickStablePet, {{wowapi}} {{classic only|4.0.1}}
+CloseAuctionHouse, {{wowapi}} {{classic only|8.3.0}}
+CloseGossip, {{wowapi}} {{Classic_only|9.0.1|replacement=API C_GossipInfo.CloseGossip}}
+CloseTradeSkill, {{wowapi}} {{Classic_only|7.0.3|replacement=API C_TradeSkillUI.CloseTradeSkill}}
+CollapseSkillHeader, {{wowapi}} {{classic only|4.0.1}}
+CollapseTrainerSkillLine, {{classic only|4.0.1}}
+ConfirmPetUnlearn, {{wowapi}} {{classic only|3.1.0}}
+ConvertToParty, {{wowapi}} {{Classic_only|8.2.5|replacement=API C_PartyInfo.ConvertToParty}}
+DeclineArenaTeam, {{wowapi}} {{Classic_only|tbc=|5.4.0}}
+DeclineLevelGrant, {{wowapi}} {{Classic_only|8.2.5}}
+DoTradeSkill, {{wowapi}} {{Classic_only|7.0.3|replacement=API C_TradeSkillUI.CraftRecipe}}
+ExpandSkillHeader, {{wowapi}} {{classic only|4.0.1}}
+ExpandTradeSkillSubClass, {{wowapi}} {{Classic_only|7.0.3}}
+ExpandTrainerSkillLine, {{wowapi}} {{classic only|4.0.1}}
+ForceGossip, {{wowapi}} {{Classic_only|9.0.1|replacement=API C_GossipInfo.ForceGossip}}
+GetAbandonQuestName, {{wowapi}} {{Classic_only|9.0.1|replacement=API C_QuestLog.GetAbandonQuest}}
+GetArenaTeam, {{wowapi}} {{Classic_only|tbc=|5.4.0}}
+GetArenaTeamIndexBySize, {{wowapi}} {{Classic_only|tbc=|5.4.0}}
+GetArenaTeamRosterInfo, {{wowapi}} {{Classic_only|tbc=|5.4.0|replacement=API GetPersonalRatedInfo}}
+GetArmorPenetration, {{wowapi}} {{Classic_only|tbc=|5.4.0}}
+GetAuctionItemBattlePetInfo, {{wowapi}} {{classic only|8.3.0|replacement=API C_AuctionHouse.GetReplicateItemBattlePetInfo}}
+GetAuctionItemInfo, {{wowapi}} {{Classic only|8.3.0|replacement=API C_AuctionHouse.GetReplicateItemInfo}}
+GetAuctionItemLink, {{wowapi}} {{Classic only|8.3.0|replacement=API C_AuctionHouse.GetReplicateItemLink}}
+GetAuctionItemSubClasses, {{wowapi}} {{Classic only|8.3.0|replacement=API C_AuctionHouse.GetAuctionItemSubClasses}}
+GetAuctionItemTimeLeft, {{wowapi}} {{Classic only|8.3.0|replacement=API C_AuctionHouse.GetReplicateItemTimeLeft}}
+GetAuctionSellItemInfo, {{wowapi}} {{Classic only|8.3.0|replacement=API C_AuctionHouse.GetReplicateItemInfo}} {{Stub/API}}
+GetBattlefieldInstanceInfo, {{wowapi}} {{Classic only|4.0.1}}
+GetBattlefieldStatInfo, {{wowapi}} {{Classic only|8.2.0|replacement=API C_PvP.GetMatchPVPStatColumn}}
+GetCraftDescription, {{wowapi}} {{Classic only|3.0.2|replacement=API GetTradeSkillDescription}}
+GetCraftDisplaySkillLine, {{wowapi}} {{Classic only|3.0.2}}
+GetCraftInfo, {{wowapi}} {{Classic only|3.0.2|replacement=API GetTradeSkillInfo}}
+GetCraftItemLink, {{wowapi}} {{Classic only|3.0.2}}
+GetCraftName, {{wowapi}} {{Classic only|3.0.2|replacement=API C_TradeSkillUI.GetTradeSkillLine}}
+GetCraftNumReagents, {{wowapi}} {{Classic only|3.0.2}}
+GetCraftReagentInfo, {{wowapi}} {{Classic only|3.0.2}}
+GetCraftReagentItemLink, {{wowapi}} {{Classic only|3.0.2}}
+GetCraftRecipeLink, {{wowapi}} {{Classic_only|tbc=|3.0.2|replacement=API GetTradeSkillRecipeLink}}
+GetCraftSkillLine, {{wowapi}} {{Classic only|3.0.2|replacement=API GetTradeSkillLine}}
+GetCraftSpellFocus, {{wowapi}} {{Classic only|3.0.2}}
+GetExpertisePercent, {{wowapi}} {{Classic_only|tbc=|5.0.4|replacement=API GetExpertise}}
+GetFirstTradeSkill, {{wowapi}} {{Classic only|7.0.3}}
+GetGossipActiveQuests, {{wowapi}} {{Classic only|9.0.1|replacement=API C_GossipInfo.GetActiveQuests}}
+GetGossipAvailableQuests, {{wowapi}} {{Classic only|9.0.1|replacement=API C_GossipInfo.GetAvailableQuests}}
+GetGossipOptions, {{wowapi}} {{Classic only|9.0.1|replacement=API_C_GossipInfo.GetOptions}}
+GetGossipText, {{wowapi}} {{Classic only|9.0.1|replacement=API C_GossipInfo.GetText}}
+GetInspectPVPRankProgress, {{wowapi}} {{classic only|2.0.1}}
+GetNextStableSlotCost, {{wowapi}} {{classic only|4.0.1}}
+GetNumAuctionItems, {{wowapi}} {{Classic only|8.3.0|replacement=API C_AuctionHouse.GetNumReplicateItems}}
+GetNumBattlefieldStats, {{wowapi}} {{Classic only|8.2.0|replacement=API C_PvP.GetMatchPVPStatIDs}}
+GetNumBattlefields, {{wowapi}} {{classic only|4.0.1}}
+GetNumCrafts, {{wowapi}} {{Classic only|3.0.2|replacement=API GetNumTradeSkills}}
+GetNumGossipActiveQuests, {{wowapi}} {{Classic only|9.0.1|replacement=API C_GossipInfo.GetNumActiveQuests}}
+GetNumGossipAvailableQuests, {{wowapi}} {{Classic only|9.0.1|replacement=API C_GossipInfo.GetNumAvailableQuests}}
+GetNumGossipOptions, {{wowapi}} {{Classic only|9.0.1|replacement=API C_GossipInfo.GetNumOptions}}
+GetNumQuestLogEntries, {{wowapi}} {{Classic only|9.0.1|replacement=API C_QuestLog.GetNumQuestLogEntries}}
+GetNumSkillLines, {{wowapi}} {{classic only|4.0.1}}
+GetNumStableSlots, {{wowapi}} {{classic only|4.0.1}}
+GetNumTalentTabs, {{wowapi}} {{classic only|5.0.4}}
+GetNumTalents, {{wowapi}} {{classic only|6.0.2}}
+GetNumTradeSkills, {{wowapi}} {{Classic only|7.0.3}}
+GetOwnerAuctionItems, {{wowapi}} {{Classic only|8.3.0}} {{Stub/API}}
+GetPVPLastWeekStats, {{wowapi}} {{classic only|2.0.1}}
+GetPVPRankInfo, {{wowapi}} {{classic only|5.4.0}}
+GetPVPRankProgress, {{wowapi}} {{classic only|5.4.0}}
+GetPVPThisWeekStats, {{wowapi}} {{classic only|2.0.1}}
+GetPetHappiness, {{wowapi}} {{classic only|4.1.0}}
+GetPetLoyalty, {{wowapi}} {{classic only|3.0.2}}
+GetPetTrainingPoints, {{wowapi}} {{classic only|3.0.2}}
+GetQuestGreenRange, {{wowapi}} {{Classic only|9.0.1|replacement=API_UnitQuestTrivialLevelRange}}
+GetQuestIndexForTimer, {{wowapi}} {{Classic only|9.0.1}}
+GetQuestIndexForWatch, {{wowapi}} {{Classic only|9.0.1}}
+GetQuestLogIndexByID, {{wowapi}} {{Classic only|9.0.1|replacement=API C_QuestLog.GetLogIndexForQuestID}}
+GetQuestLogPushable, {{wowapi}} {{Classic only|9.0.1|replacement=API C_QuestLog.IsPushableQuest}}
+GetQuestLogSelection, {{wowapi}} {{Classic only|9.0.1|replacement=API C_QuestLog.GetSelectedQuest}}
+GetQuestLogTitle, {{wowapi}} {{Classic only|9.0.1|replacement=API C_QuestLog.GetInfo}}
+GetQuestTagInfo, {{wowapi}} {{Classic only|9.0.1|replacement=API C_QuestLog.GetQuestTagInfo}}
+GetQuestTimers, {{wowapi}} {{Classic only|9.0.1|replacement=API C_QuestLog.GetTimeAllowed}}
+GetQuestsCompleted, {{wowapi}} {{Classic only|9.0.1|replacement=API C_QuestLog.GetAllCompletedQuestIDs}}
+GetSelectedBattlefield, {{wowapi}} {{Classic only|4.0.1}}
+GetSelectedSkill, {{wowapi}} {{classic only|4.0.1}}
+GetSelectedStablePet, {{wowapi}} {{classic only|4.0.1}}
+GetSkillLineInfo, {{wowapi}} {{classic only|4.0.1}}
+GetTalentPrereqs, {{wowapi}} {{classic only|5.0.4}}
+GetTalentTabInfo, {{wowapi}} {{classic only|5.0.4}}
+GetTrackingTexture, {{wowapi}} {{classic only|4.0.1}}
+GetTradeSkillInfo, {{wowapi}} {{Classic only|7.0.3|replacement=API C_TradeSkillUI.GetRecipeInfo}}
+GetTradeSkillInvSlotFilter, {{wowapi}} {{Classic only|7.0.3}}
+GetTradeSkillInvSlots, {{wowapi}} {{Classic only|7.0.3}}
+GetTradeSkillItemLink, {{wowapi}} {{Classic only|7.0.3|replacement=API C_TradeSkillUI.GetRecipeItemLink}}
+GetTradeSkillItemStats, {{wowapi}} {{Classic only|3.0.2}}
+GetTradeSkillLine, {{wowapi}} {{Classic only|7.0.3|replacement=API C_TradeSkillUI.GetTradeSkillLine}}
+GetTradeSkillNumMade, {{wowapi}} {{Classic only|7.0.3|replacement=API C_TradeSkillUI.GetRecipeNumItemsProduced}}
+GetTradeSkillNumReagents, {{wowapi}} {{Classic only|7.0.3|replacement=API C_TradeSkillUI.GetRecipeNumReagents}}
+GetTradeSkillReagentInfo, {{wowapi}} {{Classic only|7.0.3|replacement=API C_TradeSkillUI.GetRecipeReagentInfo}}
+GetTradeSkillReagentItemLink, {{wowapi}} {{Classic only|7.0.3|replacement=API C_TradeSkillUI.GetRecipeReagentItemLink}}
+GetTradeSkillRecipeLink, {{wowapi}} {{Classic_only|tbc=|7.0.3|replacement=API C_TradeSkillUI.GetRecipeItemLink}}
+GetTradeSkillSelectionIndex, {{wowapi}} {{Classic only|7.0.3}}
+GetTradeSkillSubClassFilter, {{wowapi}} {{Classic only|5.0.4}}
+GetTradeSkillSubClasses, {{wowapi}} {{Classic only|7.0.3}}
+GetTradeSkillTools, {{wowapi}} {{Classic only|7.0.3|replacement=API C_TradeSkillUI.GetRecipeTools}}
+GetTradeskillRepeatCount, {{wowapi}} {{Classic only|7.0.3|replacement=API C_TradeSkillUI.GetRecipeRepeatCount}}
+GuildRoster, {{wowapi}} {{Classic_only|8.2.0|replacement=API C_GuildInfo.GuildRoster}}
+HasInspectHonorData, {{wowapi}} {{Classic only|8.1.5}}
+HasKey, {{wowapi}} {{Classic only|4.2.0}}
+InActiveBattlefield, {{wowapi}} {{Classic only|8.1.5|replacement=API C_PvP.IsActiveBattlefield}}
+InviteUnit, {{wowapi}} {{Classic only|8.2.5|replacement=API C_PartyInfo.InviteUnit}}
+IsAuctionSortReversed, {{wowapi}} {{classic only|8.3.0}}
+IsPlayerAttacking, {{wowapi}} {{Classic only}}
+IsQuestComplete, {{wowapi}} {{Classic only|9.0.1|replacement=API C_QuestLog.IsComplete}}
+IsQuestFlaggedCompleted, {{wowapi}} {{Classic_only|8.2.5|replacement=API C_QuestLog.IsQuestFlaggedCompleted}}
+IsReferAFriendLinked, {{wowapi}} {{Classic only|8.2.5|}}
+IsTrainerServiceLearnSpell, {{wowapi}} {{classic only|2.4.0}}
+IsUnitOnQuest, {{wowapi}} {{Classic only|9.0.1|replacement=API C_QuestLog.IsUnitOnQuest}}
+KeyRingButtonIDToInvSlotID, {{wowapi}} {{classic only|4.2.0}}
+LeaveParty, {{wowapi}} {{Classic only|8.2.5|replacement=API C_PartyInfo.LeaveParty}}
+PlaceAuctionBid, {{wowapi}} {{classic only|8.3.0}}
+QueryAuctionItems, {{wowapi}} {{Classic only|8.3.0|replacement=API C_AuctionHouse.SendBrowseQuery}}
+RemoveQuestWatch, {{wowapi}} {{Classic only|9.0.1|replacement=API C_QuestLog.RemoveQuestWatch}}
+RequestInspectHonorData, {{wowapi}} {{Classic only|8.1.5}}
+SelectGossipActiveQuest, {{wowapi}} {{Classic only|9.0.1|replacement=API C_GossipInfo.SelectActiveQuest}}
+SelectGossipAvailableQuest, {{wowapi}} {{Classic only|9.0.1|replacement=API C_GossipInfo.SelectAvailableQuest}}
+SelectGossipOption, {{wowapi}} {{Classic only|9.0.1|replacement=API C_GossipInfo.SelectOption}}
+SelectQuestLogEntry, {{wowapi}} {{Classic only|9.0.1|replacement=API C_QuestLog.SetSelectedQuest}}
+SetAbandonQuest, {{wowapi}} {{Classic only|9.0.1|replacement=API C_QuestLog.SetAbandonQuest}}
+SetSelectedAuctionItem, {{wowapi}} {{classic only|8.3.0}}
+SetSelectedBattlefield, {{wowapi}} {{classic only|4.0.1}}
+SetSelectedSkill, {{wowapi}} {{classic only|4.0.1}}
+SetTradeSkillInvSlotFilter, {{wowapi}} {{Classic only|7.0.3}}
+SetTradeSkillSubClassFilter, {{wowapi}} {{Classic only|5.0.4}}
+ShowCloak, {{wowapi}} {{Classic only|7.0.3}}
+ShowHelm, {{wowapi}} {{classic only|7.0.3}}
+ShowingCloak, {{wowapi}} {{classic only|7.0.3}}
+ShowingHelm, {{wowapi}} {{classic only|7.0.3}}
+SortAuctionItems, {{wowapi}} {{classic only|8.3.0}}
+SortAuctionSetSort, {{wowapi}} {{Classic only|8.3.0}}
+SortQuestWatches, {{wowapi}} {{Classic only|9.0.1|replacement=API C_QuestLog.SortQuestWatches}}
+StablePet, {{wowapi}} {{classic only|4.0.1}}
+StartAuction, {{wowapi}} {{classic only|8.3.0}}
+UnitAttackBothHands, {{wowapi}} {{Classic only|8.0.1}}
+UnitCharacterPoints, {{wowapi}} {{classic only|4.0.1}}
+UnitDefense, {{wowapi}} {{Classic only|8.0.1}}
+UnitInPhase, {{wowapi}} {{Classic only|9.0.1|replacement=API UnitPhaseReason}}
+UnitIsCivilian, {{wowapi}} {{classic only|2.3.0}}
+UnitPVPRank, {{wowapi}} {{classic only|5.4.0}}
+UnitRangedAttack, {{wowapi}} {{Classic only|8.0.1}}
+UnitResistance, {{wowapi}} {{Classic only|8.0.1}}
+UnstablePet, {{wowapi}} {{classic only|4.0.1}}
