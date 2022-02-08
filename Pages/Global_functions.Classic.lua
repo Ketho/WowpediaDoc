@@ -103,49 +103,6 @@ local function sortLowerCase(a, b)
 	return a:lower() < b:lower()
 end
 
-function m:main()
-	local eventDoc = self:GetEventPayload()
-	for source, info in pairs(sources) do
-		local parts, data = self:GetData(source)
-
-		local file = io.open(info.out, "w")
-		file:write('{| class="sortable darktable zebra"\n')
-		if info.header_fs then
-			file:write(info.header_fs:format(info.label))
-		else
-			file:write(string.format('! !! !! !! align="left" | %s\n', info.label))
-		end
-
-		local section_fs = string.format('|-\n! colspan="%d" style="text-align:left; padding-left: 9em;" | %%s\n', info.sectioncols or 4)
-		local row_fs = "|-\n| "..string.rep("%s", 4, " || ")
-
-		for _, sectionInfo in pairs(sections) do
-			if next(data[sectionInfo.id]) then
-				file:write(section_fs:format(sectionInfo.label))
-				for _, name in pairs(Util:SortTable(data[sectionInfo.id], info.sortFunc)) do
-					local retail = parts.mainline[name] and wp_icons.mainline or ""
-					local bcc = parts.tbc[name] and wp_icons.tbc or ""
-					local vanilla = parts.vanilla[name] and wp_icons.vanilla or ""
-					local nameLink = info.name_fs:format(name, name)
-					file:write(row_fs:format(retail, bcc, vanilla, nameLink))
-					if source == "event" and eventDoc[name] then
-						file:write(string.format("<small>: %s</small>", eventDoc[name]))
-					elseif source == "cvar" then
-						local cvarInfo = parts.tbc[name] or parts.vanilla[name]
-						local default, category, account, character, description = table.unpack(cvarInfo)
-						local categoryName = cvar_enum[category] or ""
-						local scope = account and "Account" or character and "Character" or ""
-						file:write(string.format(" || %s || %s || %s || %s", default, categoryName, scope, description))
-					end
-					file:write("\n")
-				end
-			end
-		end
-		file:write("|}\n")
-		file:close()
-	end
-end
-
 function m:GetData(sourceType)
 	local info = sources[sourceType]
 	local parts = {}
@@ -196,12 +153,12 @@ end
 function m:GetEventPayload()
 	-- ok wtf this needs to be rewritten
 	local FrameXML = require("Documenter/FrameXML/FrameXML")
-	FrameXML:LoadApiDocs("Documenter/FrameXML", "FrameXML/classic/2.5.2 (40892)/Interface/AddOns")
+	FrameXML:LoadApiDocs("Documenter/FrameXML", "FrameXML/classic/2.5.3 (42083)/Interface/AddOns")
 	local t = {}
 	for _, event in pairs(APIDocumentation.events) do
 		if event.Payload then
 			local payload = event:GetPayloadString(false, false)
-			print(event.LiteralName, payload)
+			--print(event.LiteralName, payload)
 			if #payload>160 and (event.LiteralName:find("^CHAT_MSG") or event.LiteralName:find("^CHAT_COMBAT_MSG")) then
 				payload = "''CHAT_MSG''"
 			end
@@ -211,5 +168,49 @@ function m:GetEventPayload()
 	return t
 end
 
-m:main()
+local function main()
+	local eventDoc = m:GetEventPayload()
+	for source, info in pairs(sources) do
+		local parts, data = m:GetData(source)
+
+		print("writing to", info.out)
+		local file = io.open(info.out, "w")
+		file:write('{| class="sortable darktable zebra"\n')
+		if info.header_fs then
+			file:write(info.header_fs:format(info.label))
+		else
+			file:write(string.format('! !! !! !! align="left" | %s\n', info.label))
+		end
+
+		local section_fs = string.format('|-\n! colspan="%d" style="text-align:left; padding-left: 9em;" | %%s\n', info.sectioncols or 4)
+		local row_fs = "|-\n| "..string.rep("%s", 4, " || ")
+
+		for _, sectionInfo in pairs(sections) do
+			if next(data[sectionInfo.id]) then
+				file:write(section_fs:format(sectionInfo.label))
+				for _, name in pairs(Util:SortTable(data[sectionInfo.id], info.sortFunc)) do
+					local retail = parts.mainline[name] and wp_icons.mainline or ""
+					local bcc = parts.tbc[name] and wp_icons.tbc or ""
+					local vanilla = parts.vanilla[name] and wp_icons.vanilla or ""
+					local nameLink = info.name_fs:format(name, name)
+					file:write(row_fs:format(retail, bcc, vanilla, nameLink))
+					if source == "event" and eventDoc[name] then
+						file:write(string.format("<small>: %s</small>", eventDoc[name]))
+					elseif source == "cvar" then
+						local cvarInfo = parts.tbc[name] or parts.vanilla[name]
+						local default, category, account, character, description = table.unpack(cvarInfo)
+						local categoryName = cvar_enum[category] or ""
+						local scope = account and "Account" or character and "Character" or ""
+						file:write(string.format(" || %s || %s || %s || %s", default, categoryName, scope, description))
+					end
+					file:write("\n")
+				end
+			end
+		end
+		file:write("|}\n")
+		file:close()
+	end
+end
+
+main()
 print("done")
