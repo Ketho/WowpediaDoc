@@ -134,7 +134,8 @@ local function main(options)
 				nameText = name
 			end
 
-			local typeText, diffText = "", ""
+			local typeText
+			local diffText, diffName
 			if typeid == 4 then -- outdoor
 				typeText = lfgType[typeid]
 			elseif difficultyID == 0 then
@@ -152,7 +153,7 @@ local function main(options)
 				mapText = string.format('<span title="%s">%d</span>', mapList[instanceID], instanceID)
 			end
 			local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
-			file:write(fs:format(ID, nameText, typeText, diffText, mapText, patch))
+			file:write(fs:format(ID, nameText, typeText, diffText or "", mapText, patch))
 		end
 	end
 	file:write("|}\n")
