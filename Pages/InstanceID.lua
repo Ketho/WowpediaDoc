@@ -113,7 +113,7 @@ local patterns = {
 	"zzold",
 }
 
-local function IsValidLink(s)
+local function IsValidName(s)
 	s = s:lower()
 	for _, p in pairs(patterns) do
 		if s:find(p) then
@@ -148,7 +148,7 @@ local function main(options)
 			local nameText
 			if wpLink[ID] then
 				nameText = string.format("[[%s|%s]]", wpLink[ID], l.MapName_lang)
-			elseif not nolink[ID] and IsValidLink(l.MapName_lang) then
+			elseif not nolink[ID] and IsValidName(l.MapName_lang) then
 				nameText = string.format("[[:%s]]", l.MapName_lang)
 			else
 				nameText = l.MapName_lang

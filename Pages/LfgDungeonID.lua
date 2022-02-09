@@ -95,13 +95,13 @@ local function main(options)
 	local map_csv = Util:ReadCSV("map", parser, options, function(tbl, ID, l)
 		tbl[ID] = l.MapName_lang
 	end)
-
 	local patchData = dbc_patch:GetPatchData("lfgdungeons", options)
+
 	print("writing to "..OUTPUT)
 	local file = io.open(OUTPUT, "w")
 	file:write('{| class="sortable darktable zebra col1-center"\n! ID !! Name !! Type !! [[DifficultyID]] !! [[InstanceID]] !! Patch\n')
 	local fs = '|-\n| %d || %s || %s || %s || %s || %s\n'
-	Util:ReadCSV("lfgdungeons", parser, options, function(tbl, ID, l)
+	Util:ReadCSV("lfgdungeons", parser, options, function(_, ID, l)
 		local name = l.Name_lang
 		local typeid = tonumber(l.TypeID)
 		local subtype = tonumber(l.Subtype)

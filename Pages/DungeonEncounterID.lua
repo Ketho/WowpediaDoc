@@ -4,7 +4,7 @@ local parser = require("Util/wowtoolsparser")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT = "out/page/DungeonEncounterID.txt"
 
-local encounterLink = {
+local wpLink = {
 	[526] = "Keristrasza (tactics)",
 	[527] = "Keristrasza (tactics)",
 	[594] = "Gahz'rilla",
@@ -89,7 +89,7 @@ local noMap = {
 	[2360] = true, -- Sinfall Scenario
 }
 
-local function IsValidEncounterLink(id, name)
+local function IsValidName(id, name)
 	if noEncounter[id] then
 		return false
 	elseif name:find("[%[(]") then
@@ -98,7 +98,7 @@ local function IsValidEncounterLink(id, name)
 	return true
 end
 
-local function IsValidMapLink(id, name)
+local function IsValidMapName(id, name)
 	if noMap[id] then
 		return false
 	elseif name:find("Scenario") then
@@ -107,53 +107,42 @@ local function IsValidMapLink(id, name)
 	return true
 end
 
-local header = '{| class="sortable darktable zebra col1-center"\n! ID !! Name !! Map || Patch\n'
-local fs = '|-\n| %d || %s || %s || %s\n'
 
 local function main(options)
 	options = Util:GetFlavorOptions(options)
-	local dbc_dungeonencounter = parser:ReadCSV("dungeonencounter", options)
-	local dbc_map = parser:ReadCSV("map", options)
+	local map_csv = Util:ReadCSV("map", parser, options, function(tbl, ID, l)
+		tbl[ID] = l.MapName_lang
+	end)
 	local patchData = dbc_patch:GetPatchData("dungeonencounter", options)
+
 	print("writing to "..OUTPUT)
 	local file = io.open(OUTPUT, "w")
-
-	local mapNames = {}
-	for l in dbc_map:lines() do
-		local ID = tonumber(l.ID)
-		if ID then
-			mapNames[ID] = l.MapName_lang
+	file:write('{| class="sortable darktable zebra col1-center"\n! ID !! Name !! Map !! [[InstanceID]] !! Patch\n')
+	local fs = '|-\n| %d || %s || %s || %s || %s\n'
+	Util:ReadCSV("dungeonencounter", parser, options, function(tbl, ID, l)
+		local encounterName = l.Name_lang
+		local nameText
+		if wpLink[ID] then
+			nameText = string.format("[[%s|%s]]", wpLink[ID], encounterName)
+		elseif IsValidName(ID, encounterName) then
+			nameText = string.format("[[:%s]]", encounterName)
+		else
+			nameText = encounterName
 		end
-	end
 
-	file:write(header)
-	for l in dbc_dungeonencounter:lines() do
-		local ID = tonumber(l.ID)
-		if ID then
-			local encounterName = l.Name_lang
-			local nameText
-			if encounterLink[ID] then
-				nameText = string.format("[[%s|%s]]", encounterLink[ID], encounterName)
-			elseif IsValidEncounterLink(ID, encounterName) then
-				nameText = string.format("[[:%s]]", encounterName)
-			else
-				nameText = encounterName
-			end
-
-			local mapID = tonumber(l.MapID)
-			local mapName = mapNames[mapID]
-			local mapText
-			if mapLink[ID] then
-				mapText = string.format("[[%s|%s]]", mapLink[ID], mapName)
-			elseif IsValidMapLink(mapID, mapName) then
-				mapText = string.format("[[:%s]]", mapName)
-			else
-				mapText = mapName
-			end
-			local seen = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
-			file:write(fs:format(ID, nameText, mapText, seen))
+		local mapID = tonumber(l.MapID)
+		local mapName = map_csv[mapID]
+		local mapText
+		if mapLink[ID] then
+			mapText = string.format("[[%s|%s]]", mapLink[ID], mapName)
+		elseif IsValidMapName(mapID, mapName) then
+			mapText = string.format("[[:%s]]", mapName)
+		else
+			mapText = mapName
 		end
-	end
+		local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
+		file:write(fs:format(ID, nameText, mapText, mapID, patch))
+	end)
 	file:write("|}\n")
 	file:close()
 end

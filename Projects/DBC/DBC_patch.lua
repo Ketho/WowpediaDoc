@@ -18,7 +18,7 @@ function m:GetPatchData(name, options)
 			table.insert(patches, v)
 		end
 	end
-	table.sort(patches, Util.SortBuild)
+	table.sort(patches, options.sort)
 	local t = {}
 	for _, patch in pairs(patches) do
 		local iter = parser:ReadCSV(name, {header = true, build = patch})

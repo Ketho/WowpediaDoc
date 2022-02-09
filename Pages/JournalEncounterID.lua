@@ -39,7 +39,7 @@ local function main(options)
 	local journalinstance_csv = Util:ReadCSV("journalinstance", parser, options, function(tbl, ID, l)
 		tbl[ID] = l.Name_lang
 	end)
-	local journalencountercreature_csv = Util:ReadCSV("journalencountercreature", parser, options, function(tbl, ID, l)
+	local journalencountercreature_csv = Util:ReadCSV("journalencountercreature", parser, options, function(tbl, _, l)
 		local encounterID = tonumber(l.JournalEncounterID)
 		local displayID = tonumber(l.CreatureDisplayInfoID)
 		local order = tonumber(l.OrderIndex)
@@ -53,14 +53,13 @@ local function main(options)
 	local map_csv = Util:ReadCSV("map", parser, options, function(tbl, ID, l)
 		tbl[ID] = l.MapName_lang
 	end)
-
 	local patchData = dbc_patch:GetPatchData("journalencounter", options)
 
 	print("writing to "..OUTPUT)
 	local file = io.open(OUTPUT, "w")
 	file:write('{| class="sortable darktable zebra col1-center"\n! ID !! Name !! Map !! [[DisplayID]] !! <small>[[DungeonEncounterID]]</small> !! [[InstanceID]] !! Patch\n')
 	local fs = '|-\n| %d || %s || %s || %s || %s || %s || %s\n'
-	Util:ReadCSV("journalencounter", parser, options, function(tbl, ID, l)
+	Util:ReadCSV("journalencounter", parser, options, function(_, ID, l)
 		local name = l.Name_lang
 		local journalInstanceID = tonumber(l.JournalInstanceID)
 		local dungeonEncounterID = tonumber(l.DungeonEncounterID)
@@ -89,12 +88,12 @@ local function main(options)
 			displayID and string.format("[https://wow.tools/mv/?displayID=%d %d]", displayID, displayID) or "",
 			dungeonEncounterID > 0 and string.format('<span title="%s">%d</span>', dungeonEncounterName, dungeonEncounterID) or "",
 			dungeonEncounterID > 0 and string.format('<span title="%s">%d</span>', map_csv[instanceID], instanceID) or "",
-			patch or ""
+			patch
 		))
 	end)
 	file:write("|}\n")
 	file:close()
 end
 
-main("mainline") -- ["ptr", "mainline", "classic"]
+main() -- ["ptr", "mainline", "classic"]
 print("done")
