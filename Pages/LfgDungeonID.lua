@@ -87,78 +87,61 @@ end
 local function main(options)
 	options = Util:GetFlavorOptions(options)
 	options.initial = false
-	local difficulty_csv = parser:ReadCSV("difficulty", options)
-	local diffList = {}
-	for l in difficulty_csv:lines() do
-		local ID = tonumber(l.ID)
-		if ID then
-			local name = l.Name_lang
-			local instanceType = tonumber(l.InstanceType)
-			diffList[ID] = {instanceTypes[instanceType], name}
-		end
-	end
+	local difficulty_csv = Util:ReadCSV("difficulty", parser, options, function(tbl, ID, l)
+		local name = l.Name_lang
+		local instanceType = tonumber(l.InstanceType)
+		tbl[ID] = {instanceTypes[instanceType], name}
+	end)
+	local map_csv = Util:ReadCSV("map", parser, options, function(tbl, ID, l)
+		tbl[ID] = l.MapName_lang
+	end)
 
-	local map_csv = parser:ReadCSV("map", options)
-	local mapList = {}
-	for l in map_csv:lines() do
-		local ID = tonumber(l.ID)
-		if ID then
-			local name = l.MapName_lang
-			mapList[ID] = name
-		end
-	end
-
-	local lfgdungeons_csv = parser:ReadCSV("lfgdungeons", options)
 	local patchData = dbc_patch:GetPatchData("lfgdungeons", options)
-
 	print("writing to "..OUTPUT)
 	local file = io.open(OUTPUT, "w")
 	file:write('{| class="sortable darktable zebra col1-center"\n! ID !! Name !! Type !! [[DifficultyID]] !! [[InstanceID]] !! Patch\n')
 	local fs = '|-\n| %d || %s || %s || %s || %s || %s\n'
-	for l in lfgdungeons_csv:lines() do
-		local ID = tonumber(l.ID)
-		if ID then
-			local name = l.Name_lang
-			local typeid = tonumber(l.TypeID)
-			local subtype = tonumber(l.Subtype)
-			local difficultyID = tonumber(l.DifficultyID)
-			local instanceID = tonumber(l.MapID)
-			local ctid = tonumber(l.ContentTuningID)
+	Util:ReadCSV("lfgdungeons", parser, options, function(tbl, ID, l)
+		local name = l.Name_lang
+		local typeid = tonumber(l.TypeID)
+		local subtype = tonumber(l.Subtype)
+		local difficultyID = tonumber(l.DifficultyID)
+		local instanceID = tonumber(l.MapID)
+		local ctid = tonumber(l.ContentTuningID)
 
-			local nameText
-			if wpLink[ID] then
-				nameText = string.format("[[%s|%s]]", wpLink[ID], name)
-			elseif IsValidName(name) then
-				nameText = string.format("[[:%s]]", name)
-			else
-				nameText = name
-			end
-
-			local typeText
-			local diffText, diffName
-			if typeid == 4 then -- outdoor
-				typeText = lfgType[typeid]
-			elseif difficultyID == 0 then
-				typeText = lfgSubtype[subtype] or ""
-			else
-				typeText, diffName = table.unpack(diffList[difficultyID])
-				diffText = string.format('<span title="ID %d">%s</span>', difficultyID, diffName)
-				if timewalkingCT[ctid] then
-					diffText = "timewalking, "..diffText
-				end
-			end
-
-			local mapText = ""
-			if instanceID > -1 then
-				mapText = string.format('<span title="%s">%d</span>', mapList[instanceID], instanceID)
-			end
-			local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
-			file:write(fs:format(ID, nameText, typeText, diffText or "", mapText, patch))
+		local nameText
+		if wpLink[ID] then
+			nameText = string.format("[[%s|%s]]", wpLink[ID], name)
+		elseif IsValidName(name) then
+			nameText = string.format("[[:%s]]", name)
+		else
+			nameText = name
 		end
-	end
+
+		local typeText
+		local diffText, diffName
+		if typeid == 4 then -- outdoor
+			typeText = lfgType[typeid]
+		elseif difficultyID == 0 then
+			typeText = lfgSubtype[subtype] or ""
+		else
+			typeText, diffName = table.unpack(difficulty_csv[difficultyID])
+			diffText = string.format('<span title="ID %d">%s</span>', difficultyID, diffName)
+			if timewalkingCT[ctid] then
+				diffText = "timewalking, "..diffText
+			end
+		end
+
+		local mapText = ""
+		if instanceID > -1 then
+			mapText = string.format('<span title="%s">%d</span>', map_csv[instanceID], instanceID)
+		end
+		local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
+		file:write(fs:format(ID, nameText, typeText, diffText or "", mapText, patch))
+	end)
 	file:write("|}\n")
 	file:close()
 end
 
-main("mainline") -- ["ptr", "mainline", "classic"]
+main() -- ["ptr", "mainline", "classic"]
 print("done")

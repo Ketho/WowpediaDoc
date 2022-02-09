@@ -207,4 +207,16 @@ function Util:GetFlavorOptions(info)
 	end
 end
 
+function Util:ReadCSV(dbc, parser, options, func)
+	local csv = parser:ReadCSV(dbc, options)
+	local tbl = {}
+	for l in csv:lines() do
+		local ID = tonumber(l.ID)
+		if ID then
+			func(tbl, ID, l) -- maybe bad code
+		end
+	end
+	return tbl
+end
+
 return Util
