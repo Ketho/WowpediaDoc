@@ -119,7 +119,7 @@ local function main(options)
 	local file = io.open(OUTPUT, "w")
 	file:write('{| class="sortable darktable zebra col1-center"\n! ID !! Name !! Map !! [[InstanceID]] !! Patch\n')
 	local fs = '|-\n| %d || %s || %s || %s || %s\n'
-	Util:ReadCSV("dungeonencounter", parser, options, function(tbl, ID, l)
+	Util:ReadCSV("dungeonencounter", parser, options, function(_, ID, l)
 		local encounterName = l.Name_lang
 		local nameText
 		if wpLink[ID] then
