@@ -92,7 +92,7 @@ end
 
 local function main(options)
 	options = Util:GetFlavorOptions(options)
-	difficulty_csv = parser:ReadCSV("difficulty", options)
+	local difficulty_csv = parser:ReadCSV("difficulty", options)
 	local diffList = {}
 	for l in difficulty_csv:lines() do
 		local ID = tonumber(l.ID)
@@ -147,5 +147,5 @@ local function main(options)
 	file:close()
 end
 
-main("mainline") -- ["ptr", "mainline", "classic"]
+main() -- ["ptr", "mainline", "classic"]
 print("done")
