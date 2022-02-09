@@ -30,12 +30,6 @@ local wpLink = {
 	[2007] = "Battle for Stromgarde",
 }
 
--- local brokenIDs = {
--- 	[1021] = true,
--- 	[1027] = true,
--- 	[1508] = true,
--- }
-
 local lfgType = {
 	[1] = "dungeon",
 	[2] = "raid",
@@ -92,6 +86,7 @@ end
 
 local function main(options)
 	options = Util:GetFlavorOptions(options)
+	options.initial = false
 	local difficulty_csv = parser:ReadCSV("difficulty", options)
 	local diffList = {}
 	for l in difficulty_csv:lines() do
@@ -99,7 +94,17 @@ local function main(options)
 		if ID then
 			local name = l.Name_lang
 			local instanceType = tonumber(l.InstanceType)
-			diffList[ID] = {instanceTypes[instanceType], string.format('<span title="ID %d">%s</span>', ID, name)}
+			diffList[ID] = {instanceTypes[instanceType], name}
+		end
+	end
+
+	local map_csv = parser:ReadCSV("map", options)
+	local mapList = {}
+	for l in map_csv:lines() do
+		local ID = tonumber(l.ID)
+		if ID then
+			local name = l.MapName_lang
+			mapList[ID] = name
 		end
 	end
 
@@ -108,8 +113,8 @@ local function main(options)
 
 	print("writing to "..OUTPUT)
 	local file = io.open(OUTPUT, "w")
-	file:write('{| class="sortable darktable zebra col1-center"\n! ID !! Name !! Type !! [[DifficultyID]] !! Patch\n')
-	local fs = '|-\n| %d || %s || %s || %s || %s\n'
+	file:write('{| class="sortable darktable zebra col1-center"\n! ID !! Name !! Type !! [[DifficultyID]] !! [[InstanceID]] !! Patch\n')
+	local fs = '|-\n| %d || %s || %s || %s || %s || %s\n'
 	for l in lfgdungeons_csv:lines() do
 		local ID = tonumber(l.ID)
 		if ID then
@@ -117,6 +122,7 @@ local function main(options)
 			local typeid = tonumber(l.TypeID)
 			local subtype = tonumber(l.Subtype)
 			local difficultyID = tonumber(l.DifficultyID)
+			local instanceID = tonumber(l.MapID)
 			local ctid = tonumber(l.ContentTuningID)
 
 			local nameText
@@ -128,24 +134,30 @@ local function main(options)
 				nameText = name
 			end
 
-			local typeText, diffText
+			local typeText, diffText = "", ""
 			if typeid == 4 then -- outdoor
 				typeText = lfgType[typeid]
 			elseif difficultyID == 0 then
 				typeText = lfgSubtype[subtype] or ""
 			else
-				typeText, diffText = table.unpack(diffList[difficultyID])
+				typeText, diffName = table.unpack(diffList[difficultyID])
+				diffText = string.format('<span title="ID %d">%s</span>', difficultyID, diffName)
 				if timewalkingCT[ctid] then
 					diffText = "timewalking, "..diffText
 				end
 			end
+
+			local mapText = ""
+			if instanceID > -1 then
+				mapText = string.format('<span title="%s">%d</span>', mapList[instanceID], instanceID)
+			end
 			local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
-			file:write(fs:format(ID, nameText, typeText or "", diffText or "", patch))
+			file:write(fs:format(ID, nameText, typeText, diffText, mapText, patch))
 		end
 	end
 	file:write("|}\n")
 	file:close()
 end
 
-main() -- ["ptr", "mainline", "classic"]
+main("mainline") -- ["ptr", "mainline", "classic"]
 print("done")
