@@ -1,6 +1,6 @@
 -- https://wowpedia.fandom.com/wiki/CurrencyID
-local parser = require("Util/wowtoolsparser")
 local Util = require("Util/Util")
+local parser = require("Util/wowtoolsparser")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT = "out/page/CurrencyID.txt"
 
