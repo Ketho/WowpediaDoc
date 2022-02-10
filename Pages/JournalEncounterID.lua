@@ -34,6 +34,11 @@ local wpLinkDouble = {
 	[639] = "[[:Skarvald]] & [[:Dalronn]]",
 }
 
+local noLink = {
+	[2051] = true, -- PvP Battlegrounds
+	[2438] = true, -- Generic Template
+}
+
 local function main(options)
 	options = Util:GetFlavorOptions(options)
 	local journalinstance_csv = Util:ReadCSV("journalinstance", parser, options, function(tbl, ID, l)
@@ -70,6 +75,8 @@ local function main(options)
 			nameText = string.format("[[%s|%s]]", wpLink[ID], name)
 		elseif wpLinkDouble[ID] then
 			nameText = wpLinkDouble[ID]
+		elseif noLink[ID] then
+			nameText = name
 		else
 			nameText = string.format("[[:%s]]", name)
 		end
@@ -95,5 +102,5 @@ local function main(options)
 	file:close()
 end
 
-main() -- ["ptr", "mainline", "classic"]
+main("mainline") -- ["ptr", "mainline", "classic"]
 print("done")

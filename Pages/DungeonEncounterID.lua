@@ -70,10 +70,12 @@ local mapLink = {
 
 local noEncounter = {
 	[1348] = true, -- Omar the Test Dragon
+	[1918] = true, -- Timed Damage Dummy
+	[2018] = true, -- Second Prisoner
+	[2019] = true, -- First Prisoner
 	[2443] = true, -- Test - Fatescribe
 	[2494] = true, -- Test Chest
 	[2495] = true, -- 9.1 Desmotaeron - World Boss
-
 }
 
 -- uses l.MapID
@@ -106,7 +108,6 @@ local function IsValidMapName(id, name)
 	end
 	return true
 end
-
 
 local function main(options)
 	options = Util:GetFlavorOptions(options)
