@@ -142,6 +142,9 @@ local function main(options)
 			mapText = mapName
 		end
 		local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
+		if patch == Util.PtrVersion then
+			patch = patch.." {{Test-inline}}"
+		end
 		file:write(fs:format(ID, nameText, mapText, mapID, patch))
 	end)
 	file:write("|}\n")

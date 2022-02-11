@@ -28,7 +28,7 @@ local unobtainable = {
 	[32] = true, -- Bengal Tiger
 }
 
--- /run KethoWowpedia:GetMountIDs(2000)
+-- /run KethoWowpedia:GetMountIDs(3000)
 function KethoWowpedia:GetMountIDs(num)
 	eb:Show()
 	eb:InsertLine('{| class="sortable darktable zebra col1-center col2-center col3-center"\n! ID !! !! !! Name !! Source !! [[CreatureDisplayID|Display ID]] !! Spell ID !! Patch')
@@ -68,6 +68,10 @@ function KethoWowpedia:GetMountIDs(num)
 			if isMultiple then
 				displayLink = displayLink.." {{api|C_MountJournal.GetMountAllCreatureDisplayInfoByID#Values|+}}"
 			end
+			local patch = self.patch.mount[id] or ""
+			if patch == self.Util.PtrVersion then
+				patch = patch.." {{Test-inline}}"
+			end
 			eb:InsertLine(fs:format(
 				id,
 				factionIcon,
@@ -76,7 +80,7 @@ function KethoWowpedia:GetMountIDs(num)
 				sourceText,
 				displayLink,
 				format("[https://www.wowhead.com/spell=%d %d]", spellID, spellID),
-				self.patch.mount[id] or ""
+				patch
 			))
 		end
 	end

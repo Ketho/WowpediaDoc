@@ -189,6 +189,8 @@ function Util:IsClassicVersion(v)
 	return false
 end
 
+Util.PtrVersion = "9.2.0"
+
 local flavorInfo = {
 	ptr = {flavor = "mainline", header = true,
 		sort = Util.SortBuild},

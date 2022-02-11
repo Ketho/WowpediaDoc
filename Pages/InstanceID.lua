@@ -77,6 +77,7 @@ local nolink = {
 	[2174] = true, -- Scarlet Halls, Dark Ranger
 	[2267] = true, -- city
 	[2438] = true, -- SpellPref
+	[2440] = true, -- UNUSED
 }
 
 local patterns = {
@@ -155,6 +156,9 @@ local function main(options)
 			end
 			local instance = InstanceTypes[tonumber(l.InstanceType)] or ""
 			local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
+			if patch == Util.PtrVersion then
+				patch = patch.." {{Test-inline}}"
+			end
 			file:write(fs:format(ID, expansion, devmap, dir, nameText, instance, patch))
 		end
 	end

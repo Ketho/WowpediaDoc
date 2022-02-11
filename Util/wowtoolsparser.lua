@@ -55,7 +55,7 @@ local skip_codes = {
 
 -- not really proud of this
 -- https://github.com/brunoos/luasec/wiki/LuaSec-1.0.x#httpsrequesturl---body
-local function DownloadFile(url, path)
+local function DownloadFile(url, path, isRetry)
 	local res, code, _, status = https.request(url)
 	if code == 200 then
 		if not path then
@@ -71,6 +71,9 @@ local function DownloadFile(url, path)
 		url = url:gsub("&useHotfixes=true", "")
 		print("retry", path, status)
 		DownloadFile(url, path)
+	elseif code == "wantread" and not isRetry then
+		print("wantread", path, status)
+		DownloadFile(url, path, true)
 	elseif skip_codes[code] then
 		print("skip", path, status)
 		return false

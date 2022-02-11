@@ -59,7 +59,7 @@ for _, v in pairs(patternsMap) do
 	tinsert(patternsFloor, v)
 end
 
-local function IsValidLink(s, patterns)
+local function IsValidName(s, patterns)
 	s = s:lower()
 	for _, p in pairs(patterns) do
 		if s:find(p) then
@@ -69,7 +69,7 @@ local function IsValidLink(s, patterns)
 	return true
 end
 
--- /run KethoWowpedia:GetUiMapIDs(2500, 500)
+-- /run KethoWowpedia:GetUiMapIDs(3000, 1000)
 function KethoWowpedia:GetUiMapIDs(numMap, numGroup)
 	eb:Show()
 	eb:InsertLine('{| class="sortable darktable zebra col1-center"\n! ID !! Map Name !! Map Type !! Parent Map !! wow.tools !! Patch')
@@ -95,7 +95,7 @@ function KethoWowpedia:GetUiMapIDs(numMap, numGroup)
 		local mapText = info.name
 		if wpLinkMap[id] then
 			mapText = format("[[%s|%s]]", wpLinkMap[id], mapText)
-		elseif #mapText > 0 and IsValidLink(mapText, patternsMap) then
+		elseif #mapText > 0 and IsValidName(mapText, patternsMap) then
 			mapText = format("[[:%s]]", mapText)
 		end
 
@@ -103,7 +103,7 @@ function KethoWowpedia:GetUiMapIDs(numMap, numGroup)
 		if floorText then
 			if wpLinkFloor[id] then
 				floorText = format("[[%s|%s]]", wpLinkFloor[id], floorText)
-			elseif IsValidLink(floorText, patternsFloor) then
+			elseif IsValidName(floorText, patternsFloor) then
 				floorText = format("[[:%s]]", floorText)
 			end
 			mapText = mapText.." - "..floorText
@@ -114,13 +114,17 @@ function KethoWowpedia:GetUiMapIDs(numMap, numGroup)
 		if parentID > 0 then
 			parentMap = format('<span title="ID %d">%s</span>', mapInfo[parentID].mapID, mapInfo[parentID].name)
 		end
+		local patch = self.patch.uimap[id] or ""
+		if patch == self.Util.PtrVersion then
+			patch = patch.." {{Test-inline}}"
+		end
 		eb:InsertLine(fs:format(
 			info.mapID,
 			mapText,
 			MapType[info.mapType],
 			parentMap,
 			format("[https://wow.tools/maps/worldmap.php?id=%d view]", id),
-			self.patch.uimap[id] or ""
+			patch
 		))
 	end
 	eb:InsertLine("|}")

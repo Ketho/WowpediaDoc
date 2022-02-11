@@ -6,6 +6,8 @@ KethoWowpedia = {
 }
 local w = KethoWowpedia
 
+w.Util.PtrVersion = "9.2.0"
+
 function w.Util:SortTable(tbl)
 	local t = {}
 	for k in pairs(tbl) do

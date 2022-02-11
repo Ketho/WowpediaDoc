@@ -88,6 +88,9 @@ local function main(options)
 		end
 
 		local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
+		if patch == Util.PtrVersion then
+			patch = patch.." {{Test-inline}}"
+		end
 		file:write(fs:format(
 			ID,
 			nameText,
@@ -102,5 +105,5 @@ local function main(options)
 	file:close()
 end
 
-main("mainline") -- ["ptr", "mainline", "classic"]
+main() -- ["ptr", "mainline", "classic"]
 print("done")

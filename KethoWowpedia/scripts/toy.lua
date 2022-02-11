@@ -26,7 +26,7 @@ local wpExpansion = {
 }
 
 -- dont know how to get expansion source when the toy is not collected
--- /run KethoWowpedia:GetToyIDs(2e5)
+-- /run KethoWowpedia:GetToyIDs(3e5)
 function KethoWowpedia:GetToyIDs(num)
 	eb:Show()
 	eb:InsertLine('{| class="sortable darktable zebra col1-center"\n! ID !! Item ID !! !! Name !! Source !! Patch')
@@ -56,13 +56,17 @@ function KethoWowpedia:GetToyIDs(num)
 			elseif hidden then
 				sourceText = "❓"
 			end
+			local patch = self.patch.toy[toyID] or ""
+			if patch == self.Util.PtrVersion then
+				patch = patch.." {{Test-inline}}"
+			end
 			lines[toyID] = fs:format(
 				toyID,
 				format("[https://www.wowhead.com/item=%d %d]", itemID, itemID),
 				wpExpansion[expansions[itemID]] or "",
 				linkName and #linkName>0 and format("[[:%s]]", linkName) or "",
 				sourceText,
-				self.patch.toy[toyID] or ""
+				patch
 			)
 		end
 	end

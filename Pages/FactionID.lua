@@ -4,7 +4,7 @@ local parser = require "Util/wowtoolsparser"
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT = "out/page/FactionID.txt"
 
-local function isValidLink(s)
+local function isValidName(s)
 	if s:find("%(") then -- Paragon, Season
 		return false
 	elseif s:find("DEPRECATED") then
@@ -125,7 +125,7 @@ local function main(options)
 					end
 					local friendText = friendshipID > 0 and friendshipIcon or ""
 					local nameText = name
-					if isValidLink(name) then
+					if isValidName(name) then
 						nameText = string.format("[[:%s]]", name)
 					end
 					local parentName = ""
@@ -133,8 +133,11 @@ local function main(options)
 						local displayName = faction_names[parentFactionID] or "unknown"
 						parentName = string.format('<span title="%s">%s</span>', parentFactionID, displayName)
 					end
-					local seen = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
-					file:write(fs:format(ID, factionIcon, friendText, nameText, parentName, seen))
+					local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
+					if patch == Util.PtrVersion then
+						patch = patch.." {{Test-inline}}"
+					end
+					file:write(fs:format(ID, factionIcon, friendText, nameText, parentName, patch))
 				end
 			end
 		end

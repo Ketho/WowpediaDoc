@@ -70,7 +70,7 @@ local ignoredStrings = {
 	"Sanctum Anima Weaver%-",
 }
 
-local function IsValidLink(id, name, categoryID)
+local function IsValidName(id, name, categoryID)
 	if nolink[id] then
 		return false
 	elseif categoryID == 248 then -- Torghast UI (Hidden)
@@ -111,12 +111,15 @@ local function main(options)
 			local nameText = l.Name_lang
 			if wplink[ID] then
 				nameText = string.format("[[%s|%s]]", wplink[ID], l.Name_lang)
-			elseif IsValidLink(ID, l.Name_lang, categoryID) then
+			elseif IsValidName(ID, l.Name_lang, categoryID) then
 				nameText = string.format("[[:%s]]", l.Name_lang)
 			end
 			local categoryText = string.format('<span title="ID %d">%s</span>', categoryID, categories[categoryID])
-			local seen = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
-			file:write(fs:format(ID, nameText, categoryText, seen))
+			local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
+			if patch == Util.PtrVersion then
+				patch = patch.." {{Test-inline}}"
+			end
+			file:write(fs:format(ID, nameText, categoryText, patch))
 		end
 	end
 	file:write("|}\n")

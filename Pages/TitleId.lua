@@ -176,8 +176,11 @@ local function main(options)
 			else
 				nameText = GetNameText(l.Name_lang, maskID)
 			end
-			local seen = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
-			file:write(fs:format(maskID, ID, ID, nameText, seen))
+			local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
+			if patch == Util.PtrVersion then
+				patch = patch.." {{Test-inline}}"
+			end
+			file:write(fs:format(maskID, ID, ID, nameText, patch))
 		end
 	end
 	file:write("|}\n")

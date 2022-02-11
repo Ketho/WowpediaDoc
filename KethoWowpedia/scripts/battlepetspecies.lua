@@ -68,7 +68,7 @@ local function GetNumKeys(tbl)
 	return v
 end
 
--- /run KethoWowpedia:GetPetSpeciesIDs(3500)
+-- /run KethoWowpedia:GetPetSpeciesIDs(4e3)
 function KethoWowpedia:GetPetSpeciesIDs(num)
 	eb:Show()
 	eb:InsertLine('{| class="sortable darktable zebra col1-center"\n! ID !! !! !! !! Name !! Source !! [[CreatureDisplayID|Display ID]] !! Spell ID !! NPC ID !! Patch')
@@ -118,7 +118,10 @@ function KethoWowpedia:GetPetSpeciesIDs(num)
 			if numDisplayIDs and numDisplayIDs > 1 then
 				displayLink = displayLink.." {{api|C_PetJournal.GetDisplayIDByIndex#Values|+}}"
 			end
-
+			local patch = self.patch.battlepetspecies[id] or ""
+			if patch == self.Util.PtrVersion then
+				patch = patch.." {{Test-inline}}"
+			end
 			eb:InsertLine(fs:format(
 				id,
 				canBattle and "{{Pet||Yes}}" or "",
@@ -129,7 +132,7 @@ function KethoWowpedia:GetPetSpeciesIDs(num)
 				displayLink,
 				spellID and spellID > 0 and format("[https://www.wowhead.com/spell=%d %d]", spellID, spellID) or "",
 				format("[https://www.wowhead.com/npc=%d %d]", npcID, npcID),
-				self.patch.battlepetspecies[id] or ""
+				patch
 			))
 		end
 	end

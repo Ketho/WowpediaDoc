@@ -34,7 +34,7 @@ end
 
 local function main(options)
 	options = Util:GetFlavorOptions(options)
-	options.initial = "^7.3.0"
+	options.initial = false
 	local faction = parser:ReadCSV("garrfollower", options)
 	local patchData = dbc_patch:GetPatchData("garrfollower", options)
 
@@ -67,14 +67,18 @@ local function main(options)
 
 			if flags&0x4 == 0 then -- Internal Only
 				local qualityText = Enum_Quality[quality]
-				local seen = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
 				local followerTypeIcon = Enum_GarrisonFollowerType[garrfollowertype] or ""
 				local allianceName = creatures[allianceid]
 				local hordeName = creatures[hordeid]
+
+				local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
+				if patch == Util.PtrVersion then
+					patch = patch.." {{Test-inline}}"
+				end
 				if allianceName == hordeName then -- creature ID can be different but still have the same name
-					file:write(fs_same:format(ID, followerTypeIcon, FormatLink(ID, allianceName), qualityText, seen))
+					file:write(fs_same:format(ID, followerTypeIcon, FormatLink(ID, allianceName), qualityText, patch))
 				else
-					file:write(fs_different:format(ID, followerTypeIcon, FormatLink(ID, allianceName), FormatLink(ID, hordeName), qualityText, seen))
+					file:write(fs_different:format(ID, followerTypeIcon, FormatLink(ID, allianceName), FormatLink(ID, hordeName), qualityText, patch))
 				end
 			end
 		end

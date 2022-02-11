@@ -137,6 +137,9 @@ local function main(options)
 			mapText = string.format('<span title="%s">%d</span>', map_csv[instanceID], instanceID)
 		end
 		local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
+		if patch == Util.PtrVersion then
+			patch = patch.." {{Test-inline}}"
+		end
 		file:write(fs:format(ID, nameText, typeText, diffText or "", mapText, patch))
 	end)
 	file:write("|}\n")
