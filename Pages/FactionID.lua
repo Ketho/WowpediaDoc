@@ -4,6 +4,24 @@ local parser = require "Util/wowtoolsparser"
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT = "out/page/FactionID.txt"
 
+local invalidFactions = {
+	-- has a description
+	[1357] = true, -- Nomi
+	[2063] = true, -- Arne Test - Paragon Reputation Stormwind
+}
+
+-- these IDs dont seem to return values
+local function isValidFaction(s, id)
+	if invalidFactions[id] then
+		return false
+	elseif s:find("^GarInvasion_") then
+		return false
+	elseif s:find("%(Paragon") then
+		return false
+	end
+	return true
+end
+
 local function isValidName(s)
 	if s:find("%(") then -- Paragon, Season
 		return false
@@ -14,24 +32,6 @@ local function isValidName(s)
 	elseif s:find("_") then
 		return false
 	elseif s:find(" %- ") then
-		return false
-	end
-	return true
-end
-
-local invalidFactions = {
-	-- has a description
-	[1357] = true, -- Nomi
-	[2063] = true, -- Arne Test - Paragon Reputation Stormwind
-}
-
--- these IDs dont seem to return values
-local function isValidName(s, id)
-	if invalidFactions[id] then
-		return false
-	elseif s:find("^GarInvasion_") then
-		return false
-	elseif s:find("%(Paragon") then
 		return false
 	end
 	return true
@@ -114,7 +114,7 @@ local function main(options)
 			local repracemask0 = tonumber(l["ReputationRaceMask[0]"])
 			local repracemask1 = tonumber(l["ReputationRaceMask[1]"])
 
-			if repIndex > 0 and isValidName(name, ID) then
+			if repIndex > 0 and isValidFaction(name, ID) then
 				local isValidParent = parentFactionID == 0 and faction_parents[ID]
 				if parentFactionID > 0 or isValidParent or #desc > 0 then
 					local factionIcon
