@@ -6,17 +6,17 @@ imgPath = Path("Scribunto", "Proglan", "img")
 
 colors = {
 	"black": ["webp", "black"],
-	"white": ["png", "white"],
 	"blackdarkbrown": ["png", "blackdarkbrown"],
 	"broadcastyellow": ["png", "broadcastyellow"],
 	"normal": ["png", ""],
+	"white": ["png", "white"],
 }
 
 def read_image(folder, info):
 	ext, color = info
 	im = Image.open(Path(imgPath, folder, f"ingamelanguagesprogenitor{color}.{ext}"))
-	texture = AtlasInfo.data[f"interface/ingamelanguagues/ingamelanguagesprogenitor{color}"]
 	imWidth, imHeight = im.size
+	texture = AtlasInfo.data[f"interface/ingamelanguagues/ingamelanguagesprogenitor{color}"]
 	for atlas, v in texture.items():
 		left, right, top, bottom = v[2:]
 		crop = im.crop((left*imWidth, top*imHeight, right*imWidth, bottom*imHeight))
