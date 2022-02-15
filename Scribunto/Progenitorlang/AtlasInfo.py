@@ -1,5 +1,5 @@
 data = {
-	# atlas = width, height, leftTexCoord, rightTexCoord, topTexCoord, bottomTexCoord, tilesHorizontally, tilesVertically
+	# atlas = width, height, leftTexCoord, rightTexCoord, topTexCoord, bottomTexCoord
 	"interface/ingamelanguagues/ingamelanguagesprogenitor": { # 4216982
 		"proglan-1": [19, 32, 0.55859375, 0.6328125, 0.40234375, 0.52734375],
 		"proglan-2": [35, 32, 0.16015625, 0.296875, 0.53515625, 0.66015625],
