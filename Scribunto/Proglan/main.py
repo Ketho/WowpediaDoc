@@ -2,7 +2,7 @@ import AtlasInfo
 from pathlib import Path
 from PIL import Image
 
-imgPath = Path("Projects", "progenitorlang", "img")
+imgPath = Path("Scribunto", "Proglan", "img")
 
 colors = {
 	"black": ["webp", "black"],

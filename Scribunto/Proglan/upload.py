@@ -1,10 +1,10 @@
-# https://wowpedia.fandom.com/wiki/Template:Proglang
+# https://wowpedia.fandom.com/wiki/Template:Proglan
 # https://wowpedia.fandom.com/wiki/Category:WoW_Icons:_Progenitor_Language
 import os
 from pathlib import Path
 import pywikibot
 
-imgPath = Path("Projects", "progenitorlang", "img")
+imgPath = Path("Scribunto", "Proglan", "img")
 site = pywikibot.Site('en', 'wowpedia')
 pageText = "[[Category:WoW Icons: Progenitor Language]]"
 
