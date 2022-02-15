@@ -20,7 +20,6 @@ def read_image(folder, info):
 	for atlas, v in texture.items():
 		left, right, top, bottom = v[2:]
 		crop = im.crop((left*imWidth, top*imHeight, right*imWidth, bottom*imHeight))
-		print(crop)
 		crop.save(Path(imgPath, folder, atlas+".png"))
 
 def main():

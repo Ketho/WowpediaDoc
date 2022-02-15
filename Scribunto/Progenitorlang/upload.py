@@ -1,3 +1,4 @@
+# https://wowpedia.fandom.com/wiki/Template:Proglang
 # https://wowpedia.fandom.com/wiki/Category:WoW_Icons:_Progenitor_Language
 import os
 from pathlib import Path
