@@ -1,7 +1,7 @@
 import os
 import pywikibot
 
-site = pywikibot.Site('en', 'wowpedia')
+site = pywikibot.Site("en", "wowpedia")
 PATH = r"D:\Dev\Repo\wow-dev\WowpediaApiDoc\out"
 
 def getFileText(p):

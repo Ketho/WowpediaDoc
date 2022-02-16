@@ -1,7 +1,7 @@
 from importlib import util
 import pywikibot
 
-site = pywikibot.Site('en', 'wowpedia')
+site = pywikibot.Site("en", "wowpedia")
 
 def load_file_as_module(name, location):
 	spec = util.spec_from_file_location(name, location)
@@ -9,7 +9,7 @@ def load_file_as_module(name, location):
 	spec.loader.exec_module(module)
 	return module
 
-mod = load_file_as_module('mymodule', 'wowpedia/category/namespace.py')
+mod = load_file_as_module("mymodule", "wowpedia/category/namespace.py")
 
 fs = """[[Category:API namespaces|{!s}]]
 ===External links===

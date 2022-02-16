@@ -5,7 +5,7 @@ from pathlib import Path
 import pywikibot
 
 imgPath = Path("Scribunto", "Proglan", "img")
-site = pywikibot.Site('en', 'wowpedia')
+site = pywikibot.Site("en", "wowpedia")
 pageText = "[[Category:WoW Icons: Progenitor Language]]"
 
 def uploadFile(path):
@@ -27,5 +27,5 @@ def main():
 				uploadFile(Path(subPath, file))
 	print("done")
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 	main()

@@ -29,7 +29,7 @@ def parse_wikitext(name: str, s: str):
 
 def main():
 	changes = read_export.main(parse_wikitext)
-	site = pywikibot.Site('en', 'wowpedia')
+	site = pywikibot.Site("en", "wowpedia")
 	for l in changes:
 		name, text = l
 		# print(name, text)
@@ -38,5 +38,5 @@ def main():
 		page.save("Fix hyperlinks to hyperlinks :p")
 	print("done")
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 	main()

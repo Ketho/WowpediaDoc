@@ -22,5 +22,5 @@ def main():
 			read_image(path)
 	print("done")
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 	main()
