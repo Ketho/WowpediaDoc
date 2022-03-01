@@ -2,17 +2,18 @@
 local lfs = require "lfs"
 
 local CURRENT_FLAVOR = "retail"
+local FRAMEXML = "../#FrameXML/Generate-Globals/wow-ui-source/"
 
 -- too lazy to parse FrameXML_TBC.toc or whatever the new file loading structure is
 local flavors = {
-	retail = {"../#FrameXML/Generate-Globals/wow-ui-source/Interface"},
+	retail = {FRAMEXML.."Interface"},
 	tbc = {
-		"../#FrameXML/Generate-Globals/wow-ui-source/Interface",
-		"../#FrameXML/Generate-Globals/wow-ui-source/Interface_TBC",
+		FRAMEXML.."Interface",
+		FRAMEXML.."Interface_TBC",
 	},
 	vanilla = {
-		"../#FrameXML/Generate-Globals/wow-ui-source/Interface",
-		"../#FrameXML/Generate-Globals/wow-ui-source/Interface_Vanilla",
+		FRAMEXML.."Interface",
+		FRAMEXML.."Interface_Vanilla",
 	},
 }
 local OUT_PATH = "../BlizzardInterfaceResources/Resources"
