@@ -8,7 +8,8 @@
 /out
 /cache_csv
 /cache_lua
-/FrameXML
+/FrameXML/classic
+/FrameXML/retail
 
 # python
 apicache-py3

@@ -15,9 +15,11 @@ local Missing =
 		{ Name = "RuneforgeLegendaryComponentInfo", Type = "Structure", Fields = Empty }, -- LegendaryCraftingDocumentation.lua
 		{ Name = "RuneforgeLegendaryCraftDescription", Type = "Structure", Fields = Empty }, -- LegendaryCraftingDocumentation.lua
 		{ Name = "RuneforgePower", Type = "Structure", Fields = Empty }, -- LegendaryCraftingDocumentation.lua
-		-- ptr 9.1.5 (39977)
+		-- 9.1.5
 		{ Name = "MythicPlusRatingLinkInfo", Type = "Structure", Fields = Empty }, -- ChallengeModeInfoDocumentation.lua
 		{ Name = "ChatChannelInfo", Type = "Structure", Fields = Empty }, -- ChatInfoDocumentation.lua
+		-- 9.2.0
+		{ Name = "ClickBindingInfo", Type = "Structure", Fields = Empty }, -- ClickBindingsDocumentation.lua
 
 		-- placeholder enums, unused in apidocs
 		{ Name = "AddSoulbindConduitReason", Type = "Enumeration", Fields = Empty },
