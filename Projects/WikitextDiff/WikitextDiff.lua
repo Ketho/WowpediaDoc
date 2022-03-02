@@ -140,7 +140,7 @@ function m:GetWikiTable(info, section)
 end
 
 
-function main()
+local function main()
 	local path = m:FindDiff()
 	m:ParseDiff(path)
 	m:SanitizeCVars()
