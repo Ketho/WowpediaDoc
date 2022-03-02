@@ -56,17 +56,6 @@ for _, v in pairs(ApiTypes) do
 	}
 end
 
-function m:main()
-	local path = m:FindDiff()
-	m:ParseDiff(path)
-	m:SanitizeCVars()
-	local file = io.open(OUT_FILE, "w+")
-	for _, section in pairs(api_order) do
-		local info = ApiTypes[section]
-		file:write(m:GetWikiTable(info, section))
-	end
-end
-
 -- https://github.com/Ketho/BlizzardInterfaceResources/commit/9f5b92ef5ee205a4df7536a145bbee24f678d5e0.diff
 function m:FindDiff()
 	local path
@@ -150,5 +139,18 @@ function m:GetWikiTable(info, section)
 	return table.concat(t, "\n")
 end
 
-m:main()
+
+function main()
+	local path = m:FindDiff()
+	m:ParseDiff(path)
+	m:SanitizeCVars()
+	print("writing", OUT_FILE)
+	local file = io.open(OUT_FILE, "w+")
+	for _, section in pairs(api_order) do
+		local info = ApiTypes[section]
+		file:write(m:GetWikiTable(info, section))
+	end
+end
+
+main()
 print("done")

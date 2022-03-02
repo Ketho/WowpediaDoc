@@ -1,7 +1,7 @@
 -- similar codebase as https://wowpedia.fandom.com/wiki/Module:API_info/cvar
 local Util = require("Util/Util")
 local data = Util:DownloadAndRun(
-	"cache/CVars_mainline.lua",
+	"cache_lua/CVars_mainline.lua",
 	"https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/mainline/Resources/CVars.lua"
 )
 
