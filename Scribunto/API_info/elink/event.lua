@@ -2,15 +2,14 @@
 local Util = require("Util/Util")
 local OUT = "out/lua/API_info.elink.event.lua"
 
-local m = {}
-
-function m:main()
+local function main()
 	local FrameXML = require("Documenter/FrameXML/FrameXML")
 	FrameXML:LoadApiDocs("Documenter/FrameXML")
 	table.sort(APIDocumentation.events, function(a, b)
 		return a.LiteralName < b.LiteralName
 	end)
 
+	print("writing", OUT)
 	local file = io.open(OUT, "w")
 	file:write('local data = {\n')
 	for _, event in ipairs(APIDocumentation.events) do
@@ -21,5 +20,5 @@ function m:main()
 	file:close()
 end
 
-m:main()
+main()
 print("done")

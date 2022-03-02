@@ -86,15 +86,6 @@ end
 
 local m = {}
 
-function m:main()
-	for _, folder in pairs(flavors[CURRENT_FLAVOR]) do
-		m:IterateFiles(folder)
-	end
-	for _, info in pairs(dataTypes) do
-		self:WriteDataFile(info)
-	end
-end
-
 function m:IterateFiles(folder)
 	for fileName in lfs.dir(folder) do
 		local path = folder.."/"..fileName
@@ -188,5 +179,14 @@ function m:WriteDataFile(info)
 	file:close()
 end
 
-m:main()
-print("Done")
+local function main()
+	for _, folder in pairs(flavors[CURRENT_FLAVOR]) do
+		m:IterateFiles(folder)
+	end
+	for _, info in pairs(dataTypes) do
+		m:WriteDataFile(info)
+	end
+end
+
+main()
+print("done")

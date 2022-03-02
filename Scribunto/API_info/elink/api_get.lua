@@ -3,7 +3,7 @@ local FrameXML = require("Documenter/FrameXML/FrameXML")
 FrameXML:LoadApiDocs("Documenter/FrameXML")
 
 local globalApi = Util:DownloadAndRun(
-	"cache/GlobalAPI_mainline.lua",
+	"cache_lua/GlobalAPI_mainline.lua",
 	"https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/mainline/Resources/GlobalAPI.lua"
 )
 

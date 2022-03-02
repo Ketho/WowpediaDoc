@@ -76,20 +76,20 @@ function m:GetLatestData(flavor)
 	return info[#info].data
 end
 
-function m:main()
+local function main()
 	for flavor, info in pairs(flavors) do
-		local added, removed = self:GetPatchData(info.data)
-		local latest = self:GetLatestData(flavor)
+		local added, removed = m:GetPatchData(info.data)
+		local latest = m:GetLatestData(flavor)
 		local t = {}
 		for name in pairs(added) do
-			if not self:IsFrameXML(name, added, removed) then
+			if not m:IsFrameXML(name, added, removed) then
 				t[name] = t[name] or {}
 				t[name][1] = added[name]
 			end
 		end
 		for name in pairs(removed) do
 			-- also verify if something was marked as removed but actually exists
-			if not self:IsFrameXML(name, added, removed) and not latest[name] then
+			if not m:IsFrameXML(name, added, removed) and not latest[name] then
 				t[name] = t[name] or {}
 				t[name][2] = removed[name]
 			end
@@ -263,5 +263,5 @@ m.LuaAPI = {
 	["xpcall"] = true,
 }
 
-m:main()
+main()
 print("done")

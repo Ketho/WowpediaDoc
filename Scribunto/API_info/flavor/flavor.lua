@@ -49,21 +49,6 @@ local branches = {
 	"tbc",
 }
 
-function m:main()
-	for source, info in pairs(sources) do
-		local data = self:GetData(source)
-		print("writing to", info.out)
-		local file = io.open(info.out, "w")
-		file:write('local data = {\n')
-		for _, name in pairs(Util:SortTable(data)) do
-			local flavors = data[name]
-			file:write(string.format('\t["%s"] = 0x%X,\n', name, flavors))
-		end
-		file:write("}\n\nreturn data\n")
-		file:close()
-	end
-end
-
 function m:GetData(sourceType)
 	local info = sources[sourceType]
 	local parts = {}
@@ -88,5 +73,20 @@ function m:GetData(sourceType)
 	return data
 end
 
-m:main()
+local function main()
+	for source, info in pairs(sources) do
+		local data = m:GetData(source)
+		print("writing to", info.out)
+		local file = io.open(info.out, "w")
+		file:write('local data = {\n')
+		for _, name in pairs(Util:SortTable(data)) do
+			local flavors = data[name]
+			file:write(string.format('\t["%s"] = 0x%X,\n', name, flavors))
+		end
+		file:write("}\n\nreturn data\n")
+		file:close()
+	end
+end
+
+main()
 print("done")
