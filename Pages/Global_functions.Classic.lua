@@ -79,10 +79,10 @@ local wp_icons = {
 local sections = {
 	{id = "bcc", label = "TBC only"},
 	{id = "both", label = "TBC & Vanilla"},
-	{id = "retail_bcc", label = "Retail & TBC"},
+	{id = "retail_bcc", label = "Mainline & TBC"},
 	{id = "vanilla", label = "Vanilla only"},
-	{id = "retail_vanilla", label = "Retail & Vanilla"},
-	{id = "retail_both", label = "Retail & TBC & Vanilla"},
+	{id = "retail_vanilla", label = "Mainline & Vanilla"},
+	{id = "retail_both", label = "Mainline & TBC & Vanilla"},
 }
 
 local cvar_enum = {
