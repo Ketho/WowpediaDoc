@@ -1,10 +1,9 @@
+local constants = require("Documenter/constants")
 Wowpedia = {}
 require("Documenter/Wowpedia/Functions")
 require("Documenter/Wowpedia/Events")
 require("Documenter/Wowpedia/Tables")
 require("Documenter/Wowpedia/Fields")
-
-local LATEST_PATCH = "9.1.5"
 
 function Wowpedia:GetPageText(apiTable)
 	local tbl = {}
@@ -36,10 +35,11 @@ end
 
 function Wowpedia:GetPatchSection(apiTable)
 	local fullName = self:GetFullName(apiTable)
+	local patch = constants.LATEST_MAINLINE:match("%d+%.%d+%.%d+")
 	-- if ApiDocsDiff[fullName] then
 		-- return format("==Patch changes==\n%s\n", ApiDocsDiff[fullName])
 	-- else
-		return format("==Patch changes==\n* {{Patch %s|note=Added.}}\n", LATEST_PATCH)
+		return format("==Patch changes==\n* {{Patch %s|note=Added.}}\n", patch)
 	-- end
 end
 

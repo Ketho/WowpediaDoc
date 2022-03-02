@@ -2,7 +2,7 @@ import os
 import pywikibot
 
 site = pywikibot.Site("en", "wowpedia")
-PATH = r"D:\Dev\Repo\wow-dev\WowpediaApiDoc\out"
+PATH = "out/export"
 
 def getFileText(p):
 	f = open(p)
@@ -13,9 +13,9 @@ def saveFile(path, fileName):
 	name = fileName.replace(".txt", "")
 	# print("-- reading "+name)
 	page = pywikibot.Page(site, name)
-	if not page.text:
+	if not page.exists():
 		page.text = getFileText(path)
-		page.save(summary="9.0.5")
+		page.save(summary="9.2.0")
 
 def recursiveFiles(path):
 	for base in os.listdir(path):

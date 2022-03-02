@@ -1,5 +1,5 @@
 -- https://wowpedia.fandom.com/wiki/Category:API_namespaces
-local constants = require("FrameXML/constants")
+local constants = require("Documenter/constants")
 
 local m = {}
 local BAD = "FrameXML/retail/"..constants.LATEST_MAINLINE.."/Blizzard_APIDocumentation"

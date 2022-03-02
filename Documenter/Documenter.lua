@@ -1,4 +1,4 @@
-local constants = require("FrameXML/constants")
+local constants = require("Documenter/constants")
 
 -- experimental, bad code
 -- note APIDocumentation gets overwritten again

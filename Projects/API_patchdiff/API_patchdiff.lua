@@ -59,13 +59,6 @@ end
 
 local m = {}
 
-function m:main()
-	local versions = self:GetApiDocVersions("FrameXML/retail")
-	local framexml = self:LoadFrameXML(versions)
-	self:CompareVersions(framexml, "9.1.0.40000", "9.1.5.40871")
-	-- return self:GetAllChangelogs(versions, framexml)
-end
-
 function m:GetAllChangelogs(versions, framexml)
 	local t = {}
 	local paramHistory, hasUpdates = self:GetHistory(versions, framexml)
@@ -328,6 +321,14 @@ function m:GetChangelog(paramHistory, tbl)
 	return table.concat(text, "\n")
 end
 
-local data = m:main()
-Print("done1")
+local function main()
+	local versions = m:GetApiDocVersions("FrameXML/retail")
+	local framexml = m:LoadFrameXML(versions)
+	m:CompareVersions(framexml, "9.1.5.42010", "9.2.0.42538")
+	-- return self:GetAllChangelogs(versions, framexml)
+end
+
+local data = main()
+print("done")
+
 return data

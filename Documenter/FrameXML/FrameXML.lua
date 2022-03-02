@@ -1,5 +1,5 @@
 local lfs = require "lfs"
-local constants = require("FrameXML/constants")
+local constants = require("Documenter/constants")
 local m = {}
 
 local missing = {
