@@ -1,9 +1,8 @@
-local xml = require "xml"
 local Util = require("Util/Util")
+local WikiText = require("Pages/World_of_Warcraft_API/WikiText")
 Util:MakeDir("cache_lua")
 
 local m = {}
-local WIKIPAGE_PATH = "cache_lua/World_of_Warcraft_API.xml"
 
 local ignoredTags = {
 	DEPRECATED = true,
@@ -11,17 +10,9 @@ local ignoredTags = {
 	Lua = true,
 }
 
-function m:ParseWikitext(PATH)
-	local file_string = io.open(PATH):read("a")
-	-- could also just read the file by line instead of fancy xml
-	local xml_data = xml.load(file_string)
-	local wikitext = xml_data[2][4][8][1]
-	local str_start = wikitext:find("== API Reference ==")
-	local str_end = wikitext:find("== Classic ==")
-	local retail_wikitext = wikitext:sub(str_start, str_end-1)
-
+function m:ParseWikitext(wikitext)
 	local api_names, tag_data = {}, {}
-	for s1, name in string.gmatch(retail_wikitext, "\n:(.-)%[API (.-)|") do
+	for s1, name in string.gmatch(wikitext, "\n:(.-)%[API (.-)|") do
 		table.insert(api_names, name) -- allow finding duplicates
 		local tag = s1:match("<small>(.-)</small>")
 		if tag then
@@ -85,11 +76,13 @@ function m:SaveWowpediaExport(path)
 end
 
 local function main()
-	m:SaveWowpediaExport(WIKIPAGE_PATH)
-	local wowpedia_api, wowpedia_tags = m:ParseWikitext(WIKIPAGE_PATH)
-	m:FindDuplicates(wowpedia_api)
+	WikiText:SaveExport()
+	local text = WikiText:GetWikitext(true)
+	local api, tags = m:ParseWikitext(text)
+	m:FindDuplicates(api)
 	local global_api = m:GetGlobalApi()
-	m:FindMissing(wowpedia_api, wowpedia_tags, global_api)
+	m:FindMissing(api, tags, global_api)
 end
 
 main()
+print("done")
