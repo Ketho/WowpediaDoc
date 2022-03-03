@@ -29,7 +29,6 @@ local hordeIcon = {
 	[33] = true, -- Forsaken
 	[38] = true, -- Goblin Binary
 	[40] = true, -- Goblin
-	[44] = true, -- Pandaren
 	[181] = true, -- Shalassian
 	[285] = true, -- Vulpera
 }
