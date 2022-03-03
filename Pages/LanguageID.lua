@@ -6,8 +6,8 @@ local OUTPUT = "out/page/LanguageID.txt"
 
 local wpIcon = {
 	[8] = "{{ClassIcon|Demon Hunter}}", -- Demonic
-	[10] = "{{Horde}}{{Alliance}}", -- blood elf, void elf
-	[42] = "{{Horde}}{{Alliance}}", -- apparently for starter zone, alliance, horde
+	[10] = "{{Alliance}}{{Horde}}", -- blood elf, void elf
+	[42] = "{{Alliance}}{{Horde}}", -- 7.0.3 cross faction communication
 	[178] = "[[File:ClassIcon priest.png|16px|link=Voidform]]", -- Shath'Yar
 }
 
