@@ -189,12 +189,12 @@ function Util:IsClassicVersion(v)
 	return false
 end
 
-Util.PtrVersion = "9.2.0"
+Util.PtrVersion = "9.2.5"
 
 local flavorInfo = {
 	ptr = {flavor = "mainline", header = true,
 		sort = Util.SortBuild},
-	mainline = {flavor = "mainline", header = true, build = "9.1.5.",
+	mainline = {flavor = "mainline", header = true, build = "9.2.0.",
 		sort = Util.SortBuild},
 	classic = {flavor = "classic", header = true, build = "2.5.3.",
 		sort = function(a, b) return a < b end} -- avoid 1.14.x and 2.5.x mixing up
