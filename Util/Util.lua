@@ -5,6 +5,25 @@ local ltn12 = require "ltn12"
 local Util = {}
 local INVALIDATION_TIME = 60*60
 
+function Util.SortBuild(a, b)
+	local build_a = tonumber(a:match("(%d+)$"))
+	local build_b = tonumber(b:match("(%d+)$"))
+	if build_a ~= build_b then
+		return build_a < build_b
+	end
+end
+
+Util.PtrVersion = "9.2.5"
+
+local flavorInfo = {
+	ptr = {flavor = "mainline", header = true,
+		sort = Util.SortBuild},
+	mainline = {flavor = "mainline", header = true, build = "9.2.0.",
+		sort = Util.SortBuild},
+	classic = {flavor = "classic", header = true, build = "2.5.3.",
+		sort = function(a, b) return a < b end} -- avoid 1.14.x and 2.5.x mixing up
+}
+
 Util.RelativePath = {
 	["."] = true,
 	[".."] = true,
@@ -129,14 +148,6 @@ function Util.SortNocase(a, b)
 	return a:lower() < b:lower()
 end
 
-function Util.SortBuild(a, b)
-	local build_a = tonumber(a:match("(%d+)$"))
-	local build_b = tonumber(b:match("(%d+)$"))
-	if build_a ~= build_b then
-		return build_a < build_b
-	end
-end
-
 -- https://stackoverflow.com/a/7615129/1297035
 function Util:strsplit(input, sep)
 	local t = {}
@@ -188,17 +199,6 @@ function Util:IsClassicVersion(v)
 	end
 	return false
 end
-
-Util.PtrVersion = "9.2.5"
-
-local flavorInfo = {
-	ptr = {flavor = "mainline", header = true,
-		sort = Util.SortBuild},
-	mainline = {flavor = "mainline", header = true, build = "9.2.0.",
-		sort = Util.SortBuild},
-	classic = {flavor = "classic", header = true, build = "2.5.3.",
-		sort = function(a, b) return a < b end} -- avoid 1.14.x and 2.5.x mixing up
-}
 
 -- accepts an options table or a game flavor
 function Util:GetFlavorOptions(info)
