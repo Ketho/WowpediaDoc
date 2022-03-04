@@ -32,6 +32,7 @@ lua53 Documenter/Documenter.lua
 - Run [Projects/API_patchdiff](https://github.com/Ketho/WowpediaApiDoc/tree/master/Projects/API_patchdiff) to compare builds and manually update changed API.
 - Run [Pages/World_of_Warcraft_API](https://github.com/Ketho/WowpediaApiDoc/tree/master/Pages/World_of_Warcraft_API) scripts to update the page.
 - Run [Pages/Global_functions.Classic.lua](https://github.com/Ketho/WowpediaApiDoc/blob/master/Pages/Global_functions.Classic.lua) to generate wikitext for Classic comparisons.
+- Update page relations: [API_info/multi/data](https://wowpedia.fandom.com/wiki/Module:API_info/multi/data), [API_info/flavor_ambox/data](https://wowpedia.fandom.com/wiki/Module:API_info/flavor_ambox/data), [API_info/navbox/data](https://wowpedia.fandom.com/wiki/Module:API_info/navbox/data).
 
 🔢 "List of IDs" pages
 - Run [Projects/DBC/DBC_exporter.lua](https://github.com/Ketho/WowpediaApiDoc/blob/master/Projects/DBC/DBC_exporter.lua) to update the addon data.
