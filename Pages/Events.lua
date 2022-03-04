@@ -1,13 +1,14 @@
 -- https://wow.gamepedia.com/Events
 local FrameXML = require("Documenter/FrameXML/FrameXML")
 FrameXML:LoadApiDocs("Documenter/FrameXML")
-local OUT_PATH = "out/page/Events.txt"
+local OUTPUT = "out/page/Events.txt"
 
 table.sort(APIDocumentation.systems, function(a, b)
 	return (a.Namespace or a.Name) < (b.Namespace or b.Name)
 end)
 
-local file = io.open(OUT_PATH, "w")
+print("writing to", OUTPUT)
+local file = io.open(OUTPUT, "w")
 
 for _, system in pairs(APIDocumentation.systems) do
 	if system.Events and #system.Events > 0 then

@@ -78,14 +78,23 @@ function KethoWowpedia:GetCVars(commandType)
 			if cvar_ptr[v.command] then
 				nameText = "{{Test-inline}} "..nameText
 			end
-
+			local cache = self.cvar_cache.var[v.command]
+			if cache then
+				-- the category resets back to 5 seemingly randomly
+				if v.category == 5 then
+					v.category = cache[2]
+				end
+				if v.help and #v.help == 0 then
+					v.help = cache[5]
+				end
+			end
 			eb:InsertLine(fs:format(
 				githubLink:format(v.command),
 				nameText,
 				defaultValue or "",
 				cvar_enum[v.category],
 				server and "Account" or character and "Character" or "",
-				v.help and #v.help>0 and v.help or self.cvar_cache[v.command] or ""
+				v.help or ""
 			))
 		end
 	elseif commandType == Enum.ConsoleCommandType.Command then
