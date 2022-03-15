@@ -23,13 +23,10 @@ function m:ReplaceHtml(text)
 end
 
 function m:GetWikitext(isRetail)
-	local file = io.open(OUTPUT)
-	local text = file:read("a")
-	file:close()
 	local xmlstr = xml2lua.loadFile(OUTPUT)
 	local parser = xml2lua.parser(handler)
 	parser:parse(xmlstr)
-	text = handler.root.mediawiki.page.revision.text[1]
+	local text = handler.root.mediawiki.page.revision.text[1]
 	text = self:ReplaceHtml(text)
 	if isRetail then
 		local str_start = text:find("== API Reference ==")
