@@ -1,4 +1,5 @@
-local xml = require "xml"
+local xml2lua = require "xml2lua"
+local handler = require "xmlhandler.tree"
 local Util = require("Util/Util")
 Util:MakeDir("cache_lua")
 
@@ -25,8 +26,10 @@ function m:GetWikitext(isRetail)
 	local file = io.open(OUTPUT)
 	local text = file:read("a")
 	file:close()
-	local xml_data = xml.load(text)
-	text = xml_data[2][4][8][1]
+	local xmlstr = xml2lua.loadFile(OUTPUT)
+	local parser = xml2lua.parser(handler)
+	parser:parse(xmlstr)
+	text = handler.root.mediawiki.page.revision.text[1]
 	text = self:ReplaceHtml(text)
 	if isRetail then
 		local str_start = text:find("== API Reference ==")
