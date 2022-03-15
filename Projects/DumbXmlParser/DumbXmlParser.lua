@@ -1,12 +1,12 @@
 -- first strip out UTF8 BOM from files with powershell
 local lfs = require "lfs"
 
-local CURRENT_FLAVOR = "retail"
+local CURRENT_FLAVOR = "mainline"
 local FRAMEXML = "../#FrameXML/Generate-Globals/wow-ui-source/"
 
 -- too lazy to parse FrameXML_TBC.toc or whatever the new file loading structure is
 local flavors = {
-	retail = {FRAMEXML.."Interface"},
+	mainline = {FRAMEXML.."Interface"},
 	tbc = {
 		FRAMEXML.."Interface",
 		FRAMEXML.."Interface_TBC",
