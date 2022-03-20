@@ -42,7 +42,7 @@ local function main()
 	Util:IterateFiles(FRAMEXML, GetStrings)
 	local t = {}
 	for k, v in pairs(GetCvars()) do
-		-- there are 9 cvars (266-257) that dont match case insensitive
+		-- there are some cvars that dont match case insensitive
 		if string_tbl[k:lower()] then
 			t[k] = true
 		end
