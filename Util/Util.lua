@@ -224,4 +224,21 @@ function Util:ReadCSV(dbc, parser, options, func)
 	return tbl
 end
 
+function Util:IterateFiles(folder, func)
+	for fileName in lfs.dir(folder) do
+		local path = folder.."/"..fileName
+		local attr = lfs.attributes(path)
+		if attr.mode == "directory" then
+			if not self.RelativePath[fileName] then
+				self:IterateFiles(path, func)
+			end
+		else
+			local ext = fileName:match("%.(%a+)")
+			if ext == "lua" or ext == "xml" then
+				func(path)
+			end
+		end
+	end
+end
+
 return Util

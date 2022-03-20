@@ -1,0 +1,54 @@
+local Util = require("Util/Util")
+local FRAMEXML = "../#FrameXML/Generate-Globals/wow-ui-source/"
+
+local m = {}
+
+local string_tbl = {}
+
+function m:ReadFile(path)
+	local file = io.open(path, "r")
+	local text = file:read("a")
+	file:close()
+	return text
+end
+
+local function GetStrings(path)
+	local text = m:ReadFile(path)
+	for s in text:gmatch('"(.-)"') do
+		string_tbl[s:lower()] = true
+	end
+end
+
+local function GetCvars()
+	local data = Util:DownloadAndRun(
+		"cache_lua/CVars_mainline.lua",
+		"https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/mainline/Resources/CVars.lua"
+	)
+	return data[1].var
+end
+
+local function WriteTable(tbl)
+	local file = io.open("KethoWowpedia/scripts/cvar_framexml.lua", "w")
+	file:write("local m = KethoWowpedia\n\nm.cvar_framexml = {\n")
+	local fs = '\t["%s"] = true,\n'
+	for _, name in pairs(Util:SortTable(tbl, Util.SortNocase)) do
+		file:write(fs:format(name))
+	end
+	file:write("}\n")
+	file:close()
+end
+
+local function main()
+	Util:IterateFiles(FRAMEXML, GetStrings)
+	local t = {}
+	for k, v in pairs(GetCvars()) do
+		-- there are 9 cvars (266-257) that dont match case insensitive
+		if string_tbl[k:lower()] then
+			t[k] = true
+		end
+	end
+	WriteTable(t)
+end
+
+main()
+print("done")

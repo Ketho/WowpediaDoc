@@ -18,6 +18,7 @@ dbc/toy.lua
 scripts/battlepetspecies.lua
 scripts/cvar.lua
 scripts/cvar_cache.lua
+scripts/cvar_framexml.lua
 scripts/GameError.lua
 scripts/mount.lua
 scripts/toy.lua

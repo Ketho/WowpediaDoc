@@ -89,7 +89,7 @@ function KethoWowpedia:GetCVars(commandType)
 				end
 			end
 			eb:InsertLine(fs:format(
-				githubLink:format(v.command),
+				self.cvar_framexml[v.command] and githubLink:format(v.command) or "",
 				nameText,
 				defaultValue or "",
 				cvar_enum[v.category],

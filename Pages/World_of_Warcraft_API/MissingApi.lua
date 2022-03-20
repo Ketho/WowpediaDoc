@@ -69,12 +69,6 @@ function m:FindMissing(wowpedia, wowpedia_tags, global_api)
 	end
 end
 
-function m:SaveWowpediaExport(path)
-	local url = "https://wowpedia.fandom.com/wiki/Special:Export"
-	local requestBody = "pages=World_of_Warcraft_API&curonly=1"
-	Util:DownloadFilePost(path, url, requestBody)
-end
-
 local function main()
 	WikiText:SaveExport()
 	local text = WikiText:GetWikitext(true)
