@@ -41,7 +41,7 @@ end
 local function main()
 	Util:IterateFiles(FRAMEXML, GetStrings)
 	local t = {}
-	for k, v in pairs(GetCvars()) do
+	for k in pairs(GetCvars()) do
 		-- there are some cvars that dont match case insensitive
 		if string_tbl[k:lower()] then
 			t[k] = true
