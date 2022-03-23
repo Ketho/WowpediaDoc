@@ -1,4 +1,4 @@
--- 9.2.0.42277
+-- 9.2.5.42850
 KethoWowpedia.dbc.mount = {
 	[6] = 0, -- Brown Horse
 	[7] = 64, -- Gray Wolf
@@ -995,8 +995,12 @@ KethoWowpedia.dbc.mount = {
 	[1570] = 0, -- Prototype Leaper
 	[1571] = 0, -- Russet Bufonid
 	[1572] = 192, -- Cosmic Gladiator's Soul Eater
+	[1578] = 64, -- [DND] Test Mount JZB
 	[1580] = 0, -- Heartbond Lupine
 	[1584] = 0, -- Colossal Plaguespew Mawrat
 	[1585] = 0, -- Colossal Wraithbound Mawrat
 	[1587] = 0, -- Zereth Overseer
+	[1597] = 0, -- [PH] The Flame Woof
+	[1599] = 192, -- Eternal Gladiator's Soul Eater
+	[1600] = 0, -- Green Hawkstrider
 }
