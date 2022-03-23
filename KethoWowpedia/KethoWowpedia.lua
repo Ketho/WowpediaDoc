@@ -6,7 +6,7 @@ KethoWowpedia = {
 }
 local w = KethoWowpedia
 
-w.Util.PtrVersion = "9.2.0"
+w.Util.PtrVersion = "9.2.5"
 
 function w.Util:SortTable(tbl)
 	local t = {}
