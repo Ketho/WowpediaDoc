@@ -1,4 +1,4 @@
--- https://wowpedia.fandom.com/wiki/LfgDungeonID
+-- https://wowpedia.fandom.com/wiki/JournalEncounterID
 local Util = require("Util/Util")
 local parser = require("Util/wowtoolsparser")
 local dbc_patch = require("Projects/DBC/DBC_patch")
