@@ -20,8 +20,8 @@ local flavorInfo = {
 		sort = Util.SortBuild},
 	mainline = {flavor = "mainline", header = true, build = "9.2.0.",
 		sort = Util.SortBuild},
-	classic = {flavor = "classic", header = true, build = "2.5.3.",
-		sort = function(a, b) return a < b end} -- avoid 1.14.x and 2.5.x mixing up
+	tbc = {flavor = "tbc", header = true, build = "2.5.4."},
+	vanilla = {flavor = "vanilla", header = true, build = "1.14.3."},
 }
 
 Util.RelativePath = {

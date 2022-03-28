@@ -1,7 +1,6 @@
 -- first strip out UTF8 BOM from files with powershell
 local lfs = require "lfs"
 
-local CURRENT_FLAVOR = "mainline"
 local FRAMEXML = "../#FrameXML/Generate-Globals/wow-ui-source/"
 
 -- too lazy to parse FrameXML_TBC.toc or whatever the new file loading structure is
@@ -179,8 +178,8 @@ function m:WriteDataFile(info)
 	file:close()
 end
 
-local function main()
-	for _, folder in pairs(flavors[CURRENT_FLAVOR]) do
+function m:main(flavor)
+	for _, folder in pairs(flavors[flavor]) do
 		m:IterateFiles(folder)
 	end
 	for _, info in pairs(dataTypes) do
@@ -188,5 +187,4 @@ local function main()
 	end
 end
 
-main()
-print("done")
+return m
