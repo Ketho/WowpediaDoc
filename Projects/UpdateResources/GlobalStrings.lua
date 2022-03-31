@@ -1,5 +1,5 @@
 -- https://github.com/Ketho/BlizzardInterfaceResources/blob/live/Resources/GlobalStrings.lua
-local parser = require "Util.wowtoolsparser"
+local parser = require("Util/wowtoolsparser")
 --local OUT_PATH = "out/GlobalStrings.lua"
 local OUT_PATH = "../BlizzardInterfaceResources/Resources/GlobalStrings.lua"
 

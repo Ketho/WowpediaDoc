@@ -1,5 +1,5 @@
 -- https://github.com/Ketho/BlizzardInterfaceResources/blob/live/Resources/AtlasInfo.lua
-local parser = require "Util.wowtoolsparser"
+local parser = require("Util/wowtoolsparser")
 --local OUT_PATH = "out/AtlasInfo.lua"
 local OUT_PATH = "../BlizzardInterfaceResources/Resources/AtlasInfo.lua"
 
