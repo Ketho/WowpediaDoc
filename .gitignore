@@ -8,6 +8,7 @@
 /out
 /cache_csv
 /cache_lua
+/cache_wowpedia
 /FrameXML
 
 # python

@@ -1,6 +1,5 @@
 local WikiText = require("Pages/World_of_Warcraft_API/WikiText")
 local Util = require("Util/Util")
-
 local m = {}
 
 function m:ParseWikitext(wikitext)
@@ -15,15 +14,11 @@ function m:ParseWikitext(wikitext)
 	return t
 end
 
-local function main()
+function m:main()
 	WikiText:SaveExport()
 	local text = WikiText:GetWikitext(true)
 	local descTbl = m:ParseWikitext(text)
-	for _, name in pairs(Util:SortTable(descTbl)) do
-		local desc = descTbl[name]
-		print(name, desc)
-	end
+	return descTbl
 end
 
-main()
-print("done")
+return m
