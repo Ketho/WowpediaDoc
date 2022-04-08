@@ -132,7 +132,7 @@ local function main(options)
 
 	print("writing to "..OUTPUT)
 	local file = io.open(OUTPUT, "w")
-	file:write('{| class="sortable darktable zebra col1-center"\n! ID !! !! !! Directory !! Map Name !! Type !! Patch\n')
+	file:write('{| class="sortable darktable zebra col1-center col2-center col3-center"\n! ID !! !! !! Directory !! Map Name !! Type !! Patch\n')
 	local fs = '|-\n| %s || %s || %s || %s || %s || %s || %s\n'
 	for l in map:lines() do
 		local ID = tonumber(l.ID)
