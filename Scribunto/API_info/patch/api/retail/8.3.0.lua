@@ -4338,4 +4338,7 @@ return {
 	["scrub"] = true,
 	["securecall"] = true,
 	["seterrorhandler"] = true,
+
+	["GetAvailableLocaleInfo"] = true,
+	["TargetSpellHasApplyCorruption"] = true,
 }
