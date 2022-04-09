@@ -32,7 +32,6 @@ def main():
 	site = pywikibot.Site("en", "wowpedia")
 	for l in changes:
 		name, text = l
-		# print(name, text)
 		page = pywikibot.Page(site, name)
 		page.text = text
 		page.save("Fix hyperlinks to hyperlinks :p")

@@ -17,8 +17,8 @@ def read_xml(root, func):
 		name = re.sub(" ", "_", name)
 		for revision in page.findall(xmlns+"revision"):
 			for text in revision.findall(xmlns+"text"):
-				hasChange, newText = func(name, text.text) 
-				if hasChange:
+				newText = func(name, text.text)
+				if newText:
 					l.append([page[0].text, newText])
 	return l
 
