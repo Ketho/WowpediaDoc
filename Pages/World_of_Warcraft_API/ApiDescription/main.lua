@@ -36,18 +36,28 @@ local function main()
 	-- 	end
 	-- end
 
+	local t = {}
+	local fs = '\t["%s"] = [=[%s]=],'
 	for _, k in pairs(Util:SortTable(mainList)) do
 		local desc1 = mainList[k]
 		local desc2 = pageDescriptions[k]
-		-- if (not desc1 and desc2) or (desc1 and not desc2) then
-		-- 	print(k, desc1, desc2)
-		-- end
-		if desc1 and desc2 and desc1~=desc2 then
-			print(k)
-			print("", desc1)
-			print("", desc2)
+		if (desc1 and not desc2) or (not desc1 and desc2) then
+			-- t[k] = desc1 or desc2
+			-- print(fs:format(k, desc1 or desc2))
+		end
+		if desc1 and desc2 then
+			if desc1~=desc2 then
+				-- print(fs:format(k, desc1))
+				-- print(fs:format(k, desc2))
+				-- print()
+			else
+				-- print(fs:format(k, desc1))
+			end
 		end
 	end
+	-- for _, k in pairs(Util:SortTable(t)) do
+	-- 	print(k, t[k])
+	-- end
 end
 
 main()

@@ -7,8 +7,8 @@ function m:ParseWikitext(wikitext)
 	for line in string.gmatch(wikitext, "(.-)\n") do
 		local name = line:match(":.-%[API (.-)|")
 		local desc = line:match(" %- (.+)")
-		if name and desc then
-			t[name] = desc
+		if name then
+			t[name] = desc or false
 		end
 	end
 	return t
