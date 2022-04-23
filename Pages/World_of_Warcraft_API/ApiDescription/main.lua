@@ -42,19 +42,20 @@ local function main()
 		local desc1 = mainList[k]
 		local desc2 = pageDescriptions[k]
 		if (desc1 and not desc2) or (not desc1 and desc2) then
-			-- t[k] = desc1 or desc2
-			-- print(fs:format(k, desc1 or desc2))
+			t[k] = desc1 or desc2
+			print(fs:format(k, desc1 or desc2))
 		end
 		if desc1 and desc2 then
 			if desc1~=desc2 then
-				-- print(fs:format(k, desc1))
-				-- print(fs:format(k, desc2))
-				-- print()
+				print(fs:format(k, desc1))
+				print(fs:format(k, desc2))
+				print()
 			else
-				-- print(fs:format(k, desc1))
+				print(fs:format(k, desc1))
 			end
 		end
 	end
+	print(t)
 	-- for _, k in pairs(Util:SortTable(t)) do
 	-- 	print(k, t[k])
 	-- end

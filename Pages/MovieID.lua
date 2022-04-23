@@ -23,7 +23,7 @@ end
 
 local function main(options)
 	options = Util:GetFlavorOptions(options)
-	-- a ptr build was lower (9.2.5.43254) than the latest live build (9.2.043340)
+	-- a ptr build was lower (9.2.5.43254) than the latest live build (9.2.0.43340)
 	options.sort = nil
 
 	local filedata = parser:ReadListfile()
@@ -34,7 +34,7 @@ local function main(options)
 	-- there are multiple avi files with different resolutions per movieid
 	-- but we only care about the fallback filename if there is no sound
 	local movievariation = {}
-	Util:ReadCSV("movievariation", parser, options, function(_, ID, l)
+	Util:ReadCSV("movievariation", parser, options, function(_, _, l)
 		local fdid = tonumber(l.FileDataID)
 		local name = filedata[fdid]:match("interface/cinematics/(.+)_%d+%.avi")
 		if not name then -- hack
@@ -59,9 +59,9 @@ local function main(options)
 		local desc = descriptions[ID] or ""
 		if duplicates[name] then
 			name = string.format('<font color="gray">%s</font>', name)
+			desc = '<font color="gray">~</font>'
 		else
 			duplicates[name] = true
-			desc = '<font color="~">%s</font>'
 		end
 
 		local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
