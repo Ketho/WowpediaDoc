@@ -17,7 +17,7 @@ end
 
 function m:main()
 	local cat = "API+functions"
-	wowpedia_export:main(cat)
+	wowpedia_export:get_api_cat(cat)
 	local xmlstr = xml2lua.loadFile(wowpedia_export.OUTPUT_XML:format(cat))
 	local parser = xml2lua.parser(handler)
 	parser:parse(xmlstr)
