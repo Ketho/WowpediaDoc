@@ -12,9 +12,9 @@ local function GetDescriptions()
 	for line in page:gmatch("(.-)\n") do
 		if line:find("||") then
 			-- maybe need a strsplit function that supports this
-			local id, desc = line:match("| (.+) || .+ || (.+)")
+			local id, yt, desc = line:match("| (.*) || .* || (.*) || (.*) || .*")
 			if desc then
-				t[tonumber(id)] = desc
+				t[tonumber(id)] = {desc, yt}
 			end
 		end
 	end
@@ -46,8 +46,8 @@ local function main(options)
 
 	local descriptions = GetDescriptions()
 	local duplicates = {}
-	file:write('{| class="sortable darktable zebra col1-center"\n! ID !! Name !! Description !! Patch\n')
-	local fs = '|-\n| %d || %s || %s || %s\n'
+	file:write('{| class="sortable darktable zebra col1-center col3-center"\n! ID !! Name !! YouTube !! Description !! Patch\n')
+	local fs = '|-\n| %d || %s || %s || %s || %s\n'
 	Util:ReadCSV("movie", parser, options, function(_, ID, l)
 		local audio = tonumber(l.AudioFileDataID)
 		local name
@@ -56,7 +56,10 @@ local function main(options)
 		else
 			name = filedata[audio]:match("interface/cinematics/(.+)%.mp3")
 		end
-		local desc = descriptions[ID] or ""
+		local desc, yt = "", ""
+		if descriptions[ID] then
+			desc, yt = table.unpack(descriptions[ID])
+		end
 		if duplicates[name] then
 			name = string.format('<font color="gray">%s</font>', name)
 			desc = '<font color="gray">~</font>'
@@ -68,7 +71,7 @@ local function main(options)
 		if patch == Util.PtrVersion then
 			patch = patch.." {{Test-inline}}"
 		end
-		file:write(fs:format(ID, name, desc, patch))
+		file:write(fs:format(ID, name, yt, desc, patch))
 	end)
 	file:write("|}\n")
 	file:close()
