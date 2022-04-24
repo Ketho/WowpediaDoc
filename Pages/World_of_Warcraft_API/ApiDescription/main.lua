@@ -38,6 +38,7 @@ local function main()
 
 	local t = {}
 	local fs = '\t["%s"] = [=[%s]=],'
+	local fs_empy = '\t["%s"] = [=[Empty]=],'
 	for _, k in pairs(Util:SortTable(mainList)) do
 		local desc1 = mainList[k]
 		local desc2 = pageDescriptions[k]
@@ -53,6 +54,9 @@ local function main()
 			else
 				print(fs:format(k, desc1))
 			end
+		end
+		if not desc1 and not desc2 then
+			print(fs_empy:format(k))
 		end
 	end
 	print(t)
