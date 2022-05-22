@@ -55,9 +55,12 @@ function m:main(options)
 
 	Util:ReadCSV("emotestext", parser, options, function(_, ID, l)
 		local token = l.Name
-		local cmd_list = cmd_tbl[token] or '❌'
+		local cmd_list = cmd_tbl[token] or "❌"
 		if wp_removed[ID] then
 			token = "❌ "..token
+		end
+		if #cmd_list > 28 then
+			cmd_list = string.format("<small>%s</small>", cmd_list)
 		end
 		local EmoteID = tonumber(l.EmoteID)
 		local anim = ""
@@ -72,7 +75,6 @@ function m:main(options)
 		end
 		local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
 		file:write(fs:format(token, cmd_list, anim, voice, notarget, target, patch))
-		-- print(cmd_list, token, dbc_emotestextdata[ID][2], dbc_emotestextdata[ID][1], patch)
 	end)
 
 	file:write("|}\n")
