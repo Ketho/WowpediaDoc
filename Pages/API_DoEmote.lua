@@ -1,4 +1,4 @@
--- https://wowpedia.fandom.com/wiki/EmoteToken
+-- https://wowpedia.fandom.com/wiki/API_DoEmote
 local Util = require("Util/Util")
 local parser = require("Util/wowtoolsparser")
 local dbc_patch = require("Projects/DBC/DBC_patch")
