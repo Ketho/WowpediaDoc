@@ -8,6 +8,10 @@ local text = file:read("a")
 local t = {}
 
 for s in text:gmatch('<a href="(.-)"') do
+	local widget_obj = s:match("docs/widgets/(%w-)%.html")
+	if widget_obj then
+		t[widget_obj] = true
+	end
 	local widget, method = s:match("docs/widgets/(%w-)/(%w-)%.html")
 	if widget then
 		t[widget..":"..method] = true
