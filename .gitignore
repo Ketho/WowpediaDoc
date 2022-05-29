@@ -6,9 +6,7 @@
 *.csv
 *.diff
 /out
-/cache_csv
-/cache_lua
-/cache_wowpedia
+/cache_*
 /FrameXML
 
 # python

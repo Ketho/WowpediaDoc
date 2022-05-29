@@ -69,7 +69,10 @@ end
 function Util:DownloadFilePost(path, url, requestBody)
 	if self:ShouldDownload(path, true) then
 		local body = self:HttpPostRequest(url, requestBody)
-		self:WriteFile(path, body)
+		if body then
+			self:WriteFile(path, body)
+			return true
+		end
 	end
 end
 
@@ -95,7 +98,9 @@ function Util:HttpPostRequest(url, request)
 		source = ltn12.source.string(request),
 		sink = ltn12.sink.table(response)
 	}
-	if code ~= 200 then
+	if code == 204 then -- tly no result
+		return false
+	elseif code ~= 200 then
 		error("HTTP error: "..code)
 	end
 	return table.concat(response)
