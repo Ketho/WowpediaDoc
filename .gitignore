@@ -3,12 +3,11 @@
 *.txt
 *.xml
 *.html
-*.csv
 *.diff
 /out
 /cache_*
 /FrameXML
-
+/Projects/CursePoints/*.csv
 # python
 apicache-py3
 *.lwp

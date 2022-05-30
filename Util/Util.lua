@@ -66,8 +66,9 @@ end
 ---@param path string Path to write the file to
 ---@param url string URL to download from
 ---@param requestBody string Contents of the request
-function Util:DownloadFilePost(path, url, requestBody)
-	if self:ShouldDownload(path, true) then
+---@param isCache boolean If the file should be redownloaded after `INVALIDATION_TIME`
+function Util:DownloadFilePost(path, url, requestBody, isCache)
+	if self:ShouldDownload(path, isCache) then
 		local body = self:HttpPostRequest(url, requestBody)
 		if body then
 			self:WriteFile(path, body)
