@@ -72,7 +72,6 @@ function Util:DownloadFilePost(path, url, requestBody, isCache)
 		local body = self:HttpPostRequest(url, requestBody)
 		if body then
 			self:WriteFile(path, body)
-			return true
 		end
 	end
 end

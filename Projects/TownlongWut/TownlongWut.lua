@@ -5,50 +5,97 @@ local Util = require("Util/Util")
 local print_table = require("Util/print_table")
 
 Util:MakeDir("cache_wut")
-local url = "https://www.townlong-yak.com/globe/api/wut-symbol?q=%s"
+local wut_url = "https://www.townlong-yak.com/globe/api/wut-symbol?q=%s"
+local github_url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/mainline/Resources/%s.lua"
 
 local function WutRequest(folder, search)
 	local path = string.format("cache_wut/%s/%s.json", folder, search)
-	local success = Util:DownloadFilePost(path, url:format(search), "", false)
-	if success or lfs.attributes(path) then
-		local json = cjsonutil.file_load(path)
-		local tbl = cjson.decode(json)
-		return tbl
+	Util:DownloadFilePost(path, wut_url:format(search), "", false)
+	if not lfs.attributes(path) then
+		local file = io.open(path, "w")
+		file:write([[{"a":{}}]]) -- create placeholder json to avoid further requests
+		file:close()
 	end
+	local json = cjsonutil.file_load(path)
+	local tbl = cjson.decode(json)
+	return tbl
 end
 
 local sources = {
-	GlobalAPI = function()
+	GlobalAPI = function(name)
 		local tbl = Util:DownloadAndRun(
-			"cache_lua/GlobalAPI.lua",
-			"https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/mainline/Resources/GlobalAPI.lua"
+			string.format("cache_lua/%s.lua", name),
+			github_url:format(name)
 		)
 		return tbl[1]
 	end,
-	Templates = function()
+	Lua = function(name)
 		local tbl = Util:DownloadAndRun(
-			"cache_lua/Templates.lua",
-			"https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/mainline/Resources/Templates.lua"
+			string.format("cache_lua/%s.lua", "GlobalAPI"),
+			github_url:format("GlobalAPI")
 		)
-		return tbl
+		return tbl[2]
 	end,
-	Mixins = function()
+	Events = function(name)
 		local tbl = Util:DownloadAndRun(
-			"cache_lua/Mixins.lua",
-			"https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/mainline/Resources/Mixins.lua"
+			string.format("cache_lua/%s.lua", name),
+			github_url:format(name)
+		)
+		local t = {}
+		for _, namespace in pairs(tbl) do
+			for _, event in pairs(namespace) do
+				table.insert(t, event)
+			end
+		end
+		table.sort(t)
+		return t
+	end,
+	-- CVars = function(name)
+	-- local tbl = Util:DownloadAndRun(
+	-- 	string.format("cache_lua/%s.lua", name),
+	-- 	github_url:format(name)
+	-- )
+	-- 	return Util:SortTable(tbl[1].var)
+	-- end,
+	FrameXML = function(name)
+		local tbl = Util:DownloadAndRun(
+			string.format("cache_lua/%s.lua", name),
+			github_url:format(name)
+		)
+		for _, v in pairs(tbl[2]) do
+			table.insert(tbl[1], v)
+		end
+		return tbl[1]
+	end,
+	Frames = function(name)
+		local tbl = Util:DownloadAndRun(
+			string.format("cache_lua/%s.lua", name),
+			github_url:format(name)
+		)
+		return tbl[1]
+	end,
+	Templates = function(name)
+		local tbl = Util:DownloadAndRun(
+			string.format("cache_lua/%s.lua", name),
+			github_url:format(name)
+		)
+		return Util:SortTable(tbl)
+	end,
+	Mixins = function(name)
+		local tbl = Util:DownloadAndRun(
+			string.format("cache_lua/%s.lua", name),
+			github_url:format(name)
 		)
 		return tbl
 	end,
 }
 
-local function main(apiType)
+local function WriteResource(apiType)
 	local start = os.time()
 	Util:MakeDir("cache_wut/"..apiType)
 	local t = {}
-	local resource = sources[apiType]()
+	local resource = sources[apiType](apiType)
 	for _, name in pairs(resource) do
-	-- for name in pairs(resource) do
-		-- print(name)
 		local results = WutRequest(apiType, name)
 		local count = 0
 		if results then
@@ -67,14 +114,20 @@ local function main(apiType)
 		end
 	end
 	local elapsed = os.time() - start
-	local fs = "%s,%s"
+	local fs = "%s,%s\n"
+	local file = io.open(string.format("Projects/TownlongWut/%s.csv", apiType), "w")
 	for _, tbl in pairs(Util:SortTableCustom(t, sortfunc)) do
-		print(fs:format(tbl.value, tbl.key))
+		file:write(fs:format(tbl.value, tbl.key))
 	end
-	print("took "..elapsed.." seconds")
+	file:close()
+	print("-- written "..apiType.." in "..elapsed.." seconds")
 end
 
--- main("GlobalAPI")
--- main("Templates")
-main("Mixins")
+local function main(apiType)
+	for k in pairs(sources) do
+		WriteResource(k)
+	end
+end
+
+main()
 print("done")

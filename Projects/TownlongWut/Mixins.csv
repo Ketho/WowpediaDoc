@@ -1,10 +1,10 @@
-1090,BackdropTemplateMixin
+1091,BackdropTemplateMixin
 139,MapCanvasDataProviderMixin
 112,MapCanvasPinMixin
-95,NineSlicePanelMixin
-95,TooltipBackdropTemplateMixin
+96,NineSlicePanelMixin
+96,TooltipBackdropTemplateMixin
 82,ObjectPoolMixin
-38,DropDownMenuButtonMixin
+39,DropDownMenuButtonMixin
 23,MapCanvasScrollControllerMixin
 22,ActionBarActionButtonMixin
 22,BaseMapPoiPinMixin
