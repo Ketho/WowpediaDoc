@@ -7,8 +7,16 @@ local function FormatValue(v)
 	end
 end
 
-local function PrintKeyValue(k, v, space)
-	print(string.format("%s[%s] = %s,", space, FormatValue(k), FormatValue(v)))
+local function FormatKey(k)
+	local keyType = type(k)
+	if keyType == "number" or keyType == "boolean" then
+		return string.format("[%s]", k)
+	elseif keyType == "string" then
+		if not k:find("[%.%-]") then
+			return k
+		end
+	end
+	return string.format("[\"%s\"]", k)
 end
 
 local function explode(t, level)
@@ -16,11 +24,11 @@ local function explode(t, level)
 	local space = string.rep(" ", level*4)
 	for k, v in pairs(t) do
 		if type(v) == "table" then
-			print(string.format("%s[%s] = {", space, FormatValue(k)))
+			print(string.format("%s%s = {", space, FormatKey(k)))
 			explode(v, level+1)
 			print(space.."},")
 		else
-			PrintKeyValue(k, v, space)
+			print(string.format("%s%s = %s,", space, FormatKey(k), FormatValue(v)))
 		end
 	end
 end

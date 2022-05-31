@@ -1,9 +1,9 @@
 -- https://wowpedia.fandom.com/wiki/API_change_summaries
 local lfs = require "lfs"
 local Util = require("Util/Util")
-local cvar_module = require("Projects/WikitextDiff/WikitextDiff_CVar")
+local cvar_module = require("Projects/ChangeSummaries/ChangeSummaries_CVar")
 local m = {}
-local OUT_FILE = "out/page/WikitextDiff.txt"
+local OUT_FILE = "out/page/ChangeSummaries.txt"
 
 local ApiTypes = {
 	GlobalAPI = {
@@ -59,9 +59,9 @@ end
 -- https://github.com/Ketho/BlizzardInterfaceResources/commit/9f5b92ef5ee205a4df7536a145bbee24f678d5e0.diff
 function m:FindDiff()
 	local path
-	for fileName in lfs.dir("Projects/WikitextDiff") do
+	for fileName in lfs.dir("Projects/ChangeSummaries") do
 		if fileName:find("%.diff") then
-			path = "Projects/WikitextDiff/"..fileName
+			path = "Projects/ChangeSummaries/"..fileName
 		end
 	end
 	return path

@@ -1,3 +1,4 @@
+-- queries townlong yak wut and writes tp csv with api sorted by popularity
 local lfs = require "lfs"
 local cjson = require "cjson"
 local cjsonutil = require "cjson.util"

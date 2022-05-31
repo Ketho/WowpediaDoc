@@ -246,4 +246,25 @@ function Util:IterateFiles(folder, func)
 	end
 end
 
+-- https://stackoverflow.com/a/32660766/1297035
+function Util:equals(a, b)
+    if a == b then return true end
+    local type_a, type_b = type(a), type(b)
+    if type_a ~= type_b then return false end
+    if type_a ~= "table" then return false end
+    for k, v in pairs(a) do
+        if b[k] == nil or not self:equals(v, b[k]) then return false end
+    end
+    for k in pairs(b) do
+        if a[k] == nil then return false end
+    end
+    return true
+end
+
+function Util:Print(...)
+	if self.DEBUG then
+		print(...)
+	end
+end
+
 return Util
