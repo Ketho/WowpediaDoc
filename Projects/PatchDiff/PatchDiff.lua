@@ -321,14 +321,21 @@ function m:GetChangelog(paramHistory, tbl)
 	return table.concat(text, "\n")
 end
 
-local function main()
+function m:GetAllChanges()
 	local versions = m:GetApiDocVersions("FrameXML/retail")
 	local framexml = m:LoadFrameXML(versions)
-	m:CompareVersions(framexml, "9.1.5.42010", "9.2.0.42538")
-	-- return self:GetAllChangelogs(versions, framexml)
+	return m:GetAllChangelogs(versions, framexml)
 end
 
-local data = main()
-print("done")
+local function main()
+	local versions = {"9.1.5.42010", "9.2.0.42538"}
+	local versionsMap = {}
+	for _, v in pairs(versions) do
+		versionsMap[v] = true
+	end
+	local framexml = m:LoadFrameXML(versionsMap)
+	m:CompareVersions(framexml, table.unpack(versions))
+end
 
-return data
+main()
+print("done")
