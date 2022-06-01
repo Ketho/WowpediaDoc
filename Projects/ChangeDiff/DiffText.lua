@@ -47,26 +47,27 @@ local ParamIdentifier = {
 	Returns = "ret ",
 }
 
+local fs_info = {
+	plain = {
+		add              = '  + %s%d: %s',
+		remove           = '  - %s%d: %s',
+		modified_type    = '  # %s%d: %s, Type: %s -> %s',
+		modified_nilable = '  # %s%d: %s, Nilable: %s -> %s',
+	},
+	wiki = {
+		add              = '  + %s%d: <font color="#00b400">%s</font>',
+		remove           = '  - %s%d: <font color="#ff6767">%s</font>',
+		modified_type    = '  # %s%d: <font color="#ecbc2a">%s</font>, Type: %s -> %s',
+		modified_nilable = '  # %s%d: <font color="#ecbc2a">%s</font>, Nilable: %s -> %s',
+	},
+}
+
 local function SortIndex(a, b)
 	return a.value.id < b.value.id
 end
 
-local fs_plain = {
-	add              = '  + %s%d: %s',
-	remove           = '  - %s%d: %s',
-	modified_type    = '  # %s%d: %s, Type: %s -> %s',
-	modified_nilable = '  # %s%d: %s, Nilable: %s -> %s',
-}
-
-local fs_wiki = {
-	add              = '  + %s%d: <font color="#00b400">%s</font>',
-	remove           = '  - %s%d: <font color="#ff6767">%s</font>',
-	modified_type    = '  # %s%d: <font color="#ecbc2a">%s</font>, Type: %s -> %s',
-	modified_nilable = '  # %s%d: <font color="#ecbc2a">%s</font>, Nilable: %s -> %s',
-}
-
 function m:PrintParamChanges(param, a, b, isWiki)
-	local fs = isWiki and fs_wiki or fs_plain
+	local fs = isWiki and fs_info.wiki or fs_info.plain
 	if not a and b then
 		print("  + "..param)
 	elseif a and not b then
