@@ -50,6 +50,7 @@ m.apiTypes = {
 		params = {"Fields"},
 	},
 }
+m.apiType_order = {"Function", "Event", "Structure"}
 
 function m:LoadFrameXML(versions)
 	local t = {}
@@ -63,16 +64,6 @@ function m:LoadFrameXML(versions)
 		end
 	end
 	return t
-end
-
-local function SortParamBuild(a, b)
-	local build_a = a.value.build:match("(%d+)$")
-	local build_b = b.value.build:match("(%d+)$")
-	if build_a ~= build_b then
-		return build_a < build_b
-	else
-		return a.key < b.key
-	end
 end
 
 local function main(view, versions)

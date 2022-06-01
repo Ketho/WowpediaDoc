@@ -3,7 +3,7 @@ local lfs = require "lfs"
 local cjson = require "cjson"
 local cjsonutil = require "cjson.util"
 local Util = require("Util/Util")
-local print_table = require("Util/print_table")
+-- local print_table = require("Util/print_table")
 
 Util:MakeDir("cache_wut")
 local wut_url = "https://www.townlong-yak.com/globe/api/wut-symbol?q=%s"

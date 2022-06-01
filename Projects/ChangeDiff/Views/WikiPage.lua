@@ -11,16 +11,16 @@ local paramTypeWord = {
 	Fields = "field",
 }
 
+local function SortReverse(a, b)
+	return a > b
+end
+
 local function concatName(tbl)
 	local t = {}
 	for _, v in pairs(tbl) do
 		table.insert(t, v.name)
 	end
 	return table.concat(t, ", ")
-end
-
-local function SortReverse(a, b)
-	return a > b
 end
 
 -- I cba writing proper code anymore. which was a mistake

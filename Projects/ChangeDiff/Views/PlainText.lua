@@ -1,78 +1,56 @@
 local Util = require("Util/Util")
 
 local m = {}
-local apiType_order = {"Function", "Event", "Structure"}
 
 function m:PrintView(changes)
-	for _, apiType in pairs(apiType_order) do
-		print("-- "..apiType)
-		local info = changes[apiType]
-		for _, name in pairs(Util:SortTable(info[1])) do
+	for _, apiType in pairs(ChangeDiff.apiType_order) do
+		print(apiType)
+		local t = changes[apiType]
+		for _, name in pairs(Util:SortTable(t[1])) do
 			print("+ "..name)
 		end
-		for _, name in pairs(Util:SortTable(info[2])) do
+		for _, name in pairs(Util:SortTable(t[2])) do
 			print("- "..name)
 		end
-		for _, name in pairs(Util:SortTable(info[3])) do
+		for _, name in pairs(Util:SortTable(t[3])) do
+			local v = t[3][name]
 			print("# "..name)
+			for _, param in pairs(ChangeDiff.apiTypes[apiType].params) do
+				self:GetStructureChanges(param, v[1][param], v[2][param])
+			end
 		end
 		print()
 	end
-	-- for _, name in pairs(Util:SortTable(b)) do
-	-- 	if a[name] and b[name] then
-	-- 		for _, paramTblName in pairs(paramTblNames) do
-	-- 			local leftParam, rightParam = a[name][paramTblName], b[name][paramTblName]
-	-- 			local diff = self:GetStructureDiff(leftParam, rightParam)
-	-- 			if #diff > 0 then
-	-- 				t.modified[name] = diff
-	-- 				Util:Print("#", name)
-	-- 				if #paramTblNames > 1 then
-	-- 					Util:Print("", "# "..paramTblName)
-	-- 				end
-	-- 				for _, param in pairs(diff) do
-	-- 					Util:Print("", param[1], param[2])
-	-- 				end
-	-- 			end
-	-- 		end
-	-- 	end
-	-- end
 end
 
--- function m:GetStructureDiff(a, b)
--- 	local diff = {}
--- 	local left, right = {}, {}
--- 	-- structure was added
--- 	if not a and b then
--- 		for _, param in pairs(b) do
--- 			table.insert(right, {"+", param.Name})
--- 			Util:Print("", "+++")
--- 		end
--- 	-- structure was removed
--- 	elseif a and not b then
--- 		for _, param in pairs(a) do
--- 			table.insert(left, {"-", param.Name})
--- 			Util:Print("", "---")
--- 		end
--- 	-- structure is possibly modified
--- 	elseif a and b then
--- 		for _, param in pairs(a) do
--- 			left[param.Name] = true
--- 		end
--- 		for _, param in pairs(b) do
--- 			right[param.Name] = true
--- 		end
--- 	end
--- 	for name in pairs(left) do
--- 		if not right[name] then
--- 			table.insert(diff, {"-", name})
--- 		end
--- 	end
--- 	for name in pairs(right) do
--- 		if not left[name] then
--- 			table.insert(diff, {"+", name})
--- 		end
--- 	end
--- 	return diff
--- end
+local function SortIndex(a, b)
+	return a.value.id < b.value.id
+end
+
+function m:GetStructureChanges(param, a, b)
+	if not a and b then
+		print("  + "..param)
+	elseif a and not b then
+		print("  -"..param)
+	elseif a and b then
+		local t_a, t_b = {}, {}
+		for k, v in pairs(a) do
+			t_a[v.Name] = {id=k, info=v}
+		end
+		for k, v in pairs(b) do
+			t_b[v.Name] = {id=k, info=v}
+		end
+		for _, tbl in pairs(Util:SortTableCustom(t_b, SortIndex)) do
+			if not t_a[tbl.key] then
+				print(string.format("  + %d: %s", tbl.value.id, tbl.key))
+			end
+		end
+		for _, tbl in pairs(Util:SortTableCustom(t_a, SortIndex)) do
+			if not t_b[tbl.key] then
+				print(string.format("  - %d: %s", tbl.value.id, tbl.key))
+			end
+		end
+	end
+end
 
 return m
