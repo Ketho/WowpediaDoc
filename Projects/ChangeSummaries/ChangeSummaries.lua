@@ -1,7 +1,7 @@
 -- https://wowpedia.fandom.com/wiki/API_change_summaries
 local lfs = require "lfs"
 local Util = require("Util/Util")
-local cvar_module = require("Projects/ChangeSummaries/ChangeSummaries_CVar")
+local cvar_module = require("Projects/ChangeSummaries/CVar")
 local m = {}
 local OUT_FILE = "out/page/ChangeSummaries.txt"
 
