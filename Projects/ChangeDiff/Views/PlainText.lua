@@ -27,12 +27,18 @@ local function SortIndex(a, b)
 	return a.value.id < b.value.id
 end
 
+local ParamIdentifier = {
+	Arguments = "arg ",
+	Returns = "ret ",
+}
+
 function m:GetStructureChanges(param, a, b)
 	if not a and b then
 		print("  + "..param)
 	elseif a and not b then
 		print("  -"..param)
 	elseif a and b then
+		local label = ParamIdentifier[param] or ""
 		local t_a, t_b = {}, {}
 		for k, v in pairs(a) do
 			t_a[v.Name] = {id=k, info=v}
@@ -42,12 +48,12 @@ function m:GetStructureChanges(param, a, b)
 		end
 		for _, tbl in pairs(Util:SortTableCustom(t_b, SortIndex)) do
 			if not t_a[tbl.key] then
-				print(string.format("  + %d: %s", tbl.value.id, tbl.key))
+				print(string.format("  + %s%d: %s", label, tbl.value.id, tbl.key))
 			end
 		end
 		for _, tbl in pairs(Util:SortTableCustom(t_a, SortIndex)) do
 			if not t_b[tbl.key] then
-				print(string.format("  - %d: %s", tbl.value.id, tbl.key))
+				print(string.format("  - %s%d: %s", label, tbl.value.id, tbl.key))
 			end
 		end
 	end

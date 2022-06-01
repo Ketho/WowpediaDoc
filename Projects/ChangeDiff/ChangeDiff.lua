@@ -72,5 +72,6 @@ local function main(view, versions)
 	require("Projects/ChangeDiff/Views/"..view):PrintView(changes)
 end
 
-main("PlainText", {"9.1.5.42010", "9.2.0.42538"})
+-- main("PlainText", {"9.1.5.42010", "9.2.0.42538"})
+main("PlainText", {"9.2.0.43340", "9.2.5.43903"})
 print("done")
