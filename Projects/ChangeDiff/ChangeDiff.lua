@@ -1,5 +1,4 @@
 -- compares framexml versions
-local lfs = require "lfs"
 local Util = require("Util/Util")
 local apidoc_nontoc = require("Util/apidoc_nontoc")
 

@@ -23,14 +23,14 @@ function m:PrintView(changes)
 	end
 end
 
-local function SortIndex(a, b)
-	return a.value.id < b.value.id
-end
-
 local ParamIdentifier = {
 	Arguments = "arg ",
 	Returns = "ret ",
 }
+
+local function SortIndex(a, b)
+	return a.value.id < b.value.id
+end
 
 function m:GetStructureChanges(param, a, b)
 	if not a and b then
