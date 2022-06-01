@@ -117,6 +117,7 @@ local function WriteResource(apiType)
 	local elapsed = os.time() - start
 	local fs = "%s,%s\n"
 	local file = io.open(string.format("Projects/TownlongWut/%s.csv", apiType), "w")
+	file:write("Count,Name\n")
 	for _, tbl in pairs(Util:SortTableCustom(t, sortfunc)) do
 		file:write(fs:format(tbl.value, tbl.key))
 	end
