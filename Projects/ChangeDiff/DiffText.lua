@@ -22,6 +22,9 @@ function m:PrintView(changes, isWiki)
 		end
 		for _, name in pairs(Util:SortTable(t[3])) do
 			local v = t[3][name]
+			if v[1].Type == "Enumeration" then
+				name = "Enum."..name
+			end
 			if isWiki then
 				if wp_api[apiType] then
 					print(string.format("{{api|t=%s|%s}}", wp_api[apiType], name))
@@ -49,21 +52,21 @@ local function SortIndex(a, b)
 end
 
 local fs_plain = {
-	add = '  + %s%d: %s',
-	remove = '  - %s%d: %s',
-	modified_type = '  # %s%d: %s, Type: %s -> %s',
+	add              = '  + %s%d: %s',
+	remove           = '  - %s%d: %s',
+	modified_type    = '  # %s%d: %s, Type: %s -> %s',
 	modified_nilable = '  # %s%d: %s, Nilable: %s -> %s',
 }
 
-local fs_color = {
-	add = '  + %s%d: <font color="#00b400">%s</font>',
-	remove = '  - %s%d: <font color="#ff6767">%s</font>',
-	modified_type = '  # %s%d: <font color="#ecbc2a">%s</font>, Type: %s -> %s',
+local fs_wiki = {
+	add              = '  + %s%d: <font color="#00b400">%s</font>',
+	remove           = '  - %s%d: <font color="#ff6767">%s</font>',
+	modified_type    = '  # %s%d: <font color="#ecbc2a">%s</font>, Type: %s -> %s',
 	modified_nilable = '  # %s%d: <font color="#ecbc2a">%s</font>, Nilable: %s -> %s',
 }
 
 function m:PrintParamChanges(param, a, b, isWiki)
-	local fs = isWiki and fs_color or fs_plain
+	local fs = isWiki and fs_wiki or fs_plain
 	if not a and b then
 		print("  + "..param)
 	elseif a and not b then
@@ -98,9 +101,5 @@ function m:PrintParamChanges(param, a, b, isWiki)
 		end
 	end
 end
-
---- color afterwards with regex
--- (\d): (\w+)
--- $1: <span class="apitype">$2</span>
 
 return m
