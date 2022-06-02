@@ -5,7 +5,7 @@ local apidoc_nontoc = require("Util/apidoc_nontoc")
 ChangeDiff = {}
 require("Projects/ChangeDiff/Compare")
 local m = ChangeDiff
-local DiffText = require("Projects/ChangeDiff/DiffText")
+local PrintView = require("Projects/ChangeDiff/PrintView")
 
 m.apiTypes = {
 	Function = {
@@ -69,7 +69,7 @@ end
 local function main(versions, isWiki)
 	local framexml = m:LoadFrameXML(versions)
 	local changes = m:CompareVersions(versions, framexml)
-	DiffText:PrintView(changes, isWiki)
+	PrintView:PrintView(changes, isWiki)
 end
 
 main({"9.2.0.43340", "9.2.5.43903"}, true)
