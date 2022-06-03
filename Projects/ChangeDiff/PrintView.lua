@@ -12,13 +12,11 @@ function m:PrintView(changes, isWiki)
 	for _, apiType in pairs(p.apiType_order) do
 		print(apiType)
 		local t = changes[apiType]
-		if not isWiki then
-			for _, name in pairs(Util:SortTable(t[1])) do
-				print("+ "..name)
-			end
-			for _, name in pairs(Util:SortTable(t[2])) do
-				print("- "..name)
-			end
+		for _, name in pairs(Util:SortTable(t[1])) do
+			print("+ "..name)
+		end
+		for _, name in pairs(Util:SortTable(t[2])) do
+			print("- "..name)
 		end
 		for _, name in pairs(Util:SortTable(t[3])) do
 			local v = t[3][name]
