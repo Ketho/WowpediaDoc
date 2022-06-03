@@ -167,7 +167,9 @@ function m:HandleCommaString(tbl, str)
 end
 
 function m:WriteDataFile(info)
-	local file = io.open(OUT_PATH.."/"..info.label..".lua", "w")
+	local fullPath = OUT_PATH.."/"..info.label..".lua"
+	print("writing", fullPath)
+	local file = io.open(fullPath, "w")
 	file:write(string.format("local %s = {\n", info.label))
 	for _, key in pairs(SortTable(info.data)) do
 		local value = info.data[key]

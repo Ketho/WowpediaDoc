@@ -13,12 +13,12 @@ function Util.SortBuild(a, b)
 	end
 end
 
-Util.PtrVersion = "9.2.5"
+Util.PtrVersion = "?"
 
 local flavorInfo = {
 	ptr = {flavor = "mainline", header = true,
 		sort = Util.SortBuild},
-	mainline = {flavor = "mainline", header = true, build = "9.2.0.",
+	mainline = {flavor = "mainline", header = true, build = "9.2.5.",
 		sort = Util.SortBuild},
 	tbc = {flavor = "tbc", header = true, build = "2.5.4."},
 	vanilla = {flavor = "vanilla", header = true, build = "1.14.3."},
