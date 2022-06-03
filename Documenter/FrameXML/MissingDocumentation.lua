@@ -20,6 +20,9 @@ local Missing =
 		{ Name = "ChatChannelInfo", Type = "Structure", Fields = Empty }, -- ChatInfoDocumentation.lua
 		-- 9.2.0
 		{ Name = "ClickBindingInfo", Type = "Structure", Fields = Empty }, -- ClickBindingsDocumentation.lua
+		-- 9.2.5
+		{ Name = "UnitAuraUpdateInfo", Type = "Structure", Fields = Empty }, -- UnitAuraDocumentation.lua
+		{ Name = "GamePadPowerLevel", Type = "Structure", Fields = Empty }, -- GamePadDocumentation.lua
 
 		-- placeholder enums, unused in apidocs
 		{ Name = "AddSoulbindConduitReason", Type = "Enumeration", Fields = Empty },

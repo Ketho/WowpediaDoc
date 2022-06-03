@@ -160,7 +160,7 @@ end
 function Wowpedia:HasMissingTypes()
 	local missingTypes = self:FindMissingTypes()
 	if next(missingTypes) then
-		print("Found missing complex types, please add them to FrameXML\\MissingDocumentation.lua")
+		print("Found missing complex types, please add them to Documenter/FrameXML/MissingDocumentation.lua")
 		for complexType in pairs(missingTypes) do
 			print("Missing:", complexType)
 		end
