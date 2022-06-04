@@ -15,7 +15,7 @@ def saveFile(path, fileName):
 	page = pywikibot.Page(site, name)
 	if not page.exists():
 		page.text = getFileText(path)
-		page.save(summary="9.2.0")
+		page.save(summary="9.2.5")
 
 def recursiveFiles(path):
 	for base in os.listdir(path):

@@ -22,7 +22,6 @@ local Missing =
 		{ Name = "ClickBindingInfo", Type = "Structure", Fields = Empty }, -- ClickBindingsDocumentation.lua
 		-- 9.2.5
 		{ Name = "UnitAuraUpdateInfo", Type = "Structure", Fields = Empty }, -- UnitAuraDocumentation.lua
-		{ Name = "GamePadPowerLevel", Type = "Structure", Fields = Empty }, -- GamePadDocumentation.lua
 
 		-- placeholder enums, unused in apidocs
 		{ Name = "AddSoulbindConduitReason", Type = "Enumeration", Fields = Empty },
@@ -224,6 +223,19 @@ local Missing =
 				{ Name = "AlsoReceive", Type = "WeeklyRewardChestThresholdType", EnumValue = 4 },
 				{ Name = "Concession", Type = "WeeklyRewardChestThresholdType", EnumValue = 5 },
 			},
+		},
+		{
+			-- GamePadDocumentation.lua
+			Name = "GamePadPowerLevel",
+			Type = "Enumeration",
+			Fields = {
+				{ Name = "Critical", Type = "GamePadPowerLevel", EnumValue = 0 },
+				{ Name = "Low", Type = "GamePadPowerLevel", EnumValue = 1 },
+				{ Name = "Medium", Type = "GamePadPowerLevel", EnumValue = 2 },
+				{ Name = "High", Type = "GamePadPowerLevel", EnumValue = 3 },
+				{ Name = "Wired", Type = "GamePadPowerLevel", EnumValue = 4 },
+				{ Name = "Unknown", Type = "GamePadPowerLevel", EnumValue = 5 },
+			}
 		},
 	},
 }
