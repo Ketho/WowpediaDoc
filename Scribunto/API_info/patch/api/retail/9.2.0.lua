@@ -1505,6 +1505,8 @@ return {
 	["C_LootHistory.GetPlayerInfo"] = true,
 	["C_LootHistory.GiveMasterLoot"] = true,
 	["C_LootHistory.SetExpiration"] = true,
+	["C_LootJournal.GetItemSetItems"] = true,
+	["C_LootJournal.GetItemSets"] = true,
 	["C_LoreText.RequestLoreTextForCampaignID"] = true,
 	["C_LossOfControl.GetActiveLossOfControlData"] = true,
 	["C_LossOfControl.GetActiveLossOfControlDataByUnit"] = true,
