@@ -153,7 +153,7 @@ end
 function m:GetEventPayload()
 	-- ok wtf this needs to be rewritten
 	local FrameXML = require("Documenter/FrameXML/FrameXML")
-	FrameXML:LoadApiDocs("Documenter/FrameXML", "FrameXML/classic/2.5.3 (42083)/Interface/AddOns")
+	FrameXML:LoadApiDocs("Documenter/FrameXML", "FrameXML/classic/2.5.4 (43400)/Interface/AddOns")
 	local t = {}
 	for _, event in pairs(APIDocumentation.events) do
 		if event.Payload then
