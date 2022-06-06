@@ -14,7 +14,7 @@ function m:ParseWikitext(wikitext)
 	local api_names, tag_data = {}, {}
 	for s1, name in string.gmatch(wikitext, "\n:(.-)%[API (.-)|") do
 		table.insert(api_names, name) -- allow finding duplicates
-		local tag = s1:match("<small>(.-)</small>")
+		local tag = s1:match("<small>''(.-)''</small>")
 		if tag then
 			tag_data[name] = tag
 		end
