@@ -24,9 +24,6 @@ function m:main(options)
 
 	local cmd_tbl = self:GetCmdTbl()
 	local patchData = dbc_patch:GetPatchData("emotestext", options)
-	if patch == Util.PtrVersion then
-		patch = patch.." {{Test-inline}}"
-	end
 
 	local dbc_emotestextdata = {}
 	Util:ReadCSV("emotestextdata", parser, options, function(_, ID, l)
@@ -74,6 +71,9 @@ function m:main(options)
 			notarget = dbc_emotestextdata[ID][6] or ""
 		end
 		local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
+		if patch == Util.PtrVersion then
+			patch = patch.." {{Test-inline}}"
+		end
 		file:write(fs:format(token, cmd_list, anim, voice, notarget, target, patch))
 	end)
 

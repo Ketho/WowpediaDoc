@@ -3,10 +3,12 @@ max_line_length = false
 exclude_files = {
 	"Documenter/FrameXML/Blizzard_APIDocumentation",
 	"Util/csv/csv.lua",
+	"Pages/API_DoEmote.lua",
 }
 ignore = {
 	"211", -- unused local variable / function
-	"212/self", -- unused argument self
+	"212/ID", -- unused argument
+	"212/self",
 }
 globals = {
 	"ApiDocsDiff",
@@ -49,4 +51,5 @@ globals = {
 	"UIParent",
 	"unpack",
 	"Wowpedia",
+	"ChangeDiff",
 }

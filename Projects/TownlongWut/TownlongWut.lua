@@ -30,7 +30,7 @@ local sources = {
 		)
 		return tbl[1]
 	end,
-	Lua = function(name)
+	Lua = function()
 		local tbl = Util:DownloadAndRun(
 			string.format("cache_lua/%s.lua", "GlobalAPI"),
 			github_url:format("GlobalAPI")
@@ -101,7 +101,7 @@ local function WriteResource(apiType)
 		local count = 0
 		if results then
 			-- print_table(results)
-			for _, v in pairs(results.a) do
+			for _ in pairs(results.a) do
 				count = count + 1
 			end
 		end
@@ -125,7 +125,7 @@ local function WriteResource(apiType)
 	print("-- written "..apiType.." in "..elapsed.." seconds")
 end
 
-local function main(apiType)
+local function main()
 	for k in pairs(sources) do
 		WriteResource(k)
 	end
