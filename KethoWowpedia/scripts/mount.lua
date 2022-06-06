@@ -28,6 +28,13 @@ local unobtainable = {
 	[32] = true, -- Bengal Tiger
 }
 
+local function IsValidName(s)
+	if s:find("[%[%]]") then
+		return false
+	end
+	return true
+end
+
 -- /run KethoWowpedia:GetMountIDs(3000)
 function KethoWowpedia:GetMountIDs(num)
 	eb:Show()
@@ -44,7 +51,10 @@ function KethoWowpedia:GetMountIDs(num)
 			local allDisplay = C_MountJournal.GetMountAllCreatureDisplayInfoByID(id)
 
 			local factionIcon = faction == 0 and "{{Horde}}" or faction == 1 and "{{Alliance}}" or ""
-			local linkName = self.Util:GetLinkName(wpLink[id], wpName[id] or name, 40)
+			local nameText = name
+			if IsValidName(name) then
+				nameText = self.Util:GetLinkName(wpLink[id], wpName[id] or name, 40)
+			end
 			-- EnumeratedString 105: 6: Exclude from Journal if not learned
 			local flags = self.dbc.mount[id] or 0
 			local sourceText
@@ -76,7 +86,7 @@ function KethoWowpedia:GetMountIDs(num)
 				id,
 				factionIcon,
 				MountType[mTypeID] or mTypeID,
-				linkName,
+				nameText,
 				sourceText,
 				displayLink,
 				format("[https://www.wowhead.com/spell=%d %d]", spellID, spellID),

@@ -1,4 +1,4 @@
--- 9.2.5.42850
+-- 9.2.5.43971
 KethoWowpedia.dbc.mount = {
 	[6] = 0, -- Brown Horse
 	[7] = 64, -- Gray Wolf
@@ -877,6 +877,7 @@ KethoWowpedia.dbc.mount = {
 	[1401] = 0, -- Eternal Phalynx of Loyalty
 	[1402] = 0, -- Eternal Phalynx of Humility
 	[1404] = 128, -- Silverwind Larion
+	[1405] = 0, -- Restoration Deathwalker
 	[1406] = 128, -- Marrowfang
 	[1407] = 128, -- Callow Flayedwing
 	[1408] = 128, -- Gruesome Flayedwing
@@ -924,8 +925,8 @@ KethoWowpedia.dbc.mount = {
 	[1458] = 0, -- Wandering Ancient
 	[1459] = 4, -- Vicious War Gorm
 	[1460] = 4, -- Vicious War Gorm
-	[1465] = 68, -- Vicious Warstalker
-	[1466] = 68, -- Vicious Warstalker
+	[1465] = 4, -- Vicious Warstalker
+	[1466] = 4, -- Vicious Warstalker
 	[1471] = 128, -- Vengeance
 	[1475] = 0, -- Hand of Bahmethra
 	[1476] = 0, -- Wild Hunt Legsplitter
@@ -1000,7 +1001,7 @@ KethoWowpedia.dbc.mount = {
 	[1584] = 0, -- Colossal Plaguespew Mawrat
 	[1585] = 0, -- Colossal Wraithbound Mawrat
 	[1587] = 0, -- Zereth Overseer
-	[1597] = 0, -- [PH] The Flame Woof
+	[1597] = 0, -- Grimhowl
 	[1599] = 192, -- Eternal Gladiator's Soul Eater
-	[1600] = 0, -- Green Hawkstrider
+	[1600] = 0, -- Elusive Emerald Hawkstrider
 }
