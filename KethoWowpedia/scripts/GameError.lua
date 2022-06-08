@@ -14,7 +14,7 @@ function KethoWowpedia:GameError()
 	end)
 
 	eb:Show()
-	eb:InsertLine('{| class="sortable darktable zebra col1-center"\n! ID !! skit !! voice !! stringId !! GlobalString (enUS)')
+	eb:InsertLine('{| class="sortable darktable zebra col1-center"\n! idx !! skit !! voice !! stringId !! GlobalString (enUS)')
 	local fs = '|-\n| %d |||| %s |||| %s |||| %s |||| %s'
 	for _, tbl in pairs(enums) do
 		local k, v = unpack(tbl)
