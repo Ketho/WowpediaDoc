@@ -28,7 +28,7 @@ end
 
 function m:GetSignatures()
 	local t = {}
-	local fs_base = ': [[API %s|%s]](%s)%s'
+	local fs_base = '[[API %s|%s]](%s)%s'
 	local fs_args = '<span class="apiarg">%s</span>'
 	local fs_returns = ' : <span class="apiret">%s</span>'
 	for _, func in ipairs(APIDocumentation.functions) do
