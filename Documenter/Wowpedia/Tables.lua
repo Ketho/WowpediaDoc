@@ -17,7 +17,7 @@ function Wowpedia:GetTableText(apiTable, isTemplate, isSubTable)
 	if alignFirstCol[apiTable.Type] then
 		tableClass = tableClass.." col1-center"
 	end
-	tableClass = tableClass..'" style="margin-left: 2em"'
+	tableClass = tableClass..'" style="margin-left: 3.9em"'
 	tinsert(tbl, tableClass)
 	if isTemplate then
 		local link

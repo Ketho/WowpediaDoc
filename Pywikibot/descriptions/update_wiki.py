@@ -38,7 +38,7 @@ def main():
 		if page.text != newText:
 			page.text = newText
 			page.save("Sync description")
+	print("done")
 
 if __name__ == "__main__":
 	main()
-	print("done")
