@@ -54,7 +54,7 @@ function m:UpdateSignatures()
 			line = StringBuilder(info)
 		end
 		file:write(line.."\n")
-		if line:find("==Classic==") then
+		if not isClassic and line:find("==Classic==") then
 			isClassic = true
 		end
 	end
