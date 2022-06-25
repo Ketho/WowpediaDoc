@@ -1,6 +1,5 @@
--- https://github.com/Ketho/BlizzardInterfaceResources/blob/live/Resources/AtlasInfo.lua
+-- https://github.com/Ketho/BlizzardInterfaceResources/blob/mainline/Resources/AtlasInfo.lua
 local parser = require("Util/wowtoolsparser")
---local OUT_PATH = "out/AtlasInfo.lua"
 local OUT_PATH = "../BlizzardInterfaceResources/Resources/AtlasInfo.lua"
 
 local function SortTable(tbl, key)
@@ -77,7 +76,6 @@ local function AtlasInfo(options)
 	end
 	file:write("}\n\nreturn AtlasInfo\n")
 	file:close()
-	print("finished")
 end
 
 return AtlasInfo

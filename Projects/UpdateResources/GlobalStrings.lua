@@ -1,31 +1,55 @@
--- https://github.com/Ketho/BlizzardInterfaceResources/blob/live/Resources/GlobalStrings.lua
+-- https://github.com/Ketho/BlizzardInterfaceResources/tree/mainline/Resources/GlobalStrings
 local parser = require("Util/wowtoolsparser")
---local OUT_PATH = "out/GlobalStrings.lua"
-local OUT_PATH = "../BlizzardInterfaceResources/Resources/GlobalStrings.lua"
+local OUT_PATH = "../BlizzardInterfaceResources/Resources/GlobalStrings/%s.lua"
 
-local short = '%s = "%s";'
-local full = '_G["%s"] = "%s";'
+local short  = [[%s = "%s";]]
+local quoted = [[_G["%s"] = "%s";]]
 
-local slashStrings = {
-	KEY_BACKSLASH = function(s) return s:sub(1, 2) == "9." end, -- broken in 9.1.0
-	CHATLOGENABLED = function(s) return s:sub(1, 3) == "9.0" end, -- broken in 9.0.5
-	--COMBATLOGENABLED = true,
-}
-
-local override = {
-	-- https://wow.tools/dbc/?dbc=globalstrings#search=PARTY_PLAYER_CHROMIE_TIME_FMT
-	PARTY_PLAYER_CHROMIE_TIME_FMT = [[%s\n\n\\%s]], -- 9.0.1 (35256)
+local locales = {
+	"deDE",
+	"enUS", -- same as enGB
+	"esES", "esMX",
+	"frFR",
+	"itIT",
+	"koKR",
+	"ptBR", -- same as ptPT
+	"ruRU",
+	"zhCN",	"zhTW",
 }
 
 local function IsValidTableKey(s)
 	return not s:find("-") and not s:find("^%d")
 end
 
-local function GlobalStrings(options)
-	options = options or {}
-	options.header = true
-	-- filter and sort globalstrings
-	local globalstrings, usedBuild = parser:ReadCSV("globalstrings", options)
+local validEscapes = {
+	["\\"] = true,
+	["\""] = true,
+	["n"] = true,
+	["r"] = true,
+	["t"] = true,
+}
+
+local function EscapeString(s)
+	local matches = {}
+	for v in s:gmatch([[\(.)]]) do
+		if not validEscapes[v] and not matches[v] then
+			matches[v] = true
+			-- it appears these invalid escapes are unneeded
+			-- https://github.com/Stanzilla/WoWUIBugs/issues/238
+			if v == ")" then
+				s = s:gsub([[\%]]..v, v)
+			elseif v == "%" then
+				s = s:gsub([[\%]]..v, [[%]]..v)
+			else
+				s = s:gsub([[\]]..v, v)
+			end
+		end
+	end
+	return s
+end
+
+local function GlobalStrings(path, options)
+	local globalstrings = parser:ReadCSV("globalstrings", options)
 	local stringsTable = {}
 	for line in globalstrings:lines() do
 		local flags = tonumber(line.Flags)
@@ -40,27 +64,30 @@ local function GlobalStrings(options)
 		return a.BaseTag < b.BaseTag
 	end)
 
-	print("writing "..OUT_PATH)
-	local file = io.open(OUT_PATH, "w")
+	print("writing "..path)
+	local file = io.open(path, "w")
 	for _, tbl in pairs(stringsTable) do
 		local key, value = tbl.BaseTag, tbl.TagText
-		value = value:gsub('\\32', ' ') -- space char
-		-- unescape any quotes before escaping quotes
-		value = value:gsub('\\\"', '"')
-		value = value:gsub('"', '\\\"')
-		if slashStrings[key] and slashStrings[key](usedBuild) then
-			value = value:gsub("\\", "\\\\")
+		value = value:gsub("\n", [[\n]]) -- newline in csv
+		value = value:gsub([[\32]], " ") -- space char
+		value = value:gsub([[\"]], [["]]) -- unescape any quotes
+		value = value:gsub([["]], [[\"]]) -- before escaping quotes
+		value = EscapeString(value)
+		if key == "KEY_BACKSLASH" then
+			value = [[\\]]
 		end
-		if override[key] then
-			value = override[key]
-		end
-
-		-- check if the key is proper short table syntax
-		local fs = IsValidTableKey(key) and short or full
+		local fs = IsValidTableKey(key) and short or quoted
 		file:write(fs:format(key, value), "\n")
 	end
 	file:close()
-	print("finished")
 end
 
-return GlobalStrings
+local function WriteLocales(options)
+	for _, locale in pairs(locales) do
+		local path = OUT_PATH:format(locale)
+		options.locale = locale
+		GlobalStrings(path, options)
+	end
+end
+
+return WriteLocales
