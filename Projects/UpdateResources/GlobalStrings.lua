@@ -39,7 +39,7 @@ local function EscapeString(s)
 			if v == ")" then
 				s = s:gsub([[\%]]..v, v)
 			elseif v == "%" then
-				s = s:gsub([[\%]]..v, [[%]]..v)
+				s = s:gsub([[\%]]..v, "%"..v)
 			else
 				s = s:gsub([[\]]..v, v)
 			end
