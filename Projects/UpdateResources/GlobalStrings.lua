@@ -29,7 +29,7 @@ local validEscapes = {
 	["t"] = true,
 }
 
-local function EscapeString(s)
+local function FixEscapes(s)
 	local matches = {}
 	for v in s:gmatch([[\(.)]]) do
 		if not validEscapes[v] and not matches[v] then
@@ -72,7 +72,7 @@ local function GlobalStrings(path, options)
 		value = value:gsub([[\32]], " ") -- space char
 		value = value:gsub([[\"]], [["]]) -- unescape any quotes
 		value = value:gsub([["]], [[\"]]) -- before escaping quotes
-		value = EscapeString(value)
+		value = FixEscapes(value)
 		if key == "KEY_BACKSLASH" then
 			value = [[\\]]
 		end
