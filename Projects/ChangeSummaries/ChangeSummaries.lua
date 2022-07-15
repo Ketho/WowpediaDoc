@@ -58,13 +58,11 @@ end
 
 -- https://github.com/Ketho/BlizzardInterfaceResources/commit/9f5b92ef5ee205a4df7536a145bbee24f678d5e0.diff
 function m:FindDiff()
-	local path
 	for fileName in lfs.dir("Projects/ChangeSummaries") do
 		if fileName:find("%.diff") then
-			path = "Projects/ChangeSummaries/"..fileName
+			return "Projects/ChangeSummaries/"..fileName
 		end
 	end
-	return path
 end
 
 function m:ParseDiff(path)
