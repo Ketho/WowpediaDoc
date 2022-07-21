@@ -1,30 +1,50 @@
-import re
-import _read_export
+import util.read_export
 import pywikibot
+from pathlib import Path
+
+categories = [
+	"API+functions",
+	"API+events",
+	"Structs",
+	"Enumerations",
+]
+
+rep = {
+	'<span class="apitype">': "{{apitype|",
+	'<span title="nilable">': "",
+	'<span title="optional">': "",
+	'</span>[]': "[]}}",
+	'</span>?': "?",
+	'</span>': "}}",
+}
+
+def replace_apitype_span(text):
+	for s in rep:
+		text = text.replace(s, rep[s])
+	return text
 
 def parse_wikitext(name: str, s: str):
 	l = s.splitlines()
-	idx = 0
 	hasChange = False
-	oldText = '" style="margin-left: 2em"'
-	newText = '" style="margin-left: 3.9em"'
-	for a in l:
-		if oldText in a:
-			l[idx] = re.sub(oldText, newText, a)
+	for i, k in enumerate(l):
+		if ' : <span class="apitype">' in k or ' || <span class="apitype">' in k:
+			l[i] = replace_apitype_span(l[i])
 			hasChange = True
-		idx += 1
 	return hasChange, str.join("\n", l)
 
 def main():
-	changes = read_read_export_export.main(parse_wikitext)
 	site = pywikibot.Site("en", "wowpedia")
-	for l in changes:
-		name, info = l
-		hasChange, text = info
-		if hasChange:
-			page = pywikibot.Page(site, name)
-			page.text = text
-			page.save("Update left margin to 3.9")
+	folder = Path("Pywikibot", "export", "parse_html")
+	for cat in categories:
+		changes = util.read_export.main(parse_wikitext, Path(folder, cat+".xml"))
+		for l in changes:
+			name, info = l
+			hasChange, text = info
+			if hasChange:
+				# print("\n-----", name, "\n", text)
+				page = pywikibot.Page(site, name)
+				page.text = text
+				page.save("apitype template")
 	print("done")
 
 if __name__ == "__main__":

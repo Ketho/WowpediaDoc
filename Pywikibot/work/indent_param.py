@@ -1,5 +1,5 @@
 import re
-import _read_export
+import util.read_export
 import pywikibot
 
 def parse_wikitext(name: str, s: str):
@@ -7,17 +7,16 @@ def parse_wikitext(name: str, s: str):
 	idx = 0
 	hasChange = False
 	for a in l:
-		regex = "^;(\w+) : "
+		regex = "^;(.*?) : "
 		m = re.findall(regex, a)
 		if m:
 			l[idx] = re.sub(regex, f":;{m[0]} : ", a)
-			# print(l[idx])
 			hasChange = True
 		idx += 1
 	return hasChange, str.join("\n", l)
 
 def main():
-	changes = _read_export.main(parse_wikitext)
+	changes = util.read_export.main(parse_wikitext)
 	site = pywikibot.Site("en", "wowpedia")
 	for l in changes:
 		name, info = l

@@ -12,6 +12,7 @@ categories = [
 ]
 
 def get_api_cat(catname):
+	print("downloading:", catname)
 	form = f"?catname={catname}&addcat=Add"
 	res = requests.get(export_url+form)
 	soup = BeautifulSoup(res.text, 'html.parser')
