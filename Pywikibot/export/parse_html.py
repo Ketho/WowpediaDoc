@@ -5,10 +5,11 @@ from bs4 import BeautifulSoup
 export_url = "https://wowpedia.fandom.com/wiki/Special:Export"
 
 categories = [
-	"API+functions",
-	"Lua+functions",
-	"Widget+methods",
-	"API+events",
+	"API functions",
+	"Lua functions",
+	"Widget methods",
+	"Widget script handlers",
+	"API events",
 	"Structs",
 	"Enums",
 ]

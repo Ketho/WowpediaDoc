@@ -6,10 +6,11 @@ from time import time
 
 xmlns = "{http://www.mediawiki.org/xml/export-0.11/}"
 categories = [
-	"API+functions",
-	"Lua+functions",
-	"Widget+methods",
-	"API+events",
+	"API functions",
+	"Lua functions",
+	"Widget methods",
+	"Widget script handlers",
+	"API events",
 	"Structs",
 	"Enums",
 ]
