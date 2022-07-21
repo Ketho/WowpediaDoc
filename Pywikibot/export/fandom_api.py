@@ -43,7 +43,7 @@ def main(catname):
 	xml = export(catname)
 	now = dt.datetime.utcnow().strftime('%Y%m%d%H%M%S')
 	filename = f'Wowpedia-{now}.xml'
-	fullpath = Path(filename).absolute()
+	fullpath = Path("Pywikibot", "export", "fandom_api", filename).absolute()
 	print(f'Dumping to "{fullpath}"')
 	with open(fullpath, 'wb') as f:
 		f.write(xml)

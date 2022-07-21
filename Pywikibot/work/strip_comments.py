@@ -1,5 +1,5 @@
 import re
-import read_export
+import _read_export
 import pywikibot
 
 comments = {
@@ -36,7 +36,7 @@ def parse_wikitext(name: str, text: str):
 			return new_text
 
 def main():
-	changes = read_export.main(parse_wikitext)
+	changes = _read_export.main(parse_wikitext)
 	site = pywikibot.Site("en", "wowpedia")
 	for l in changes:
 		name, text = l

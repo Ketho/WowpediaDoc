@@ -1,5 +1,5 @@
 import re
-import read_export
+import _read_export
 import pywikibot
 
 hyperlinks = {
@@ -28,7 +28,7 @@ def parse_wikitext(name: str, s: str):
 	return hasChange, str.join("\n", l)
 
 def main():
-	changes = read_export.main(parse_wikitext)
+	changes = _read_export.main(parse_wikitext)
 	site = pywikibot.Site("en", "wowpedia")
 	for l in changes:
 		name, text = l
