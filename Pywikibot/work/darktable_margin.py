@@ -1,31 +1,19 @@
-import re
-import _read_export
-import pywikibot
+import util.wowpedia
 
-def parse_wikitext(name: str, s: str):
+def update_text(name: str, s: str):
 	l = s.splitlines()
-	idx = 0
-	hasChange = False
-	oldText = '" style="margin-left: 2em"'
-	newText = '" style="margin-left: 3.9em"'
-	for a in l:
-		if oldText in a:
-			l[idx] = re.sub(oldText, newText, a)
-			hasChange = True
-		idx += 1
-	return hasChange, str.join("\n", l)
+	isUpdate = False
+	a = '" style="margin-left: 2em"'
+	b = '" style="margin-left: 3.9em"'
+	for i, v in enumerate(l):
+		if a in v:
+			l[i] = v.replace(a, b)
+			isUpdate = True
+	if isUpdate:
+		return str.join("\n", l)
 
 def main():
-	changes = read_read_export_export.main(parse_wikitext)
-	site = pywikibot.Site("en", "wowpedia")
-	for l in changes:
-		name, info = l
-		hasChange, text = info
-		if hasChange:
-			page = pywikibot.Page(site, name)
-			page.text = text
-			page.save("Update left margin to 3.9")
-	print("done")
+	util.wowpedia.main(update_text, summary="Update left margin to 3.9")
 
 if __name__ == "__main__":
 	main()

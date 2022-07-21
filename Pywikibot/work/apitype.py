@@ -1,51 +1,42 @@
-import util.read_export
-import pywikibot
-from pathlib import Path
-
-categories = [
-	"API+functions",
-	"API+events",
-	"Structs",
-	"Enumerations",
-]
+import re
+import util.wowpedia
 
 rep = {
+	'{{api|t=t|'            : "{{apitype|",
 	'<span class="apitype">': "{{apitype|",
 	'<span title="nilable">': "",
 	'<span title="optional">': "",
 	'</span>[]': "[]}}",
 	'</span>?': "?",
 	'</span>': "}}",
+	# '<font color="#ecbc2a">': "{{apitype|",
+	# '</font>[]': "[]}}",
+	# '</font>?': "?}}",
+	# '</font>': "}}",
 }
 
-def replace_apitype_span(text):
+def replace_apitype(text):
 	for s in rep:
 		text = text.replace(s, rep[s])
 	return text
 
-def parse_wikitext(name: str, s: str):
+def update_text(name: str, s: str):
 	l = s.splitlines()
-	hasChange = False
-	for i, k in enumerate(l):
-		if ' : <span class="apitype">' in k or ' || <span class="apitype">' in k:
-			l[i] = replace_apitype_span(l[i])
-			hasChange = True
-	return hasChange, str.join("\n", l)
+	isUpdate = False
+	for i, v in enumerate(l):
+		if '{{api|t=t|' in v:
+			l[i] = replace_apitype(l[i])
+	# for i, v in enumerate(l):
+	# 	regex = '\|\| class="apitype" \| (.*) \|\|'
+	# 	m = re.findall(regex, v)
+	# 	if m:
+	# 		l[i] = re.sub(regex, f"|| {{{{apitype|{m[0]}}}}} ||", v)
+			isUpdate = True
+	if isUpdate:
+		return str.join("\n", l)
 
 def main():
-	site = pywikibot.Site("en", "wowpedia")
-	folder = Path("Pywikibot", "export", "parse_html")
-	for cat in categories:
-		changes = util.read_export.main(parse_wikitext, Path(folder, cat+".xml"))
-		for l in changes:
-			name, info = l
-			hasChange, text = info
-			if hasChange:
-				# print("\n-----", name, "\n", text)
-				page = pywikibot.Page(site, name)
-				page.text = text
-				page.save("apitype template")
-	print("done")
+	util.wowpedia.main(update_text, summary="apitype template ")
 
 if __name__ == "__main__":
 	main()

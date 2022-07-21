@@ -1,4 +1,4 @@
-# crappy script that gets category pages from html
+# crappy script that gets categories from html instead of using the fandom api
 import requests
 from bs4 import BeautifulSoup
 
@@ -6,16 +6,18 @@ export_url = "https://wowpedia.fandom.com/wiki/Special:Export"
 
 categories = [
 	"API+functions",
+	"Lua+functions",
+	"Widget+methods",
 	"API+events",
 	"Structs",
-	"Enumerations",
+	"Enums",
 ]
 
 def get_api_cat(catname):
 	print("downloading:", catname)
 	form = f"?catname={catname}&addcat=Add"
 	res = requests.get(export_url+form)
-	soup = BeautifulSoup(res.text, 'html.parser')
+	soup = BeautifulSoup(res.text, "html.parser")
 	names = soup.find(id="ooui-php-2").string
 	l = sorted(list(names.split("\n")))
 	return l

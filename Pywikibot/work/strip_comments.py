@@ -1,6 +1,4 @@
-import re
-import _read_export
-import pywikibot
+import util.wowpedia
 
 comments = {
 	"<!-- or {{wowapievent}}, {{luapi}}, {{widgethandler}}, {{widgetmethod}}, {{framexmlfunc}} -->",
@@ -29,21 +27,14 @@ def strip_comments(text):
 		text = text.replace(s, "")
 	return text
 
-def parse_wikitext(name: str, text: str):
+def update_text(name: str, text: str):
 	if "<!--" in text:
 		new_text = strip_comments(text)
-		if text!=new_text:
+		if text != new_text:
 			return new_text
 
 def main():
-	changes = _read_export.main(parse_wikitext)
-	site = pywikibot.Site("en", "wowpedia")
-	for l in changes:
-		name, text = l
-		page = pywikibot.Page(site, name)
-		page.text = text
-		page.save("Strip comments")
-	print("done")
+	util.wowpedia.main(update_text, summary="Strip comments")
 
 if __name__ == "__main__":
 	main()

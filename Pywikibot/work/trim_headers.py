@@ -1,32 +1,24 @@
 import re
-import _read_export
-import pywikibot
+import util.wowpedia
 
-def parse_wikitext(name: str, s: str):
+def update_text(name: str, s: str):
 	l = s.splitlines()
-	idx = 0
-	hasChange = False
-	for a in l:
-		regex = "==\s(.*)\s=="
-		m = re.findall(regex, a)
-		if m:
-			l[idx] = re.sub(regex, f"=={m[0]}==", a)
-			# print(l[idx])
-			hasChange = True
-		idx += 1
-	return hasChange, str.join("\n", l)
+	isUpdate = False
+	for i, v in enumerate(l):
+		# try to keep the regex simple
+		if l[i].startswith("=") and l[i].endswith("="):
+			regex = "(=+)(.*?)(=+)"
+			m = re.findall(regex, v)
+			if m:
+				stripped = m[0][1].strip()
+				if m[0][1] != stripped:
+					l[i] = re.sub(regex, f"{m[0][0]}{stripped}{m[0][2]}", v)
+					isUpdate = True
+	if isUpdate:
+		return str.join("\n", l)
 
 def main():
-	changes = _read_export.main(parse_wikitext)
-	site = pywikibot.Site("en", "wowpedia")
-	for l in changes:
-		name, info = l
-		hasChange, text = info
-		if hasChange:
-			page = pywikibot.Page(site, name)
-			page.text = text
-			page.save("Trim headers")
-	print("done")
+	util.wowpedia.main(update_text, summary="Trim headers")
 
 if __name__ == "__main__":
 	main()

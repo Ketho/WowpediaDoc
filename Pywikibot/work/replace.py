@@ -4,17 +4,17 @@ import util.wowpedia
 def update_text(name: str, s: str):
 	l = s.splitlines()
 	isUpdate = False
+	a = '{{:Enum_LE_EXPANSION}}'
+	b = '{{:LE_EXPANSION}}'
 	for i, v in enumerate(l):
-		regex = "^\s*?:?;\s*?(.*?)\s*?:\s*?([<\{\w])"
-		m = re.findall(regex, v)
-		if m:
-			l[i] = re.sub(regex, f":;{m[0][0]}:{m[0][1]}", v)
+		if a in v:
+			l[i] = v.replace(a, b)
 			isUpdate = True
 	if isUpdate:
 		return str.join("\n", l)
 
 def main():
-	util.wowpedia.main(update_text, summary="trim param whitespace")
+	util.wowpedia.main(update_text, summary="replace")
 
 if __name__ == "__main__":
 	main()
