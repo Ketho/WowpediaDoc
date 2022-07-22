@@ -8,16 +8,16 @@ xmlns = "{http://www.mediawiki.org/xml/export-0.11/}"
 categories = [
 	"API functions",
 	"Lua functions",
-	"Widget methods",
-	"Widget script handlers",
+	# "Widget methods",
+	# "Widget script handlers",
 	"API events",
 	"Structs",
 	"Enums",
 ]
 
-def main(func, category=None, summary=None):
+def main(func, category=None, summary=None, test=None):
 	changes = get_updates(func, category)
-	save_pages(changes, summary)
+	save_pages(changes, summary, test)
 
 def get_updates(func, category):
 	folder = Path("Pywikibot", "export", "parse_html")
@@ -41,13 +41,16 @@ def read_xml(li, func, path):
 				if newText:
 					li.append([page[0].text, newText])
 
-def save_pages(changes, summary):
+def save_pages(changes, summary, test):
 	site = pywikibot.Site("en", "wowpedia")
 	numEdits, elapsed = 0, time()
 	for l in changes:
 		name, text = l
-		page = pywikibot.Page(site, name)
-		page.text = text
-		page.save(summary)
-		numEdits = numEdits+1
+		if not test:
+			page = pywikibot.Page(site, name)
+			page.text = text
+			page.save(summary)
+			numEdits = numEdits+1
+		elif test == "verbose":
+			print(name, text)
 	print(f"done. {numEdits} edits, {floor(time()-elapsed)} seconds")

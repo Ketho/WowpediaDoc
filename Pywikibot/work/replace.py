@@ -4,8 +4,8 @@ import util.wowpedia
 def update_text(name: str, s: str):
 	l = s.splitlines()
 	isUpdate = False
-	a = '{{:Enum_LE_EXPANSION}}'
-	b = '{{:LE_EXPANSION}}'
+	a = '}} (optional, '
+	b = '?}} ('
 	for i, v in enumerate(l):
 		if a in v:
 			l[i] = v.replace(a, b)

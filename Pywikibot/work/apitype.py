@@ -36,7 +36,7 @@ def update_text(name: str, s: str):
 		return str.join("\n", l)
 
 def main():
-	util.wowpedia.main(update_text, summary="apitype template ")
+	util.wowpedia.main(update_text, summary="apitype template")
 
 if __name__ == "__main__":
 	main()

@@ -7,8 +7,8 @@ export_url = "https://wowpedia.fandom.com/wiki/Special:Export"
 categories = [
 	"API functions",
 	"Lua functions",
-	"Widget methods",
-	"Widget script handlers",
+	# "Widget methods",
+	# "Widget script handlers",
 	"API events",
 	"Structs",
 	"Enums",
