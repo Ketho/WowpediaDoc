@@ -6,6 +6,10 @@ local FRAMEXML = "../#FrameXML/Generate-Globals/wow-ui-source/"
 -- too lazy to parse FrameXML_TBC.toc or whatever the new file loading structure is
 local flavors = {
 	mainline = {FRAMEXML.."Interface"},
+	wrath = {
+		FRAMEXML.."Interface",
+		FRAMEXML.."Interface_WRATH",
+	},
 	tbc = {
 		FRAMEXML.."Interface",
 		FRAMEXML.."Interface_TBC",

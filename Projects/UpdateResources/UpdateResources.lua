@@ -1,6 +1,6 @@
 local Util = require("Util/Util")
 
--- mainline, ptr, tbc, vanilla
+-- mainline, ptr, wrath, tbc, vanilla
 local FLAVOR = "mainline"
 local options = Util:GetFlavorOptions(FLAVOR)
 require("Projects.UpdateResources.GlobalStrings")(options)

@@ -13,7 +13,7 @@ function Util.SortBuild(a, b)
 	end
 end
 
-Util.PtrVersion = "?"
+Util.PtrVersion = "10.0.0"
 
 local flavorInfo = {
 	ptr = {flavor = "mainline", header = true,
@@ -21,7 +21,15 @@ local flavorInfo = {
 	mainline = {flavor = "mainline", header = true, build = "9.2.5.",
 		sort = Util.SortBuild},
 	tbc = {flavor = "tbc", header = true, build = "2.5.4."},
+	wrath = {flavor = "wrath", header = true, build = "3.4.0."},
 	vanilla = {flavor = "vanilla", header = true, build = "1.14.3."},
+}
+
+local classicVersions = {
+	"^1.13.",
+	"^1.14.",
+	"^2.5.",
+	"^3.4.",
 }
 
 Util.RelativePath = {
@@ -189,12 +197,6 @@ end
 function Util:GetPatchVersion(v)
 	return v:match("%d+%.%d+%.%d+")
 end
-
-local classicVersions = {
-	"^1.13.",
-	"^1.14.",
-	"^2.5.",
-}
 
 function Util:IsClassicVersion(v)
 	for _, pattern in pairs(classicVersions) do
