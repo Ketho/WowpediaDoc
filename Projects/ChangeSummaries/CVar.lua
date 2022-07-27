@@ -36,11 +36,11 @@ local function GetCVarInfo(name)
 		if #default > 0 then
 			table.insert(t, "default="..default)
 		end
-		-- if category ~= 5 then -- Default
-		-- 	table.insert(t, "Category: "..ColorText(ConsoleCategory[category]))
-		-- end
 		if account or character then
 			table.insert(t, "scope="..(account and "Account" or character and "Character"))
+		end
+		if category ~= 5 then -- Default
+			table.insert(t, "cat="..category)
 		end
 		if #help > 0 then
 			table.insert(t, "desc="..help)
