@@ -1,11 +1,8 @@
 -- similar codebase as https://wowpedia.fandom.com/wiki/Module:API_info/cvar
 local Util = require("Util/Util")
-local data = Util:DownloadAndRun(
-	"cache_lua/CVars_mainline.lua",
-	"https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/mainline/Resources/CVars.lua"
-)
 
 local m = {}
+local data
 
 local ConsoleCategory = {
 	[0] = "Debug",
@@ -21,40 +18,40 @@ local ConsoleCategory = {
 	[10] = "None",
 }
 
-local fs = '<span class="tttemplatelink">%s</span><span style="display:none">%s</span>'
-
-local function ColorText(text)
-	return string.format('<span class="apitype">%s</span>', text)
+local function GetData(flavor)
+	local tbl = Util:DownloadAndRun(
+		string.format("cache_lua/CVars_%s.lua", flavor),
+		string.format("https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/CVars.lua", flavor)
+	)
+	return tbl
 end
 
 local function GetCVarInfo(name)
 	local cvar = data[1].var[name]
 	if cvar then
-		local t = {}
+		local t = {"apitooltip_cvar"}
+		table.insert(t, "name="..name)
 		-- cannot use unpack()
 		local default, category, account, character, help = cvar[1], cvar[2], cvar[3], cvar[4], cvar[5]
 		if #default > 0 then
-			table.insert(t, "Default: <code>"..ColorText(default).."</code>")
+			table.insert(t, "default="..default)
 		end
 		-- if category ~= 5 then -- Default
 		-- 	table.insert(t, "Category: "..ColorText(ConsoleCategory[category]))
 		-- end
 		if account or character then
-			table.insert(t, "Scope: "..ColorText(account and "Account" or character and "Character"))
+			table.insert(t, "scope="..(account and "Account" or character and "Character"))
 		end
-		local text = table.concat(t, ", ")
 		if #help > 0 then
-			text = text.."<br><small>"..help.."</small>"
+			table.insert(t, "desc="..help)
 		end
-		return text
+		return string.format("{{%s}}", table.concat(t, "|"))
 	end
 end
 
-function m.GetTooltip(name, link)
-	local info = GetCVarInfo(name)
-	if info then
-		return fs:format(link, info)
-	end
+function m.main(flavor, name, link)
+	data = data or GetData(flavor)
+	return GetCVarInfo(name)
 end
 
 return m

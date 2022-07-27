@@ -4,6 +4,7 @@ local Util = require("Util/Util")
 local cvar_module = require("Projects/ChangeSummaries/CVar")
 local m = {}
 local OUT_FILE = "out/page/ChangeSummaries.txt"
+local FLAVOR = "mainline"
 
 local ApiTypes = {
 	GlobalAPI = {
@@ -36,7 +37,7 @@ local ApiTypes = {
 		-- text = ": {{api|t=c|%s}}",
 		textfunc = function(name)
 			local link = string.format("[[CVar %s|%s]]", name, name)
-			local tt = cvar_module.GetTooltip(name, link) or link
+			local tt = cvar_module.main(FLAVOR, name, link) or link
 			return ": "..tt
 		end,
 		parseName = function(innerLine)
