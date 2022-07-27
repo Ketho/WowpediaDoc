@@ -49,7 +49,7 @@ local function GetCVarInfo(name)
 	end
 end
 
-function m.main(flavor, name, link)
+function m.main(flavor, name)
 	data = data or GetData(flavor)
 	return GetCVarInfo(name)
 end

@@ -36,8 +36,7 @@ local ApiTypes = {
 	CVars = {
 		-- text = ": {{api|t=c|%s}}",
 		textfunc = function(name)
-			local link = string.format("[[CVar %s|%s]]", name, name)
-			local tt = cvar_module.main(FLAVOR, name, link) or link
+			local tt = cvar_module.main(FLAVOR, name) or name
 			return ": "..tt
 		end,
 		parseName = function(innerLine)
