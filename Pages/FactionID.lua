@@ -40,11 +40,12 @@ end
 -- https://github.com/kevinclement/SimpleArmory/blob/master/dataimporter/factions.py
 local removedFaction = {
 	-- never implemented
-	[1888] = true, -- Jandvik Vryul
-	[2111] = true, -- Zandalari Dinosaurs
 	[1351] = true, -- The Brewmasters
 	[1416] = true, -- Akama's Trust
 	[1440] = true, -- Darkspear Rebellion
+	[1888] = true, -- Jandvik Vryul
+	[2111] = true, -- Zandalari Dinosaurs
+	[2469] = true, -- Fractal Lore
 }
 
 local factionFixes = {
