@@ -42,6 +42,7 @@ local function AtlasInfo(options)
 			local right = tonumber(line.CommittedRight)
 			local top = tonumber(line.CommittedTop)
 			local bottom = tonumber(line.CommittedBottom)
+			line.CommittedFlags = tonumber(line.CommittedFlags) -- lua 5.4 attempt to perform bitwise operation on a string value
 			table.insert(atlasTable[atlasID], {
 				memberID = tonumber(line.ID),
 				name = name,

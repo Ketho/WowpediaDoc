@@ -4,8 +4,8 @@ import util.wowpedia
 def update_text(name: str, s: str):
 	l = s.splitlines()
 	isUpdate = False
-	a = '}} (optional, '
-	b = '?}} ('
+	a = ':;unit : [[UnitId]]'
+	b = ':;unit:{{apitype|string}} : [[UnitId]]'
 	for i, v in enumerate(l):
 		if a in v:
 			l[i] = v.replace(a, b)
@@ -14,7 +14,7 @@ def update_text(name: str, s: str):
 		return str.join("\n", l)
 
 def main():
-	util.wowpedia.main(update_text, summary="replace")
+	util.wowpedia.main(update_text, summary="unit")
 
 if __name__ == "__main__":
 	main()
