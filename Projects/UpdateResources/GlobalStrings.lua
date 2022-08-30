@@ -17,6 +17,11 @@ local locales = {
 	"zhCN",	"zhTW",
 }
 
+local classic_flavors = {
+	tbc = true,
+	vanilla = true,
+}
+
 local function IsValidTableKey(s)
 	return not s:find("-") and not s:find("^%d")
 end
@@ -84,9 +89,11 @@ end
 
 local function WriteLocales(options)
 	for _, locale in pairs(locales) do
-		local path = OUT_PATH:format(locale)
-		options.locale = locale
-		GlobalStrings(path, options)
+		if not (locale == "itIT" and classic_flavors[options.flavor]) then
+			local path = OUT_PATH:format(locale)
+			options.locale = locale
+			GlobalStrings(path, options)
+		end
 	end
 end
 
