@@ -22,6 +22,8 @@ local Missing =
 		{ Name = "ClickBindingInfo", Type = "Structure", Fields = Empty }, -- ClickBindingsDocumentation.lua
 		-- 9.2.5
 		{ Name = "UnitAuraUpdateInfo", Type = "Structure", Fields = Empty }, -- UnitAuraDocumentation.lua
+		-- 9.2.7
+		{ Name = "CharCustomizationOption", Type = "Structure", Fields = Empty }, -- uhhh
 
 		-- placeholder enums, unused in apidocs
 		{ Name = "AddSoulbindConduitReason", Type = "Enumeration", Fields = Empty },

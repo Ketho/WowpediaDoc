@@ -24,6 +24,7 @@ local nondoc = {
 	[".."] = true,
 	["Blizzard_APIDocumentation.lua"] = true,
 	["Blizzard_APIDocumentation.toc"] = true,
+	["Blizzard_APIDocumentationGenerated.toc"] = true,
 	["EventsAPIMixin.lua"] = true,
 	["FieldsAPIMixin.lua"] = true,
 	["FunctionsAPIMixin.lua"] = true,

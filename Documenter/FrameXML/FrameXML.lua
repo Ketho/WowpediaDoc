@@ -20,8 +20,7 @@ local shared_namespaces = {
 	["PlayerLocationDocumentation.lua"] = "C_PlayerInfo", -- Name = "PlayerLocationInfo"
 }
 
-local function LoadApiDocFile(base, line)
-	local path = base.."/Blizzard_APIDocumentation/"..line
+local function LoadApiDocFile(path)
 	if lfs.attributes(path) then
 		local file = loadfile(path)
 		file()
@@ -34,16 +33,27 @@ function m:LoadApiDocs(base, latestFrameXML)
 		latestFrameXML = "FrameXML/retail/"..constants.LATEST_MAINLINE
 	end
 	require(base.."/Compat")
-	local toc = io.open(latestFrameXML.."/Blizzard_APIDocumentation/Blizzard_APIDocumentation.toc")
+	local toc = io.open(latestFrameXML.."/AddOns/Blizzard_APIDocumentation/Blizzard_APIDocumentation.toc")
 	if toc then
 		for line in toc:lines() do
+			-- print(line)
 			if line:find("%.lua") and not missing[line] then
-				LoadApiDocFile(latestFrameXML, line)
+				LoadApiDocFile(latestFrameXML.."/AddOns/Blizzard_APIDocumentation/"..line)
 			end
 		end
 		toc:close()
 	end
 	require(base.."/MissingDocumentation")
+	local generated = io.open(latestFrameXML.."/Blizzard_APIDocumentation/Blizzard_APIDocumentationGenerated.toc")
+	if generated then
+		for line in generated:lines() do
+			print(line)
+			if line:find("%.lua") and not missing[line] then
+				LoadApiDocFile(latestFrameXML.."/Blizzard_APIDocumentation/"..line)
+			end
+		end
+		generated:close()
+	end
 end
 
 return m

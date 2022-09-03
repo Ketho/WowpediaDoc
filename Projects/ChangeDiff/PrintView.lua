@@ -8,21 +8,26 @@ local wp_api = {
 	Event = "e",
 }
 
+local function FormatEnum(v)
+	if v.Type == "Enumeration" then
+		return "Enum."..v.Name
+	end
+end
+
 function m:PrintView(changes, isWiki)
 	for _, apiType in pairs(p.apiType_order) do
 		print(apiType)
 		local t = changes[apiType]
 		for _, name in pairs(Util:SortTable(t[1])) do
-			print("+ "..name)
+			local s = FormatEnum(t[1][name]) or name
+			print("+ "..s)
 		end
 		for _, name in pairs(Util:SortTable(t[2])) do
 			print("- "..name)
 		end
 		for _, name in pairs(Util:SortTable(t[3])) do
 			local v = t[3][name]
-			if v[1].Type == "Enumeration" then
-				name = "Enum."..name
-			end
+			name = FormatEnum(v[1]) or name
 			if isWiki then
 				if wp_api[apiType] then
 					print(string.format("{{api|t=%s|%s}}", wp_api[apiType], name))
@@ -43,6 +48,7 @@ end
 local ParamIdentifier = {
 	Arguments = "arg ",
 	Returns = "ret ",
+	--Payload = "param ",
 }
 
 local fs_info = {
@@ -67,7 +73,10 @@ end
 function m:PrintParamChanges(param, a, b, isWiki)
 	local fs = isWiki and fs_info.wiki or fs_info.plain
 	if not a and b then
-		print("  + "..param)
+		--print("  + "..param)
+		for k, v in pairs(b) do
+			print(fs.add:format(ParamIdentifier[param], k, v.Name))
+		end
 	elseif a and not b then
 		print("  - "..param)
 	elseif a and b then
