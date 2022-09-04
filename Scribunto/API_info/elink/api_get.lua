@@ -12,7 +12,6 @@ function m:main(branch)
 
 	local blizzDoc = {}
 	for _, func in ipairs(APIDocumentation.functions) do
-		print(func)
 		local name = Util:GetFullName(func)
 		blizzDoc[name] = func.System:GetName()
 	end

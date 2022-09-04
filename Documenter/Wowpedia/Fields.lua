@@ -32,9 +32,7 @@ for _, apiTable in ipairs(APIDocumentation.tables) do
 	end
 end
 
-local paramFs = ";%s : %s"
-local colorFs = '<span class="apitype">%s</span>'
-local tooltipFs = '<span title="%s">%s</span>'
+local paramFs = ":;%s:%s"
 
 local function HasMiddleOptionals(paramTbl)
 	local optional
@@ -98,33 +96,34 @@ end
 
 function Wowpedia:GetPrettyType(apiTable, isArgument)
 	local complexType = self.complexTypes[apiTable.Type]
-	local str
+	local apiText
 	if apiTable.Type == "table" then
 		if apiTable.Mixin then
-			str = format("[[%s]]", apiTable.Mixin) -- wiki link
+			apiText = format("[[%s]]", apiTable.Mixin) -- wiki link
 		elseif apiTable.InnerType then
 			local complexInnertype = self.complexTypes[apiTable.InnerType]
 			if self.basicTypes[apiTable.InnerType] then
-				str = colorFs:format(self.basicTypes[apiTable.InnerType]).."[]"
+				apiText = self.basicTypes[apiTable.InnerType].."[]"
 			elseif complexInnertype then
-				str = colorFs:format(complexInnertype:GetFullName(false, false)).."[]"
+				apiText = complexInnertype:GetFullName(false, false).."[]"
 			else
 				error("Unknown InnerType: "..apiTable.InnerType)
 			end
 		else
-			str = "Unknown"
+			apiText = "Unknown"
 		end
 	elseif self.basicTypes[apiTable.Type] then
-		str = colorFs:format(self.basicTypes[apiTable.Type])
+		apiText = self.basicTypes[apiTable.Type]
 	elseif complexType then
-		str = colorFs:format(complexType:GetFullName(false, false))
+		apiText = complexType:GetFullName(false, false)
 	else
 		error("Unknown Type: "..apiTable.Type)
 	end
 	-- `Default` implies `Nilable`, even if nilable is false
 	if apiTable.Nilable or apiTable.Default ~= nil then
-		str = tooltipFs:format(isArgument and "optional" or "nilable", str.."?")
+		apiText = apiText.."?"
 	end
+	local str = string.format("{{%s}}", apiText)
 	if apiTable.Default ~= nil then
 		str = format("%s (Default = %s)", str, tostring(apiTable.Default))
 	end

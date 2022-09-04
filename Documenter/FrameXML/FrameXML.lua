@@ -27,6 +27,10 @@ local function LoadApiDocFile(path)
 	end
 end
 
+-- 10.0.0 / 3.4.0: fix CharacterCustomizationSharedDocumentation.lua
+CHAR_CUSTOMIZE_CUSTOM_DISPLAY_OPTION_FIRST = 5
+CHAR_CUSTOMIZE_CUSTOM_DISPLAY_OPTION_LAST = 8
+
 function m:LoadApiDocs(base, latestFrameXML)
 	-- huh what did I do here
 	if not latestFrameXML then
@@ -34,10 +38,8 @@ function m:LoadApiDocs(base, latestFrameXML)
 	end
 	require(base.."/Compat")
 	local toc = io.open(latestFrameXML.."/AddOns/Blizzard_APIDocumentation/Blizzard_APIDocumentation.toc")
-	print("toc", toc)
 	if toc then
 		for line in toc:lines() do
-			-- print(line)
 			if line:find("%.lua") and not missing[line] then
 				LoadApiDocFile(latestFrameXML.."/AddOns/Blizzard_APIDocumentation/"..line)
 			end
@@ -46,12 +48,10 @@ function m:LoadApiDocs(base, latestFrameXML)
 	end
 	require(base.."/MissingDocumentation")
 	local generated = io.open(latestFrameXML.."/AddOns/Blizzard_APIDocumentationGenerated/Blizzard_APIDocumentationGenerated.toc")
-	print("generated", generated, latestFrameXML)
 	if generated then
 		for line in generated:lines() do
-			print(line)
 			if line:find("%.lua") and not missing[line] then
-				LoadApiDocFile(latestFrameXML.."/AddOns/Blizzard_APIDocumentation/"..line)
+				LoadApiDocFile(latestFrameXML.."/AddOns/Blizzard_APIDocumentationGenerated/"..line)
 			end
 		end
 		generated:close()

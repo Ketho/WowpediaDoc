@@ -7,6 +7,7 @@ local m = {}
 local function WriteFile(path, text)
 	--print("Writing", path)
 	local file = io.open(path, "w")
+	if not file then return end -- uhh callback types are still unsupported
 	file:write(text)
 	file:close()
 end

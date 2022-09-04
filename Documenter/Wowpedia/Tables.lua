@@ -2,6 +2,7 @@ local shortComplex = {
 	Enumeration = "Enum",
 	Structure = "Struct",
 	Constants = "Const",
+	CallbackType = "Callback",
 }
 
 local alignFirstCol = {

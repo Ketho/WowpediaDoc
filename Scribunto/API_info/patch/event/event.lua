@@ -18,7 +18,6 @@ local flavors = {
 CHAR_CUSTOMIZE_CUSTOM_DISPLAY_OPTION_FIRST = 5
 CHAR_CUSTOMIZE_CUSTOM_DISPLAY_OPTION_LAST = 8
 
-
 -- caches the results after scanning
 local function GetFrameXmlData(tbl_apidoc)
 	local path = "Scribunto/API_info/patch/event/framexml_data.lua"

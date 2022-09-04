@@ -39,7 +39,7 @@ function Wowpedia:GetPatchSection(apiTable)
 	-- if ApiDocsDiff[fullName] then
 		-- return format("==Patch changes==\n%s\n", ApiDocsDiff[fullName])
 	-- else
-		return format("==Patch changes==\n* {{Patch %s|note=Added.}}\n", patch)
+		return format("==Patch changes==\n{{Patch %s|note=Added.}}\n", patch)
 	-- end
 end
 
