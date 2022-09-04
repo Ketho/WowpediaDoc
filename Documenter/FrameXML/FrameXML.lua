@@ -31,27 +31,28 @@ end
 CHAR_CUSTOMIZE_CUSTOM_DISPLAY_OPTION_FIRST = 5
 CHAR_CUSTOMIZE_CUSTOM_DISPLAY_OPTION_LAST = 8
 
-function m:LoadApiDocs(base, latestFrameXML)
+-- yes this should be rewritten
+function m:LoadApiDocs(base, latestFrameXML, pathfix, pathfix2)
 	-- huh what did I do here
 	if not latestFrameXML then
 		latestFrameXML = "FrameXML/retail/"..constants.LATEST_MAINLINE
 	end
 	require(base.."/Compat")
-	local toc = io.open(latestFrameXML.."/AddOns/Blizzard_APIDocumentation/Blizzard_APIDocumentation.toc")
+	local toc = io.open(pathfix.."Blizzard_APIDocumentation.toc")
 	if toc then
 		for line in toc:lines() do
 			if line:find("%.lua") and not missing[line] then
-				LoadApiDocFile(latestFrameXML.."/AddOns/Blizzard_APIDocumentation/"..line)
+				LoadApiDocFile(pathfix..line)
 			end
 		end
 		toc:close()
 	end
 	require(base.."/MissingDocumentation")
-	local generated = io.open(latestFrameXML.."/AddOns/Blizzard_APIDocumentationGenerated/Blizzard_APIDocumentationGenerated.toc")
+	local generated = io.open(pathfix2.."Blizzard_APIDocumentationGenerated.toc")
 	if generated then
 		for line in generated:lines() do
 			if line:find("%.lua") and not missing[line] then
-				LoadApiDocFile(latestFrameXML.."/AddOns/Blizzard_APIDocumentationGenerated/"..line)
+				LoadApiDocFile(pathfix2..line)
 			end
 		end
 		generated:close()

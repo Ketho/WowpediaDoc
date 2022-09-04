@@ -2,6 +2,7 @@
 -- https://wowpedia.fandom.com/wiki/Events/Classic
 -- https://wowpedia.fandom.com/wiki/Console_variables/Classic
 local Util = require("Util/Util")
+local constants = require("Documenter/constants")
 
 local m = {}
 
@@ -64,25 +65,25 @@ local sources = {
 
 -- https://github.com/Ketho/BlizzardInterfaceResources/branches
 local branches = {
-	"mainline",
-	"tbc",
+	"mainline_beta",
+	"wrath",
 	"vanilla",
 }
 
 -- avoid using templates as that increases page processing time
 local wp_icons = {
-	mainline = "[[File:Shadowlands-Logo-Small.png|34px|link=]]",
-	tbc = "[[File:Bc icon.gif|link=]]",
+	mainline_beta = "[[File:Shadowlands-Logo-Small.png|34px|link=]]",
+	wrath = "[[File:Wrath-Logo-Small.png|link=]]",
 	vanilla = "[[File:WoW Icon update.png|link=]]",
 }
 
 local sections = {
-	{id = "bcc", label = "TBC only"},
-	{id = "both", label = "TBC & Vanilla"},
-	{id = "retail_bcc", label = "Mainline & TBC"},
+	{id = "wrath", label = "Wrath only"},
+	{id = "both", label = "Wrath & Vanilla"},
+	{id = "retail_wrath", label = "Mainline & Wrath"},
 	{id = "vanilla", label = "Vanilla only"},
 	{id = "retail_vanilla", label = "Mainline & Vanilla"},
-	{id = "retail_both", label = "Mainline & TBC & Vanilla"},
+	{id = "retail_both", label = "Mainline & Wrath & Vanilla"},
 }
 
 local cvar_enum = {
@@ -125,23 +126,23 @@ function m:GetData(sourceType)
 	end
 
 	for name in pairs(mainTbl) do
-		local retail = parts.mainline[name]
-		local bcc = parts.tbc[name]
+		local retail = parts.mainline_beta[name]
+		local wrath = parts.wrath[name]
 		local vanilla = parts.vanilla[name]
 
 		if retail then
-			if bcc and vanilla then
-				sectionData.retail_both[name] = bcc
-			elseif bcc then
-				sectionData.retail_bcc[name] = bcc
+			if wrath and vanilla then
+				sectionData.retail_both[name] = wrath
+			elseif wrath then
+				sectionData.retail_wrath[name] = wrath
 			elseif vanilla then
 				sectionData.retail_vanilla[name] = vanilla
 			end
 		else
-			if bcc and vanilla then
-				sectionData.both[name] = bcc
-			elseif bcc then
-				sectionData.bcc[name] = bcc
+			if wrath and vanilla then
+				sectionData.both[name] = wrath
+			elseif wrath then
+				sectionData.wrath[name] = wrath
 			elseif vanilla then
 				sectionData.vanilla[name] = vanilla
 			end
@@ -153,7 +154,9 @@ end
 function m:GetEventPayload()
 	-- ok wtf this needs to be rewritten
 	local FrameXML = require("Documenter/FrameXML/FrameXML")
-	FrameXML:LoadApiDocs("Documenter/FrameXML", "FrameXML/classic/2.5.4 (43400)/Interface/AddOns")
+	local docPath = string.format("FrameXML/classic/%s/Interface/AddOns/Blizzard_APIDocumentation/", constants.LATEST_CLASSIC)
+	local docPath2 = string.format("FrameXML/classic/%s/Interface/AddOns/Blizzard_APIDocumentationGenerated/", constants.LATEST_CLASSIC)
+	FrameXML:LoadApiDocs("Documenter/FrameXML", constants.LATEST_CLASSIC, docPath, docPath2)
 	local t = {}
 	for _, event in pairs(APIDocumentation.events) do
 		if event.Payload then
@@ -189,15 +192,15 @@ local function main()
 			if next(data[sectionInfo.id]) then
 				file:write(section_fs:format(sectionInfo.label))
 				for _, name in pairs(Util:SortTable(data[sectionInfo.id], info.sortFunc)) do
-					local retail = parts.mainline[name] and wp_icons.mainline or ""
-					local bcc = parts.tbc[name] and wp_icons.tbc or ""
+					local retail = parts.mainline_beta[name] and wp_icons.mainline_beta or ""
+					local wrath = parts.wrath[name] and wp_icons.wrath or ""
 					local vanilla = parts.vanilla[name] and wp_icons.vanilla or ""
 					local nameLink = info.name_fs:format(name, name)
-					file:write(row_fs:format(retail, bcc, vanilla, nameLink))
+					file:write(row_fs:format(retail, wrath, vanilla, nameLink))
 					if source == "event" and eventDoc[name] then
 						file:write(string.format("<small>: %s</small>", eventDoc[name]))
 					elseif source == "cvar" then
-						local cvarInfo = parts.tbc[name] or parts.vanilla[name]
+						local cvarInfo = parts.wrath[name] or parts.vanilla[name]
 						local default, category, account, character, description = table.unpack(cvarInfo)
 						local categoryName = cvar_enum[category] or ""
 						local scope = account and "Account" or character and "Character" or ""
