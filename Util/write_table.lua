@@ -1,4 +1,4 @@
--- crappy table serializer, does just the bare minimum
+-- writes a table to file, kind of crappy
 local function WriteLine(file, s)
 	file:write(s.."\n")
 end

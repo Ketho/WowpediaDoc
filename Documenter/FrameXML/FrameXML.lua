@@ -34,6 +34,7 @@ function m:LoadApiDocs(base, latestFrameXML)
 	end
 	require(base.."/Compat")
 	local toc = io.open(latestFrameXML.."/AddOns/Blizzard_APIDocumentation/Blizzard_APIDocumentation.toc")
+	print("toc", toc)
 	if toc then
 		for line in toc:lines() do
 			-- print(line)
@@ -44,12 +45,13 @@ function m:LoadApiDocs(base, latestFrameXML)
 		toc:close()
 	end
 	require(base.."/MissingDocumentation")
-	local generated = io.open(latestFrameXML.."/Blizzard_APIDocumentation/Blizzard_APIDocumentationGenerated.toc")
+	local generated = io.open(latestFrameXML.."/AddOns/Blizzard_APIDocumentationGenerated/Blizzard_APIDocumentationGenerated.toc")
+	print("generated", generated, latestFrameXML)
 	if generated then
 		for line in generated:lines() do
 			print(line)
 			if line:find("%.lua") and not missing[line] then
-				LoadApiDocFile(latestFrameXML.."/Blizzard_APIDocumentation/"..line)
+				LoadApiDocFile(latestFrameXML.."/AddOns/Blizzard_APIDocumentation/"..line)
 			end
 		end
 		generated:close()

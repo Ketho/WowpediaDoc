@@ -1,7 +1,9 @@
 -- https://wowpedia.fandom.com/wiki/Module:API_info/elink/api
 local Util = require("Util/Util")
-local ApiDoc = require("Scribunto/API_info/elink/api_get")
+local api_get = require("Scribunto/API_info/elink/api_get")
 
+local BRANCH = "mainline_beta"
+local ApiDoc = api_get:main(BRANCH)
 local OUT = "out/lua/API_info.elink.api.lua"
 
 local function main()

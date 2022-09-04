@@ -2,22 +2,29 @@ local Util = require("Util/Util")
 local FrameXML = require("Documenter/FrameXML/FrameXML")
 FrameXML:LoadApiDocs("Documenter/FrameXML")
 
-local globalApi = Util:DownloadAndRun(
-	"cache_lua/GlobalAPI_mainline.lua",
-	"https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/mainline/Resources/GlobalAPI.lua"
-)
+local m = {}
 
-local blizzDoc = {}
-for _, func in ipairs(APIDocumentation.functions) do
-	local name = Util:GetFullName(func)
-	blizzDoc[name] = func.System:GetName()
-end
+function m:main(branch)
+	local globalApi = Util:DownloadAndRun(
+		string.format("cache_lua/GlobalAPI_%s.lua", branch),
+		string.format("https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/GlobalAPI.lua", branch)
+	)
 
-local nonBlizzDocumented = {}
-for _, name in pairs(globalApi[1]) do
-	if not blizzDoc[name] then
-		nonBlizzDocumented[name] = true
+	local blizzDoc = {}
+	for _, func in ipairs(APIDocumentation.functions) do
+		print(func)
+		local name = Util:GetFullName(func)
+		blizzDoc[name] = func.System:GetName()
 	end
+
+	local nonBlizzDocumented = {}
+	for _, name in pairs(globalApi[1]) do
+		if not blizzDoc[name] then
+			nonBlizzDocumented[name] = true
+		end
+	end
+
+	return {blizzDoc, nonBlizzDocumented}
 end
 
-return {blizzDoc, nonBlizzDocumented}
+return m

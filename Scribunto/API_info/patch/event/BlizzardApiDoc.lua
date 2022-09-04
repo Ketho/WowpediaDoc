@@ -1,16 +1,7 @@
 local lfs = require "lfs"
+local PATH = require "path"
 local Util = require("Util/Util")
 local apidoc_nontoc = require("Util/apidoc_nontoc")
-
-local pre252_format = {
-	["1.13.2"] = true,
-	["1.13.3"] = true,
-	["1.13.4"] = true,
-	["1.13.5"] = true,
-	["1.13.6"] = true,
-	["1.13.7"] = true,
-	["2.5.1"] = true,
-}
 
 local function GetEventMap(data)
 	local t = {}
@@ -24,41 +15,59 @@ local function GetEventMap(data)
 	return t
 end
 
+local function GetSubfolder(path, name)
+	local path = PATH.join(path, name)
+	if PATH.exists(path) then
+		return path
+	end
+end
+
+-- folder structure can vary
+local function FindApiDocFolder(path)
+	path = GetSubfolder(path, "Interface") or path
+	path = GetSubfolder(path, "AddOns") or path
+	path = GetSubfolder(path, "Blizzard_APIDocumentationGenerated") or path
+	path = GetSubfolder(path, "Blizzard_APIDocumentation") or path
+	if path:find("Blizzard_APIDocumentation") then
+		return path
+	end
+end
+
 local m = {}
 
 function m:GetDocEvents(info)
 	local t = {}
 	for folder in lfs.dir(info.input) do
 		if not Util.RelativePath[folder] then
-			local version = folder:match("%d+%.%d+.%d+")
-			local path
-			if info.id == "retail" then
-				path = info.input.."/"..folder.."/Blizzard_APIDocumentation"
-			elseif info.id == "classic" then
-				if pre252_format[version] then
-					path = info.input.."/"..folder.."/AddOns/Blizzard_APIDocumentation"
-				else
-					path = info.input.."/"..folder.."/Interface/AddOns/Blizzard_APIDocumentation"
+			local path = FindApiDocFolder(PATH.join(info.input, folder))
+			if path then
+				local version = folder:match("%d+%.%d+.%d+")
+				local build = folder:match("%((%d+)%)$") or folder:match("%d+$")
+				-- Blizzard_APIDocumentation did not have events until patch 8.0
+				if not version:find("^7%.") then
+					local apiDocs = apidoc_nontoc:LoadBlizzardDocs(path)
+					-- sort this by build later
+					t[build] = {version, GetEventMap(apiDocs)}
 				end
 			end
-			local apiDocs = apidoc_nontoc:LoadBlizzardDocs(path)
-			t[version] = GetEventMap(apiDocs)
 		end
 	end
 	return t
 end
 
+-- apparently this goes through all patches of both classic and retail
 function m:GetPatchData(tbl)
 	local added, removed = {}, {}
-	for _, version in pairs(Util:SortTable(tbl)) do
-		local v = tbl[version]
-		for name in pairs(v) do
+	for _, build in pairs(Util:SortTable(tbl)) do
+		local v = tbl[build]
+		local version, data = table.unpack(v)
+		for name in pairs(data) do
 			if not added[name] then
 				added[name] = version
 			end
 		end
 		for name in pairs(added) do
-			if not v[name] and not removed[name] then
+			if not data[name] and not removed[name] then
 				removed[name] = version
 			end
 		end

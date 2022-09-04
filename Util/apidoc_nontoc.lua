@@ -48,6 +48,7 @@ local function IsTocRemoved(fileName, version)
 	return key and key[fileName]
 end
 
+-- only checks for :AddDocumentationTable files
 function m:LoadBlizzardDocs(folder)
 	Util:Wipe(docTables)
 	local version = folder:match("%d+%.%d+.%d+")

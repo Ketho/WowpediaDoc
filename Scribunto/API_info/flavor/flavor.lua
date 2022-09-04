@@ -3,10 +3,12 @@
 local Util = require("Util/Util")
 Util:MakeDir("cache_lua")
 
+local mainline_branch = "mainline_beta"
+
 local flavor = {
-	mainline = 0x1,
+	[mainline_branch] = 0x1,
 	vanilla = 0x2,
-	tbc = 0x4,
+	wrath = 0x4,
 }
 
 local m = {}
@@ -44,9 +46,9 @@ local sources = {
 
 -- https://github.com/Ketho/BlizzardInterfaceResources/branches
 local branches = {
-	"mainline",
+	mainline_branch,
 	"vanilla",
-	"tbc",
+	"wrath",
 }
 
 function m:GetData(sourceType)
@@ -65,10 +67,10 @@ function m:GetData(sourceType)
 		end
 	end
 	for k in pairs(data) do
-		local mainline = parts.mainline[k] and flavor.mainline or 0
+		local mainline = parts[mainline_branch][k] and flavor[mainline_branch] or 0
 		local vanilla = parts.vanilla[k] and flavor.vanilla or 0
-		local tbc = parts.tbc[k] and flavor.tbc or 0
-		data[k] = mainline | vanilla | tbc
+		local wrath = parts.wrath[k] and flavor.wrath or 0
+		data[k] = mainline | vanilla | wrath
 	end
 	return data
 end
