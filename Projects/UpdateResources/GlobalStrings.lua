@@ -18,7 +18,7 @@ local locales = {
 }
 
 local classic_flavors = {
-	tbc = true,
+	wrath = true,
 	vanilla = true,
 }
 
