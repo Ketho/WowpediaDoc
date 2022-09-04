@@ -1,4 +1,4 @@
--- https://github.com/Ketho/BlizzardInterfaceResources/blob/9.2.5/Resources/GlobalAPI.lua
+-- https://github.com/Ketho/BlizzardInterfaceResources/blob/9.2.7/Resources/GlobalAPI.lua
 return {
 	["AbandonSkill"] = true,
 	["AcceptAreaSpiritHeal"] = true,
@@ -223,6 +223,8 @@ return {
 	["C_AuctionHouse.CancelSell"] = true,
 	["C_AuctionHouse.CloseAuctionHouse"] = true,
 	["C_AuctionHouse.ConfirmCommoditiesPurchase"] = true,
+	["C_AuctionHouse.ConfirmPostCommodity"] = true,
+	["C_AuctionHouse.ConfirmPostItem"] = true,
 	["C_AuctionHouse.FavoritesAreAvailable"] = true,
 	["C_AuctionHouse.GetAuctionInfoByID"] = true,
 	["C_AuctionHouse.GetAuctionItemSubClasses"] = true,
@@ -4812,7 +4814,4 @@ return {
 	["securecallfunction"] = true,
 	["secureexecuterange"] = true,
 	["seterrorhandler"] = true,
-	-- added in 9.2.5 (44730)
-	["C_AuctionHouse.ConfirmPostCommodity"] = true,
-	["C_AuctionHouse.ConfirmPostItem"] = true,
 }
