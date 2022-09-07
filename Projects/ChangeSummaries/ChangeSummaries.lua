@@ -2,11 +2,15 @@
 local lfs = require "lfs"
 local Util = require("Util/Util")
 local cvar_module = require("Projects/ChangeSummaries/CVar")
+local widget_module = require("Projects/ChangeSummaries/Widget")
 local m = {}
-local OUT_FILE = "out/page/ChangeSummaries.txt"
-local FLAVOR = "mainline_beta"
+local BRANCH = "mainline_beta" -- for widgets, cvars
+local COMMIT = "e699965e756c85db1284c92b816df4db89fa2834" -- 10.0.0 (45335)
 
-local ApiTypes = {
+local OUT_FILE = "out/page/ChangeSummaries.txt"
+local DIFF_PATH = "cache_lua/%s.diff"
+
+local data_table = {
 	GlobalAPI = {
 		label = "Global API",
 		text = ": {{api|t=a|%s}}",
@@ -18,7 +22,11 @@ local ApiTypes = {
 	},
 	WidgetAPI = {
 		label = "Widgets",
-		text = ": {{api|t=w|%s}}",
+		textfunc = function(name, line_number)
+			local widget_object = widget_module:GetWidgetByLine(name, line_number)
+			-- have to manually format any widget scripts
+			return string.format(": {{api|t=w|%s:%s}}", widget_object, name)
+		end,
 		parseName = function(innerLine)
 			return innerLine:match('\t\t\t"(.+)",')
 		end,
@@ -34,9 +42,8 @@ local ApiTypes = {
 		id = "mw-customcollapsible-events",
 	},
 	CVars = {
-		-- text = ": {{api|t=c|%s}}",
 		textfunc = function(name)
-			local tt = cvar_module.main(FLAVOR, name) or name
+			local tt = cvar_module.main(BRANCH, name) or name
 			return ": "..tt
 		end,
 		parseName = function(innerLine)
@@ -49,66 +56,42 @@ local ApiTypes = {
 
 local api_order = {"GlobalAPI", "WidgetAPI", "Events", "CVars"}
 
-for _, v in pairs(ApiTypes) do
+for _, v in pairs(data_table) do
 	v.changes = {
 		["+"] = {},
 		["-"] = {},
 	}
 end
 
--- https://github.com/Ketho/BlizzardInterfaceResources/commit/9f5b92ef5ee205a4df7536a145bbee24f678d5e0.diff
-function m:FindDiff()
-	for fileName in lfs.dir("Projects/ChangeSummaries") do
-		if fileName:find("%.diff") then
-			return "Projects/ChangeSummaries/"..fileName
-		end
-	end
-end
+function m:ParseDiff(diff_path)
+	local url = string.format("https://github.com/Ketho/BlizzardInterfaceResources/commit/%s.diff", commit)
+	Util:DownloadFile(diff_path, url, false)
 
-function m:ParseDiff(path)
-	local file = io.open(path, "r")
+	local file = io.open(diff_path, "r")
 	local section
 	for line in file:lines() do
 		if line:find("^diff") then
 			section = line:match("(%a+)%.lua")
 		end
-		local isHeader = line:find("^%+%+%+ ") or line:find("^%-%-%- ")
-		local sign, innerLine = line:match("^([%+%-])(.+)")
-		if sign and not isHeader then
-			local info = ApiTypes[section]
-			local name = info and info.parseName(innerLine)
-			if name then
-				local text
-				if info.textfunc then
-					text = info.textfunc(name)
-				else
-					text = info.text:format(name)
+		if section ~= "WidgetAPI" then
+			local isHeader = line:find("^%+%+%+ ") or line:find("^%-%-%- ")
+			local sign, innerLine = line:match("^([%+%-])(.+)")
+			if sign and not isHeader then
+				local info = data_table[section]
+				local name = info and info.parseName(innerLine)
+				if name then
+					local text
+					if info.textfunc then
+						text = info.textfunc(name)
+					else
+						text = info.text:format(name)
+					end
+					table.insert(info.changes[sign], text)
 				end
-				table.insert(info.changes[sign], text)
 			end
 		end
 	end
-end
-
--- check if it's not some minor CVar attribute change
-function m:SanitizeCVars()
-	local added = Util:ToMap(ApiTypes.CVars.changes["+"])
-	local removed = Util:ToMap(ApiTypes.CVars.changes["-"])
-	for k in pairs(added) do
-		if removed[k] then
-			added[k] = nil
-			removed[k] = nil
-		end
-	end
-	-- cba safely removing while iterating
-	Util:Wipe(ApiTypes.CVars.changes["+"])
-	Util:Wipe(ApiTypes.CVars.changes["-"])
-	for k in pairs(added) do
-		table.insert(ApiTypes.CVars.changes["+"], k)
-	end
-	for k in pairs(removed) do
-		table.insert(ApiTypes.CVars.changes["-"], k)
-	end
+	file:close()
 end
 
 function m:GetWikiTable(info, section)
@@ -137,15 +120,17 @@ function m:GetWikiTable(info, section)
 	return table.concat(t, "\n")
 end
 
-
 local function main()
-	local path = m:FindDiff()
-	m:ParseDiff(path)
-	m:SanitizeCVars()
+	local diff_path = DIFF_PATH:format(COMMIT)
+	-- fill changes tbl
+	m:ParseDiff(diff_path)
+	widget_module.main(data_table.WidgetAPI, diff_path, BRANCH)
+	cvar_module:SanitizeCVars(data_table)
+
 	print("writing", OUT_FILE)
 	local file = io.open(OUT_FILE, "w+")
 	for _, section in pairs(api_order) do
-		local info = ApiTypes[section]
+		local info = data_table[section]
 		file:write(m:GetWikiTable(info, section))
 	end
 end

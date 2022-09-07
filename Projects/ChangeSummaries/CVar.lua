@@ -49,6 +49,27 @@ local function GetCVarInfo(name)
 	end
 end
 
+-- check if it's not some minor CVar attribute change
+function m:SanitizeCVars(ApiTypes)
+	local added = Util:ToMap(ApiTypes.CVars.changes["+"])
+	local removed = Util:ToMap(ApiTypes.CVars.changes["-"])
+	for k in pairs(added) do
+		if removed[k] then
+			added[k] = nil
+			removed[k] = nil
+		end
+	end
+	-- cba safely removing while iterating
+	Util:Wipe(ApiTypes.CVars.changes["+"])
+	Util:Wipe(ApiTypes.CVars.changes["-"])
+	for k in pairs(added) do
+		table.insert(ApiTypes.CVars.changes["+"], k)
+	end
+	for k in pairs(removed) do
+		table.insert(ApiTypes.CVars.changes["-"], k)
+	end
+end
+
 function m.main(flavor, name)
 	data = data or GetData(flavor)
 	return GetCVarInfo(name)
