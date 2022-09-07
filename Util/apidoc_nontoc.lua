@@ -48,6 +48,10 @@ local function IsTocRemoved(fileName, version)
 	return key and key[fileName]
 end
 
+-- 10.0.0 / 3.4.0: fix CharacterCustomizationSharedDocumentation.lua
+CHAR_CUSTOMIZE_CUSTOM_DISPLAY_OPTION_FIRST = 5
+CHAR_CUSTOMIZE_CUSTOM_DISPLAY_OPTION_LAST = 8
+
 -- only checks for :AddDocumentationTable files
 function m:LoadBlizzardDocs(folder)
 	Util:Wipe(docTables)

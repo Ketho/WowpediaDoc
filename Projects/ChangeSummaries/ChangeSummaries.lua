@@ -4,7 +4,7 @@ local Util = require("Util/Util")
 local cvar_module = require("Projects/ChangeSummaries/CVar")
 local m = {}
 local OUT_FILE = "out/page/ChangeSummaries.txt"
-local FLAVOR = "mainline"
+local FLAVOR = "mainline_beta"
 
 local ApiTypes = {
 	GlobalAPI = {

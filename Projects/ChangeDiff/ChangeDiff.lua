@@ -56,7 +56,7 @@ function m:LoadFrameXML(versions)
 	local t = {}
 	for _, version in pairs(versions) do
 		t[version] = {}
-		local path = "FrameXML/retail/%s/Blizzard_APIDocumentation"
+		local path = "FrameXML/retail/%s/AddOns/Blizzard_APIDocumentationGenerated"
 		local docs = apidoc_nontoc:LoadBlizzardDocs(path:format(version))
 		for apiType, apiTable in pairs(self.apiTypes) do
 			local map = apiTable.map(docs)
@@ -72,5 +72,5 @@ local function main(versions, isWiki)
 	PrintView:PrintView(changes, isWiki)
 end
 
-main({"9.2.5.44730", "9.2.7.45161"}, true)
+main({"9.2.7.45161", "10.0.0.45335"}, true)
 print("done")
