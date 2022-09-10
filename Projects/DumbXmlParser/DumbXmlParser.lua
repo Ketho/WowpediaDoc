@@ -114,7 +114,8 @@ function m:ParseXml(path, fileName)
 	for line in file:lines() do
 		lineIdx = lineIdx + 1
 		local mixin = self:FindAttribute(line, "mixin")
-		if mixin then
+		-- <Frame name="ProfessionsQualityContainerTemplate" mixin="" virtual="true">
+		if mixin and #mixin > 0 then
 			self:HandleCommaString(dataTypes.mixin.data, mixin)
 		end
 		local virtual = self:FindAttribute(line, "virtual")

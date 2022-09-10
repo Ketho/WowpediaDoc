@@ -40,7 +40,8 @@ local function AtlasInfo(options)
 
 	local uitextureatlasmember = parser:ReadCSV("uitextureatlasmember", options)
 	for line in uitextureatlasmember:lines() do
-		local name = line.CommittedName
+		-- line.CommitedName is not a valid atlas id
+		local name = element_names[tonumber(line.UiTextureAtlasElementID)]
 		if name and name ~= "" then -- 1130222 interface/store/shop has empty atlas members
 			local atlasID = tonumber(line.UiTextureAtlasID)
 			local size = atlasSize[atlasID]
@@ -51,7 +52,7 @@ local function AtlasInfo(options)
 			line.CommittedFlags = tonumber(line.CommittedFlags) -- lua 5.4 attempt to perform bitwise operation on a string value
 			table.insert(atlasTable[atlasID], {
 				memberID = tonumber(line.ID),
-				name = element_names[tonumber(line.UiTextureAtlasElementID)],
+				name = name,
 				width = right - left,
 				height = bottom - top,
 				left = left / size.width,
