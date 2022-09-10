@@ -95,6 +95,7 @@ local function WriteLocales(options)
 			GlobalStrings(path, options)
 		end
 	end
+	options.locale = nil
 end
 
 return WriteLocales
