@@ -32,6 +32,12 @@ local function AtlasInfo(options)
 	end
 	SortTable(atlasOrder, "fileName")
 
+	local element_names = {}
+	local uitextureatlaselement = parser:ReadCSV("uitextureatlaselement", options)
+	for line in uitextureatlaselement:lines() do
+		element_names[tonumber(line.ID)] = line.Name
+	end
+
 	local uitextureatlasmember = parser:ReadCSV("uitextureatlasmember", options)
 	for line in uitextureatlasmember:lines() do
 		local name = line.CommittedName
@@ -45,7 +51,7 @@ local function AtlasInfo(options)
 			line.CommittedFlags = tonumber(line.CommittedFlags) -- lua 5.4 attempt to perform bitwise operation on a string value
 			table.insert(atlasTable[atlasID], {
 				memberID = tonumber(line.ID),
-				name = name,
+				name = element_names[tonumber(line.UiTextureAtlasElementID)],
 				width = right - left,
 				height = bottom - top,
 				left = left / size.width,
