@@ -72,7 +72,7 @@ local branches = {
 
 -- avoid using templates as that increases page processing time
 local wp_icons = {
-	mainline_beta = "[[File:Shadowlands-Logo-Small.png|34px|link=]]",
+	mainline_beta = "[[File:Dragonflight-Icon-Inline.png|34px|link=]]",
 	wrath = "[[File:Wrath-Logo-Small.png|link=]]",
 	vanilla = "[[File:WoW Icon update.png|link=]]",
 }
