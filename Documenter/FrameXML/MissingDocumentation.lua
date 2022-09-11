@@ -255,7 +255,7 @@ local Missing =
 				{ Name = "Pickup", Type = "ItemSoundType ", EnumValue = 0 },
 				{ Name = "Drop", Type = "ItemSoundType ", EnumValue = 1 },
 				{ Name = "Use", Type = "ItemSoundType ", EnumValue = 2 },
-				{ Close = "High", Type = "ItemSoundType ", EnumValue = 3 },
+				{ Name = "Close", Type = "ItemSoundType ", EnumValue = 3 },
 			}
 		},
 	},
