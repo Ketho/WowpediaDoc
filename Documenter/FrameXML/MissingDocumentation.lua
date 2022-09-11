@@ -1,5 +1,5 @@
 local Empty = {
-	{ Name = "Undocumented", Type = "bool", EnumValue = 0 },
+	{ Name = "missing_structure", Type = "bool", EnumValue = 0 },
 }
 
 local Missing =
@@ -9,7 +9,7 @@ local Missing =
 		-- placeholder structures
 		{ Name = "CharacterAlternateFormData", Type = "Structure", Fields = Empty }, -- BarberShopDocumentation.lua
 		{ Name = "CurrencyCost", Type = "Structure", Fields = Empty }, -- LegendaryCraftingDocumentation.lua
-		{ Name = "OptionalReagentInfo", Type = "Structure", Fields = Empty }, -- TradeSkillUIDocumentation.lua
+		-- { Name = "OptionalReagentInfo", Type = "Structure", Fields = Empty }, -- TradeSkillUIDocumentation.lua
 		{ Name = "QueueSpecificInfo", Type = "Structure", Fields = Empty }, -- PartyInfoDocumentation.lua, SocialQueueDocumentation.lua
 		{ Name = "RuneforgeItemPreviewInfo", Type = "Structure", Fields = Empty }, -- LegendaryCraftingDocumentation.lua
 		{ Name = "RuneforgeLegendaryComponentInfo", Type = "Structure", Fields = Empty }, -- LegendaryCraftingDocumentation.lua
@@ -22,39 +22,26 @@ local Missing =
 		{ Name = "ClickBindingInfo", Type = "Structure", Fields = Empty }, -- ClickBindingsDocumentation.lua
 		-- 9.2.5
 		{ Name = "UnitAuraUpdateInfo", Type = "Structure", Fields = Empty }, -- UnitAuraDocumentation.lua
-		-- 9.2.7
-		{ Name = "CharCustomizationOption", Type = "Structure", Fields = Empty }, -- uhhh
-		-- 10.0.0 beta
-		{ Name = "FramePoint", Type = "Structure", Fields = Empty }, -- fuck idc anymore
-		{ Name = "ScriptObject", Type = "Structure", Fields = Empty },
-		{ Name = "CraftingRecipeSchematic", Type = "Structure", Fields = Empty },
-		{ Name = "CraftingReagentInfo", Type = "Structure", Fields = Empty },
-		{ Name = "ItemSoundType", Type = "Structure", Fields = Empty },
-		{ Name = "function", Type = "Structure", Fields = Empty },
-		{ Name = "ModelLight", Type = "Structure", Fields = Empty },
-		{ Name = "CraftingOperationInfo", Type = "Structure", Fields = Empty },
+		-- 10.0.2 beta
+		{ Name = "CraftingItemResultData", Type = "Structure", Fields = Empty },
 		{ Name = "CraftingItemSlotModification", Type = "Structure", Fields = Empty },
-		{ Name = "uiRect", Type = "Structure", Fields = Empty },
+		{ Name = "CraftingOperationInfo", Type = "Structure", Fields = Empty },
+		{ Name = "CraftingOrderCustomerCategory", Type = "Structure", Fields = Empty },
 		{ Name = "CraftingOrderCustomerSearchParams", Type = "Structure", Fields = Empty },
 		{ Name = "CraftingOrderCustomerSearchResults", Type = "Structure", Fields = Empty },
-		{ Name = "SpecializationTabInfo", Type = "Structure", Fields = Empty },
-		{ Name = "CraftingOrderCustomerCategory", Type = "Structure", Fields = Empty },
-		{ Name = "ProfTabInfo", Type = "Structure", Fields = Empty },
-		{ Name = "ProfessionInfo", Type = "Structure", Fields = Empty },
+		{ Name = "CraftingReagentInfo", Type = "Structure", Fields = Empty },
+		{ Name = "CraftingRecipeOutputInfo", Type = "Structure", Fields = Empty },
+		{ Name = "CraftingRecipeSchematic", Type = "Structure", Fields = Empty },
+		{ Name = "FramePoint", Type = "Structure", Fields = Empty },
 		{ Name = "GatheringOperationInfo", Type = "Structure", Fields = Empty },
 		{ Name = "HTMLContentNode", Type = "Structure", Fields = Empty },
-		{ Name = "CraftingRecipeOutputInfo", Type = "Structure", Fields = Empty },
-		{ Name = "CraftingItemResultData", Type = "Structure", Fields = Empty },
+		{ Name = "ModelLight", Type = "Structure", Fields = Empty },
+		{ Name = "ProfessionInfo", Type = "Structure", Fields = Empty },
+		{ Name = "ProfTabInfo", Type = "Structure", Fields = Empty },
+		{ Name = "ScriptObject", Type = "Structure", Fields = Empty },
+		{ Name = "SpecializationTabInfo", Type = "Structure", Fields = Empty },
+		{ Name = "uiRect", Type = "Structure", Fields = Empty },
 
-		-- placeholder enums, unused in apidocs
-		{ Name = "AddSoulbindConduitReason", Type = "Enumeration", Fields = Empty },
-		{ Name = "CharacterServiceInfoFlag", Type = "Enumeration", Fields = Empty },
-		{ Name = "ManipulatorEventType", Type = "Enumeration", Fields = Empty },
-		{ Name = "QuestPOIQuestTypes", Type = "Enumeration", Fields = Empty },
-		{ Name = "ScriptedAnimationTransformation", Type = "Enumeration", Fields = Empty },
-		{ Name = "ScriptedAnimationTransformationTiming", Type = "Enumeration", Fields = Empty },
-		{ Name = "SoulbindConduitInstallResult", Type = "Enumeration", Fields = Empty },
-		{ Name = "VasPurchaseProgress", Type = "Enumeration", Fields = Empty },
 		-- structures
 		{
 			-- C_Calendar; CalendarDocumentation.lua
@@ -258,6 +245,17 @@ local Missing =
 				{ Name = "High", Type = "GamePadPowerLevel", EnumValue = 3 },
 				{ Name = "Wired", Type = "GamePadPowerLevel", EnumValue = 4 },
 				{ Name = "Unknown", Type = "GamePadPowerLevel", EnumValue = 5 },
+			}
+		},
+		{
+			-- SoundDocumentation.lua (10.0.2)
+			Name = "ItemSoundType",
+			Type = "Enumeration",
+			Fields = {
+				{ Name = "Pickup", Type = "ItemSoundType ", EnumValue = 0 },
+				{ Name = "Drop", Type = "ItemSoundType ", EnumValue = 1 },
+				{ Name = "Use", Type = "ItemSoundType ", EnumValue = 2 },
+				{ Close = "High", Type = "ItemSoundType ", EnumValue = 3 },
 			}
 		},
 	},

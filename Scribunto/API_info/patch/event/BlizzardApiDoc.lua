@@ -15,8 +15,8 @@ local function GetEventMap(data)
 	return t
 end
 
-local function GetSubfolder(path, name)
-	local path = PATH.join(path, name)
+local function GetSubfolder(parent, name)
+	local path = PATH.join(parent, name)
 	if PATH.exists(path) then
 		return path
 	end

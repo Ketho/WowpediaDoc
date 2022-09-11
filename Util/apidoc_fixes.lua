@@ -1,0 +1,3 @@
+-- 10.0.0 / 3.4.0: fix CharacterCustomizationSharedDocumentation.lua
+CHAR_CUSTOMIZE_CUSTOM_DISPLAY_OPTION_FIRST = 5
+CHAR_CUSTOMIZE_CUSTOM_DISPLAY_OPTION_LAST = 8

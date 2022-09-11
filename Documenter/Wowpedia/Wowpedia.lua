@@ -18,7 +18,7 @@ function Wowpedia:GetPageText(apiTable)
 		apiTemplate,
 		self:GetDescription(apiTable),
 		params,
-		self:GetPatchSection(apiTable),
+		-- self:GetPatchSection(apiTable),
 	}
 	for _, v in ipairs(sections) do
 		tinsert(tbl, v)
@@ -63,7 +63,7 @@ function Wowpedia:GetTemplateInfo(apiTable)
 			tinsert(tbl, "system="..system.Name)
 		end
 	end
-	return format("{{%s}}", table.concat(tbl, "|"))
+	return format("{{%s}} {{api generated}}", table.concat(tbl, "|"))
 end
 
 function Wowpedia:GetFullName(apiTable)

@@ -1,16 +1,19 @@
-local constants = require("Documenter/constants")
+local Path = require "path"
 
--- experimental, bad code
--- note APIDocumentation gets overwritten again
--- API_patchdiff = require("Projects/API_patchdiff/API_patchdiff")
+local constants = require(Path.join("Documenter", "constants"))
+local BRANCH = "mainline_beta"
 
--- bad hack, to do: refactor
-local FrameXML = require("Documenter/FrameXML/FrameXML")
-FrameXML:LoadApiDocs("Documenter/FrameXML", "FrameXML/retail/"..constants.LATEST_MAINLINE)
+require("Util/apidoc_fixes")
+
+local compat_folder = Path.join("Documenter", "FrameXML")
+local FrameXML = require(Path.join(compat_folder, "FrameXML"))
+FrameXML:LoadApiDocs(compat_folder, Path.join("FrameXML", "retail", constants.LATEST_MAINLINE))
 
 require("Documenter/Wowpedia/Wowpedia")
 --require("Documenter/Tests/Tests")
 
+ -- some kind of Enum table already exists here, get actual Enum table
+require(Path.join("Documenter", "LuaEnum")):main(BRANCH)
 local Exporter = require("Documenter/Exporter")
 if not Wowpedia:HasMissingTypes() then
 	Exporter:ExportSystems("out/export")

@@ -3,6 +3,7 @@ Wowpedia.basicTypes = {
 	number = "number",
 	string = "string",
 	table = "table",
+	["function"] = "function",
 }
 
 Wowpedia.complexTypes = {}
@@ -123,7 +124,7 @@ function Wowpedia:GetPrettyType(apiTable, isArgument)
 	if apiTable.Nilable or apiTable.Default ~= nil then
 		apiText = apiText.."?"
 	end
-	local str = string.format("{{%s}}", apiText)
+	local str = string.format("{{apitype|%s}}", apiText)
 	if apiTable.Default ~= nil then
 		str = format("%s (Default = %s)", str, tostring(apiTable.Default))
 	end
@@ -149,7 +150,7 @@ function Wowpedia:FindMissingTypes()
 		local typeName = field.InnerType or field.Type
 		if not self.basicTypes[typeName] and parent.Type ~= "Enumeration" then
 			if not self.complexTypes[typeName] then
-				missingTypes[typeName] = true
+				missingTypes[typeName] = {field=field, parent=parent}
 			end
 		end
 	end
@@ -160,8 +161,13 @@ function Wowpedia:HasMissingTypes()
 	local missingTypes = self:FindMissingTypes()
 	if next(missingTypes) then
 		print("Found missing complex types, please add them to Documenter/FrameXML/MissingDocumentation.lua")
-		for complexType in pairs(missingTypes) do
-			print("Missing:", complexType)
+		for complexType, info in pairs(missingTypes) do
+			-- print(Enum.ItemSoundType.Use)
+			if Enum[complexType] then
+				print("Enum:", complexType)
+			else
+				print("Missing:", complexType, info.parent.Type..": "..info.parent.Name)
+			end
 		end
 		return true
 	end
