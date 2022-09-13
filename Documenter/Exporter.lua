@@ -14,23 +14,28 @@ end
 
 function m:ExportSystems(folder)
 	Util:MakeDir(format("%s/system", folder))
+	Util:MakeDir(format("%s/widget", folder))
 	for _, system in ipairs(APIDocumentation.systems) do
-		if system.Type ~= "ScriptObject" then -- todo: widget api is not yet supported
-			print("Exporting", system:GetFullName())
-			local systemName = system.Namespace or system.Name
-			if systemName then
-				Util:MakeDir(format("%s/system/%s", folder, systemName))
-				local prefix = system.Namespace and system.Namespace.."." or ""
-				for _, func in ipairs(system.Functions) do
-					local path = format("%s/system/%s/API %s.txt", folder, systemName, prefix..func.Name)
-					local pageText = Wowpedia:GetPageText(func)
-					WriteFile(path, pageText)
-				end
-				for _, event in ipairs(system.Events) do
-					local path = format("%s/system/%s/%s.txt", folder, systemName, event.LiteralName)
-					local pageText = Wowpedia:GetPageText(event)
-					WriteFile(path, pageText)
-				end
+		local systemFolder
+		if system.Type == "System" then
+			systemFolder = "system"
+		elseif system.Type == "ScriptObject" then
+			systemFolder = "widget"
+		end
+		print("Exporting", system:GetFullName())
+		local systemName = system.Namespace or system.Name
+		if systemName then
+			Util:MakeDir(format("%s/%s/%s", folder, systemFolder, systemName))
+			local prefix = system.Namespace and system.Namespace.."." or ""
+			for _, func in ipairs(system.Functions) do
+				local path = format("%s/%s/%s/API %s.txt", folder, systemFolder, systemName, prefix..func.Name)
+				local pageText = Wowpedia:GetPageText(func, system.Type)
+				WriteFile(path, pageText)
+			end
+			for _, event in ipairs(system.Events) do
+				local path = format("%s/%s/%s/%s.txt", folder, systemFolder, systemName, event.LiteralName)
+				local pageText = Wowpedia:GetPageText(event)
+				WriteFile(path, pageText)
 			end
 		end
 	end

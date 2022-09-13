@@ -5,7 +5,7 @@ require("Documenter/Wowpedia/Events")
 require("Documenter/Wowpedia/Tables")
 require("Documenter/Wowpedia/Fields")
 
-function Wowpedia:GetPageText(apiTable)
+function Wowpedia:GetPageText(apiTable, systemType)
 	local tbl = {}
 	local params
 	if apiTable.Type == "Function" then
@@ -13,7 +13,7 @@ function Wowpedia:GetPageText(apiTable)
 	elseif apiTable.Type == "Event" then
 		params = self:GetEventText(apiTable)
 	end
-	local apiTemplate = self:GetTemplateInfo(apiTable)
+	local apiTemplate = self:GetTemplateInfo(apiTable, systemType)
 	local sections = {
 		apiTemplate,
 		self:GetDescription(apiTable),
@@ -43,9 +43,11 @@ function Wowpedia:GetPatchSection(apiTable)
 	-- end
 end
 
-function Wowpedia:GetTemplateInfo(apiTable)
+function Wowpedia:GetTemplateInfo(apiTable, systemType)
 	local tbl = {}
-	if apiTable.Type == "Function" then
+	if systemType == "ScriptObject" then
+		tinsert(tbl, "widgetmethod")
+	elseif apiTable.Type == "Function" then
 		tinsert(tbl, "wowapi")
 		tinsert(tbl, "t=a")
 	elseif apiTable.Type == "Event" then

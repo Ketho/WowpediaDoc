@@ -1,9 +1,10 @@
 function Wowpedia:GetFunctionText(func)
 	local str = format(" %s\n", self:GetFunctionSignature(func))
-	if func.Arguments then
+	-- widget api can provide empty tables
+	if func.Arguments and #func.Arguments>0 then
 		str = str..format("\n==Arguments==\n%s\n", self:GetParameters(func.Arguments, true))
 	end
-	if func.Returns then
+	if func.Returns and #func.Returns>0 then
 		str = str..format("\n==Returns==\n%s\n", self:GetParameters(func.Returns))
 	end
 	return str
