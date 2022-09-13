@@ -124,6 +124,7 @@ function Wowpedia:GetPrettyType(apiTable, isArgument)
 	if apiTable.Nilable or apiTable.Default ~= nil then
 		apiText = apiText.."?"
 	end
+	-- todo: dont do this for mixins and the like, or  make the module support it
 	local str = string.format("{{apitype|%s}}", apiText)
 	if apiTable.Default ~= nil then
 		str = format("%s (Default = %s)", str, tostring(apiTable.Default))

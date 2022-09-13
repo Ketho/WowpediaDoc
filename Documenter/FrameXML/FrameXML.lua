@@ -16,11 +16,11 @@ local shared_namespaces = {
 	["PlayerInfoDocumentation.lua"] = "C_PlayerInfo", -- Name = "PlayerInfo"
 	["PlayerLocationDocumentation.lua"] = "C_PlayerInfo", -- Name = "PlayerLocationInfo"
 }
-]]
 
 local missing = {
 	-- ["CurrencyConstantsDocumentation.lua"] = true, -- 9.0.2 (36165)
 }
+]]
 
 local function LoadFile(path)
 	if lfs.attributes(path) then
@@ -34,7 +34,7 @@ local function ParseToc(addons_folder, name)
 	local file = io.open(Path.join(folder, name..".toc"))
 	if file then
 		for line in file:lines() do
-			if line:find("%.lua") and not missing[line] then
+			if line:find("%.lua") then
 				LoadFile(Path.join(folder, line))
 			end
 		end
