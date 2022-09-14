@@ -1,7 +1,6 @@
 std = "lua53"
 max_line_length = false
 exclude_files = {
-	"Documenter/FrameXML/Blizzard_APIDocumentation",
 	"Util/csv/csv.lua",
 	"Pages/API_DoEmote.lua",
 }

@@ -153,10 +153,10 @@ end
 
 function m:GetEventPayload()
 	-- ok wtf this needs to be rewritten
-	local FrameXML = require("Documenter/FrameXML/FrameXML")
+	local FrameXML = require("Documenter/Load_APIDocumentation/Loader")
 	local docPath = string.format("FrameXML/classic/%s/Interface/AddOns/Blizzard_APIDocumentation/", constants.LATEST_CLASSIC)
 	local docPath2 = string.format("FrameXML/classic/%s/Interface/AddOns/Blizzard_APIDocumentationGenerated/", constants.LATEST_CLASSIC)
-	FrameXML:LoadApiDocs("Documenter/FrameXML", constants.LATEST_CLASSIC, docPath, docPath2)
+	FrameXML:LoadApiDocs("Documenter/Load_APIDocumentation", constants.LATEST_CLASSIC, docPath, docPath2)
 	local t = {}
 	for _, event in pairs(APIDocumentation.events) do
 		if event.Payload then

@@ -1,6 +1,6 @@
 local Util = require("Util/Util")
-local FrameXML = require("Documenter/FrameXML/FrameXML")
-FrameXML:LoadApiDocs("Documenter/FrameXML")
+local FrameXML = require("Documenter/Load_APIDocumentation/Loader")
+FrameXML:LoadApiDocs("Documenter/Load_APIDocumentation")
 
 local m = {}
 

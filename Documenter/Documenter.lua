@@ -5,8 +5,8 @@ local BRANCH = "mainline_beta"
 
 require("Util/apidoc_fixes")
 
-local compat_folder = Path.join("Documenter", "FrameXML")
-local FrameXML = require(Path.join(compat_folder, "FrameXML"))
+local compat_folder = Path.join("Documenter", "Load_APIDocumentation")
+local FrameXML = require(Path.join(compat_folder, "Loader"))
 FrameXML:LoadApiDocs(compat_folder, Path.join("FrameXML", "retail", constants.LATEST_MAINLINE))
 
 require("Documenter/Wowpedia/Wowpedia")

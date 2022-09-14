@@ -160,7 +160,7 @@ end
 function Wowpedia:HasMissingTypes()
 	local missingTypes = self:FindMissingTypes()
 	if next(missingTypes) then
-		print("Found missing complex types, please add them to Documenter/FrameXML/MissingDocumentation.lua")
+		print("Found missing complex types, please add them to Documenter/Load_APIDocumentation/MissingDocumentation.lua")
 		for complexType, info in pairs(missingTypes) do
 			-- print(Enum.ItemSoundType.Use)
 			if Enum[complexType] then

@@ -37,7 +37,7 @@ function m:LoadApiDocs(base)
 	catFile:write(table.concat(t, "\n"))
 end
 
-m:LoadApiDocs("Documenter/FrameXML")
+m:LoadApiDocs("Documenter/Load_APIDocumentation")
 
 catFile:close()
 print("done")
