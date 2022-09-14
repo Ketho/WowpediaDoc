@@ -186,10 +186,15 @@ end
 
 function Util:GetFullName(apiTable)
 	local fullName
-	if apiTable.System.Namespace then
-		fullName = format("%s.%s", apiTable.System.Namespace, apiTable.Name)
-	else
-		fullName = apiTable.Name
+	local system = apiTable.System
+	if system.Type == "System" then
+		if system.Namespace then
+			fullName = format("%s.%s", system.Namespace, apiTable.Name)
+		else
+			fullName = apiTable.Name
+		end
+	elseif system.Type == "ScriptObject" then
+		fullName = format("%s:%s", system.Name, apiTable.Name)
 	end
 	return fullName
 end
