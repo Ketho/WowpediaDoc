@@ -100,7 +100,7 @@ function Wowpedia:GetPrettyType(apiTable, isArgument)
 	local apiText
 	if apiTable.Type == "table" then
 		if apiTable.Mixin then
-			apiText = format("[[%s]]", apiTable.Mixin) -- wiki link
+			apiText = apiTable.Mixin
 		elseif apiTable.InnerType then
 			local complexInnertype = self.complexTypes[apiTable.InnerType]
 			if self.basicTypes[apiTable.InnerType] then
@@ -124,7 +124,6 @@ function Wowpedia:GetPrettyType(apiTable, isArgument)
 	if apiTable.Nilable or apiTable.Default ~= nil then
 		apiText = apiText.."?"
 	end
-	-- todo: dont do this for mixins and the like, or  make the module support it
 	local str = string.format("{{apitype|%s}}", apiText)
 	if apiTable.Default ~= nil then
 		str = format("%s (Default = %s)", str, tostring(apiTable.Default))
