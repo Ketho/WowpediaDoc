@@ -4,7 +4,7 @@ local OUT = "out/lua/API_info.elink.event.lua"
 
 local function main()
 	local FrameXML = require("Documenter/Load_APIDocumentation/Loader")
-	FrameXML:LoadApiDocs("Documenter/Load_APIDocumentation")
+	FrameXML:LoadDocs("Documenter/Load_APIDocumentation")
 	table.sort(APIDocumentation.events, function(a, b)
 		return a.LiteralName < b.LiteralName
 	end)

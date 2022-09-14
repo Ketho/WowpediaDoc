@@ -1,6 +1,44 @@
 local lfs = require "lfs"
 local Path = require "path"
+local constants = require("Documenter.constants")
+require("Util.apidoc_fixes")
 local m = {}
+
+local function LoadFile(path)
+	if lfs.attributes(path) then
+		local file = loadfile(path)
+		file()
+	end
+end
+
+local function LoadAddon(addons_folder, name)
+	local folder = Path.join(addons_folder, name)
+	local file = io.open(Path.join(folder, name..".toc"))
+	if file then
+		for line in file:lines() do
+			if line:find("%.lua") then
+				LoadFile(Path.join(folder, line))
+			end
+		end
+		file:close()
+	end
+end
+
+function m:main(flavor)
+	local loader_folder = Path.join("Documenter", "Load_APIDocumentation")
+	local addons_folder
+	if flavor:find("mainline") then
+		addons_folder = Path.join("FrameXML", "retail", constants.LATEST_MAINLINE, "AddOns")
+	elseif flavor == "classic" then
+		addons_folder = Path.join("FrameXML", "classic", constants.LATEST_CLASSIC, "Interface", "AddOns")
+	end
+	require(Path.join(loader_folder, "Compat"))
+	LoadAddon(addons_folder, "Blizzard_APIDocumentation")
+	require(Path.join(loader_folder, "MissingDocumentation"))
+	LoadAddon(addons_folder, "Blizzard_APIDocumentationGenerated")
+end
+
+return m
 
 --[[
 -- documentation that was moved to another file
@@ -21,33 +59,3 @@ local missing = {
 	-- ["CurrencyConstantsDocumentation.lua"] = true, -- 9.0.2 (36165)
 }
 ]]
-
-local function LoadFile(path)
-	if lfs.attributes(path) then
-		local file = loadfile(path)
-		file()
-	end
-end
-
-local function ParseToc(addons_folder, name)
-	local folder = Path.join(addons_folder, name)
-	local file = io.open(Path.join(folder, name..".toc"))
-	if file then
-		for line in file:lines() do
-			if line:find("%.lua") then
-				LoadFile(Path.join(folder, line))
-			end
-		end
-		file:close()
-	end
-end
-
-function m:LoadApiDocs(compat_folder, framexml_folder)
-	require(Path.join(compat_folder, "Compat"))
-	local addons_folder = Path.join(framexml_folder, "AddOns")
-	ParseToc(addons_folder, "Blizzard_APIDocumentation")
-	ParseToc(addons_folder, "Blizzard_APIDocumentationGenerated")
-	require(Path.join(compat_folder, "MissingDocumentation"))
-end
-
-return m

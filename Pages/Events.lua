@@ -1,6 +1,6 @@
 -- https://wow.gamepedia.com/Events
 local FrameXML = require("Documenter/Load_APIDocumentation/Loader")
-FrameXML:LoadApiDocs("Documenter/Load_APIDocumentation")
+FrameXML:LoadDocs("Documenter/Load_APIDocumentation")
 local OUTPUT = "out/page/Events.txt"
 
 table.sort(APIDocumentation.systems, function(a, b)

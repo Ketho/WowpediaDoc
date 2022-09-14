@@ -2,7 +2,7 @@
 -- https://wowpedia.fandom.com/wiki/Events/Classic
 -- https://wowpedia.fandom.com/wiki/Console_variables/Classic
 local Util = require("Util/Util")
-local constants = require("Documenter/constants")
+local constants = require("Documenter.constants")
 
 local m = {}
 
@@ -152,11 +152,7 @@ function m:GetData(sourceType)
 end
 
 function m:GetEventPayload()
-	-- ok wtf this needs to be rewritten
-	local FrameXML = require("Documenter/Load_APIDocumentation/Loader")
-	local docPath = string.format("FrameXML/classic/%s/Interface/AddOns/Blizzard_APIDocumentation/", constants.LATEST_CLASSIC)
-	local docPath2 = string.format("FrameXML/classic/%s/Interface/AddOns/Blizzard_APIDocumentationGenerated/", constants.LATEST_CLASSIC)
-	FrameXML:LoadApiDocs("Documenter/Load_APIDocumentation", constants.LATEST_CLASSIC, docPath, docPath2)
+	require("Documenter.Load_APIDocumentation.Loader"):main("classic")
 	local t = {}
 	for _, event in pairs(APIDocumentation.events) do
 		if event.Payload then
