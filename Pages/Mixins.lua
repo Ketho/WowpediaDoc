@@ -103,7 +103,7 @@ local function FormatLink(cat, name)
 	elseif cat == "events" then
 		s = string.format("{{api|t=e|%s}}", name)
 	end
-	return s or name
+	return s
 end
 
 local function WriteFile(mixin, info)
@@ -112,15 +112,17 @@ local function WriteFile(mixin, info)
 	print("writing to "..path)
 	local file = io.open(path, "w")
 	file:write('{| class="darktable"\n')
-	for _, tbl in pairs(order) do
+	for idx, tbl in pairs(order) do
 		local cat_key, cat_label = tbl[1], tbl[2]
 		if next(info[cat_key]) then
+			if idx > 1 then
+				file:write("|-\n")
+			end
 			file:write(string.format("| %s\n", cat_label))
 			for _, name in pairs(Util:SortTable(info[cat_key])) do
 				local link = FormatLink(cat_key, name)
 				file:write(fs:format(link))
 			end
-			file:write("|-\n")
 		end
 	end
 	file:write("|}\n")
