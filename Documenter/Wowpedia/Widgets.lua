@@ -1,4 +1,6 @@
-local widget_docs = {
+local m = {}
+
+m.widget_docs = {
 	CooldownFrameAPI = "Cooldown",
 	MinimapFrameAPI = "Minimap",
 	SimpleAnimAPI = "Animation",
@@ -41,3 +43,5 @@ local widget_docs = {
 	SimpleTextureAPI = "Texture",
 	SimpleTextureBaseAPI = "TextureBase",
 }
+
+return m

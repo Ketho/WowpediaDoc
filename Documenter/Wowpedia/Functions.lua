@@ -1,5 +1,7 @@
-function Wowpedia:GetFunctionText(func)
-	local str = format(" %s\n", self:GetFunctionSignature(func))
+local widgets = require("Documenter/Wowpedia/Widgets").widget_docs
+
+function Wowpedia:GetFunctionText(func, systemType)
+	local str = format(" %s\n", self:GetFunctionSignature(func, systemType))
 	-- widget api can provide empty tables
 	if func.Arguments and #func.Arguments>0 then
 		str = str..format("\n==Arguments==\n%s\n", self:GetParameters(func.Arguments, true))
@@ -10,9 +12,11 @@ function Wowpedia:GetFunctionText(func)
 	return str
 end
 
-function Wowpedia:GetFunctionSignature(func)
+function Wowpedia:GetFunctionSignature(func, systemType)
 	local str
-	if func.System.Namespace then
+	if systemType == "ScriptObject" then
+		str = format("%s:%s", widgets[func.System.Name], func.Name)
+	elseif func.System.Namespace then
 		str = format("%s.%s", func.System.Namespace, func.Name)
 	else
 		str = func.Name

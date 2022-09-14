@@ -9,7 +9,7 @@ function Wowpedia:GetPageText(apiTable, systemType)
 	local tbl = {}
 	local params
 	if apiTable.Type == "Function" then
-		params = self:GetFunctionText(apiTable)
+		params = self:GetFunctionText(apiTable, systemType)
 	elseif apiTable.Type == "Event" then
 		params = self:GetEventText(apiTable)
 	end
