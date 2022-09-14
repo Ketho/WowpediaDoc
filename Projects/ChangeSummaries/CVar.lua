@@ -29,7 +29,8 @@ end
 local function GetCVarInfo(name)
 	local cvar = data[1].var[name]
 	if cvar then
-		local t = {"apitooltip_cvar"}
+		local t = {"apitooltip"}
+		table.insert(t, "type=cvar")
 		table.insert(t, "name="..name)
 		-- cannot use unpack()
 		local default, category, account, character, help = cvar[1], cvar[2], cvar[3], cvar[4], cvar[5]
