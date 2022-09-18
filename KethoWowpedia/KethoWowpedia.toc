@@ -8,6 +8,7 @@ patch/battlepetspecies.lua
 patch/mount.lua
 patch/toy.lua
 patch/uimap.lua
+patch/cvar.lua
 
 dbc/battlepetspecies.lua
 dbc/creaturedisplayinfo.lua
