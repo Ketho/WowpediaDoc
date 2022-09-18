@@ -79,7 +79,7 @@ local function main()
 			for name in pairs(cvars) do
 				if not dump[name:lower()] and not t[name] and not NoStrings[name:lower()] then
 					local patch, buildversion = prevBuild:match("^(%d+%.%d+%.%d+)%.(%d+)")
-					if tonumber(buildversion) >= 18414 then -- 5.4.8.18414
+					if tonumber(buildversion) >= 19034 then -- 6.0.2.19034
 						t[name] = patch
 					else
 						t[name] = prevBuild:match("^%d+")..".x"
