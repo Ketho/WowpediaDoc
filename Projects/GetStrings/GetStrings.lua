@@ -1,37 +1,38 @@
 local lfs = require "lfs"
 local Util = require("Util.Util")
+local PATH = [[D:\Prog\World of Warcraft\Binaries]]
 local BRANCH = "mainline"
 Util:MakeDir("cache_txt")
 
-local builds = {
-	"9.2.7.45338",
-	"9.2.5.44908",
-	"9.2.0.43345",
-	"9.1.5.42010",
-	"9.1.0.40725",
-	"9.0.2.37474",
-	"9.0.1.36577",
-	"8.3.7.35662",
-	"8.0.1.27101",
-	"7.0.3.22248",
-	"6.0.2.19027",
-	"5.0.3.15890",
-	"4.1.0.14007",
-	"3.0.1.8874",
-	"2.0.1.6180",
-	"1.0.0.3980",
-}
+local function GetBuilds(path)
+	local t = {}
+	for fileName in lfs.dir(path) do
+		if fileName ~= "." and fileName ~= ".." then
+			local exe = fileName:match("(.+)%.exe")
+			if exe then
+				table.insert(t, exe)
+			end
+		end
+	end
+	table.sort(t, function(a, b)
+		local build_a = a:match("(%d+)$")
+		local build_b = b:match("(%d+)$")
+		return tonumber(build_a) > tonumber(build_b)
+	end)
+	return t
+end
 
 -- some cvars have a different casing in older builds e.g. ffxDeath
 local function GetStrings(path)
-	local t = {}
+	local t, t_lower = {}, {}
 	local file = io.open(path, "rb")
 	local data = file:read("a")
 	for word in data:gmatch("[%w_]+") do
-		t[word:lower()] = true
+		t[word] = true
+		t_lower[word:lower()] = true
 	end
 	file:close()
-	return t
+	return t, t_lower
 end
 
 -- for debug purpose
@@ -53,16 +54,18 @@ end
 
 local function main()
 	local cvars = GetCVars(BRANCH)[1].var
-	local PATH = [[D:\Prog\World of Warcraft\Binaries\%s.exe]]
 	local NoStrings = {}
 	local t = {}
+	local builds = GetBuilds(PATH)
+	local prevBuild
 	for idx, build in pairs(builds) do
 		print("reading", build)
-		local path = PATH:format(build)
-		local dump = GetStrings(path)
+		local exe_path = PATH.."/%s.exe"
+		local path = exe_path:format(build)
+		local t_normal, dump = GetStrings(path)
 		local txt_path = string.format("cache_txt/%s.txt", build)
 		if not lfs.attributes(txt_path) then
-			WriteFile(txt_path, dump)
+			WriteFile(txt_path, t_normal)
 		end
 		-- filter out cvars that cant be found in strings table in the most recent build
 		if idx == 1 then
@@ -75,12 +78,11 @@ local function main()
 		else
 			for name in pairs(cvars) do
 				if not dump[name:lower()] and not t[name] and not NoStrings[name:lower()] then
-					local major, minor, patch, buildversion = builds[idx]:match("^(%d+)%.(%d+)%.(%d+)%.(%d+)")
-					if tonumber(buildversion) >= 35662 then
-						major, minor, patch = builds[idx-1]:match("^(%d+)%.(%d+)%.(%d+)")
-						t[name] = string.format("%d.%d.%d", major, minor, patch)
+					local patch, buildversion = prevBuild:match("^(%d+%.%d+%.%d+)%.(%d+)")
+					if tonumber(buildversion) >= 18414 then -- 5.4.8.18414
+						t[name] = patch
 					else
-						t[name] = build:match("^%d+")..".x"
+						t[name] = prevBuild:match("^%d+")..".x"
 					end
 				end
 			end
@@ -93,6 +95,7 @@ local function main()
 				end
 			end
 		end
+		prevBuild = build
 	end
 	local out_path = "KethoWowpedia/patch/cvar.lua"
 	print("writing to ", out_path)
