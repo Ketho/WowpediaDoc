@@ -1,12 +1,17 @@
 local lfs = require "lfs"
 local Util = require("Util.Util")
 local BRANCH = "mainline"
--- local NoStrings = require("Projects.GetStrings.NoStrings")
 Util:MakeDir("cache_txt")
 
 local builds = {
 	"9.2.7.45338",
+	"9.2.5.44908",
+	"9.2.0.43345",
+	"9.1.5.42010",
+	"9.1.0.40725",
+	"9.0.2.37474",
 	"9.0.1.36577",
+	"8.3.7.35662",
 	"8.0.1.27101",
 	"7.0.3.22248",
 	"6.0.2.19027",
@@ -55,6 +60,10 @@ local function main()
 		print("reading", build)
 		local path = PATH:format(build)
 		local dump = GetStrings(path)
+		local txt_path = string.format("cache_txt/%s.txt", build)
+		if not lfs.attributes(txt_path) then
+			WriteFile(txt_path, dump)
+		end
 		-- filter out cvars that cant be found in strings table in the most recent build
 		if idx == 1 then
 			for name in pairs(cvars) do
@@ -64,20 +73,22 @@ local function main()
 				end
 			end
 		else
-			local txt_path = string.format("cache_txt/%s.txt", build)
-			if not lfs.attributes(txt_path) then
-				WriteFile(txt_path, dump)
-			end
 			for name in pairs(cvars) do
 				if not dump[name:lower()] and not t[name] and not NoStrings[name:lower()] then
-					t[name] = build:match("^%d+")..".x"
+					local major, minor, patch, buildversion = builds[idx]:match("^(%d+)%.(%d+)%.(%d+)%.(%d+)")
+					if tonumber(buildversion) >= 35662 then
+						major, minor, patch = builds[idx-1]:match("^(%d+)%.(%d+)%.(%d+)")
+						t[name] = string.format("%d.%d.%d", major, minor, patch)
+					else
+						t[name] = build:match("^%d+")..".x"
+					end
 				end
 			end
 			-- cvars that were added in 1.0.0
 			if idx == #builds then
 				for name in pairs(cvars) do
 					if not t[name] and not NoStrings[name:lower()] then
-						t[name] = "1.0"
+						t[name] = "1.0.0"
 					end
 				end
 			end
