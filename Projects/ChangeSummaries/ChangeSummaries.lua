@@ -4,8 +4,8 @@ local Util = require("Util/Util")
 local cvar_module = require("Projects/ChangeSummaries/CVar")
 local widget_module = require("Projects/ChangeSummaries/Widget")
 local m = {}
-local BRANCH = "mainline_beta" -- for widgets, cvars
-local COMMIT = "e699965e756c85db1284c92b816df4db89fa2834" -- 10.0.0 (45335)
+local BRANCH = "wrath" -- for widgets, cvars
+local COMMIT = "447b8c7cc2f5c1a8580af29df6d4afc9f6e4f35c" -- 10.0.0 (45335)
 
 local OUT_FILE = "out/page/ChangeSummaries.txt"
 local DIFF_PATH = "cache_lua/%s.diff"
@@ -64,7 +64,7 @@ for _, v in pairs(data_table) do
 end
 
 function m:ParseDiff(diff_path)
-	local url = string.format("https://github.com/Ketho/BlizzardInterfaceResources/commit/%s.diff", commit)
+	local url = string.format("https://github.com/Ketho/BlizzardInterfaceResources/commit/%s.diff", COMMIT)
 	Util:DownloadFile(diff_path, url, false)
 
 	local file = io.open(diff_path, "r")
