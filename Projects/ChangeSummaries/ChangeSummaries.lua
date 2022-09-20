@@ -4,11 +4,29 @@ local Util = require("Util/Util")
 local cvar_module = require("Projects/ChangeSummaries/CVar")
 local widget_module = require("Projects/ChangeSummaries/Widget")
 local m = {}
-local BRANCH = "wrath" -- for widgets, cvars
-local COMMIT = "447b8c7cc2f5c1a8580af29df6d4afc9f6e4f35c" -- 10.0.0 (45335)
+local BRANCH = "mainline_beta" -- for widgets, cvars
+-- local DIFF = {"commit", "447b8c7cc2f5c1a8580af29df6d4afc9f6e4f35c", false} -- 10.0.0 (45335)
+local DIFF = {"compare", "mainline..mainline_beta", true}
 
 local OUT_FILE = "out/page/ChangeSummaries.txt"
-local DIFF_PATH = "cache_lua/%s.diff"
+Util:MakeDir("cache_diff")
+Util:MakeDir("cache_diff/commit")
+Util:MakeDir("cache_diff/compare")
+
+local function GetDiff()
+	local path, url
+	if DIFF[1] == "commit" then
+		path = string.format("cache_diff/commit/%s.diff", DIFF[2])
+		url = string.format("https://github.com/Ketho/BlizzardInterfaceResources/commit/%s.diff", DIFF[2])
+	elseif DIFF[1] == "compare" then
+		local fpath = DIFF[2]:gsub("%.%.", "__")
+		path = string.format("cache_diff/compare/%s.diff", fpath)
+		url = string.format("https://github.com/Ketho/BlizzardInterfaceResources/compare/%s.diff", DIFF[2])
+	end
+	local isCache = DIFF[3]
+	Util:DownloadFile(path, url, isCache)
+	return path
+end
 
 local data_table = {
 	GlobalAPI = {
@@ -64,9 +82,6 @@ for _, v in pairs(data_table) do
 end
 
 function m:ParseDiff(diff_path)
-	local url = string.format("https://github.com/Ketho/BlizzardInterfaceResources/commit/%s.diff", COMMIT)
-	Util:DownloadFile(diff_path, url, false)
-
 	local file = io.open(diff_path, "r")
 	local section
 	for line in file:lines() do
@@ -121,10 +136,9 @@ function m:GetWikiTable(info, section)
 end
 
 local function main()
-	local diff_path = DIFF_PATH:format(COMMIT)
-	-- fill changes tbl
-	m:ParseDiff(diff_path)
-	widget_module.main(data_table.WidgetAPI, diff_path, BRANCH)
+	local path = GetDiff()
+	m:ParseDiff(path) -- fill changes tbl
+	widget_module.main(data_table.WidgetAPI, path, BRANCH)
 	cvar_module:SanitizeCVars(data_table)
 
 	print("writing", OUT_FILE)

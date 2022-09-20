@@ -1,6 +1,7 @@
 -- compares framexml versions
 local Util = require("Util/Util")
 local apidoc_nontoc = require("Util/apidoc_nontoc")
+local CONSTANTS = require("Documenter.constants")
 
 ChangeDiff = {}
 require("Projects/ChangeDiff/Compare")
@@ -72,5 +73,5 @@ local function main(versions, isWiki)
 	PrintView:PrintView(changes, isWiki)
 end
 
-main({"9.2.7.45161", "10.0.0.45335"}, true)
+main({"9.2.7.45161", CONSTANTS.LATEST_MAINLINE}, true)
 print("done")
