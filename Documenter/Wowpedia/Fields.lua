@@ -49,30 +49,16 @@ local function HasMiddleOptionals(paramTbl)
 end
 
 function Wowpedia:GetSignature(apiTable, apiType)
-	local tbl = {}
+	local t = {}
 	local paramTbl = apiTable[apiType]
-	if HasMiddleOptionals(paramTbl) then
-		for _, param in ipairs(paramTbl) do
-			local name = param.Name
-			if param:IsOptional() then
-				name = format("[%s]", name)
-			end
-			tinsert(tbl, name)
+	for _, param in pairs(paramTbl) do
+		local name = param.Name
+		if param:IsOptional() then
+			name = name.."?"
 		end
-		return table.concat(tbl, ", ")
-	else
-		local optionalFound
-		for _, param in ipairs(paramTbl) do
-			local name = param.Name
-			if param:IsOptional() and not optionalFound then
-				optionalFound = true
-				name = format("[%s", name)
-			end
-			tinsert(tbl, name)
-		end
-		local str = table.concat(tbl, ", ")
-		return optionalFound and str:gsub(", %[", " [, ").."]" or str
+		table.insert(t, name)
 	end
+	return table.concat(t, ", ")
 end
 
 function Wowpedia:GetParameters(params, isArgument)
