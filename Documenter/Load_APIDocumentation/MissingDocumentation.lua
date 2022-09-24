@@ -41,6 +41,7 @@ local Missing =
 		{ Name = "ScriptObject", Type = "Structure", Fields = Empty },
 		{ Name = "SpecializationTabInfo", Type = "Structure", Fields = Empty },
 		{ Name = "uiRect", Type = "Structure", Fields = Empty },
+		{ Name = "QuestReputationRewardInfo", Type = "Structure", Fields = Empty },
 
 		-- structures
 		{

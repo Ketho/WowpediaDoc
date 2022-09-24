@@ -9,6 +9,6 @@ require("Documenter.Wowpedia.Wowpedia")
 require("Documenter.LuaEnum"):main(BRANCH)
 local Exporter = require("Documenter/Exporter")
 if not Wowpedia:HasMissingTypes() then
-	Exporter:ExportSystems("out.export")
+	Exporter:ExportSystems("out/export")
 end
 print("done")
