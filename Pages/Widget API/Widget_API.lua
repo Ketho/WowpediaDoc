@@ -96,42 +96,42 @@ local widget_order = {
 }
 
 local widget_desc = {
-	Object = "abstract class",
-	FrameScriptObject = "abstract class, inherits <code>Object</code>",
-	ScriptRegion = "abstract class, inherits <code>FrameScriptObject</code>",
-	Region = "abstract class, inherits <code>ScriptRegion</code>",
-	TextureBase = "abstract class, inherits <code>Region</code>",
-	Texture = "inherits <code>TextureBase</code>",
-	MaskTexture = "inherits <code>TextureBase</code>",
-	Line = "inherits <code>TextureBase</code>",
-	Font = "inherits <code>Object</code>",
-	FontString = "inherits <code>Region</code>",
-	AnimationGroup = "inherits <code>FrameScriptObject</code>",
-	Animation = "inherits <code>FrameScriptObject</code>",
-	Alpha = "inherits <code>Animation</code>",
-	Rotation = "inherits <code>Animation</code>",
-	Scale = "inherits <code>Animation</code>",
-	LineScale = "inherits <code>Animation</code>",
-	Translation = "inherits <code>Animation</code>",
-	LineTranslation = "inherits <code>Animation</code>",
-	TextureCoordTranslation = "can only be created via XML, inherits <code>Animation</code>",
-	FlipBook = "inherits <code>Animation</code>",
-	Path = "inherits <code>Animation</code>",
-	ControlPoint = "inherits <code>FrameScriptObject</code>",
-	Frame = "inherits <code>ScriptRegion</code>",
-	Button = "inherits <code>Frame</code>",
-	CheckButton = "inherits <code>Button</code>",
-	Model = "inherits <code>Frame</code>",
-	ColorSelect = "inherits <code>Frame</code>",
-	Cooldown = "inherits <code>Frame</code>",
-	EditBox = "inherits <code>Frame</code>",
-	MessageFrame = "inherits <code>Frame</code>",
-	Minimap = "unique, inherits <code>Frame</code>",
-	MovieFrame = "inherits <code>Frame</code>",
-	ScrollFrame = "inherits <code>Frame</code>",
-	SimpleHTML = "inherits <code>Frame</code>",
-	Slider = "inherits <code>Frame</code>",
-	StatusBar = "inherits <code>Frame</code>",
+	Object = 'abstract class',
+	FrameScriptObject = 'inherits <code>Object</code>, abstract class',
+	ScriptRegion = 'inherits <code>FrameScriptObject</code>, abstract class',
+	Region = 'inherits <code>ScriptRegion</code>, abstract class',
+	TextureBase = 'inherits <code>Region</code>, abstract class',
+	Texture = 'inherits <code>TextureBase</code>, created with <code>Frame:CreateTexture()</code>',
+	MaskTexture = 'inherits <code>TextureBase</code>, created with <code>Frame:CreateMaskTexture()</code>',
+	Line = 'inherits <code>TextureBase</code>, created with <code>Frame:CreateLine()</code>',
+	Font = 'inherits <code>Object</code>, created with <code>CreateFont(name)</code>',
+	FontString = 'inherits <code>Region</code>, created with <code>Frame:CreateFontString()</code>',
+	AnimationGroup = 'inherits <code>FrameScriptObject</code>, created with <code>AnimatableObject:CreateAnimationGroup()</code>',
+	Animation = 'inherits <code>FrameScriptObject</code>, created with <code>AnimationGroup:CreateAnimation()</code>',
+	Alpha = 'inherits <code>Animation</code>, created with <code>AnimationGroup:CreateAnimation("Alpha")</code>',
+	Rotation = 'inherits <code>Animation</code>, created with <code>AnimationGroup:CreateAnimation("Rotation")</code>',
+	Scale = 'inherits <code>Animation</code>, created with <code>AnimationGroup:CreateAnimation("Scale")</code>',
+	LineScale = 'inherits <code>Animation</code>, created with <code>AnimationGroup:CreateAnimation("LineScale")</code>',
+	Translation = 'inherits <code>Animation</code>, created with <code>AnimationGroup:CreateAnimation("Translation")</code>',
+	LineTranslation = 'inherits <code>Animation</code>, created with <code>AnimationGroup:CreateAnimation("LineTranslation")</code>',
+	TextureCoordTranslation = 'inherits <code>Animation</code>, can only be created via XML',
+	FlipBook = 'inherits <code>Animation</code>, created with <code>AnimationGroup:CreateAnimation("FlipBook")</code>',
+	Path = 'inherits <code>Animation</code>, created with <code>AnimationGroup:CreateAnimation("Path")</code>',
+	ControlPoint = 'inherits <code>FrameScriptObject</code>, created with <code>Path:CreateControlPoint()</code>',
+	Frame = 'inherits <code>ScriptRegion</code>, created with <code>{{api|CreateFrame}}("Frame")</code>',
+	Button = 'inherits <code>Frame</code>, created with <code>CreateFrame("Button")</code>',
+	CheckButton = 'inherits <code>Button</code>, created with <code>CreateFrame("CheckButton")</code>',
+	Model = 'inherits <code>Frame</code>, created with <code>CreateFrame("Model")</code>',
+	ColorSelect = 'inherits <code>Frame</code>, created with <code>CreateFrame("ColorSelect")</code>',
+	Cooldown = 'inherits <code>Frame</code>, created with <code>CreateFrame("Cooldown")</code>',
+	EditBox = 'inherits <code>Frame</code>, created with <code>CreateFrame("EditBox")</code>',
+	MessageFrame = 'inherits <code>Frame</code>, created with <code>CreateFrame("MessageFrame")</code>',
+	Minimap = 'inherits <code>Frame</code>, unique',
+	MovieFrame = 'inherits <code>Frame</code>, created with <code>CreateFrame("MovieFrame")</code>',
+	ScrollFrame = 'inherits <code>Frame</code>, created with <code>CreateFrame("ScrollFrame")</code>',
+	SimpleHTML = 'inherits <code>Frame</code>, created with <code>CreateFrame("SimpleHTML")</code>',
+	Slider = 'inherits <code>Frame</code>, created with <code>CreateFrame("Slider")</code>',
+	StatusBar = 'inherits <code>Frame</code>, created with <code>CreateFrame("StatusBar")</code>',
 }
 
 local function GetSystems()
@@ -151,10 +151,17 @@ end
 local function GetParams(params)
 	if params and #params > 0 then
 		local t = {}
+		local hasStrideIndex
 		for _, param in pairs(params) do
 			local nilable = (param.Default or param.Default == false) or param.Nilable
 			local name = string.format("%s%s", param.Name, nilable and "?" or "")
+			if param.StrideIndex then
+				hasStrideIndex = true
+			end
 			table.insert(t, name)
+		end
+		if hasStrideIndex then
+			table.insert(t, "...")
 		end
 		return table.concat(t, ", ")
 	end
