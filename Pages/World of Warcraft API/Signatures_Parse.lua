@@ -35,7 +35,7 @@ function m:GetSignatures()
 		local name = Util:GetFullName(func)
 		local args, returns = "", ""
 		if func.Arguments then
-			args = fs_args:format(Wowpedia:GetSignature(func, "Arguments"))
+			args = fs_args:format(Wowpedia:GetSignature(func.Arguments))
 		end
 		if func.Returns then
 			local returnString = func:GetReturnString(false, false)

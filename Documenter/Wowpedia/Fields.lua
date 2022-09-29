@@ -48,9 +48,8 @@ local function HasMiddleOptionals(paramTbl)
 	end
 end
 
-function Wowpedia:GetSignature(apiTable, apiType)
+function Wowpedia:GetSignature(paramTbl)
 	local t = {}
-	local paramTbl = apiTable[apiType]
 	for _, param in pairs(paramTbl) do
 		local name = param.Name
 		if param:IsOptional() then
