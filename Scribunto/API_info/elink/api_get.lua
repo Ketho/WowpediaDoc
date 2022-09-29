@@ -1,10 +1,12 @@
 local Util = require("Util/Util")
-local FrameXML = require("Documenter/Load_APIDocumentation/Loader")
-FrameXML:LoadDocs("Documenter/Load_APIDocumentation")
 
 local m = {}
 
 function m:main(branch)
+	require("Documenter.LuaEnum"):main(branch)
+	local FrameXML = require("Documenter/Load_APIDocumentation/Loader")
+	FrameXML:main(branch)
+
 	local globalApi = Util:DownloadAndRun(
 		string.format("cache_lua/GlobalAPI_%s.lua", branch),
 		string.format("https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/GlobalAPI.lua", branch)
