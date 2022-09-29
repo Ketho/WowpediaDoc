@@ -20,10 +20,10 @@ function Wowpedia:GetWidgetSignature(func)
 	table.insert(t, "apisig")
 	table.insert(t, "widget="..widgets[func.System.Name])
 	table.insert(t, "method="..func.Name)
-	if func.Arguments then
+	if func.Arguments and #func.Arguments > 0 then
 		table.insert(t, "arg="..self:GetSignature(func.Arguments))
 	end
-	if func.Returns then
+	if func.Returns and #func.Returns > 0 then
 		table.insert(t, "ret="..self:GetSignature(func.Returns))
 	end
 	return string.format("{{%s}}", table.concat(t, "|"))
