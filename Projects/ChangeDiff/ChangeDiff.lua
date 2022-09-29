@@ -3,6 +3,10 @@ local Util = require("Util/Util")
 local apidoc_nontoc = require("Util/apidoc_nontoc")
 local CONSTANTS = require("Documenter.constants")
 
+-- requires Constants.CharCustomizationConstants 
+local BRANCH = "mainline_beta"
+require("Documenter.LuaEnum"):main(BRANCH)
+
 ChangeDiff = {}
 require("Projects/ChangeDiff/Compare")
 local m = ChangeDiff
@@ -13,12 +17,14 @@ m.apiTypes = {
 		map = function(tbl)
 			local t = {}
 			for _, system in pairs(tbl) do
-				for _, apiTable in pairs(system.Functions or {}) do
-					if system.Namespace then
-						local fullName = string.format("%s.%s", system.Namespace, apiTable.Name)
-						t[fullName] = apiTable
-					else
-						t[apiTable.Name] = apiTable
+				if system.Type ~= "ScriptObject" then
+					for _, apiTable in pairs(system.Functions or {}) do
+						if system.Namespace then
+							local fullName = string.format("%s.%s", system.Namespace, apiTable.Name)
+							t[fullName] = apiTable
+						else
+							t[apiTable.Name] = apiTable
+						end
 					end
 				end
 			end
