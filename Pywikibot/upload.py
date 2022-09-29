@@ -13,9 +13,17 @@ def saveFile(path, fileName):
 	name = fileName.replace(".txt", "")
 	# print("-- reading "+name)
 	page = pywikibot.Page(site, name)
+	text = getFileText(path)
 	if not page.exists():
-		page.text = getFileText(path)
-		page.save(summary="10.0.2 (45505)")
+		page.text = text
+		page.save(summary="10.0.2 (45779)")
+	elif page.text.find("{{api generated}}") > -1:
+		userName = page.userName()
+		if userName != "Ketho" and userName != "KethoBot":
+			print("----- edited by", page.userName(), page.title())
+		else:
+			page.text = text
+			page.save(summary="10.0.2 (45779)")
 
 def recursiveFiles(path):
 	for base in os.listdir(path):

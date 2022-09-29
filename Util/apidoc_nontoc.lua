@@ -11,14 +11,6 @@ function APIDocumentation:AddDocumentationTable(info)
 	table.insert(docTables, info)
 end
 
--- used in CurrencyConstantsDocumentation.lua
-Enum = {
-	PlayerCurrencyFlagsDbFlags = {
-		InBackpack = 0,
-		UnusedInUI = 0,
-	},
-}
-
 local nondoc = {
 	["."] = true,
 	[".."] = true,
