@@ -10698,4 +10698,5 @@ return {
 	["ZoneText_Clear"] = true,
 	["ZoneText_OnEvent"] = true,
 	["ZoneText_OnLoad"] = true,
+	["addframetext"] = true,
 }
