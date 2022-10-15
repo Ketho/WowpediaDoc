@@ -50,7 +50,12 @@ function m:LoadBlizzardDocs(folder)
 	local version = folder:match("%d+%.%d+.%d+")
 	for fileName in lfs.dir(folder) do
 		if not nondoc[fileName] and not IsTocRemoved(fileName, version) then
-			loadfile(folder.."/"..fileName)()
+			local file = loadfile(folder.."/"..fileName)
+			if not file then
+				error("could not load file: "..folder.."/"..fileName)
+			else
+				file()
+			end
 		end
 	end
 	return Util:CopyTable(docTables)

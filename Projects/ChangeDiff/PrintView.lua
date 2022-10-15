@@ -30,9 +30,9 @@ function m:PrintView(changes, isWiki)
 			name = FormatEnum(v[1]) or name
 			if isWiki then
 				if wp_api[apiType] then
-					print(string.format("{{api|t=%s|%s}}", wp_api[apiType], name))
+					print(string.format(" {{api|t=%s|%s}}", wp_api[apiType], name))
 				else
-					print(name)
+					print(" "..name)
 				end
 			else
 				print("# "..name)
@@ -59,10 +59,10 @@ local fs_info = {
 		modified_nilable = '  # %s%d: %s, Nilable: %s -> %s',
 	},
 	wiki = {
-		add              = '  + %s%d: <font color="#00b400">%s</font>',
-		remove           = '  - %s%d: <font color="#ff6767">%s</font>',
-		modified_type    = '  # %s%d: <font color="#ecbc2a">%s</font>, Type: %s -> %s',
-		modified_nilable = '  # %s%d: <font color="#ecbc2a">%s</font>, Nilable: %s -> %s',
+		add              = '   + %s%d: <font color="#00b400">%s</font>',
+		remove           = '   - %s%d: <font color="#ff6767">%s</font>',
+		modified_type    = '   # %s%d: <font color="#ecbc2a">%s</font>, Type: %s -> %s',
+		modified_nilable = '   # %s%d: <font color="#ecbc2a">%s</font>, Nilable: %s -> %s',
 	},
 }
 
