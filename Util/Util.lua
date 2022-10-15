@@ -219,7 +219,7 @@ function Util:GetFlavorOptions(info)
 	elseif infoType == "string" then
 		return flavorInfo[info]
 	elseif not info then
-		return flavorInfo.ptr
+		return flavorInfo.mainline_ptr
 	end
 end
 

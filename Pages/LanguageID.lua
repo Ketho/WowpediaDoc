@@ -36,6 +36,7 @@ local hordeIcon = {
 local wpLink = {
 	[1] = "Orcish (language)",
 	[7] = "Common (language)",
+	[8] = "Eredun",
 	[9] = "Titan (language)",
 	[13] = "Gnomish (language)",
 	[33] = "Gutterspeak",
