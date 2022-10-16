@@ -6,7 +6,7 @@ local PATH = "Scribunto/API_info/patch/api"
 
 local flavors = {
 	retail = {
-		data = require(PATH.."/LoadFiles")(PATH.."/retail"),
+		data = require(PATH.."/LoadFiles")(PATH.."/mainline"),
 		out = "out/lua/API_info.patch.api_retail.lua",
 	},
 	classic = {

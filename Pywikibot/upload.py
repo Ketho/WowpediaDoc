@@ -17,7 +17,6 @@ def saveFile(path, fileName):
 	page = pywikibot.Page(site, name)
 	text = getFileText(path)
 	if not page.exists():
-		print("new page: "+name)
 		page.text = text
 		page.save(summary = EditSummary)
 	elif page.text.find("{{api generated}}") > -1:
@@ -31,8 +30,9 @@ def saveFile(path, fileName):
 def recursiveFiles(path):
 	for base in os.listdir(path):
 		newPath = path+"/"+base
-		if os.path.isdir(newPath) and base != "widget":
-			recursiveFiles(newPath)
+		if os.path.isdir(newPath):
+			if base != "widget":
+				recursiveFiles(newPath)
 		else:
 			saveFile(newPath, base)
 
