@@ -1,4 +1,5 @@
-local Util = require("Util/Util")
+local Util = require("Util.Util")
+local Widgets = require("Documenter.Wowpedia.Widgets")
 
 Util:MakeDir("out")
 Util:MakeDir("out/export")
@@ -26,7 +27,12 @@ function m:ExportSystems(folder)
 		local systemName = system.Namespace or system.Name
 		if systemName then
 			Util:MakeDir(format("%s/%s/%s", folder, systemFolder, systemName))
-			local prefix = system.Namespace and system.Namespace.."." or ""
+			local prefix
+			if system.Type == "ScriptObject" then
+				prefix = Widgets.widget_docs[system.Name].." "
+			else
+				prefix = system.Namespace and system.Namespace.."." or ""
+			end
 			for _, func in ipairs(system.Functions) do
 				local path = format("%s/%s/%s/API %s.txt", folder, systemFolder, systemName, prefix..func.Name)
 				local pageText = Wowpedia:GetPageText(func, system.Type)

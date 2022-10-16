@@ -6,6 +6,10 @@ local Missing =
 {
 	Tables =
 	{
+		-- 10.0.2 beta
+		{ Name = "FramePoint", Type = "Structure", Fields = Empty },
+		{ Name = "InventorySlots", Type = "Structure", Fields = Empty },
+
 		-- placeholder structures
 		-- { Name = "CharacterAlternateFormData", Type = "Structure", Fields = Empty }, -- BarberShopDocumentation.lua
 		-- { Name = "CurrencyCost", Type = "Structure", Fields = Empty }, -- LegendaryCraftingDocumentation.lua
@@ -41,7 +45,6 @@ local Missing =
 		-- { Name = "SpecializationTabInfo", Type = "Structure", Fields = Empty },
 		-- { Name = "uiRect", Type = "Structure", Fields = Empty },
 		-- { Name = "QuestReputationRewardInfo", Type = "Structure", Fields = Empty },
-		{ Name = "FramePoint", Type = "Structure", Fields = Empty },
 
 		-- structures
 		-- {

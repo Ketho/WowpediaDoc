@@ -1,5 +1,6 @@
 local lfs = require "lfs"
 local Path = require "path"
+local Util = require "Util.Util"
 local constants = require("Documenter.constants")
 require("Util.apidoc_fixes")
 local m = {}
@@ -28,9 +29,9 @@ function m:main(flavor)
 	local loader_folder = Path.join("Documenter", "Load_APIDocumentation")
 	local addons_folder
 	if flavor:find("mainline") then
-		addons_folder = Path.join("FrameXML", "retail", constants.LATEST_MAINLINE, "AddOns")
+		addons_folder = Path.join(Util:GetLatestBuild("mainline"), "AddOns")
 	elseif flavor == "classic" then
-		addons_folder = Path.join("FrameXML", "classic", constants.LATEST_CLASSIC, "Interface", "AddOns")
+		addons_folder = Path.join(Util:GetLatestBuild("classic"), "Interface", "AddOns")
 	end
 	require(Path.join(loader_folder, "Compat"))
 	LoadAddon(addons_folder, "Blizzard_APIDocumentation")
