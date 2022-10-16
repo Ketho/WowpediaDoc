@@ -44,7 +44,7 @@ def export_pages(catname):
 def main():
 	for cat in categories:
 		export_pages(cat)
-	print("done")
+	print("done parse_html")
 
 if __name__ == "__main__":
 	main()

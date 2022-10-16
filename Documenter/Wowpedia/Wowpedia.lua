@@ -1,4 +1,3 @@
-local constants = require("Documenter/constants")
 Wowpedia = {}
 require("Documenter/Wowpedia/Functions")
 require("Documenter/Wowpedia/Events")
@@ -18,7 +17,6 @@ function Wowpedia:GetPageText(apiTable, systemType)
 		apiTemplate,
 		self:GetDescription(apiTable),
 		params,
-		-- self:GetPatchSection(apiTable),
 	}
 	for _, v in ipairs(sections) do
 		tinsert(tbl, v)
@@ -31,16 +29,6 @@ function Wowpedia:GetDescription(apiTable)
 		return table.concat(apiTable.Documentation, "; ")
 	end
 	return "Needs summary."
-end
-
-function Wowpedia:GetPatchSection(apiTable)
-	local fullName = self:GetFullName(apiTable)
-	local patch = constants.LATEST_MAINLINE:match("%d+%.%d+%.%d+")
-	-- if ApiDocsDiff[fullName] then
-		-- return format("==Patch changes==\n%s\n", ApiDocsDiff[fullName])
-	-- else
-		return format("==Patch changes==\n{{Patch %s|note=Added.}}\n", patch)
-	-- end
 end
 
 function Wowpedia:GetTemplateInfo(apiTable, systemType)
@@ -65,19 +53,5 @@ function Wowpedia:GetTemplateInfo(apiTable, systemType)
 			tinsert(tbl, "system="..system.Name)
 		end
 	end
-	return format("{{%s}}", table.concat(tbl, "|"))
-end
-
-function Wowpedia:GetFullName(apiTable)
-	local str = ""
-	if apiTable.Type == "Function" then
-		if apiTable.System.Namespace then
-			str = format("%s.%s", apiTable.System.Namespace, apiTable.Name)
-		else
-			str = apiTable.Name
-		end
-	elseif apiTable.Type == "Event" then
-		str = apiTable.LiteralName
-	end
-	return str
+	return format("{{%s}} {{api generated}}", table.concat(tbl, "|"))
 end

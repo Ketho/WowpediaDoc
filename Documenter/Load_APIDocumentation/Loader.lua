@@ -1,7 +1,6 @@
 local lfs = require "lfs"
 local Path = require "path"
 local Util = require "Util.Util"
-local constants = require("Documenter.constants")
 require("Util.apidoc_fixes")
 local m = {}
 
