@@ -18,8 +18,8 @@ def update_text(name: str, s: str):
 		return str.join("\n", l)
 
 def main():
-	parse_html.main()
 	util.wowpedia.main(update_text, summary="number|string")
+	parse_html.main()
 
 if __name__ == "__main__":
 	main()
