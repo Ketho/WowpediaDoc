@@ -123,10 +123,10 @@ function Wowpedia:GetPrettyType(apiTable, isArgument)
 	if apiTable.Nilable or apiTable.Default ~= nil then
 		apiText = apiText.."?"
 	end
-	local str = string.format("{{apitype|%s}}", apiText)
 	if apiTable.Default ~= nil then
-		str = format("%s (Default = %s)", str, tostring(apiTable.Default))
+		apiText = apiText..format("|default=%s", tostring(apiTable.Default))
 	end
+	local str = string.format("{{apitype|%s}}", apiText)
 	if apiTable.Documentation then
 		str = str.." - "..table.concat(apiTable.Documentation, "; ")
 	end
