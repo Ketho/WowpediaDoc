@@ -19,6 +19,7 @@ local wpLink = {
 	[180] = "Wushoolay",
 	[196] = "Baleroc",
 	[339] = "Alizabal",
+	[429] = "Landslide (mountain giant)",
 	[609] = "Krick and Ick",
 	[814] = "Nalak",
 	[1549] = "Twin Emperors",
@@ -88,6 +89,7 @@ local function main(options)
 		end
 
 		local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
+		patch = Util.patchfix[patch] or patch
 		if patch == Util.PtrVersion then
 			patch = patch.." {{Test-inline}}"
 		end
@@ -105,5 +107,5 @@ local function main(options)
 	file:close()
 end
 
-main() -- ["ptr", "mainline", "classic"]
+main()
 print("done")

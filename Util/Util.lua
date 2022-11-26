@@ -14,14 +14,14 @@ function Util.SortBuild(a, b)
 	end
 end
 
-Util.PtrVersion = "10.0.2"
+Util.PtrVersion = "x"
 
 local flavorInfo = {
 	-- mainline_beta = {flavor = "mainline", header = true, build = "10.0.2.", sort = Util.SortBuild},
 	-- mainline_ptr = {flavor = "mainline", header = true, build = "10.0.0.", sort = Util.SortBuild},
 	mainline = {flavor = "mainline", header = true, build = "10.0.2.", sort = Util.SortBuild},
 	tbc = {flavor = "tbc", header = true, build = "2.5.4."},
-	wrath = {flavor = "wrath", header = true, build = "3.4.1."},
+	wrath = {flavor = "wrath", header = true, build = "3.4.0."},
 	vanilla = {flavor = "vanilla", header = true, build = "1.14.3."},
 }
 
@@ -30,6 +30,11 @@ local classicVersions = {
 	"^1.14.",
 	"^2.5.",
 	"^3.4.",
+}
+
+Util.patchfix = {
+	["4.3.4"] = "4.x",
+	["7.3.0"] = "7.x",
 }
 
 Util.RelativePath = {
@@ -235,7 +240,7 @@ function Util:GetFlavorOptions(info)
 	elseif infoType == "string" then
 		return flavorInfo[info]
 	elseif not info then
-		return flavorInfo.mainline_ptr
+		return flavorInfo.mainline
 	end
 end
 

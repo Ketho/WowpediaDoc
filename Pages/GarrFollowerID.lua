@@ -22,6 +22,7 @@ local Enum_Quality = {
 
 local wplink = {
 	[503] = "Master's Call (carrier)",
+	[516] = "Soul Reaper (battleship)",
 }
 
 local function FormatLink(ID, s)
@@ -87,5 +88,5 @@ local function main(options)
 	file:close()
 end
 
-main() -- ["ptr", "mainline", "classic"]
+main()
 print("done")

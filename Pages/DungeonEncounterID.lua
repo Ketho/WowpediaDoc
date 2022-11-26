@@ -5,6 +5,8 @@ local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT = "out/page/DungeonEncounterID.txt"
 
 local wpLink = {
+	[426] = "Landslide (mountain giant)",
+	[451] = "Kirtonos the Herald (tactics)",
 	[526] = "Keristrasza (tactics)",
 	[527] = "Keristrasza (tactics)",
 	[594] = "Gahz'rilla",
@@ -65,7 +67,6 @@ local mapLink = {
 	[461] = "Scholomance (Classic)",
 	[462] = "Scholomance (Classic)",
 	[463] = "Scholomance (Classic)",
-
 }
 
 local noEncounter = {
@@ -132,7 +133,7 @@ local function main(options)
 		end
 
 		local mapID = tonumber(l.MapID)
-		local mapName = map_csv[mapID]
+		local mapName = map_csv[mapID] or ""
 		local mapText
 		if mapLink[ID] then
 			mapText = string.format("[[%s|%s]]", mapLink[ID], mapName)
@@ -142,6 +143,7 @@ local function main(options)
 			mapText = mapName
 		end
 		local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
+		patch = Util.patchfix[patch] or patch
 		if patch == Util.PtrVersion then
 			patch = patch.." {{Test-inline}}"
 		end
@@ -151,5 +153,5 @@ local function main(options)
 	file:close()
 end
 
-main() -- ["ptr", "mainline", "classic"]
+main()
 print("done")

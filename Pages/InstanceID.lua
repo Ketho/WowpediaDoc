@@ -22,6 +22,7 @@ local wpExpansion = {
 	[6] = "{{Legion-inline}}",
 	[7] = "{{Bfa-inline}}",
 	[8] = "{{Sl-inline}}",
+	[9] = "{{Df-inline}}",
 }
 
 local wpLink = {
@@ -139,7 +140,7 @@ local function main(options)
 		if ID then
 			local expansion = wpExpansion[tonumber(l.ExpansionID)] or ""
 			local flags = l["Flags[0]"]
-			local devmap = flags&0x2 > 0 and "[[File:ProfIcons_engineering.png|16px|link=]]" or ""
+			local devmap = tonumber(flags)&0x2 > 0 and "[[File:ProfIcons_engineering.png|16px|link=]]" or ""
 
 			local dir = l.Directory:gsub("�", "&#65533;") -- triggers wiki spam filter otherwise
 			if dir == l.ID then
@@ -166,5 +167,5 @@ local function main(options)
 	file:close()
 end
 
-main() -- ["ptr", "mainline", "classic"]
+main()
 print("done")

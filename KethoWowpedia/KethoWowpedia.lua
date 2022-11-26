@@ -44,3 +44,8 @@ w.data.SourceTypeEnum = {
 	[10] = BATTLE_PET_SOURCE_10, -- shop
 	[11] = BATTLE_PET_SOURCE_11, -- discovery
 }
+
+w.data.patchfix = {
+	["4.3.4"] = "4.x",
+	["7.3.0"] = "7.x",
+}

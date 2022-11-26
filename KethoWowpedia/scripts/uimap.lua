@@ -73,7 +73,7 @@ end
 function KethoWowpedia:GetUiMapIDs(numMap, numGroup)
 	eb:Show()
 	eb:InsertLine('{| class="sortable darktable zebra col1-center"\n! ID !! Map Name !! Map Type !! Parent Map !! wow.tools !! Patch')
-	local fs = '|-\n| %d |||| %s |||| %s |||| %s |||| %s |||| %s'
+	local fs = '|-\n| %d |||| %s |||| %s |||| %s |||| %s'
 	local mapFloors = {}
 	for i = 1, numGroup do
 		local members = C_Map.GetMapGroupMembersInfo(i)

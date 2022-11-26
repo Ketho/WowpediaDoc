@@ -45,6 +45,7 @@ local wplink = {
 	[50] = "Arena Master (title)",
 	[53] = "Crashin' Thrashin' Commander",
 	[61] = "Archmage (title)",
+	[62] = "Battlelord (title)",
 	[96] = "Flawless Victor",
 	[98] = "Ambassador (title)",
 	[101] = "Brewmaster (title)",
@@ -177,6 +178,7 @@ local function main(options)
 				nameText = GetNameText(l.Name_lang, maskID)
 			end
 			local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
+			patch = Util.patchfix[patch] or patch
 			if patch == Util.PtrVersion then
 				patch = patch.." {{Test-inline}}"
 			end
@@ -187,5 +189,5 @@ local function main(options)
 	file:close()
 end
 
-main() -- ["ptr", "mainline", "classic"]
+main("wrath") -- ["ptr", "mainline", "classic"]
 print("done")

@@ -37,6 +37,10 @@ local wplink = {
 	[1872] = "Sanctum Anima Weaver",
 	[1873] = "Sanctum Anima Weaver",
 	[1874] = "Sanctum Anima Weaver",
+	[2002] = "Renown",
+	[2021] = "Renown",
+	[2087] = "Renown",
+	[2088] = "Renown",
 }
 
 local nolink = {
@@ -63,6 +67,7 @@ local nolink = {
 local ignoredStrings = {
 	"zzold",
 	" Test ",
+	" %- ",
 	"%(",
 	"Reservoir Anima%-",
 	"Redeemed Soul%-",
@@ -116,6 +121,7 @@ local function main(options)
 			end
 			local categoryText = string.format('<span title="ID %d">%s</span>', categoryID, categories[categoryID])
 			local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
+			patch = Util.patchfix[patch] or patch
 			if patch == Util.PtrVersion then
 				patch = patch.." {{Test-inline}}"
 			end
@@ -126,5 +132,5 @@ local function main(options)
 	file:close()
 end
 
-main() -- ["ptr", "mainline", "classic"]
+main()
 print("done")

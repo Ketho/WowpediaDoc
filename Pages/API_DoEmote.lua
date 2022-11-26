@@ -401,6 +401,7 @@ EMOTE623_TOKEN = "WINCE"
 EMOTE624_TOKEN = "HUZZAH"
 EMOTE625_TOKEN = "IMPRESSED"
 EMOTE626_TOKEN = "MAGNIFICENT"
+EMOTE627_TOKEN = "QUACK"
 
 m.commands = {
 	-- GlobalStrings
@@ -983,6 +984,8 @@ m.commands = {
 	EMOTE625_CMD2 = "/impressed";
 	EMOTE626_CMD1 = "/magnificent";
 	EMOTE626_CMD2 = "/magnificent";
+	EMOTE627_CMD1 = "/quack";
+	EMOTE627_CMD2 = "/quack";
 	EMOTE62_CMD1 = "/laydown";
 	EMOTE62_CMD2 = "/liedown";
 	EMOTE62_CMD3 = "/lay";
@@ -1110,5 +1113,5 @@ m.commands = {
 	EMOTE9_CMD2 = "/bite";
 }
 
-m:main() -- ["ptr", "mainline", "classic"]
+m:main()
 print("done")

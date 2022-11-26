@@ -24,7 +24,7 @@ end
 local function main(options)
 	options = Util:GetFlavorOptions(options)
 	-- a ptr build was lower (9.2.5.43254) than the latest live build (9.2.0.43340)
-	options.sort = nil
+	-- options.sort = nil
 
 	local filedata = parser:ReadListfile()
 	local patchData = dbc_patch:GetPatchData("movie", options)
@@ -36,9 +36,13 @@ local function main(options)
 	local movievariation = {}
 	Util:ReadCSV("movievariation", parser, options, function(_, _, l)
 		local fdid = tonumber(l.FileDataID)
-		local name = filedata[fdid]:match("interface/cinematics/(.+)_%d+%.avi")
-		if not name then -- hack
-			name = filedata[fdid]:match("interface/cinematics/(.+)%.avi")
+		local fd = filedata[fdid]
+		local name = ""
+		if fd then
+			name = fd:match("interface/cinematics/(.+)_%d+%.avi")
+			if not name then -- hack
+				name = filedata[fdid]:match("interface/cinematics/(.+)%.avi")
+			end
 		end
 		local movieid = tonumber(l.MovieID)
 		movievariation[movieid] = name
@@ -50,11 +54,14 @@ local function main(options)
 	local fs = '|-\n| %d || %s || %s || %s || %s\n'
 	Util:ReadCSV("movie", parser, options, function(_, ID, l)
 		local audio = tonumber(l.AudioFileDataID)
-		local name
+		local name = ""
 		if audio == 0 then
 			name = movievariation[ID]
 		else
-			name = filedata[audio]:match("interface/cinematics/(.+)%.mp3")
+			local fd = filedata[audio]
+			if fd then
+				name = fd:match("interface/cinematics/(.+)%.mp3")
+			end
 		end
 		local desc, yt = "", ""
 		if descriptions[ID] then
@@ -64,10 +71,13 @@ local function main(options)
 			name = string.format('<font color="gray">%s</font>', name)
 			desc = '<font color="gray">~</font>'
 		else
-			duplicates[name] = true
+			if #name > 0 then -- can be empty
+				duplicates[name] = true
+			end
 		end
 
 		local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
+		patch = Util.patchfix[patch] or patch
 		if patch == Util.PtrVersion then
 			patch = patch.." {{Test-inline}}"
 		end
@@ -77,5 +87,5 @@ local function main(options)
 	file:close()
 end
 
-main() -- ["ptr", "mainline", "classic"]
+main()
 print("done")

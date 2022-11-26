@@ -6,14 +6,23 @@ Util:MakeDir("KethoWowpedia/patch")
 
 local m = {}
 
+local classic_flavors = {
+	vanilla = true,
+	wrath = true,
+}
+
+local missingHeaders = {
+	["3.4.1"] = true,
+}
+
 function m:GetPatchData(name, options)
 	Util:MakeDir(parser.CACHE_PATH..name)
 	local versions = parser:GetVersions(name)
 	local patches, found = {}, {}
 	for _, v in pairs(versions) do
 		local major = Util:GetPatchVersion(v)
-		local flavorFilter = Util:IsClassicVersion(major) == (options.flavor == "classic")
-		if not found[major] and flavorFilter then
+		local flavorFilter = (Util:IsClassicVersion(major) == (options.flavor ~= "mainline"))
+		if not found[major] and flavorFilter and not missingHeaders[major] then
 			found[major] = true -- only check for each major version and skip minor builds
 			table.insert(patches, v)
 		end

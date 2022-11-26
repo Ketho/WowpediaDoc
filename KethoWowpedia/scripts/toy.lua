@@ -23,9 +23,11 @@ local wpExpansion = {
 	[7] = "{{Legion-inline}}",
 	[8] = "{{Bfa-inline}}",
 	[9] = "{{Sl-inline}}",
+	[10] = "{{Df-inline}}",
 }
 
 -- dont know how to get expansion source when the toy is not collected
+-- might be something to do with item caching, at least look at each category to cache it
 -- /run KethoWowpedia:GetToyIDs(3e5)
 function KethoWowpedia:GetToyIDs(num)
 	eb:Show()
@@ -57,6 +59,7 @@ function KethoWowpedia:GetToyIDs(num)
 				sourceText = "❓"
 			end
 			local patch = self.patch.toy[toyID] or ""
+			patch = self.data.patchfix[patch] or patch
 			if patch == self.Util.PtrVersion then
 				patch = patch.." {{Test-inline}}"
 			end

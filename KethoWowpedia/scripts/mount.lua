@@ -17,6 +17,7 @@ local wpLink = {
 	[253] = "Reins of the Black Drake",
 	[633] = "Fiendish Hellfire Core", -- Hellfire Infernal
 	[1025] = "The Hivemind (mount)",
+	[1507] = "Darkmaul (item)",
 }
 
 local wpName = {
@@ -74,11 +75,17 @@ function KethoWowpedia:GetMountIDs(num)
 				end)
 				displayID = allDisplay[1].creatureDisplayID
 			end
-			local displayLink = format("[https://wow.tools/mv/?displayID=%d %d]", displayID, displayID)
-			if isMultiple then
-				displayLink = displayLink.." {{api|C_MountJournal.GetMountAllCreatureDisplayInfoByID#Values|+}}"
+			local displayLink
+			if displayID then -- can be nil
+				displayLink = format("[https://wow.tools/mv/?displayID=%d %d]", displayID, displayID)
+				if isMultiple then
+					displayLink = displayLink.." {{api|C_MountJournal.GetMountAllCreatureDisplayInfoByID#Values|+}}"
+				end
+			else
+				displayLink = ""
 			end
 			local patch = self.patch.mount[id] or ""
+			patch = self.data.patchfix[patch] or patch
 			if patch == self.Util.PtrVersion then
 				patch = patch.." {{Test-inline}}"
 			end

@@ -40,6 +40,7 @@ local wpLink = {
 	[2921] = "Gorm Harrier (companion)",
 	[2986] = "Whirly (battle pet)",
 	[3107] = "Gurgl (battle pet)",
+	[3123] = "Deathroach (critter)",
 }
 
 local devPet = {
@@ -120,6 +121,7 @@ function KethoWowpedia:GetPetSpeciesIDs(num)
 				displayLink = displayLink.." {{api|C_PetJournal.GetDisplayIDByIndex#Values|+}}"
 			end
 			local patch = self.patch.battlepetspecies[id] or ""
+			patch = self.data.patchfix[patch] or patch
 			if patch == self.Util.PtrVersion then
 				patch = patch.." {{Test-inline}}"
 			end

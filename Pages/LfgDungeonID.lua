@@ -134,9 +134,10 @@ local function main(options)
 
 		local mapText = ""
 		if instanceID > -1 then
-			mapText = string.format('<span title="%s">%d</span>', map_csv[instanceID], instanceID)
+			mapText = string.format('<span title="%s">%d</span>', map_csv[instanceID] or "", instanceID)
 		end
 		local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
+		patch = Util.patchfix[patch] or patch
 		if patch == Util.PtrVersion then
 			patch = patch.." {{Test-inline}}"
 		end
@@ -146,5 +147,5 @@ local function main(options)
 	file:close()
 end
 
-main() -- ["ptr", "mainline", "classic"]
+main()
 print("done")

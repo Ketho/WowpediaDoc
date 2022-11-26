@@ -27,6 +27,8 @@ local function isValidName(s)
 		return false
 	elseif s:find("DEPRECATED") then
 		return false
+	elseif s:find("%[DNT%]") then
+		return false
 	elseif s:find("^Test") then
 		return false
 	elseif s:find("_") then
@@ -58,7 +60,7 @@ local factionFixes = {
 -- not sure if I'm missing some easy bitwise comparing
 local function GetFactionIcon(options, id, flag0, flag1)
 	local v1, v2
-	if options.flavor == "classic" then
+	if options.flavor == "wrath" then
 		v1 = 690
 		v2 = 1101
 	else
@@ -135,6 +137,7 @@ local function main(options)
 						parentName = string.format('<span title="%s">%s</span>', parentFactionID, displayName)
 					end
 					local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
+					patch = Util.patchfix[patch] or patch
 					if patch == Util.PtrVersion then
 						patch = patch.." {{Test-inline}}"
 					end
@@ -147,7 +150,7 @@ local function main(options)
 	file:close()
 end
 
-main() -- ["ptr", "mainline", "classic"]
+main()
 print("done")
 
 --[[
