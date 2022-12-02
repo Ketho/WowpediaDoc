@@ -1,6 +1,9 @@
 -- https://wow.gamepedia.com/Events
-local FrameXML = require("Documenter/Load_APIDocumentation/Loader")
-FrameXML:LoadDocs("Documenter/Load_APIDocumentation")
+local Path = require "path"
+local Util = require("Util.Util")
+
+local addons_path = Path.join(Util:GetLatestBuild("mainline"), "AddOns")
+require("WowDocLoader.WowDocLoader"):main("WowDocLoader", addons_path)
 local OUTPUT = "out/page/Events.txt"
 
 table.sort(APIDocumentation.systems, function(a, b)
