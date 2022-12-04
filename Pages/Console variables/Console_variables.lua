@@ -1,6 +1,6 @@
 -- https://wow.gamepedia.com/Console_variables/Complete_list
-local Util = require("Util.Util")
 local Path = require "path"
+local Util = require("Util.Util")
 
 BRANCH = "mainline"
 OUTPUT_CVAR = "out/page/Console_variables_cvar.txt"
@@ -14,7 +14,6 @@ function m:main()
 	local binary_strings = require(Path.join(base_folder, "binaries"))(blizzres_cvars)
 	self:WriteCVarList(blizzres_cvars[1].var, framexml_strings, binary_strings)
 	self:WriteCommandList(blizzres_cvars[1].command)
-	print("done")
 end
 
 local cvar_enum = {
@@ -77,3 +76,4 @@ function m:WriteCommandList(blizzres_commands)
 end
 
 m:main()
+print("done")
