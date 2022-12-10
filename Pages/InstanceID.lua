@@ -150,6 +150,7 @@ local function ReadValues(t, l, patchData, isRemoved)
 		end
 		local instance = InstanceTypes[tonumber(l.InstanceType)] or ""
 		local patch = patchData[ID].patch and Util:GetPatchVersion(patchData[ID].patch) or ""
+		patch = Util.patchfix[patch] or patch
 		if patch == Util.PtrVersion then
 			patch = patch.." {{Test-inline}}"
 		end
