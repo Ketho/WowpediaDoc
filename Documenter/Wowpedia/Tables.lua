@@ -32,12 +32,12 @@ function Wowpedia:GetTableText(apiTable, isTemplate, isSubTable)
 		tinsert(tbl, format("|+ %s", fullName))
 	end
 	if apiTable.Type == "Enumeration" then
-		tinsert(tbl, "! Value !! Key !! Description")
+		tinsert(tbl, "! Value !! Field !! Description")
 		for _, field in ipairs(apiTable.Fields) do
 			tinsert(tbl, format('|-\n| %s || %s || ', field.EnumValue, field.Name))
 		end
 	elseif apiTable.Type == "Structure" then
-		tinsert(tbl, "! Key !! Type !! Description")
+		tinsert(tbl, "! Field !! Type !! Description")
 		for _, field in ipairs(apiTable.Fields) do
 			local prettyType = self:GetPrettyType(field)
 			tinsert(tbl, format('|-\n| %s || %s || ', field.Name, prettyType))
