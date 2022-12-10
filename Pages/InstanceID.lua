@@ -125,6 +125,38 @@ local function IsValidName(s)
 	return true
 end
 
+local function ReadValues(t, l, patchData, isRemoved)
+	local fs = '|-\n| %s || %s || %s || %s || %s || %s || %s\n'
+	local ID = tonumber(l.ID)
+	if ID then
+		local expansion = wpExpansion[tonumber(l.ExpansionID)] or ""
+		local flags = l["Flags[0]"]
+		local devmap = flags and tonumber(flags)&0x2 > 0 and "[[File:ProfIcons_engineering.png|16px|link=]]" or ""
+		local removedIcon = isRemoved and "❌" or ""
+
+		local dir = l.Directory:gsub("�", "&#65533;") -- triggers wiki spam filter otherwise
+		if dir == l.ID then
+			dir = ""
+		end
+
+		l.MapName_lang = l.MapName_lang or l["MapName_lang[0]"]
+		local nameText
+		if wpLink[ID] then
+			nameText = string.format("[[%s|%s]]", wpLink[ID], l.MapName_lang)
+		elseif not nolink[ID] and IsValidName(l.MapName_lang) then
+			nameText = string.format("[[:%s]]", l.MapName_lang)
+		else
+			nameText = l.MapName_lang
+		end
+		local instance = InstanceTypes[tonumber(l.InstanceType)] or ""
+		local patch = patchData[ID].patch and Util:GetPatchVersion(patchData[ID].patch) or ""
+		if patch == Util.PtrVersion then
+			patch = patch.." {{Test-inline}}"
+		end
+		t[ID] = fs:format(ID, expansion, removedIcon..devmap, dir, nameText, instance, patch)
+	end
+end
+
 local function main(options)
 	options = Util:GetFlavorOptions(options)
 	options.initial = false
@@ -134,34 +166,17 @@ local function main(options)
 	print("writing to "..OUTPUT)
 	local file = io.open(OUTPUT, "w")
 	file:write('{| class="sortable darktable zebra col1-center col2-center col3-center"\n! ID !! !! !! Directory !! Map Name !! Type !! Patch\n')
-	local fs = '|-\n| %s || %s || %s || %s || %s || %s || %s\n'
+	local t = {}
 	for l in map:lines() do
-		local ID = tonumber(l.ID)
-		if ID then
-			local expansion = wpExpansion[tonumber(l.ExpansionID)] or ""
-			local flags = l["Flags[0]"]
-			local devmap = tonumber(flags)&0x2 > 0 and "[[File:ProfIcons_engineering.png|16px|link=]]" or ""
-
-			local dir = l.Directory:gsub("�", "&#65533;") -- triggers wiki spam filter otherwise
-			if dir == l.ID then
-				dir = ""
-			end
-
-			local nameText
-			if wpLink[ID] then
-				nameText = string.format("[[%s|%s]]", wpLink[ID], l.MapName_lang)
-			elseif not nolink[ID] and IsValidName(l.MapName_lang) then
-				nameText = string.format("[[:%s]]", l.MapName_lang)
-			else
-				nameText = l.MapName_lang
-			end
-			local instance = InstanceTypes[tonumber(l.InstanceType)] or ""
-			local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
-			if patch == Util.PtrVersion then
-				patch = patch.." {{Test-inline}}"
-			end
-			file:write(fs:format(ID, expansion, devmap, dir, nameText, instance, patch))
+		ReadValues(t, l, patchData)
+	end
+	for k, v in pairs(patchData) do
+		if not t[k] then
+			ReadValues(t, v.l, patchData, true)
 		end
+	end
+	for _, k in pairs(Util:SortTable(t)) do
+		file:write(t[k])
 	end
 	file:write("|}\n")
 	file:close()

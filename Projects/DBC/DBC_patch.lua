@@ -12,7 +12,7 @@ local classic_flavors = {
 }
 
 local missingHeaders = {
-	["3.4.1"] = true,
+	-- ["3.4.1"] = true,
 }
 
 function m:GetPatchData(name, options)
@@ -35,7 +35,10 @@ function m:GetPatchData(name, options)
 			for l in iter:lines() do
 				local ID = tonumber(l.ID)
 				if ID and not t[ID] then
-					t[ID] = patch
+					t[ID] = {
+						l = l,
+						patch = patch,
+					}
 				end
 			end
 		end

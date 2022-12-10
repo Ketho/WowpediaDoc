@@ -68,9 +68,10 @@ local function DownloadFile(url, path, isRetry)
 			return true
 		end
 	elseif code == 400 and url:find("useHotfixes") then -- some csvs are broken by hotfixes
-		url = url:gsub("&useHotfixes=true", "")
-		print("retry", path, status)
-		DownloadFile(url, path)
+		print("skip", path, status)
+		-- url = url:gsub("&useHotfixes=true", "")
+		-- print("retry", path, status)
+		-- DownloadFile(url, path)
 	elseif code == "wantread" and not isRetry then
 		print("wantread", path, status)
 		DownloadFile(url.."&useHotfixes=true", path, true)
