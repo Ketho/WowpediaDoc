@@ -3,8 +3,7 @@ local Util = require("Util.Util")
 local BRANCH = "mainline"
 
 require("Documenter.LuaEnum"):main(BRANCH)
-local addons_path = Path.join(Util:GetLatestBuild("mainline"), "AddOns")
-require("WowDocLoader.WowDocLoader"):main("WowDocLoader", addons_path)
+Util:LoadDocumentation()
 require("Documenter.Wowpedia.Wowpedia")
 --require("Documenter.Tests.Tests")
 

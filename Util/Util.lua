@@ -294,4 +294,9 @@ function Util:Print(...)
 	end
 end
 
+function Util:LoadDocumentation()
+	local addons_path = Path.join(self:GetLatestBuild("mainline"), "AddOns")
+	require("WowDocLoader.WowDocLoader"):main("WowDocLoader", addons_path)
+end
+
 return Util

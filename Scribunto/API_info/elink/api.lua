@@ -2,7 +2,7 @@
 local Util = require("Util/Util")
 local api_get = require("Scribunto/API_info/elink/api_get")
 
-local BRANCH = "mainline_beta"
+local BRANCH = "mainline"
 local ApiDoc = api_get:main(BRANCH)
 local OUT = "out/lua/API_info.elink.api.lua"
 
