@@ -8,8 +8,8 @@ xmlns = "{http://www.mediawiki.org/xml/export-0.11/}"
 categories = [
 	"API functions",
 	"Lua functions",
-	# "Widget methods",
-	# "Widget script handlers",
+	"Widget methods",
+	"Widget script handlers",
 	"API events",
 	"Structs",
 	"Enums",
