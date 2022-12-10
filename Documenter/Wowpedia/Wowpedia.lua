@@ -53,5 +53,5 @@ function Wowpedia:GetTemplateInfo(apiTable, systemType)
 			tinsert(tbl, "system="..system.Name)
 		end
 	end
-	return format("{{%s}} {{api generated}}", table.concat(tbl, "|"))
+	return format("{{%s}}", table.concat(tbl, "|"))
 end

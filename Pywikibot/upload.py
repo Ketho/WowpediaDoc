@@ -4,7 +4,7 @@ import export.parse_html as parse_html
 
 site = pywikibot.Site("en", "wowpedia")
 PATH = "out/export"
-EditSummary = "10.0.2 (46157)"
+EditSummary = "10.0.2 (46924)"
 
 def getFileText(p):
 	f = open(p)
