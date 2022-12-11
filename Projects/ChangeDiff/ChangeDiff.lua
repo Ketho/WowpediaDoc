@@ -1,10 +1,9 @@
 -- compares framexml versions
 local Util = require("Util/Util")
 local apidoc_nontoc = require("Util/apidoc_nontoc")
-local CONSTANTS = require("Documenter.constants")
 
+local BRANCH = "mainline"
 -- requires Constants.CharCustomizationConstants 
-local BRANCH = "mainline_beta"
 require("Documenter.LuaEnum"):main(BRANCH)
 
 ChangeDiff = {}
@@ -63,7 +62,7 @@ function m:LoadFrameXML(versions)
 	local t = {}
 	for _, version in pairs(versions) do
 		t[version] = {}
-		local path = "FrameXML/retail/%s/AddOns/Blizzard_APIDocumentationGenerated"
+		local path = "FrameXML/mainline/%s/AddOns/Blizzard_APIDocumentationGenerated"
 		local docs = apidoc_nontoc:LoadBlizzardDocs(path:format(version))
 		for apiType, apiTable in pairs(self.apiTypes) do
 			local map = apiTable.map(docs)
@@ -79,5 +78,5 @@ local function main(versions, isWiki)
 	PrintView:PrintView(changes, isWiki)
 end
 
-main({"10.0.0.46112", "10.0.2.46157"}, true)
+main({"10.0.0 (46549)", "10.0.2 (46924)"}, true)
 print("done")

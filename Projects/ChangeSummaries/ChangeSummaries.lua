@@ -4,9 +4,9 @@ local Util = require("Util/Util")
 local cvar_module = require("Projects/ChangeSummaries/CVar")
 local widget_module = require("Projects/ChangeSummaries/Widget")
 local m = {}
-local BRANCH = "mainline_beta" -- for widgets, cvars
-local DIFF = {"commit", "ptr_beta", false}
--- local DIFF = {"compare", "mainline_ptr..mainline_beta", true}
+local BRANCH = "mainline" -- for widgets, cvars
+-- local DIFF = {"commit", "ptr_beta", false}
+local DIFF = {"compare", "10.0.0..10.0.2", true}
 
 local OUT_FILE = "out/page/ChangeSummaries.txt"
 Util:MakeDir("cache_diff")
