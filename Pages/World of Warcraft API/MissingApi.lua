@@ -1,5 +1,5 @@
 local Util = require("Util/Util")
-local WikiText = require("Pages/World_of_Warcraft_API/WikiText")
+local WikiText = require("Pages/World of Warcraft API/WikiText")
 Util:MakeDir("cache_lua")
 
 local m = {}

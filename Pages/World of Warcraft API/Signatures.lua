@@ -1,6 +1,6 @@
 local Util = require("Util/Util")
-local WikiText = require("Pages/World_of_Warcraft_API/WikiText")
-local Signatures_Parse = require("Pages/World_of_Warcraft_API/Signatures_Parse")
+local WikiText = require("Pages/World of Warcraft API/WikiText")
+local Signatures_Parse = require("Pages/World of Warcraft API/Signatures_Parse")
 local signatures = Signatures_Parse:GetSignatures()
 
 package.path = package.path..";../?.lua"
