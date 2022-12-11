@@ -1,10 +1,14 @@
+-- https://wowpedia.fandom.com/wiki/Module:API_info/patch/event_retail
+-- https://wowpedia.fandom.com/wiki/Module:API_info/patch/event_classic
 local lfs = require "lfs"
 local write_table = require("Util/write_table")
+local BRANCH = "mainline"
+require("Documenter.LuaEnum"):main(BRANCH)
 
 local flavors = {
 	retail = {
 		id = "retail",
-		input = "FrameXML/retail",
+		input = "FrameXML/mainline",
 		out = "out/lua/API_info.patch.event_retail.lua",
 	},
 	classic = {
