@@ -8,6 +8,8 @@ local Missing =
 	{
 		{ Name = "FramePoint", Type = "Structure", Fields = Empty },
 		{ Name = "InventorySlots", Type = "Structure", Fields = Empty },
+		-- { Name = "ScriptObject", Type = "Structure", Fields = Empty },
+		-- { Name = "uiRect", Type = "Structure", Fields = Empty },
 		{
 			-- WeeklyRewardsDocumentation.lua
 			Name = "CachedRewardType",
@@ -51,71 +53,6 @@ local Missing =
 APIDocumentation:AddDocumentationTable(Missing)
 
 --[[
-	{ Name = "CharacterAlternateFormData", Type = "Structure", Fields = Empty }, -- BarberShopDocumentation.lua
-	{ Name = "CurrencyCost", Type = "Structure", Fields = Empty }, -- LegendaryCraftingDocumentation.lua
-	{ Name = "OptionalReagentInfo", Type = "Structure", Fields = Empty }, -- TradeSkillUIDocumentation.lua
-	{ Name = "QueueSpecificInfo", Type = "Structure", Fields = Empty }, -- PartyInfoDocumentation.lua, SocialQueueDocumentation.lua
-	{ Name = "RuneforgeItemPreviewInfo", Type = "Structure", Fields = Empty }, -- LegendaryCraftingDocumentation.lua
-	{ Name = "RuneforgeLegendaryComponentInfo", Type = "Structure", Fields = Empty }, -- LegendaryCraftingDocumentation.lua
-	{ Name = "RuneforgeLegendaryCraftDescription", Type = "Structure", Fields = Empty }, -- LegendaryCraftingDocumentation.lua
-	{ Name = "RuneforgePower", Type = "Structure", Fields = Empty }, -- LegendaryCraftingDocumentation.lua
-	9.1.5
-	{ Name = "MythicPlusRatingLinkInfo", Type = "Structure", Fields = Empty }, -- ChallengeModeInfoDocumentation.lua
-	{ Name = "ChatChannelInfo", Type = "Structure", Fields = Empty }, -- ChatInfoDocumentation.lua
-	9.2.0
-	{ Name = "ClickBindingInfo", Type = "Structure", Fields = Empty }, -- ClickBindingsDocumentation.lua
-	9.2.5
-	{ Name = "UnitAuraUpdateInfo", Type = "Structure", Fields = Empty }, -- UnitAuraDocumentation.lua
-	10.0.2 beta
-	{ Name = "CraftingItemResultData", Type = "Structure", Fields = Empty },
-	{ Name = "CraftingItemSlotModification", Type = "Structure", Fields = Empty },
-	{ Name = "CraftingOperationInfo", Type = "Structure", Fields = Empty },
-	{ Name = "CraftingOrderCustomerCategory", Type = "Structure", Fields = Empty },
-	{ Name = "CraftingOrderCustomerSearchParams", Type = "Structure", Fields = Empty },
-	{ Name = "CraftingOrderCustomerSearchResults", Type = "Structure", Fields = Empty },
-	{ Name = "CraftingReagentInfo", Type = "Structure", Fields = Empty },
-	{ Name = "CraftingRecipeOutputInfo", Type = "Structure", Fields = Empty },
-	{ Name = "CraftingRecipeSchematic", Type = "Structure", Fields = Empty },
-	{ Name = "GatheringOperationInfo", Type = "Structure", Fields = Empty },
-	{ Name = "HTMLContentNode", Type = "Structure", Fields = Empty },
-	{ Name = "ModelLight", Type = "Structure", Fields = Empty },
-	{ Name = "ProfessionInfo", Type = "Structure", Fields = Empty },
-	{ Name = "ProfTabInfo", Type = "Structure", Fields = Empty },
-	{ Name = "ScriptObject", Type = "Structure", Fields = Empty },
-	{ Name = "SpecializationTabInfo", Type = "Structure", Fields = Empty },
-	{ Name = "uiRect", Type = "Structure", Fields = Empty },
-	{ Name = "QuestReputationRewardInfo", Type = "Structure", Fields = Empty },
-
-	structures
-	{
-		-- C_Calendar; CalendarDocumentation.lua
-		Name = "CalendarTime",
-		Type = "Structure",
-		Fields =
-		{
-			{ Name = "year", Type = "number" },
-			{ Name = "month", Type = "number" },
-			{ Name = "monthDay", Type = "number" },
-			{ Name = "weekday", Type = "number" },
-			{ Name = "hour", Type = "number" },
-			{ Name = "minute", Type = "number" },
-		},
-	},
-	{
-		-- C_Garrison; GarrisonInfoDocumentation.lua
-		Name = "GarrisonTalentTreeInfo",
-		Type = "Structure",
-		Fields =
-		{
-			{ Name = "featureSubtype", Type = "number" },
-			{ Name = "featureType", Type = "number" },
-			{ Name = "isClassAgnostic", Type = "bool" },
-			{ Name = "isThemed", Type = "bool" },
-			{ Name = "talents", Type = "table" },
-			{ Name = "title", Type = "string" },
-			{ Name = "treeID", Type = "number" },
-		},
-	},
 	{
 		-- C_GuildInfo; GuildInfoDocumentation.lua
 		Name = "GuildTabardInfo",
