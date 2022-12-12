@@ -38,12 +38,13 @@ function m:GetSignatures()
 		end
 		if func.Returns then
 			local returnString = func:GetReturnString(false, false)
-			if #returnString > RETURN_MAX_LENGTH then
-				local shortRetStr = TrimReturnString(returnString)
-				returns = fs_returns:format(shortRetStr)
-			else
-				returns = fs_returns:format(returnString)
-			end
+			returns = fs_returns:format(returnString)
+			-- if #returnString > RETURN_MAX_LENGTH then
+			-- 	local shortRetStr = TrimReturnString(returnString)
+			-- 	returns = fs_returns:format(shortRetStr)
+			-- else
+			-- 	returns = fs_returns:format(returnString)
+			-- end
 		end
 		t[name] = fs_base:format(name, name, args, returns)
 	end
