@@ -14,7 +14,7 @@ local versions_cache = parser.CACHE_PATH.."%s/%s_versions.json"
 local csv_cache = parser.CACHE_PATH.."%s/%s.csv"
 local json_cache = parser.CACHE_PATH.."%s/%s.json"
 
-local listfile_url = "https://wow.tools/casc/listfile/download/csv/unverified"
+local listfile_url = "https://raw.githubusercontent.com/wowdev/wow-listfile/master/community-listfile.csv"
 --local databases_url = "https://api.wow.tools/databases"
 local versions_url = "https://api.wow.tools/databases/%s/versions"
 local csv_url = "https://wow.tools/api/export/?name=%s&build=%s&useHotfixes=true"
