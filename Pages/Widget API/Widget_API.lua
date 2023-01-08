@@ -1,8 +1,10 @@
 local Path = require "path"
 local lfs = require "lfs"
-local CONSTANTS = require("Documenter.constants")
 local OUT = Path.join("out", "page", "Widget_API.txt")
+local Util = require("Util.Util")
 local BRANCH = "mainline"
+local addons_path = Path.join(Util:GetLatestBuild(BRANCH), "AddOns")
+require("WowDocLoader.WowDocLoader"):main("WowDocLoader", addons_path)
 
 local widget_systems = {
 	CooldownFrameAPI = "Cooldown",
@@ -148,23 +150,71 @@ local function GetSystems()
 	return t
 end
 
-local function GetParams(params)
-	if params and #params > 0 then
-		local t = {}
-		local hasStrideIndex
-		for _, param in pairs(params) do
-			local nilable = (param.Default or param.Default == false) or param.Nilable
-			local name = string.format("%s%s", param.Name, nilable and "?" or "")
+local function HasMiddleOptionals(paramTbl)
+	local optional
+	for _, param in ipairs(paramTbl) do
+		if param.Nilable then
+			optional = true
+		else
+			if optional then
+				return true
+			end
+		end
+	end
+end
+
+local function GetArguments(paramTbl)
+	local tbl = {}
+	local hasStrideIndex
+	if HasMiddleOptionals(paramTbl) then
+		for _, param in ipairs(paramTbl) do
+			local name = param.Name
+			if param:IsOptional() then
+				name = format("[%s]", name)
+			end
 			if param.StrideIndex then
 				hasStrideIndex = true
 			end
-			table.insert(t, name)
+			table.insert(tbl, name)
 		end
 		if hasStrideIndex then
-			table.insert(t, "...")
+			table.insert(tbl, "...")
 		end
-		return table.concat(t, ", ")
+		return table.concat(tbl, ", ")
+	else
+		local optionalFound
+		for _, param in ipairs(paramTbl) do
+			local name = param.Name
+			if param:IsOptional() and not optionalFound then
+				optionalFound = true
+				name = format("[%s", name)
+			end
+			if param.StrideIndex then
+				hasStrideIndex = true
+			end
+			table.insert(tbl, name)
+		end
+		if hasStrideIndex then
+			table.insert(tbl, "...")
+		end
+		local str = table.concat(tbl, ", ")
+		return optionalFound and str:gsub(", %[", " [, ").."]" or str
 	end
+end
+
+local function GetReturns(paramTbl)
+	local t = {}
+	local hasStrideIndex
+	for _, param in ipairs(paramTbl) do
+		table.insert(t, param.Name)
+		if param.StrideIndex then
+			hasStrideIndex = true
+		end
+	end
+	if hasStrideIndex then
+		table.insert(t, "...")
+	end
+	return table.concat(t, ", ")
 end
 
 local function GetTemplate(widget, func)
@@ -172,19 +222,16 @@ local function GetTemplate(widget, func)
 	table.insert(t, "apilink")
 	table.insert(t, "t=w")
 	table.insert(t, string.format("%s:%s", widget, func.Name))
-	local args = GetParams(func.Arguments)
-	if args then
-		table.insert(t, "arg="..args)
+	if func.Arguments and #func.Arguments > 0 then
+		table.insert(t, "arg="..GetArguments(func.Arguments))
 	end
-	local rets = GetParams(func.Returns)
-	if rets then
-		table.insert(t, "ret="..rets)
+	if func.Returns and #func.Returns > 0 then
+		table.insert(t, "ret="..GetReturns(func.Returns))
 	end
 	return string.format("{{%s}}", table.concat(t, "|"))
 end
 
 local function main()
-	require("Documenter.Load_APIDocumentation.Loader"):main(BRANCH)
 	local systemInfo = GetSystems()
 	local file = io.open(OUT, "w")
 	print("writing to "..OUT)
