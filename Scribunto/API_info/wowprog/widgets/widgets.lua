@@ -1,5 +1,5 @@
 -- https://wowprogramming.com/docs/widgets.html
--- https://wowpedia.fandom.com/wiki/Module:API_info/wowprog/widgets
+-- https://wowpedia.fandom.com/wiki/Module:API_info/main/widget
 local Util = require("Util/Util")
 local gumbo = require("gumbo")
 
