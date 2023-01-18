@@ -45,23 +45,25 @@ local function AtlasInfo(options)
 		if name and name ~= "" then -- 1130222 interface/store/shop has empty atlas members
 			local atlasID = tonumber(line.UiTextureAtlasID)
 			local size = atlasSize[atlasID]
-			local left = tonumber(line.CommittedLeft)
-			local right = tonumber(line.CommittedRight)
-			local top = tonumber(line.CommittedTop)
-			local bottom = tonumber(line.CommittedBottom)
-			line.CommittedFlags = tonumber(line.CommittedFlags) -- lua 5.4 attempt to perform bitwise operation on a string value
-			table.insert(atlasTable[atlasID], {
-				memberID = tonumber(line.ID),
-				name = name,
-				width = right - left,
-				height = bottom - top,
-				left = left / size.width,
-				right = right / size.width,
-				top = top / size.height,
-				bottom = bottom / size.height,
-				tileshoriz = line.CommittedFlags&0x4 > 0,
-				tilesvert = line.CommittedFlags&0x2 > 0,
-			})
+			if size then -- some issue with 3.4.1 CSVs
+				local left = tonumber(line.CommittedLeft)
+				local right = tonumber(line.CommittedRight)
+				local top = tonumber(line.CommittedTop)
+				local bottom = tonumber(line.CommittedBottom)
+				line.CommittedFlags = tonumber(line.CommittedFlags) -- lua 5.4 attempt to perform bitwise operation on a string value
+				table.insert(atlasTable[atlasID], {
+					memberID = tonumber(line.ID),
+					name = name,
+					width = right - left,
+					height = bottom - top,
+					left = left / size.width,
+					right = right / size.width,
+					top = top / size.height,
+					bottom = bottom / size.height,
+					tileshoriz = line.CommittedFlags&0x4 > 0,
+					tilesvert = line.CommittedFlags&0x2 > 0,
+				})
+			end
 		end
 	end
 
