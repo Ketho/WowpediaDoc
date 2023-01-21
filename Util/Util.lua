@@ -19,7 +19,7 @@ Util.PtrVersion = "x"
 local flavorInfo = {
 	-- mainline_beta = {flavor = "mainline", header = true, build = "10.0.2.", sort = Util.SortBuild},
 	mainline_ptr = {flavor = "mainline", header = true, build = "10.0.5.", sort = Util.SortBuild},
-	mainline = {flavor = "mainline", header = true, build = "10.0.0.", sort = Util.SortBuild},
+	mainline = {flavor = "mainline", header = true, build = "10.0.2.", sort = Util.SortBuild},
 	tbc = {flavor = "tbc", header = true, build = "2.5.4."},
 	wrath = {flavor = "wrath", header = true, build = "3.4.1."},
 	vanilla = {flavor = "vanilla", header = true, build = "1.14.3."},
