@@ -6,15 +6,15 @@ local short  = [[%s = "%s";]]
 local quoted = [[_G["%s"] = "%s";]]
 
 local locales = {
-	"deDE",
+	-- "deDE",
 	"enUS", -- same as enGB
-	"esES", "esMX",
-	"frFR",
-	"itIT",
-	"koKR",
-	"ptBR", -- same as ptPT
-	"ruRU",
-	"zhCN",	"zhTW",
+	-- "esES", "esMX",
+	-- "frFR",
+	-- "itIT",
+	-- "koKR",
+	-- "ptBR", -- same as ptPT
+	-- "ruRU",
+	-- "zhCN",	"zhTW",
 }
 
 local classic_flavors = {
