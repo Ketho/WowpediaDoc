@@ -5167,5 +5167,5 @@ return {
 
 	["C_TradeSkillUI.IsRecraftItemEquipped"] = true,
 	["C_TradeSkillUI.RecraftLimitCategoryValid"] = true,
-	["C_TradeSkillUI.UnitPartialPower"] = true,
+	["UnitPartialPower"] = true,
 }
