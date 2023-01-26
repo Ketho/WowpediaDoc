@@ -25,4 +25,4 @@ local function main()
     UploadFiles()
 end
 
-main("done Scribunto\\upload.lua")
+main()
