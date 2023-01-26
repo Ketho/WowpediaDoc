@@ -78,5 +78,5 @@ local function main(versions, isWiki)
 	PrintView:PrintView(changes, isWiki)
 end
 
-main({"10.0.0 (46549)", "10.0.2 (46924)"}, true)
+main({"10.0.2 (46924)", "10.0.5 (47825)"}, true)
 print("done")
