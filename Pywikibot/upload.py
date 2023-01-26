@@ -4,7 +4,7 @@ import export.parse_html as parse_html
 
 site = pywikibot.Site("en", "wowpedia")
 PATH = "out/export"
-EditSummary = "10.0.2 (46924)"
+EditSummary = "10.0.5 (47825)"
 
 def getFileText(p):
 	f = open(p)
@@ -19,13 +19,6 @@ def saveFile(path, fileName):
 	if not page.exists():
 		page.text = text
 		page.save(summary = EditSummary)
-	elif page.text.find("{{api generated}}") > -1:
-		userName = page.userName()
-		if userName != "Ketho" and userName != "KethoBot":
-			print("----- edited by", page.userName(), page.title())
-		else:
-			page.text = text
-			page.save(summary = EditSummary)
 
 def recursiveFiles(path):
 	for base in os.listdir(path):
