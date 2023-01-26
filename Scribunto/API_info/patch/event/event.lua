@@ -50,8 +50,11 @@ local function WritePatchData(flavor)
 			tbl_apidoc.retail[k][1] = v
 		end
 	end
-	print("writing to", flavor.out)
+	print("writing", flavor.out)
 	write_table(tbl_apidoc[flavor.id], flavor.out)
+	local file = io.open(flavor.out, "a+")
+	file:write("-- https://github.com/Ketho/WowpediaApiDoc/blob/master/Scribunto/API_info/patch/event/event.lua\n")
+	file:close()
 end
 
 local function main()
@@ -60,4 +63,3 @@ local function main()
 end
 
 main()
-print("done")

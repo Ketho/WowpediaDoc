@@ -11,6 +11,7 @@ local function main()
 	local full = Util:CombineTable(doc, non_doc)
 	print("writing", OUT)
 	local file = io.open(OUT, "w")
+	file:write("-- https://github.com/Ketho/WowpediaDoc/blob/master/Scribunto/API_info/elink/api.lua\n")
 	file:write('local data = {\n')
 	for _, name in pairs(Util:SortTable(full)) do
 		if doc[name] then
@@ -22,4 +23,3 @@ local function main()
 end
 
 main()
-print("done")

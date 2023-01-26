@@ -94,9 +94,17 @@ local function main()
 				t[name][2] = removed[name]
 			end
 		end
+		if flavor == "retail" then
+			-- framexml
+			t["C_Timer.NewTimer"] = {"6.0.2"}
+			t["C_Timer.NewTicker"] = {"6.0.2"}
+			-- lua
+			t["strsplittable"] = {"9.1.5"}
+		end
 
-		print("writing to", info.out)
+		print("writing", info.out)
 		local file = io.open(info.out, "w")
+		file:write("-- https://github.com/Ketho/WowpediaApiDoc/blob/master/Scribunto/API_info/patch/api/api.lua\n")
 		file:write("local data = {\n")
 		for _, name in pairs(Util:SortTable(t)) do
 			local tbl = t[name]
@@ -264,4 +272,3 @@ m.LuaAPI = {
 }
 
 main()
-print("done")

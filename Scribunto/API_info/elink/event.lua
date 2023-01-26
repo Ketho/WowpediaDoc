@@ -12,6 +12,7 @@ local function main()
 
 	print("writing", OUT)
 	local file = io.open(OUT, "w")
+	file:write("-- https://github.com/Ketho/WowpediaDoc/blob/master/Scribunto/API_info/elink/event.lua\n")
 	file:write('local data = {\n')
 	for _, event in ipairs(APIDocumentation.events) do
 		file:write(string.format('\t["%s"] = {Name = "%s", System = "%s"},\n',
@@ -22,4 +23,3 @@ local function main()
 end
 
 main()
-print("done")

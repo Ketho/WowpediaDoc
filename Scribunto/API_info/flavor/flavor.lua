@@ -23,6 +23,18 @@ local sources = {
 		map = function(tbl)
 			return Util:ToMap(tbl)
 		end,
+		update = function(t)
+			-- C_Timer is in framexml in vanilla
+			t["C_Timer.NewTimer"] = 0xF
+			t["C_Timer.NewTicker"] = 0xF
+		end,
+		addition = function(file)
+			file:write([[
+	-- lua
+	["strsplit"] = 0xF,
+	["strsplittable"] = 0xF,
+]])
+		end,
 	},
 	event = {
 		url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/Events.lua",
@@ -77,12 +89,19 @@ end
 local function main()
 	for source, info in pairs(sources) do
 		local data = m:GetData(source)
-		print("writing to", info.out)
+		if info.update then
+			info.update(data)
+		end
+		print("writing", info.out)
 		local file = io.open(info.out, "w")
+		file:write("-- https://github.com/Ketho/WowpediaApiDoc/blob/master/Scribunto/API_info/flavor/flavor.lua\n")
 		file:write('local data = {\n')
 		for _, name in pairs(Util:SortTable(data)) do
 			local flavors = data[name]
 			file:write(string.format('\t["%s"] = 0x%X,\n', name, flavors))
+		end
+		if info.addition then
+			info.addition(file)
 		end
 		file:write("}\n\nreturn data\n")
 		file:close()
@@ -90,4 +109,3 @@ local function main()
 end
 
 main()
-print("done")
