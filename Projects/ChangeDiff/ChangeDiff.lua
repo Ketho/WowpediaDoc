@@ -2,7 +2,7 @@
 local Util = require("Util/Util")
 local apidoc_nontoc = require("Util/apidoc_nontoc")
 
-local BRANCH = "mainline"
+local BRANCH = "mainline_ptr"
 -- requires Constants.CharCustomizationConstants 
 require("Documenter.LuaEnum"):main(BRANCH)
 
@@ -78,5 +78,5 @@ local function main(versions, isWiki)
 	PrintView:PrintView(changes, isWiki)
 end
 
-main({"10.0.2 (46924)", "10.0.5 (47825)"}, true)
+main({"10.0.5 (47825)", "10.0.7 (47983)"}, true)
 print("done")

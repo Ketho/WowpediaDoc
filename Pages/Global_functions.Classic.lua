@@ -2,7 +2,7 @@
 -- https://wowpedia.fandom.com/wiki/Events/Classic
 -- https://wowpedia.fandom.com/wiki/Console_variables/Classic
 local Util = require("Util/Util")
-local constants = require("Documenter.constants")
+local Path = require "path"
 
 local m = {}
 
@@ -65,14 +65,14 @@ local sources = {
 
 -- https://github.com/Ketho/BlizzardInterfaceResources/branches
 local branches = {
-	"mainline_beta",
+	"mainline",
 	"wrath",
 	"vanilla",
 }
 
 -- avoid using templates as that increases page processing time
 local wp_icons = {
-	mainline_beta = "[[File:Dragonflight-Icon-Inline.png|34px|link=]]",
+	mainline = "[[File:Dragonflight-Icon-Inline.png|34px|link=]]",
 	wrath = "[[File:Wrath-Logo-Small.png|link=]]",
 	vanilla = "[[File:WoW Icon update.png|link=]]",
 }
@@ -126,7 +126,7 @@ function m:GetData(sourceType)
 	end
 
 	for name in pairs(mainTbl) do
-		local retail = parts.mainline_beta[name]
+		local retail = parts.mainline[name]
 		local wrath = parts.wrath[name]
 		local vanilla = parts.vanilla[name]
 
@@ -152,7 +152,8 @@ function m:GetData(sourceType)
 end
 
 function m:GetEventPayload()
-	require("Documenter.Load_APIDocumentation.Loader"):main("classic")
+	local addons_path = Path.join(Util:GetLatestBuild("mainline"), "AddOns")
+	require("WowDocLoader.WowDocLoader"):main("WowDocLoader", addons_path)
 	local t = {}
 	for _, event in pairs(APIDocumentation.events) do
 		if event.Payload then
@@ -188,7 +189,7 @@ local function main()
 			if next(data[sectionInfo.id]) then
 				file:write(section_fs:format(sectionInfo.label))
 				for _, name in pairs(Util:SortTable(data[sectionInfo.id], info.sortFunc)) do
-					local retail = parts.mainline_beta[name] and wp_icons.mainline_beta or ""
+					local retail = parts.mainline[name] and wp_icons.mainline or ""
 					local wrath = parts.wrath[name] and wp_icons.wrath or ""
 					local vanilla = parts.vanilla[name] and wp_icons.vanilla or ""
 					local nameLink = info.name_fs:format(name, name)
