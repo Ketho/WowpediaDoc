@@ -6,10 +6,6 @@ local Missing =
 {
 	Tables =
 	{
-		{ Name = "FramePoint", Type = "Structure", Fields = Empty },
-		{ Name = "InventorySlots", Type = "Structure", Fields = Empty },
-		-- { Name = "ScriptObject", Type = "Structure", Fields = Empty },
-		-- { Name = "uiRect", Type = "Structure", Fields = Empty },
 		{
 			-- WeeklyRewardsDocumentation.lua
 			Name = "CachedRewardType",
@@ -47,6 +43,40 @@ local Missing =
 				{ Name = "Close", Type = "ItemSoundType ", EnumValue = 3 },
 			}
 		},
+
+		-- # basic types
+		-- defined: AnchorBinding
+		-- defined: uiRect
+		-- <xs:simpleType name="FRAMEPOINT">
+		{ Name = "FramePoint", Type = "string", Values = {"TOPLEFT", "TOPRIGHT", "BOTTOMLEFT", "BOTTOMRIGHT", "TOP", "BOTTOM", "LEFT", "RIGHT", "CENTER"} },
+		-- <xs:simpleType name="FRAMESTRATA">
+		{ Name = "FrameStrata", Type = "string", Values = {"PARENT", "BACKGROUND", "LOW", "MEDIUM", "HIGH", "DIALOG", "FULLSCREEN", "FULLSCREEN_DIALOG", "TOOLTIP", "BLIZZARD"} },
+		-- <xs:simpleType name="DRAWLAYER">
+		{ Name = "DrawLayer", Type = "string", Values = {"BACKGROUND", "BORDER", "ARTWORK", "OVERLAY", "HIGHLIGHT"} },
+		-- <xs:simpleType name="ANIMCURVETYPE">
+		{ Name = "CurveType", Type = "string", Values = {"NONE", "SMOOTH"} },
+
+		{ Name = "fileID", Type = "number" },
+		{ Name = "luaIndex", Type = "number" },
+		{ Name = "cstring", Type = "string" },
+		{ Name = "kstringLfgListSearch", Type = "string" },
+		{ Name = "uiUnit", Type = "number" },
+		{ Name = "ClubId", Type = "string" },
+		{ Name = "InventorySlots", Type = "number" },
+		{ Name = "NotificationDbId", Type = "string" },
+
+		-- # widgets
+		-- defined: ScriptObject
+		-- defined: ScriptRegion
+		{ Name = "SimpleControlPoint", Type = "ControlPoint" },
+		{ Name = "SimpleLine", Type = "Line" },
+		{ Name = "SimpleMaskTexture", Type = "MaskTexture" },
+
+		{ Name = "ChatBubbleFrame", Type = "Frame" },
+		{ Name = "NamePlateFrame", Type = "Frame", Mixin = "NamePlateBaseMixin" },
+
+		-- # mixins
+		{ Name = "ItemTransmogInfo", Type = "Mixin", Mixin = "ItemTransmogInfoMixin" },
 	},
 }
 
