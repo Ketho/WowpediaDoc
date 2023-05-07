@@ -41,6 +41,9 @@ function m:WriteCVarList(blizzres_cvars, framexml_strings, binary_strings)
 	for _, cvar in pairs(Util:SortTable(blizzres_cvars, Util.SortNocase)) do
 		local v = blizzres_cvars[cvar]
 		local default, category, server, character, desc = table.unpack(v)
+		if #default > 20 then
+			default = string.format("<small>%s</small>", default)
+		end
 		local name = string.format("[[CVar %s|%s]]", cvar, cvar)
 		file:write(fs:format(
 			binary_strings[cvar] or "",

@@ -1,7 +1,7 @@
 local lfs = require "lfs"
 local Util = require("Util.Util")
 
-local PATH = [[D:\Prog\World of Warcraft\Binaries]]
+local PATH = [[F:\Prog\World of Warcraft\Binaries]]
 Util:MakeDir("cache_strings")
 
 local function GetBuilds(path)
