@@ -1,7 +1,8 @@
 local m = {}
 
 m.widget_docs = {
-	CooldownFrameAPI = "Cooldown",
+	FrameAPICooldown = "Cooldown",
+	FrameAPIFogOfWarFrame = "FogOfWarFrame",
 	MinimapFrameAPI = "Minimap",
 	SimpleAnimAPI = "Animation",
 	SimpleAnimAlphaAPI = "Alpha",

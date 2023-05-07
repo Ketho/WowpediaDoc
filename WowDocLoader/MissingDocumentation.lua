@@ -13,8 +13,8 @@ local Missing =
 			Type = "Structure",
 			Fields =
 			{
-				{ Name = "uiMapID", Type = "number", Nilable = false },
-				{ Name = "position", Type = "vector2", Nilable = false },
+				{ Name = "uiMapID", Type = "number" },
+				{ Name = "position", Type = "vector2" },
 				{ Name = "z", Type = "number", Nilable = true },
 			},
 		},
@@ -25,8 +25,8 @@ local Missing =
 			Fields =
 			{
 				{ Name = "type", Type = "TooltipDataType" },
-				{ Name = "lines", Type = "table", InnerType = "TooltipDataLine", Nilable = false },
-				{ Name = "args", Type = "table", InnerType = "TooltipDataArg", Nilable = false },
+				{ Name = "lines", Type = "table", InnerType = "TooltipDataLine" },
+				{ Name = "args", Type = "table", InnerType = "TooltipDataArg" },
 			},
 		},
 		{
@@ -35,7 +35,7 @@ local Missing =
 			Fields =
 			{
 				{ Name = "type", Type = "TooltipDataLineType" },
-				{ Name = "args", Type = "table", InnerType = "TooltipDataArg", Nilable = false },
+				{ Name = "args", Type = "table", InnerType = "TooltipDataArg" },
 			},
 		},
 		{

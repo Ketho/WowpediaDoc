@@ -86,20 +86,20 @@ local Types =
 
 		-- widgets
 		-- defined: ScriptObject
-		{ Name = "CScriptObject", Type = "FrameScriptObject" },
-		{ Name = "ScriptRegion", Type = "ScriptRegion" },
-		{ Name = "SimpleControlPoint", Type = "ControlPoint" },
-		{ Name = "SimpleLine", Type = "Line" },
-		{ Name = "SimpleMaskTexture", Type = "MaskTexture" },
-		{ Name = "SimpleFont", Type = "Font" },
-		{ Name = "SimpleAnim", Type = "Animation" },
-		{ Name = "SimpleAnimGroup", Type = "AnimationGroup" },
-		{ Name = "SimpleTexture", Type = "Texture" },
-		{ Name = "SimpleFontString", Type = "FontString" },
-		{ Name = "SimplePathAnim", Type = "Path" },
-		{ Name = "SimpleFrame", Type = "Frame" },
-		{ Name = "ModelSceneFrame", Type = "ModelScene" },
-		{ Name = "ModelSceneFrameActor", Type = "ModelSceneActor" },
+		{ Name = "CScriptObject", Type = "FrameScriptObject", Replace = true, },
+		{ Name = "ModelSceneFrame", Type = "ModelScene", Replace = true, },
+		{ Name = "ModelSceneFrameActor", Type = "ModelSceneActor", Replace = true, },
+		{ Name = "ScriptRegion", Type = "ScriptRegion", Replace = true, },
+		{ Name = "SimpleAnim", Type = "Animation", Replace = true, },
+		{ Name = "SimpleAnimGroup", Type = "AnimationGroup", Replace = true, },
+		{ Name = "SimpleControlPoint", Type = "ControlPoint", Replace = true, },
+		{ Name = "SimpleFont", Type = "Font", Replace = true, },
+		{ Name = "SimpleFontString", Type = "FontString", Replace = true, },
+		{ Name = "SimpleFrame", Type = "Frame", Replace = true, },
+		{ Name = "SimpleLine", Type = "Line", Replace = true, },
+		{ Name = "SimpleMaskTexture", Type = "MaskTexture", Replace = true, },
+		{ Name = "SimplePathAnim", Type = "Path", Replace = true, },
+		{ Name = "SimpleTexture", Type = "Texture", Replace = true, },
 		-- frame widgets
 		{ Name = "ChatBubbleFrame", Type = "Frame" },
 		{ Name = "NamePlateFrame", Type = "Frame", Mixin = "NamePlateBaseMixin" },
@@ -122,3 +122,4 @@ local Types =
 }
 
 APIDocumentation:AddDocumentationTable(Types)
+TypeDocumentation = Types

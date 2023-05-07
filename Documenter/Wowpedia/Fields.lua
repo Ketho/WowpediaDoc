@@ -1,18 +1,23 @@
 Wowpedia.basicTypes = {
 	bool = "boolean",
 	number = "number",
+	luaIndex = "number",
 	string = "string",
+	cstring = "string",
 	table = "table",
 	["function"] = "function",
 }
 
 Wowpedia.complexTypes = {}
+Wowpedia.blizzardTypes = {}
 Wowpedia.complexRefs = {}
 Wowpedia.subTables = {}
 
 -- InitComplexTableTypes
 for _, apiInfo in ipairs(APIDocumentation.tables) do
-	Wowpedia.complexTypes[apiInfo.Name] = apiInfo
+	if apiInfo.Type == "Structure" or apiInfo.Type == "Enumeration" or apiInfo.Type == "CallbackType" then
+		Wowpedia.complexTypes[apiInfo.Name] = apiInfo
+	end
 end
 
 -- InitComplexFieldRefs
@@ -33,6 +38,10 @@ for _, apiTable in ipairs(APIDocumentation.tables) do
 	end
 end
 
+for _, v in ipairs(TypeDocumentation.Tables) do
+	Wowpedia.blizzardTypes[v.Name] = v
+end
+
 local paramFs = ":;%s:%s"
 
 local function HasMiddleOptionals(paramTbl)
@@ -44,6 +53,16 @@ local function HasMiddleOptionals(paramTbl)
 			if optional then
 				return true
 			end
+		end
+	end
+end
+
+local function GetBlizzardType(name)
+	if Wowpedia.blizzardTypes[name] then
+		if Wowpedia.blizzardTypes[name].Replace then
+			return Wowpedia.blizzardTypes[name].Type
+		else
+			return name
 		end
 	end
 end
@@ -104,6 +123,8 @@ function Wowpedia:GetPrettyType(apiTable, isArgument)
 			local complexInnertype = self.complexTypes[apiTable.InnerType]
 			if self.basicTypes[apiTable.InnerType] then
 				apiText = self.basicTypes[apiTable.InnerType].."[]"
+			elseif self.blizzardTypes[apiTable.InnerType] then
+				apiText = GetBlizzardType(apiTable.InnerType).."[]"
 			elseif complexInnertype then
 				apiText = complexInnertype:GetFullName(false, false).."[]"
 			else
@@ -114,6 +135,8 @@ function Wowpedia:GetPrettyType(apiTable, isArgument)
 		end
 	elseif self.basicTypes[apiTable.Type] then
 		apiText = self.basicTypes[apiTable.Type]
+	elseif self.blizzardTypes[apiTable.Type] then
+		apiText = GetBlizzardType(apiTable.Type)
 	elseif complexType then
 		apiText = complexType:GetFullName(false, false)
 	else
@@ -148,7 +171,7 @@ function Wowpedia:FindMissingTypes()
 		local parent = field.Function or field.Event or field.Table
 		local typeName = field.InnerType or field.Type
 		if not self.basicTypes[typeName] and parent.Type ~= "Enumeration" then
-			if not self.complexTypes[typeName] then
+			if not self.blizzardTypes[typeName] and not self.complexTypes[typeName] then
 				missingTypes[typeName] = {field=field, parent=parent}
 			end
 		end
