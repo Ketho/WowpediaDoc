@@ -29,6 +29,7 @@ function m:main()
 	require(Path.join(WowDocLoader_Path, "Compat"))
 	LoadAddon(Path.join(AddOns_path, API_DOC), API_DOC)
 	LoadAddon(Path.join(AddOns_path, GEN_DOC), GEN_DOC)
+	require(Path.join(WowDocLoader_Path, "TypeDocumentation"))
 	require(Path.join(WowDocLoader_Path, "MissingDocumentation"))
 end
 

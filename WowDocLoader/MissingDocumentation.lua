@@ -6,6 +6,78 @@ local Missing =
 {
 	Tables =
 	{
+		-- structures
+		{
+			-- MapDocumentation.lua
+			Name = "UiMapPoint",
+			Type = "Structure",
+			Fields =
+			{
+				{ Name = "uiMapID", Type = "number", Nilable = false },
+				{ Name = "position", Type = "vector2", Nilable = false },
+				{ Name = "z", Type = "number", Nilable = true },
+			},
+		},
+		{
+			-- TooltipInfoDocumentation.lua (removed in 10.0.2)
+			Name = "TooltipData",
+			Type = "Structure",
+			Fields =
+			{
+				{ Name = "type", Type = "TooltipDataType" },
+				{ Name = "lines", Type = "table", InnerType = "TooltipDataLine", Nilable = false },
+				{ Name = "args", Type = "table", InnerType = "TooltipDataArg", Nilable = false },
+			},
+		},
+		{
+			Name = "TooltipDataLine",
+			Type = "Structure",
+			Fields =
+			{
+				{ Name = "type", Type = "TooltipDataLineType" },
+				{ Name = "args", Type = "table", InnerType = "TooltipDataArg", Nilable = false },
+			},
+		},
+		{
+			-- TooltipComparisonDocumentation.lua
+			Name = "TooltipComparisonItem",
+			Type = "Structure",
+			Fields =
+			{
+				{ Name = "guid", Type = "WOWGUID" },
+			},
+		},
+		{
+			Name = "AuraData",
+			Type = "Structure",
+			Fields =
+			{
+				{ Name = "applications", Type = "number" },
+				{ Name = "auraInstanceID", Type = "number" },
+				{ Name = "canApplyAura", Type = "bool" },
+				{ Name = "charges", Type = "number" },
+				{ Name = "dispelName", Type = "string", Nilable = true },
+				{ Name = "duration", Type = "number" },
+				{ Name = "expirationTime", Type = "number" },
+				{ Name = "icon", Type = "number" },
+				{ Name = "isBossAura", Type = "bool" },
+				{ Name = "isFromPlayerOrPlayerPet", Type = "bool" },
+				{ Name = "isHarmful", Type = "bool" },
+				{ Name = "isHelpful", Type = "bool" },
+				{ Name = "isNameplateOnly", Type = "bool" },
+				{ Name = "isRaid", Type = "bool" },
+				{ Name = "isStealable", Type = "bool" },
+				{ Name = "maxCharges", Type = "number" },
+				{ Name = "name", Type = "string" },
+				{ Name = "nameplateShowAll", Type = "bool" },
+				{ Name = "nameplateShowPersonal", Type = "bool" },
+				{ Name = "points", Type = "table", InnerType = "number" }, -- todo: check type
+				{ Name = "sourceUnit", Type = "string", Nilable = true },
+				{ Name = "spellId", Type = "number" },
+				{ Name = "timeMod", Type = "number" },
+			},
+		},
+		-- enums
 		{
 			-- WeeklyRewardsDocumentation.lua
 			Name = "CachedRewardType",
@@ -43,40 +115,6 @@ local Missing =
 				{ Name = "Close", Type = "ItemSoundType ", EnumValue = 3 },
 			}
 		},
-
-		-- # basic types
-		-- defined: AnchorBinding
-		-- defined: uiRect
-		-- <xs:simpleType name="FRAMEPOINT">
-		{ Name = "FramePoint", Type = "string", Values = {"TOPLEFT", "TOPRIGHT", "BOTTOMLEFT", "BOTTOMRIGHT", "TOP", "BOTTOM", "LEFT", "RIGHT", "CENTER"} },
-		-- <xs:simpleType name="FRAMESTRATA">
-		{ Name = "FrameStrata", Type = "string", Values = {"PARENT", "BACKGROUND", "LOW", "MEDIUM", "HIGH", "DIALOG", "FULLSCREEN", "FULLSCREEN_DIALOG", "TOOLTIP", "BLIZZARD"} },
-		-- <xs:simpleType name="DRAWLAYER">
-		{ Name = "DrawLayer", Type = "string", Values = {"BACKGROUND", "BORDER", "ARTWORK", "OVERLAY", "HIGHLIGHT"} },
-		-- <xs:simpleType name="ANIMCURVETYPE">
-		{ Name = "CurveType", Type = "string", Values = {"NONE", "SMOOTH"} },
-
-		{ Name = "fileID", Type = "number" },
-		{ Name = "luaIndex", Type = "number" },
-		{ Name = "cstring", Type = "string" },
-		{ Name = "kstringLfgListSearch", Type = "string" },
-		{ Name = "uiUnit", Type = "number" },
-		{ Name = "ClubId", Type = "string" },
-		{ Name = "InventorySlots", Type = "number" },
-		{ Name = "NotificationDbId", Type = "string" },
-
-		-- # widgets
-		-- defined: ScriptObject
-		-- defined: ScriptRegion
-		{ Name = "SimpleControlPoint", Type = "ControlPoint" },
-		{ Name = "SimpleLine", Type = "Line" },
-		{ Name = "SimpleMaskTexture", Type = "MaskTexture" },
-
-		{ Name = "ChatBubbleFrame", Type = "Frame" },
-		{ Name = "NamePlateFrame", Type = "Frame", Mixin = "NamePlateBaseMixin" },
-
-		-- # mixins
-		{ Name = "ItemTransmogInfo", Type = "Mixin", Mixin = "ItemTransmogInfoMixin" },
 	},
 }
 
