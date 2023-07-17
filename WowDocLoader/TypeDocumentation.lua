@@ -3,7 +3,6 @@ local Types =
 	Tables =
 	{
 		-- defined: AnchorBinding
-		-- defined: uiRect
 
 		-- UI_shared.xsd
 		-- <xs:simpleType name="FRAMEPOINT">, SetPoint
@@ -77,6 +76,11 @@ local Types =
 		{ Name = "kstringLfgListChat", Type = "string" },
 		{ Name = "kstringClubMessage", Type = "string" },
 		{ Name = "kstringLfgListSearch", Type = "string" },
+		-- used in widget api
+		{ Name = "AnimationDataEnum", Type = "number" },
+		{ Name = "IDOrLink", Type = "number|string" },
+		{ Name = "uiRect", Type = "list", list = {"left", "bottom", "width", "height"} },
+		{ Name = "TextureAssetDisk", Type = "string" },
 
 		{ Name = "HTMLTextType", Type = "string" },
 		{ Name = "NotificationDbId", Type = "string" },

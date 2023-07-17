@@ -115,6 +115,17 @@ local Missing =
 				{ Name = "Close", Type = "ItemSoundType ", EnumValue = 3 },
 			}
 		},
+		{
+			-- CameraConstantsDocumentation.lua missing from manifest in 10.1.5 (50438)
+			Name = "CameraModeAspectRatio",
+			Type = "Enumeration",
+			Fields = {
+				{ Name = "Default", Type = "CameraModeAspectRatio ", EnumValue = 0 },
+				{ Name = "LegacyLetterbox", Type = "CameraModeAspectRatio ", EnumValue = 1 },
+				{ Name = "HighDefinition_16_X_9", Type = "CameraModeAspectRatio ", EnumValue = 2 },
+				{ Name = "Cinemascope_2_Dot_4_X_1", Type = "CameraModeAspectRatio ", EnumValue = 3 },
+			}
+		},
 	},
 }
 

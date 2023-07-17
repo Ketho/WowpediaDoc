@@ -1,8 +1,22 @@
 local m = {}
 
 m.widget_docs = {
+	FrameAPIArchaeologyDigSiteFrame = "ArchaeologyDigSiteFrame",
+	FrameAPIBlob = "Blob",
+	FrameAPICharacterModelBase = "CharacterModelBase",
+	FrameAPICinematicModel = "CinematicModel",
 	FrameAPICooldown = "Cooldown",
+	FrameAPIDressUpModel = "DressUpModel",
 	FrameAPIFogOfWarFrame = "FogOfWarFrame",
+	FrameAPIModelSceneFrame = "ModelScene",
+	FrameAPIModelSceneFrameActor = "ModelSceneActor",
+	FrameAPIModelSceneFrameActorBase = "ModelSceneFrameActorBase",
+	FrameAPIQuestPOI = "QuestPOIFrame",
+	FrameAPIScenarioPOI = "ScenarioPOIFrame",
+	FrameAPISimpleCheckout = "Checkout", -- unavailable to addons
+	FrameAPITabardModel = "TabardModel",
+	FrameAPITabardModelBase = "TabardModelBase",
+	FrameAPIUnitPositionFrame = "UnitPositionFrame",
 	MinimapFrameAPI = "Minimap",
 	SimpleAnimAPI = "Animation",
 	SimpleAnimAlphaAPI = "Alpha",
