@@ -79,5 +79,5 @@ local function main(versions, isWiki)
 end
 
 -- main({"10.1.0 (49318)", "10.1.5 (50006)"}, true)
-main({"10.1.5 (50006)", "10.1.5 (50438)"}, true)
+main({"10.1.5 (50438)", "10.1.7 (50505)"}, true)
 print("done")

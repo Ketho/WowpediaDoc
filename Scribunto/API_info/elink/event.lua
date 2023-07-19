@@ -1,6 +1,6 @@
 -- https://wowpedia.fandom.com/wiki/Module:API_info/elink/event
 local Util = require("Util/Util")
-local BRANCH = "mainline"
+local BRANCH = "mainline_ptr"
 require("Documenter.LuaEnum"):main(BRANCH)
 local OUT = "out/lua/API_info.elink.event.lua"
 

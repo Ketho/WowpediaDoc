@@ -18,6 +18,7 @@ m.widget_docs = {
 	FrameAPITabardModelBase = "TabardModelBase",
 	FrameAPIUnitPositionFrame = "UnitPositionFrame",
 	MinimapFrameAPI = "Minimap",
+	PingPinFrameAPI = "PingPin",
 	SimpleAnimAPI = "Animation",
 	SimpleAnimAlphaAPI = "Alpha",
 	SimpleAnimFlipBookAPI = "FlipBook",
