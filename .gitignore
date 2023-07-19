@@ -13,3 +13,5 @@ apicache-py3
 *.lwp
 *.ctrl
 *.pyc
+user-config.py
+user-password.py
