@@ -24,34 +24,45 @@ def category_members(catname):
 			params.update(data['continue'])
 		else:
 			break
+
+def getFileText(p):
+	f = open(p)
+	lines = f.readlines()
+	return "".join(lines)
 	
 def recursiveFiles(path, l):
 	for base in os.listdir(path):
 		newPath = Path(path, base)
-		# print(newPath)
 		if os.path.isdir(newPath):
 			recursiveFiles(newPath, l)
 		else:
-			l.append(base[:-4].replace("C_", "C "))
+			# name = base[:-4].replace("C_", "C ")
+			name = base[:-4].replace("_", " ")
+			l.update({name: getFileText(newPath)})
 
 def get_documented_api():
-	fullpath = Path("out", "export", "system")
-	l = []
+	fullpath = Path("out", "export", "enum")
+	l = {}
 	recursiveFiles(fullpath, l)
 	return l
 
 def main():
-	catname = 'API functions'
+	# catname = 'API functions'
+	# catname = 'API events'
+	# catname = 'Structs'
+	catname = 'Enums'
 	pages = ([ page['title'] for page in category_members(catname) ])
+	# print(pages)
 	apis = get_documented_api()
-	l = []
 	for v in apis:
-		if "API" in v and not v in pages:
+		# if not "API " in v and not v in pages:
+		if not v in pages:
+			print(v)
 			page = pywikibot.Page(site, v)
 			if not page.exists():
-				l.append(v)
-	# for v in l:
-	# 	print(v)
+				# print(v)
+				page.text = apis[v]
+				page.save(summary="10.1.5 (50438)")
 
 	print("done")
 

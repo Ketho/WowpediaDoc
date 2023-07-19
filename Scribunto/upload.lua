@@ -15,9 +15,8 @@ local function WriteFiles()
 end
 
 local function UploadFiles()
-    local pywikibot_path = "F:\\Repo\\wow-dev\\pywikibot"
-    os.execute(string.format("py %s\\pwb.py login", pywikibot_path))
-    os.execute(string.format("py %s\\pwb.py Scribunto\\upload.py", pywikibot_path))
+    os.execute("pwb login")
+    os.execute("pwb Scribunto\\upload.py")
 end
 
 local function main()
