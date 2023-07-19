@@ -1527,6 +1527,7 @@ return {
 	["C_Item.GetItemGUID"] = true,
 	["C_Item.GetItemID"] = true,
 	["C_Item.GetItemIDByGUID"] = true,
+	["C_Item.GetItemIDForItemInfo"] = true,
 	["C_Item.GetItemIcon"] = true,
 	["C_Item.GetItemIconByID"] = true,
 	["C_Item.GetItemInventoryType"] = true,
