@@ -1,5 +1,6 @@
 local Util = require("Util/Util")
-local parser = require("Util/wowtoolsparser")
+-- local parser = require("Util/wowtoolsparser")
+local wago_csv = require("Util/wago_csv")
 local output = "KethoWowpedia/patch/%s.lua"
 
 Util:MakeDir("KethoWowpedia/patch")
@@ -16,8 +17,8 @@ local missingHeaders = {
 }
 
 function m:GetPatchData(name, options)
-	Util:MakeDir(parser.CACHE_PATH..name)
-	local versions = parser:GetVersions(name)
+	-- Util:MakeDir(parser.CACHE_PATH..name)
+	local versions = wago_csv:GetVersions("wow", name)
 	local patches, found = {}, {}
 	for _, v in pairs(versions) do
 		local major = Util:GetPatchVersion(v)
@@ -30,7 +31,7 @@ function m:GetPatchData(name, options)
 	table.sort(patches, options.sort)
 	local t = {}
 	for _, patch in pairs(patches) do
-		local iter = parser:ReadCSV(name, {header = true, build = patch})
+		local iter = wago_csv:ReadCSV(name, {header = true, build = patch})
 		if iter then
 			for l in iter:lines() do
 				local ID = tonumber(l.ID)

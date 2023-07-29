@@ -19,7 +19,8 @@ Util.PtrVersion = "x"
 local flavorInfo = {
 	-- mainline_beta = {flavor = "mainline", header = true, build = "10.0.2.", sort = Util.SortBuild},
 	mainline_ptr = {flavor = "mainline", header = true, build = "10.1.7.", sort = Util.SortBuild},
-	mainline = {flavor = "mainline", header = true, build = "10.1.5.", sort = Util.SortBuild},
+	mainline = {flavor = "mainline", header = true, sort = Util.SortBuild},
+	-- mainline = {flavor = "mainline", header = true, build = "10.1.5.", sort = Util.SortBuild},
 	tbc = {flavor = "tbc", header = true, build = "2.5.4."},
 	wrath = {flavor = "wrath", header = true, build = "3.4.1."},
 	vanilla = {flavor = "vanilla", header = true, build = "1.14.3."},
@@ -251,6 +252,7 @@ function Util:GetFlavorOptions(info)
 end
 
 function Util:ReadCSV(dbc, parser, options, func)
+	-- print("DBC", dbc)
 	local csv = parser:ReadCSV(dbc, options)
 	local tbl = {}
 	for l in csv:lines() do

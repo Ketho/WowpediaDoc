@@ -3,9 +3,9 @@ local PATH = require "path"
 local https = require "ssl.https"
 local cjson = require "cjson"
 local cjsonutil = require "cjson.util"
-local csv = require "csv/csv"
+local csv = require "Util/csv/csv"
 
-local cache_folder = "cache"
+local cache_folder = "cache_csv"
 local listfile_path = PATH.join(cache_folder, "listfile.csv")
 
 local wago_csv_url = "https://wago.tools/db2/%s/csv"
@@ -40,14 +40,16 @@ end
 
 local function CreateCsvPath(csv_name, options)
 	local file_name
+	local t = {}
 	if options then
-		local t = {}
 		if options.build then
 			table.insert(t, options.build)
 		end
 		if options.locale then
 			table.insert(t, options.locale)
 		end
+	end
+	if #t > 0 then
 		file_name = string.format("%s_%s.csv", csv_name, table.concat(t, "_"))
 	else
 		file_name = string.format("%s.csv", csv_name)
@@ -135,21 +137,21 @@ end
 local function GetHighestPatchBuilds()
 	local t = {}
 	local patches = {}
-	for _, v in pairs(parser:GetVersions("wow")) do
-		local major = v:match("(%d+%.%d+%.%d+)%.")
+	for _, version in pairs(parser:GetVersions("wow")) do
+		local major = version:match("(%d+%.%d+%.%d+)%.")
 		if not patches[major] then
-			patches[major] = v
-			table.insert(t, v)
+			patches[major] = version
+			table.insert(t, version)
 		end
 	end
 	return t
 end
 
 local function DownloadCsvHistory()
-	for _, v in pairs(GetHighestPatchBuilds()) do
+	for _, version in pairs(GetHighestPatchBuilds()) do
 		parser:ReadCSV("mount", {
 			header = true,
-			build = v,
+			build = version,
 			locale = "enUS", -- bug: sometimes the default locale can be non-english
 		})
 	end

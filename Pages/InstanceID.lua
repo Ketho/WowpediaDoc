@@ -1,6 +1,7 @@
 -- https://wowpedia.fandom.com/wiki/InstanceID#Complete_list
 local Util = require("Util/Util")
-local parser = require("Util/wowtoolsparser")
+-- local parser = require("Util/wowtoolsparser")
+local parser = require("Util/wago_csv")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT = "out/page/InstanceID.txt"
 
@@ -149,7 +150,7 @@ local function ReadValues(t, l, patchData, isRemoved)
 			nameText = l.MapName_lang
 		end
 		local instance = InstanceTypes[tonumber(l.InstanceType)] or ""
-		local patch = patchData[ID].patch and Util:GetPatchVersion(patchData[ID].patch) or ""
+		local patch = patchData[ID] and patchData[ID].patch and Util:GetPatchVersion(patchData[ID].patch) or ""
 		patch = Util.patchfix[patch] or patch
 		if patch == Util.PtrVersion then
 			patch = patch.." {{Test-inline}}"
