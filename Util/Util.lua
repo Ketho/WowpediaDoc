@@ -6,6 +6,24 @@ local ltn12 = require "ltn12"
 local Util = {}
 local INVALIDATION_TIME = 60*60
 
+function Util.SortPatch(a, b)
+	local major_a, minor_a, patch_a, build_a = a:match("(%d+)%.(%d+)%.(%d+)%.(%d+)")
+	local major_b, minor_b, patch_b, build_b = b:match("(%d+)%.(%d+)%.(%d+)%.(%d+)")
+	major_a = tonumber(major_a); major_b = tonumber(major_b)
+	minor_a = tonumber(minor_a); minor_b = tonumber(minor_b)
+	patch_a = tonumber(patch_a); patch_b = tonumber(patch_b)
+	build_a = tonumber(build_a); build_b = tonumber(build_b)
+	if major_a ~= major_b then
+		return major_a < major_b
+	elseif minor_a ~= minor_b then
+		return minor_a < minor_b
+	elseif patch_a ~= patch_b then
+		return patch_a < patch_b
+	elseif build_a ~= build_b then
+		return build_a < build_b
+	end
+end
+
 function Util.SortBuild(a, b)
 	local build_a = tonumber(a:match("(%d+)$"))
 	local build_b = tonumber(b:match("(%d+)$"))
@@ -18,8 +36,8 @@ Util.PtrVersion = "x"
 
 local flavorInfo = {
 	-- mainline_beta = {flavor = "mainline", header = true, build = "10.0.2.", sort = Util.SortBuild},
-	mainline_ptr = {flavor = "mainline", header = true, build = "10.1.7.", sort = Util.SortBuild},
-	mainline = {flavor = "mainline", header = true, sort = Util.SortBuild},
+	mainline_ptr = {flavor = "mainline", header = true, build = "10.1.7.", sort = Util.SortPatch},
+	mainline = {flavor = "mainline", header = true, sort = Util.SortPatch},
 	-- mainline = {flavor = "mainline", header = true, build = "10.1.5.", sort = Util.SortBuild},
 	tbc = {flavor = "tbc", header = true, build = "2.5.4."},
 	wrath = {flavor = "wrath", header = true, build = "3.4.1."},
@@ -160,6 +178,15 @@ function Util:ToMap(tbl)
 	for _, v in pairs(tbl) do
 		t[v] = true
 	end
+	return t
+end
+
+function Util:ToList(tbl, func)
+	local t = {}
+	for _, v in pairs(tbl) do
+		table.insert(t, v)
+	end
+	table.sort(t, func)
 	return t
 end
 

@@ -86,21 +86,27 @@ local function ReadJson(path)
 	return data
 end
 
+local function ShouldDownload(path, isCache)
+	return not PathExists(path) or isCache and IsStale(path)
+end
+
 function parser:ReadCSV(name, options)
 	local path = CreateCsvPath(name, options)
-	if not PathExists(path) or IsStale(path) then
+	if ShouldDownload(path) then
 		local url = CreateWagoUrl(name, options)
 		DownloadFile(url, path)
 	end
-	print("reading "..path)
-	local iter = csv.open(path, {header = options and options.header})
-	return iter
+	if PathExists(path) then
+		print("reading", path)
+		local iter = csv.open(path, {header = options and options.header})
+		return iter
+	end
 end
 -- parser:ReadCSV("mount", {header = true, build = "10.0.2.47657", locale = "deDE"})
 -- parser:ReadCSV("battlepetspecies")
 
 function parser:ReadListfile()
-	if not PathExists(listfile_path) or IsStale(listfile_path) then
+	if ShouldDownload(listfile_path, true) then
 		print("downloading listfile...")
 		DownloadFile(listfile_url, listfile_path)
 	end
@@ -123,10 +129,12 @@ function parser:PrintCSV(iter)
 end
 -- parser:PrintCSV(parser:ReadCSV("mount"))
 
-function parser:GetVersions(branch)
+function parser:GetWagoVersions(branch)
 	local t = {}
 	local path = PATH.join(cache_folder, "versions.json")
-	local versions = DownloadFile(wago_builds_url, path)
+	if ShouldDownload(path, true) then
+		DownloadFile(wago_builds_url, path)
+	end
 	local data = ReadJson(path)
 	for _, v in pairs(data[branch]) do
 		table.insert(t, v.version)
@@ -134,32 +142,33 @@ function parser:GetVersions(branch)
 	return t
 end
 
-local function GetHighestPatchBuilds()
+local flavors = {
+	mainline = {"wow", "wowt"},
+	wrath = {"wow_classic", "wow_classic_ptr"},
+	vanilla = {"wow_classic_era"}, -- wow_classic_era_ptr has 10.0.7
+}
+
+function parser:GetPatches(branch)
 	local t = {}
-	local patches = {}
-	for _, version in pairs(parser:GetVersions("wow")) do
-		local major = version:match("(%d+%.%d+%.%d+)%.")
-		if not patches[major] then
-			patches[major] = version
-			table.insert(t, version)
+	local info = flavors[branch or "mainline"]
+	for _, version in pairs(parser:GetWagoVersions(info[1])) do
+		local major = version:match("%d+%.%d+%.%d+")
+		if not t[major] then
+			t[major] = version
+		end
+	end
+	if info[2] then -- get latest PTR build
+		local ptr_build = parser:GetWagoVersions(info[2])[1]
+		local major = ptr_build:match("%d+%.%d+%.%d+")
+		if not t[major] then
+			t[major] = ptr_build
 		end
 	end
 	return t
 end
 
-local function DownloadCsvHistory()
-	for _, version in pairs(GetHighestPatchBuilds()) do
-		parser:ReadCSV("mount", {
-			header = true,
-			build = version,
-			locale = "enUS", -- bug: sometimes the default locale can be non-english
-		})
-	end
-end
--- DownloadCsvHistory()
-
 function parser:FindBuild(branch, build)
-	local versions = self:GetVersions(branch)
+	local versions = self:GetWagoVersions(branch)
 	if build then
 		for _, version in pairs(versions) do
 			if version:find(build, 1, true) then

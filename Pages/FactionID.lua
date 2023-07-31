@@ -1,6 +1,6 @@
 -- https://wowpedia.fandom.com/wiki/FactionID
 local Util = require "Util/Util"
-local parser = require "Util/wowtoolsparser"
+local parser = require "Util/wago_csv"
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT = "out/page/FactionID.txt"
 
@@ -79,8 +79,10 @@ end
 local function main(options)
 	options = Util:GetFlavorOptions(options)
 	options.initial = false
-	local faction = parser:ReadCSV("faction", options)
 	local patchData = dbc_patch:GetPatchData("faction", options)
+
+	options.build = parser:FindBuild("wowt")
+	local faction = parser:ReadCSV("faction", options)
 
 	local file = io.open(OUTPUT, "w")
 	local faction_parents = {}
@@ -114,8 +116,8 @@ local function main(options)
 			local parentFactionID = tonumber(l.ParentFactionID)
 			local friendshipID = tonumber(l.FriendshipRepID)
 			local flags = l.Flags
-			local repracemask0 = tonumber(l["ReputationRaceMask[0]"])
-			local repracemask1 = tonumber(l["ReputationRaceMask[1]"])
+			local repracemask0 = tonumber(l["ReputationRaceMask_0"])
+			local repracemask1 = tonumber(l["ReputationRaceMask_1"])
 
 			if repIndex > 0 and isValidFaction(name, ID) then
 				local isValidParent = parentFactionID == 0 and faction_parents[ID]
@@ -136,7 +138,7 @@ local function main(options)
 						local displayName = faction_names[parentFactionID] or "unknown"
 						parentName = string.format('<span title="%s">%s</span>', parentFactionID, displayName)
 					end
-					local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
+					local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID].patch) or ""
 					patch = Util.patchfix[patch] or patch
 					if patch == Util.PtrVersion then
 						patch = patch.." {{Test-inline}}"

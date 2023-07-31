@@ -1,4 +1,5 @@
 local Util = require("Util/Util")
+local Path = require "path"
 -- local parser = require("Util/wowtoolsparser")
 local wago_csv = require("Util/wago_csv")
 local output = "KethoWowpedia/patch/%s.lua"
@@ -7,30 +8,31 @@ Util:MakeDir("KethoWowpedia/patch")
 
 local m = {}
 
-local classic_flavors = {
-	vanilla = true,
-	wrath = true,
-}
-
-local missingHeaders = {
-	-- ["3.4.1"] = true,
+local needsWowToolsData = {
+	battlepetspecies = true,
+	chartitles = true,
+	faction = true,	-- wago starts at 7.3.5.26972; 7.3.0.25195 and 7.3.2.25549 are returned from wago versions but not downloadable
+	map = true,
+	mount = true,
 }
 
 function m:GetPatchData(name, options)
-	-- Util:MakeDir(parser.CACHE_PATH..name)
-	local versions = wago_csv:GetVersions("wow", name)
-	local patches, found = {}, {}
-	for _, v in pairs(versions) do
-		local major = Util:GetPatchVersion(v)
-		local flavorFilter = (Util:IsClassicVersion(major) == (options.flavor ~= "mainline"))
-		if not found[major] and flavorFilter and not missingHeaders[major] then
-			found[major] = true -- only check for each major version and skip minor builds
-			table.insert(patches, v)
+	local patches = wago_csv:GetPatches(options.flavor)
+	if options.flavor == "mainline" and needsWowToolsData[name] then
+		-- just scan the whole folder for any missing retail builds
+		local folder = Path.join("cache_csv", name)
+		for fileName in lfs.dir(folder) do
+			local major = Util:GetPatchVersion(fileName)
+			if major and not patches[major] and not Util:IsClassicVersion(major) then
+				local build = fileName:match("%d+%.%d+%.%d+%.%d+")
+				table.insert(patches, build)
+				print("adding", major, build)
+			end
 		end
 	end
-	table.sort(patches, options.sort)
+	local patches_sorted = Util:ToList(patches, options.sort)
 	local t = {}
-	for _, patch in pairs(patches) do
+	for _, patch in pairs(patches_sorted) do
 		local iter = wago_csv:ReadCSV(name, {header = true, build = patch})
 		if iter then
 			for l in iter:lines() do
