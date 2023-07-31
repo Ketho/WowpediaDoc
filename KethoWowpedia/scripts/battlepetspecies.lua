@@ -19,10 +19,12 @@ local wpLink = {
 	[890] = "Spike (lizard)",
 	[891] = "Ripper (tiger)",
 	[894] = "Flutterby (moth)",
+	[934] = "Plaguebringer (deer)",
 	[951] = "Goliath (pet)",
 	[960] = "Gnasher (crocolisk)",
 	[968] = "Mort (pet)",
 	[969] = "Stitch (pet)",
+	[990] = "Spring (moth)",
 	[1187] = "Gorespine (porcupine)",
 	[1271] = "Chaos (NPC)",
 	[1290] = "Rikki (otter)",
@@ -36,11 +38,14 @@ local wpLink = {
 	[2347] = "Milo (spider)",
 	[2401] = "Rooter (item)",
 	[2407] = "Bloody Rabbit Fang",
+	[2725] = "Silence (battle pet)",
 	[2838] = "C'Thuffer (companion)",
 	[2921] = "Gorm Harrier (companion)",
 	[2986] = "Whirly (battle pet)",
 	[3107] = "Gurgl (battle pet)",
 	[3123] = "Deathroach (critter)",
+	[3302] = "Pilot (companion)",
+	[3350] = "Lord Basilton (companion)",
 }
 
 local devPet = {
@@ -70,7 +75,14 @@ local function GetNumKeys(tbl)
 	return v
 end
 
--- /run KethoWowpedia:GetPetSpeciesIDs(4e3)
+local function IsValidName(s)
+	if s:find("%[DNT%]") then
+		return false
+	end
+	return true
+end
+
+-- /run KethoWowpedia:GetPetSpeciesIDs(5e3)
 function KethoWowpedia:GetPetSpeciesIDs(num)
 	eb:Show()
 	eb:InsertLine('{| class="sortable darktable zebra col1-center"\n! ID !! !! !! !! Name !! Source !! [[CreatureDisplayID|Display ID]] !! Spell ID !! NPC ID !! Patch')
@@ -81,7 +93,12 @@ function KethoWowpedia:GetPetSpeciesIDs(num)
 		local name, _, petType, npcID, ttSource, ttDesc, isWild, canBattle, tradeable, _, obtainable, displayID = C_PetJournal.GetPetInfoBySpeciesID(id)
 		if type(name) == "string" then
 			local spellID, sourceType, flags = unpack(self.dbc.battlepetspecies[id])
-			local linkName = self.Util:GetLinkName(wpLink[id], name, 32)
+			local linkName
+			if IsValidName(name) then
+				linkName = self.Util:GetLinkName(wpLink[id], name, 32)
+			else
+				linkName = name
+			end
 			local hideUntilLearned = bit.band(flags, 0x4000) > 0
 			local sourceText = "😕"
 			if sources[id] then
@@ -123,7 +140,7 @@ function KethoWowpedia:GetPetSpeciesIDs(num)
 			local patch = self.patch.battlepetspecies[id] or ""
 			patch = self.data.patchfix[patch] or patch
 			if patch == self.Util.PtrVersion then
-				patch = patch.." {{Test-inline}}"
+				patch = patch.." [[File:PTR_client.png|16px|link=]]"
 			end
 			eb:InsertLine(fs:format(
 				id,

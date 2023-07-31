@@ -72,7 +72,7 @@ end
 -- /run KethoWowpedia:GetUiMapIDs(3000, 1000)
 function KethoWowpedia:GetUiMapIDs(numMap, numGroup)
 	eb:Show()
-	eb:InsertLine('{| class="sortable darktable zebra col1-center"\n! ID !! Map Name !! Map Type !! Parent Map !! wow.tools !! Patch')
+	eb:InsertLine('{| class="sortable darktable zebra col1-center"\n! ID !! Map Name !! Map Type !! Parent Map !! wago.tools !! Patch')
 	local fs = '|-\n| %d |||| %s |||| %s |||| %s |||| %s |||| %s'
 	local mapFloors = {}
 	for i = 1, numGroup do
@@ -116,14 +116,14 @@ function KethoWowpedia:GetUiMapIDs(numMap, numGroup)
 		end
 		local patch = self.patch.uimap[id] or ""
 		if patch == self.Util.PtrVersion then
-			patch = patch.." {{Test-inline}}"
+			patch = patch.." [[File:PTR_client.png|16px|link=]]"
 		end
 		eb:InsertLine(fs:format(
 			info.mapID,
 			mapText,
 			MapType[info.mapType],
 			parentMap,
-			format("[https://wow.tools/maps/worldmap.php?id=%d view]", id),
+			format("[https://wago.tools/maps/worldmap/%d view]", id),
 			patch
 		))
 	end

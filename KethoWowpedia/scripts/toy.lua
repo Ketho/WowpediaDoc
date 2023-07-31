@@ -26,8 +26,11 @@ local wpExpansion = {
 	[10] = "{{Df-inline}}",
 }
 
--- dont know how to get expansion source when the toy is not collected
--- might be something to do with item caching, at least look at each category to cache it
+local wpLink = {
+	[1255] = "Rubbery Fish Head (toy)",
+}
+
+-- remember look at each category beforehand to cache the items!
 -- /run KethoWowpedia:GetToyIDs(3e5)
 function KethoWowpedia:GetToyIDs(num)
 	eb:Show()
@@ -46,6 +49,11 @@ function KethoWowpedia:GetToyIDs(num)
 		if itemID and not invalid then
 			local toyID, flags, sourceType = unpack(item_pk[itemID])
 			local linkName = noToyData[itemID] or name
+			if wpLink[toyID] then
+				linkName = format("[[%s||%s]]", wpLink[toyID], linkName)
+			elseif linkName and #linkName>0 then
+				linkName = format("[[:%s]]", linkName)
+			end
 			local source = self.data.SourceTypeEnum[sourceType+1]
 			local hidden = bit.band(flags, 0x2) > 0
 			local sourceText = ""
@@ -61,13 +69,13 @@ function KethoWowpedia:GetToyIDs(num)
 			local patch = self.patch.toy[toyID] or ""
 			patch = self.data.patchfix[patch] or patch
 			if patch == self.Util.PtrVersion then
-				patch = patch.." {{Test-inline}}"
+				patch = patch.." [[File:PTR_client.png|16px|link=]]"
 			end
 			lines[toyID] = fs:format(
 				toyID,
 				format("[https://www.wowhead.com/item=%d %d]", itemID, itemID),
 				wpExpansion[expansions[itemID]] or "",
-				linkName and #linkName>0 and format("[[:%s]]", linkName) or "",
+				linkName or "",
 				sourceText,
 				patch
 			)

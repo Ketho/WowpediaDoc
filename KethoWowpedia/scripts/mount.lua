@@ -41,7 +41,6 @@ function KethoWowpedia:GetMountIDs(num)
 	eb:Show()
 	eb:InsertLine('{| class="sortable darktable zebra col1-center col2-center col3-center"\n! ID !! !! !! Name !! Source !! [[CreatureDisplayID|Display ID]] !! Spell ID !! Patch')
 	local fs = "|-\n| %d |||| %s |||| %s |||| %s |||| %s |||| %s |||| %s |||| %s"
-	self.patch.mount[1531] = "9.1.5" -- Wen Lo, instead of 9.2.0
 
 	for id = 1, num do
 		local name, spellID, _, _, _, sourceType, _, isFactionSpecific, faction, shouldHideOnChar = C_MountJournal.GetMountInfoByID(id)
@@ -87,7 +86,7 @@ function KethoWowpedia:GetMountIDs(num)
 			local patch = self.patch.mount[id] or ""
 			patch = self.data.patchfix[patch] or patch
 			if patch == self.Util.PtrVersion then
-				patch = patch.." {{Test-inline}}"
+				patch = patch.." [[File:PTR_client.png|16px|link=]]"
 			end
 			eb:InsertLine(fs:format(
 				id,

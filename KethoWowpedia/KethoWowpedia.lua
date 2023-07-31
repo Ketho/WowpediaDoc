@@ -6,7 +6,7 @@ KethoWowpedia = {
 }
 local w = KethoWowpedia
 
-w.Util.PtrVersion = "?"
+w.Util.PtrVersion = "10.1.7"
 
 function w.Util:SortTable(tbl)
 	local t = {}
@@ -24,7 +24,7 @@ function w.Util:GetLinkName(link, name, maxLength)
 	else
 		name = format("[[:%s]]", name)
 	end
-	if length > maxLength then
+	if maxLength and length > maxLength then
 		name = format("<small>%s</small>", name)
 	end
 	return name
@@ -47,5 +47,6 @@ w.data.SourceTypeEnum = {
 
 w.data.patchfix = {
 	["4.3.4"] = "4.x",
+	["6.0.1"] = "6.x",
 	["7.3.0"] = "7.x",
 }

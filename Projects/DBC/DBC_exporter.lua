@@ -1,6 +1,6 @@
 -- exports to lua tables for use in an addon
 local Util = require("Util/Util")
-local parser = require("Util/wowtoolsparser")
+local parser = require("Util/wago_csv")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT_DBC = "KethoWowpedia/dbc/%s.lua"
 local OUTPUT_PATCH = "KethoWowpedia/patch/%s.lua"
@@ -75,15 +75,21 @@ local handlers = {
 	},
 }
 
+local filters = {
+	battlepetspecies = "5.0.3",
+	mount = "6.0.1",
+	uimap = "8.0.1",
+	toy = "7.3.5",
+}
+
 local function ParseDbc(name, options)
-	local csv, build = parser:ReadCSV(name, options)
-	return handlers[name].func(csv), build
+	local csv = parser:ReadCSV(name, options)
+	return handlers[name].func(csv)
 end
 
 local function WriteDbcTable(name, path, options)
-	local dbc, build = ParseDbc(name, options)
+	local dbc = ParseDbc(name, options)
 	local file = io.open(path, "w")
-	file:write("-- "..build.."\n")
 	file:write(string.format("KethoWowpedia.dbc.%s = {\n", name))
 	local fs = handlers[name].fs
 	for _, id in pairs(Util:SortTable(dbc)) do
@@ -100,8 +106,10 @@ local function WritePatchTable(name, path, options)
 	file:write(string.format("KethoWowpedia.patch.%s = {\n", name))
 	local fs = '\t[%d] = "%s",\n'
 	for _, id in pairs(Util:SortTable(data)) do
-		local version = data[id]:match("^%d+%.%d+%.%d+")
-		file:write(fs:format(id, version))
+		local version = data[id].patch:match("^%d+%.%d+%.%d+")
+		if filters[name] ~= version then
+			file:write(fs:format(id, version))
+		end
 	end
 	file:write("}\n")
 	file:close()
