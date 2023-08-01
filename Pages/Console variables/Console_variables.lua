@@ -36,7 +36,7 @@ function m:WriteCVarList(blizzres_cvars, framexml_strings, binary_strings)
 
 	file:write('{| class="sortable darktable zebra col2-center"\n')
 	file:write("! !! !! Name !! Default !! Category !! Scope !! Description\n")
-	local githubLink = "[[File:GitHub_Octocat.png|16px|link=https://github.com/Gethe/wow-ui-source/search?q=%s]]"
+	local githubLink = "{{Framexml_search|%s}}"
 	local fs = "|-\n| %s || %s || %s\n| %s || %s || %s\n| %s\n"
 	for _, cvar in pairs(Util:SortTable(blizzres_cvars, Util.SortNocase)) do
 		local v = blizzres_cvars[cvar]

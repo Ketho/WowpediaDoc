@@ -1,8 +1,27 @@
+-- note that "AreaTriggers" is in the string table for PTR binaries
 local lfs = require "lfs"
 local Util = require("Util.Util")
 
-local PATH = [[F:\Prog\World of Warcraft\Binaries]]
+local PATH = [[E:\Prog\World of Warcraft\Binaries]]
 Util:MakeDir("cache_strings")
+
+local function SortPatchReverse(a, b)
+	local major_a, minor_a, patch_a, build_a = a:match("(%d+)%.(%d+)%.(%d+)%.(%d+)")
+	local major_b, minor_b, patch_b, build_b = b:match("(%d+)%.(%d+)%.(%d+)%.(%d+)")
+	major_a = tonumber(major_a); major_b = tonumber(major_b)
+	minor_a = tonumber(minor_a); minor_b = tonumber(minor_b)
+	patch_a = tonumber(patch_a); patch_b = tonumber(patch_b)
+	build_a = tonumber(build_a); build_b = tonumber(build_b)
+	if major_a ~= major_b then
+		return major_a > major_b
+	elseif minor_a ~= minor_b then
+		return minor_a > minor_b
+	elseif patch_a ~= patch_b then
+		return patch_a > patch_b
+	elseif build_a ~= build_b then
+		return build_a > build_b
+	end
+end
 
 local function GetBuilds(path)
 	local t = {}
@@ -14,11 +33,7 @@ local function GetBuilds(path)
 			end
 		end
 	end
-	table.sort(t, function(a, b)
-		local build_a = a:match("(%d+)$")
-		local build_b = b:match("(%d+)$")
-		return tonumber(build_a) > tonumber(build_b)
-	end)
+	table.sort(t, SortPatchReverse)
 	return t
 end
 

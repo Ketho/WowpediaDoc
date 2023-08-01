@@ -6,6 +6,8 @@ local ltn12 = require "ltn12"
 local Util = {}
 local INVALIDATION_TIME = 60*60
 
+-- useful when using PTR builds and a retail build is higher than a PTR build
+-- e.g. PTR 10.1.7.50587 vs retail 10.1.5.50622
 function Util.SortPatch(a, b)
 	local major_a, minor_a, patch_a, build_a = a:match("(%d+)%.(%d+)%.(%d+)%.(%d+)")
 	local major_b, minor_b, patch_b, build_b = b:match("(%d+)%.(%d+)%.(%d+)%.(%d+)")
