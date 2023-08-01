@@ -15,15 +15,15 @@ local InstanceTypes = {
 }
 
 local wpExpansion = {
-	[1] = "{{Bc-inline}}",
-	[2] = "{{Wotlk-inline}}",
-	[3] = "{{Cata-inline}}",
-	[4] = "{{Mop-inline}}",
-	[5] = "{{Wod-inline}}",
-	[6] = "{{Legion-inline}}",
-	[7] = "{{Bfa-inline}}",
-	[8] = "{{Sl-inline}}",
-	[9] = "{{Df-inline}}",
+	[1] = "{{Bc-inline|}}",
+	[2] = "{{Wotlk-inline|}}",
+	[3] = "{{Cata-inline|}}",
+	[4] = "{{Mop-inline|}}",
+	[5] = "{{Wod-inline|}}",
+	[6] = "{{Legion-inline|}}",
+	[7] = "{{Bfa-inline|}}",
+	[8] = "{{Sl-inline|}}",
+	[9] = "{{Df-inline|}}",
 }
 
 local wpLink = {
@@ -116,6 +116,13 @@ local patterns = {
 	"zzold",
 }
 
+local patch_override = {
+	["2.4.3"] = "2.x",
+	["3.3.5"] = "3.x",
+	["4.3.4"] = "4.x",
+	["7.0.3"] = "6.x / 7.0.3",
+}
+
 local function IsValidName(s)
 	s = s:lower()
 	for _, p in pairs(patterns) do
@@ -131,7 +138,7 @@ local function ReadValues(t, l, patchData, isRemoved)
 	local ID = tonumber(l.ID)
 	if ID then
 		local expansion = wpExpansion[tonumber(l.ExpansionID)] or ""
-		local flags = l["Flags[0]"]
+		local flags = l["Flags_0"] or l["Flags[0]"]
 		local devmap = flags and tonumber(flags)&0x2 > 0 and "[[File:ProfIcons_engineering.png|16px|link=]]" or ""
 		local removedIcon = isRemoved and "❌" or ""
 
@@ -140,21 +147,17 @@ local function ReadValues(t, l, patchData, isRemoved)
 			dir = ""
 		end
 
-		l.MapName_lang = l.MapName_lang or l["MapName_lang[0]"]
+		local mapName = l["MapName_lang"] or l["MapName_lang[0]"]
 		local nameText
 		if wpLink[ID] then
-			nameText = string.format("[[%s|%s]]", wpLink[ID], l.MapName_lang)
-		elseif not nolink[ID] and IsValidName(l.MapName_lang) then
-			nameText = string.format("[[:%s]]", l.MapName_lang)
+			nameText = string.format("[[%s|%s]]", wpLink[ID], mapName)
+		elseif not nolink[ID] and IsValidName(mapName) then
+			nameText = string.format("[[:%s]]", mapName)
 		else
-			nameText = l.MapName_lang
+			nameText = mapName
 		end
 		local instance = InstanceTypes[tonumber(l.InstanceType)] or ""
-		local patch = patchData[ID] and patchData[ID].patch and Util:GetPatchVersion(patchData[ID].patch) or ""
-		patch = Util.patchfix[patch] or patch
-		if patch == Util.PtrVersion then
-			patch = patch.." {{Test-inline}}"
-		end
+		local patch = Util:GetPatchText(patchData, ID, patch_override)
 		t[ID] = fs:format(ID, expansion, removedIcon..devmap, dir, nameText, instance, patch)
 	end
 end

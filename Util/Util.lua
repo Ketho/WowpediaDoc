@@ -32,7 +32,7 @@ function Util.SortBuild(a, b)
 	end
 end
 
-Util.PtrVersion = "x"
+Util.PtrVersion = "10.1.7"
 
 local flavorInfo = {
 	-- mainline_beta = {flavor = "mainline", header = true, build = "10.0.2.", sort = Util.SortBuild},
@@ -49,11 +49,6 @@ local classicVersions = {
 	"^1.14.",
 	"^2.5.",
 	"^3.4.",
-}
-
-Util.patchfix = {
-	["4.3.4"] = "4.x",
-	["7.3.0"] = "7.x",
 }
 
 Util.RelativePath = {
@@ -255,6 +250,15 @@ end
 
 function Util:GetPatchVersion(v)
 	return v:match("%d+%.%d+%.%d+")
+end
+
+function Util:GetPatchText(patchData, ID, patch_override)
+	local version = self:GetPatchVersion(patchData[ID].patch)
+	local text = patch_override and patch_override[version] or version
+	if text == self.PtrVersion then
+		text = text.." [[File:PTR_client.png|16px|link=]]"
+	end
+	return text
 end
 
 function Util:IsClassicVersion(v)

@@ -1,10 +1,15 @@
 -- https://wowpedia.fandom.com/wiki/MovieID
 local Util = require("Util/Util")
-local parser = require("Util/wowtoolsparser")
+local parser = require("Util/wago_csv")
 local wowpedia_export = require("Util/wowpedia_export")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 
 local OUTPUT = "out/page/MovieID.txt"
+
+local patch_override = {
+	["4.3.4"] = "4.x",
+	["7.3.0"] = "6.x / 7.x",
+}
 
 local function GetDescriptions()
 	local page = wowpedia_export:get_api_page("MovieID")
@@ -23,12 +28,8 @@ end
 
 local function main(options)
 	options = Util:GetFlavorOptions(options)
-	-- a ptr build was lower (9.2.5.43254) than the latest live build (9.2.0.43340)
-	-- options.sort = nil
-
 	local filedata = parser:ReadListfile()
 	local patchData = dbc_patch:GetPatchData("movie", options)
-	print("writing to "..OUTPUT)
 	local file = io.open(OUTPUT, "w")
 
 	-- there are multiple avi files with different resolutions per movieid
@@ -69,22 +70,18 @@ local function main(options)
 		end
 		if duplicates[name] then
 			name = string.format('<font color="gray">%s</font>', name)
-			desc = '<font color="gray">~</font>'
+			-- desc = '<font color="gray">~</font>'
 		else
 			if #name > 0 then -- can be empty
 				duplicates[name] = true
 			end
 		end
-
-		local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
-		patch = Util.patchfix[patch] or patch
-		if patch == Util.PtrVersion then
-			patch = patch.." {{Test-inline}}"
-		end
+		local patch = Util:GetPatchText(patchData, ID, patch_override)
 		file:write(fs:format(ID, name, yt, desc, patch))
 	end)
 	file:write("|}\n")
 	file:close()
+	print("written "..OUTPUT)
 end
 
 main()

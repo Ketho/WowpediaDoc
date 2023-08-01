@@ -1,6 +1,6 @@
 -- https://wowpedia.fandom.com/wiki/DungeonEncounterID
 local Util = require("Util/Util")
-local parser = require("Util/wowtoolsparser")
+local parser = require("Util/wago_csv")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT = "out/page/DungeonEncounterID.txt"
 
@@ -104,11 +104,19 @@ end
 local function IsValidMapName(id, name)
 	if noMap[id] then
 		return false
+	elseif #name == 0 then
+		return false
 	elseif name:find("Scenario") then
 		return false
 	end
 	return true
 end
+
+local patch_override = {
+	["3.3.0"] = "",
+	["4.3.4"] = "4.x",
+	["7.3.0"] = "6.x / 7.x",
+}
 
 local function main(options)
 	options = Util:GetFlavorOptions(options)
@@ -117,7 +125,6 @@ local function main(options)
 	end)
 	local patchData = dbc_patch:GetPatchData("dungeonencounter", options)
 
-	print("writing to "..OUTPUT)
 	local file = io.open(OUTPUT, "w")
 	file:write('{| class="sortable darktable zebra col1-center"\n! ID !! Name !! Map !! [[InstanceID]] !! Patch\n')
 	local fs = '|-\n| %d || %s || %s || %s || %s\n'
@@ -142,15 +149,12 @@ local function main(options)
 		else
 			mapText = mapName
 		end
-		local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
-		patch = Util.patchfix[patch] or patch
-		if patch == Util.PtrVersion then
-			patch = patch.." {{Test-inline}}"
-		end
+		local patch = Util:GetPatchText(patchData, ID, patch_override)
 		file:write(fs:format(ID, nameText, mapText, mapID, patch))
 	end)
 	file:write("|}\n")
 	file:close()
+	print("written "..OUTPUT)
 end
 
 main()

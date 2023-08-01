@@ -1,6 +1,6 @@
 -- https://wowpedia.fandom.com/wiki/CurrencyID
 local Util = require("Util/Util")
-local parser = require("Util/wowtoolsparser")
+local parser = require("Util/wago_csv")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT = "out/page/CurrencyID.txt"
 
@@ -89,6 +89,10 @@ local function IsValidName(id, name, categoryID)
 	return true
 end
 
+local patch_override = {
+	["7.3.0"] = "6.x / 7.x",
+}
+
 local header = '{| class="sortable darktable zebra col1-center"\n! ID !! Name || Category || Patch\n'
 local fs = '|-\n| %d || %s || %s || %s\n'
 
@@ -97,7 +101,6 @@ local function main(options)
 	local dbc_currencytypes = parser:ReadCSV("currencytypes", options)
 	local dbc_currencycategory = parser:ReadCSV("currencycategory", options)
 	local patchData = dbc_patch:GetPatchData("currencytypes", options)
-	print("writing to "..OUTPUT)
 	local file = io.open(OUTPUT, "w")
 
 	local categories = {}
@@ -120,16 +123,13 @@ local function main(options)
 				nameText = string.format("[[:%s]]", l.Name_lang)
 			end
 			local categoryText = string.format('<span title="ID %d">%s</span>', categoryID, categories[categoryID])
-			local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
-			patch = Util.patchfix[patch] or patch
-			if patch == Util.PtrVersion then
-				patch = patch.." {{Test-inline}}"
-			end
+			local patch = Util:GetPatchText(patchData, ID, patch_override)
 			file:write(fs:format(ID, nameText, categoryText, patch))
 		end
 	end
 	file:write("|}\n")
 	file:close()
+	print("written "..OUTPUT)
 end
 
 main()

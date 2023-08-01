@@ -1,6 +1,6 @@
 -- https://wowpedia.fandom.com/wiki/LanguageID
 local Util = require("Util/Util")
-local parser = require("Util/wowtoolsparser")
+local parser = require("Util/wago_csv")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT = "out/page/LanguageID.txt"
 
@@ -51,12 +51,16 @@ local wpLink = {
 	[285] = "Vulpera (language)",
 }
 
+local patch_override = {
+	["0.5.3"] = "",
+	["7.3.0"] = "6.x / 7.x",
+}
+
 local function main(options)
 	options = Util:GetFlavorOptions(options)
 	options.initial = false
 	local patchData = dbc_patch:GetPatchData("languages", options)
 	local fs = "|-\n| %d || %s || %s || %s\n"
-	print("writing to "..OUTPUT)
 	local file = io.open(OUTPUT, "w")
 	file:write('{| class="sortable darktable zebra col1-center col2-center"\n! ID !! !! Name !! Patch\n')
 	Util:ReadCSV("languages", parser, options, function(_, ID, l)
@@ -77,14 +81,12 @@ local function main(options)
 		else
 			name = string.format("[[%s]]", l.Name_lang)
 		end
-		local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
-		if patch == Util.PtrVersion then
-			patch = patch.." {{Test-inline}}"
-		end
+		local patch = Util:GetPatchText(patchData, ID, patch_override)
 		file:write(fs:format(ID, icon or "", name, patch))
 	end)
 	file:write("|}\n")
 	file:close()
+	print("written "..OUTPUT)
 end
 
 main()

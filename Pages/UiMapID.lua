@@ -1,4 +1,5 @@
 -- https://wowpedia.fandom.com/wiki/UiMapID#Classic
+-- probably this script was because some in-game API is not available for classic
 local Util = require("Util/Util")
 -- local parser = require("Util/wowtoolsparser")
 local parser = require("Util/wago_csv")
@@ -12,7 +13,7 @@ local function main(options)
 	local patchData = dbc_patch:GetPatchData("uimap", options)
 	print("writing to "..OUTPUT)
 	local file = io.open(OUTPUT, "w")
-	
+
 	local fs = '\t[%d] = "%s",\n'
 	file:write("KethoWowpedia.patch.uimap = {\n")
 	Util:ReadCSV("uimap", parser, options, function(_, ID, l)

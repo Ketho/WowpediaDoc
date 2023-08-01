@@ -1,6 +1,6 @@
 -- https://wowpedia.fandom.com/wiki/JournalEncounterID
 local Util = require("Util/Util")
-local parser = require("Util/wowtoolsparser")
+local parser = require("Util/wago_csv")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT = "out/page/JournalEncounterID.txt"
 
@@ -40,6 +40,11 @@ local noLink = {
 	[2438] = true, -- Generic Template
 }
 
+local patch_override = {
+	["4.3.4"] = "",
+	["7.3.0"] = "6.x / 7.x",
+}
+
 local function main(options)
 	options = Util:GetFlavorOptions(options)
 	local journalinstance_csv = Util:ReadCSV("journalinstance", parser, options, function(tbl, ID, l)
@@ -61,7 +66,6 @@ local function main(options)
 	end)
 	local patchData = dbc_patch:GetPatchData("journalencounter", options)
 
-	print("writing to "..OUTPUT)
 	local file = io.open(OUTPUT, "w")
 	file:write('{| class="sortable darktable zebra col1-center"\n! ID !! Name !! Map !! [[DisplayID]] !! <small>[[DungeonEncounterID]]</small> !! [[InstanceID]] !! Patch\n')
 	local fs = '|-\n| %d || %s || %s || %s || %s || %s || %s\n'
@@ -87,12 +91,8 @@ local function main(options)
 		if dungeonEncounterID > 0 then
 			dungeonEncounterName, instanceID = table.unpack(dungeonencounter_csv[dungeonEncounterID])
 		end
+		local patch = Util:GetPatchText(patchData, ID, patch_override)
 
-		local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
-		patch = Util.patchfix[patch] or patch
-		if patch == Util.PtrVersion then
-			patch = patch.." {{Test-inline}}"
-		end
 		file:write(fs:format(
 			ID,
 			nameText,
@@ -105,6 +105,7 @@ local function main(options)
 	end)
 	file:write("|}\n")
 	file:close()
+	print("written "..OUTPUT)
 end
 
 main()

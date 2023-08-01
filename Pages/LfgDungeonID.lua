@@ -1,6 +1,6 @@
 -- https://wowpedia.fandom.com/wiki/LfgDungeonID
 local Util = require("Util/Util")
-local parser = require("Util/wowtoolsparser")
+local parser = require("Util/wago_csv")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT = "out/page/LfgDungeonID.txt"
 
@@ -84,6 +84,13 @@ local function IsValidName(s)
 	return true
 end
 
+local patch_override = {
+	["1.9.0"] = "",
+	["2.4.3"] = "2.x",
+	["4.3.4"] = "4.x",
+	["7.3.0"] = "6.x / 7.x",
+}
+
 local function main(options)
 	options = Util:GetFlavorOptions(options)
 	options.initial = false
@@ -97,7 +104,6 @@ local function main(options)
 	end)
 	local patchData = dbc_patch:GetPatchData("lfgdungeons", options)
 
-	print("writing to "..OUTPUT)
 	local file = io.open(OUTPUT, "w")
 	file:write('{| class="sortable darktable zebra col1-center"\n! ID !! Name !! Type !! [[DifficultyID]] !! [[InstanceID]] !! Patch\n')
 	local fs = '|-\n| %d || %s || %s || %s || %s || %s\n'
@@ -136,15 +142,12 @@ local function main(options)
 		if instanceID > -1 then
 			mapText = string.format('<span title="%s">%d</span>', map_csv[instanceID] or "", instanceID)
 		end
-		local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
-		patch = Util.patchfix[patch] or patch
-		if patch == Util.PtrVersion then
-			patch = patch.." {{Test-inline}}"
-		end
+		local patch = Util:GetPatchText(patchData, ID, patch_override)
 		file:write(fs:format(ID, nameText, typeText, diffText or "", mapText, patch))
 	end)
 	file:write("|}\n")
 	file:close()
+	print("written "..OUTPUT)
 end
 
 main()

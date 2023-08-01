@@ -1,6 +1,6 @@
 -- https://wowpedia.fandom.com/wiki/GarrFollowerID
 local Util = require "Util/Util"
-local parser = require "Util/wowtoolsparser"
+local parser = require "Util/wago_csv"
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT = "out/page/GarrFollowerID.txt"
 
@@ -23,6 +23,11 @@ local Enum_Quality = {
 local wplink = {
 	[503] = "Master's Call (carrier)",
 	[516] = "Soul Reaper (battleship)",
+}
+
+local patch_override = {
+	["6.0.1"] = "",
+	["7.3.0"] = "6.x / 7.x",
 }
 
 local function FormatLink(ID, s)
@@ -55,6 +60,7 @@ local function main(options)
 	file:write("! ID !! !! {{Alliance}} Alliance !! {{Horde}} Horde !! Quality !! Patch")
 	local fs_same	   = '\n|-\n| %d || %s || colspan="2" | %s || %s || %s'
 	local fs_different = "\n|-\n| %d || %s || %s || %s || %s || %s"
+	local t = {} -- ordering is no longer consistent
 
 	for l in faction:lines() do
 		local ID = tonumber(l.ID)
@@ -72,17 +78,20 @@ local function main(options)
 				local allianceName = creatures[allianceid]
 				local hordeName = creatures[hordeid]
 
-				local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
-				if patch == Util.PtrVersion then
-					patch = patch.." {{Test-inline}}"
-				end
+				local patch = Util:GetPatchText(patchData, ID, patch_override)
 				if allianceName == hordeName then -- creature ID can be different but still have the same name
-					file:write(fs_same:format(ID, followerTypeIcon, FormatLink(ID, allianceName), qualityText, patch))
+					table.insert(t, {id = ID, text = fs_same:format(ID, followerTypeIcon, FormatLink(ID, allianceName), qualityText, patch)})
 				else
-					file:write(fs_different:format(ID, followerTypeIcon, FormatLink(ID, allianceName), FormatLink(ID, hordeName), qualityText, patch))
+					table.insert(t, {id = ID, text = fs_different:format(ID, followerTypeIcon, FormatLink(ID, allianceName), FormatLink(ID, hordeName), qualityText, patch)})
 				end
 			end
 		end
+	end
+	table.sort(t, function(a, b)
+		return a.id < b.id
+	end)
+	for _, v in pairs(t) do
+		file:write(v.text)
 	end
 	file:write("\n|}\n")
 	file:close()

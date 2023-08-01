@@ -1,6 +1,6 @@
 -- https://wowpedia.fandom.com/wiki/API_DoEmote
 local Util = require("Util/Util")
-local parser = require("Util/wowtoolsparser")
+local parser = require("Util/wago_csv")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT = "out/page/EmoteToken.txt"
 
@@ -10,6 +10,12 @@ local wp_removed = {
 	[63] = true, -- MOAN
 	[81] = true, -- SHAKE
 	[135] = true, -- STINK
+}
+
+local patch_override = {
+	["0.5.3"] = "",
+	["4.3.4"] = "4.x",
+	["7.3.0"] = "6.x / 7.x",
 }
 
 -- for convenience
@@ -44,7 +50,6 @@ function m:main(options)
 		dbc_emotestextsound[EmotesTextID] = true
 	end)
 
-	print("writing to "..OUTPUT)
 	local file = io.open(OUTPUT, "w")
 	file:write('{| class="sortable darktable zebra col3-center col4-center"\n'
 	..'! Token !! Slash Command !! Anim !! Voice !! No Target Text !! Targeted Text !! Patch\n')
@@ -70,15 +75,13 @@ function m:main(options)
 			target = dbc_emotestextdata[ID][2] or ""
 			notarget = dbc_emotestextdata[ID][6] or ""
 		end
-		local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
-		if patch == Util.PtrVersion then
-			patch = patch.." {{Test-inline}}"
-		end
+		local patch = Util:GetPatchText(patchData, ID, patch_override)
 		file:write(fs:format(token, cmd_list, anim, voice, notarget, target, patch))
 	end)
 
 	file:write("|}\n")
 	file:close()
+	print("written "..OUTPUT)
 end
 
 local function ToSet(tbl, vkey)

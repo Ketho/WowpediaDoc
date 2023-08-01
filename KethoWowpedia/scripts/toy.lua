@@ -14,16 +14,16 @@ local noToyData = {
 }
 
 local wpExpansion = {
-	[1] = "{{Wow-inline}}",
-	[2] = "{{Bc-inline}}",
-	[3] = "{{Wotlk-inline}}",
-	[4] = "{{Cata-inline}}",
-	[5] = "{{Mop-inline}}",
-	[6] = "{{Wod-inline}}",
-	[7] = "{{Legion-inline}}",
-	[8] = "{{Bfa-inline}}",
-	[9] = "{{Sl-inline}}",
-	[10] = "{{Df-inline}}",
+	[1] = "{{Wow-inline|}}",
+	[2] = "{{Bc-inline|}}",
+	[3] = "{{Wotlk-inline|}}",
+	[4] = "{{Cata-inline|}}",
+	[5] = "{{Mop-inline|}}",
+	[6] = "{{Wod-inline|}}",
+	[7] = "{{Legion-inline|}}",
+	[8] = "{{Bfa-inline|}}",
+	[9] = "{{Sl-inline|}}",
+	[10] = "{{Df-inline|}}",
 }
 
 local wpLink = {

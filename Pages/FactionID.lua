@@ -76,6 +76,12 @@ local function GetFactionIcon(options, id, flag0, flag1)
 	end
 end
 
+local patch_override = {
+	["0.5.3"] = "",
+	["4.3.4"] = "4.x",
+	["7.3.0"] = "6.x / 7.x",
+}
+
 local function main(options)
 	options = Util:GetFlavorOptions(options)
 	options.initial = false
@@ -138,11 +144,7 @@ local function main(options)
 						local displayName = faction_names[parentFactionID] or "unknown"
 						parentName = string.format('<span title="%s">%s</span>', parentFactionID, displayName)
 					end
-					local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID].patch) or ""
-					patch = Util.patchfix[patch] or patch
-					if patch == Util.PtrVersion then
-						patch = patch.." {{Test-inline}}"
-					end
+					local patch = Util:GetPatchText(patchData, ID, patch_override)
 					file:write(fs:format(ID, factionIcon, friendText, nameText, parentName, patch))
 				end
 			end

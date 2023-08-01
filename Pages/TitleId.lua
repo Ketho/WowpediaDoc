@@ -1,5 +1,5 @@
 -- https://wowpedia.fandom.com/wiki/TitleId
-local parser = require("Util/wowtoolsparser")
+local parser = require("Util/wago_csv")
 local Util = require("Util/Util")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT = "out/page/TitleId.txt"
@@ -126,6 +126,12 @@ local wplink = {
 	[383] = "Contender (title)",
 }
 
+local patch_override = {
+	["2.4.3"] = "2.x",
+	["4.3.4"] = "4.x",
+	["7.3.0"] = "7.x",
+}
+
 local function GetNameText(v, maskID)
 	local nameL, nameR = v:match("(.+) %%s (.+)")
 	local namePrefix = v:match("(.+) %%s")
@@ -177,11 +183,7 @@ local function main(options)
 			else
 				nameText = GetNameText(l.Name_lang, maskID)
 			end
-			local patch = patchData[ID] and Util:GetPatchVersion(patchData[ID]) or ""
-			patch = Util.patchfix[patch] or patch
-			if patch == Util.PtrVersion then
-				patch = patch.." {{Test-inline}}"
-			end
+			local patch = Util:GetPatchText(patchData, ID, patch_override)
 			file:write(fs:format(maskID, ID, ID, nameText, patch))
 		end
 	end
@@ -189,5 +191,5 @@ local function main(options)
 	file:close()
 end
 
-main("wrath") -- ["ptr", "mainline", "classic"]
+main("mainline") -- ["ptr", "mainline", "classic"]
 print("done")
