@@ -60,19 +60,20 @@ Util.RelativePath = {
 }
 
 function Util:GetLatestBuild(flavor)
-	local folder = Path.join("FrameXML", flavor)
-	local t = {}
-	for name in lfs.dir(folder) do
-		local build = name:match("%((%d+)%)")
-		if build then
-			table.insert(t, {name = name, build = build})
-		end
-	end
-	table.sort(t, function(a, b)
-		return tonumber(a.build) > tonumber(b.build)
-	end)
-	print("using build", t[1].name)
-	return Path.join(folder, t[1].name)
+	-- local folder = Path.join("FrameXML", flavor)
+	-- local t = {}
+	-- for name in lfs.dir(folder) do
+	-- 	local build = name:match("%((%d+)%)")
+	-- 	if build then
+	-- 		table.insert(t, {name = name, build = build})
+	-- 	end
+	-- end
+	-- table.sort(t, function(a, b)
+	-- 	return tonumber(a.build) > tonumber(b.build)
+	-- end)
+	-- print("using build", t[1].name)
+	-- return Path.join(folder, t[1].name)
+	return Path.join("FrameXML", "mainline", "10.1.7 (50587)")
 end
 
 function Util:MakeDir(path)

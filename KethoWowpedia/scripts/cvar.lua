@@ -1,3 +1,4 @@
+-- use `Pages\Console variables\Console_variables.lua` instead
 -- https://wow.gamepedia.com/Console_variables/Complete_list
 local eb = KethoEditBox
 
@@ -60,6 +61,7 @@ local function GetCvarTypes(commandType)
 	return t
 end
 
+-- use `Pages\Console variables\Console_variables.lua` instead!
 -- /run KethoWowpedia:GetCVars(Enum.ConsoleCommandType.Cvar)
 -- /run KethoWowpedia:GetCVars(Enum.ConsoleCommandType.Command)
 function KethoWowpedia:GetCVars(commandType)
@@ -67,7 +69,7 @@ function KethoWowpedia:GetCVars(commandType)
 	local cvars = GetCvarTypes(commandType)
 	if commandType == Enum.ConsoleCommandType.Cvar then
 		local fs = "|-\n| %s |||| %s |||| %s |||| %s\n| %s |||| %s |||| %s\n| %s"
-		local githubLink = "[[File:GitHub_Octocat.png|16px|link=https://github.com/Gethe/wow-ui-source/search?q=%s]]"
+		local githubLink = "[[File:GitHub_Octocat.png|16px|link=https://github.com/search?q=repo%%3AGethe%%2Fwow-ui-source+%s&type=code]]"
 		for _, v in pairs(cvars) do
 			local value, defaultValue, server, character, _, secure = GetCVarInfo(v.command)
 
@@ -80,7 +82,7 @@ function KethoWowpedia:GetCVars(commandType)
 			end
 			defaultValue = defaultValue and #defaultValue>0 and format("<font color=#ecbc2a><code>%s</code></font>", defaultValue) or ""
 			if v.command == "telemetryTargetPackage" then -- too long
-				defaultValue = "..."
+				defaultValue = '<span title="Blizzard.Telemetry.Wow_Mainline_PTR">...</span>'
 			end
 			local cache = self.cvar_cache.var[v.command]
 			if cache then
