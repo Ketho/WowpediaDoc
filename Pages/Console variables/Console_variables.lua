@@ -41,10 +41,16 @@ function m:WriteCVarList(blizzres_cvars, framexml_strings, binary_strings)
 	for _, cvar in pairs(Util:SortTable(blizzres_cvars, Util.SortNocase)) do
 		local v = blizzres_cvars[cvar]
 		local default, category, server, character, secure, desc = table.unpack(v)
+		local default_text
+		if #default > 0 then
+			default_text = string.format("<font color=#ecbc2a><code>%s</code></font>", default)
+		end
+		if #default >= 16 then
+			default_text = string.format('<small>%s</small>', default_text)
+		end
+
 		if cvar == "telemetryTargetPackage" then -- too long
-			default = '<span title="Blizzard.Telemetry.Wow_Mainline_PTR">...</span>'
-		elseif #default > 0 then
-			default = string.format("<font color=#ecbc2a><code>%s</code></font>", default)
+			default_text = '<span title="Blizzard.Telemetry.Wow_Mainline_PTR">...</span>'
 		end
 		local name = string.format("[[CVar %s|%s]]", cvar, cvar)
 		file:write(fs:format(
@@ -52,7 +58,7 @@ function m:WriteCVarList(blizzres_cvars, framexml_strings, binary_strings)
 			framexml_strings[cvar] and githubLink:format(cvar) or "",
 			secure and "<span title=secure>🛡️</span>" or "",
 			name,
-			default,
+			default_text or "",
 			cvar_enum[category],
 			server and "Account" or character and "Character" or "",
 			desc or ""
