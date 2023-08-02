@@ -78,6 +78,10 @@ function KethoWowpedia:GetCVars(commandType)
 			if cvar_ptr[v.command] then
 				nameText = "[[File:PTR_client.png|16px|link=]] "..nameText
 			end
+			defaultValue = defaultValue and #defaultValue>0 and format("<font color=#ecbc2a><code>%s</code></font>", defaultValue) or ""
+			if v.command == "telemetryTargetPackage" then -- too long
+				defaultValue = "..."
+			end
 			local cache = self.cvar_cache.var[v.command]
 			if cache then
 				-- the category resets back to 5 seemingly randomly
@@ -93,7 +97,7 @@ function KethoWowpedia:GetCVars(commandType)
 				self.cvar_framexml[v.command] and githubLink:format(v.command) or "",
 				secure and "<span title=secure>🛡️</span>" or "",
 				nameText,
-				defaultValue or "",
+				defaultValue,
 				cvar_enum[v.category],
 				server and "Account" or character and "Character" or "",
 				v.help or ""
