@@ -50,7 +50,7 @@ function m:WriteCVarList(blizzres_cvars, framexml_strings, binary_strings)
 		end
 
 		if cvar == "telemetryTargetPackage" then -- too long
-			default_text = '<span title="Blizzard.Telemetry.Wow_Mainline_PTR">...</span>'
+			default_text = string.format('<span title="%s">...</span>', default)
 		end
 		local name = string.format("[[CVar %s|%s]]", cvar, cvar)
 		file:write(fs:format(
