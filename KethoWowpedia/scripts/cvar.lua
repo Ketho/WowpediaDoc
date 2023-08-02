@@ -66,17 +66,17 @@ function KethoWowpedia:GetCVars(commandType)
 	eb:Show()
 	local cvars = GetCvarTypes(commandType)
 	if commandType == Enum.ConsoleCommandType.Cvar then
-		local fs = "|-\n| %s |||| %s |||| %s\n| %s |||| %s |||| %s\n| %s"
+		local fs = "|-\n| %s |||| %s |||| %s |||| %s\n| %s |||| %s |||| %s\n| %s"
 		local githubLink = "[[File:GitHub_Octocat.png|16px|link=https://github.com/Gethe/wow-ui-source/search?q=%s]]"
 		for _, v in pairs(cvars) do
-			local value, defaultValue, server, character = GetCVarInfo(v.command)
+			local value, defaultValue, server, character, _, secure = GetCVarInfo(v.command)
 
 			local nameText = format("[[CVar %s||%s]]", v.command, v.command)
 			if not value then
 				nameText = format("''%s''", nameText)
 			end
 			if cvar_ptr[v.command] then
-				nameText = "{{Test-inline}} "..nameText
+				nameText = "[[File:PTR_client.png|16px|link=]] "..nameText
 			end
 			local cache = self.cvar_cache.var[v.command]
 			if cache then
@@ -91,6 +91,7 @@ function KethoWowpedia:GetCVars(commandType)
 			eb:InsertLine(fs:format(
 				self.patch.cvar[v.command] or "",
 				self.cvar_framexml[v.command] and githubLink:format(v.command) or "",
+				secure and "<span title=secure>🛡️</span>" or "",
 				nameText,
 				defaultValue or "",
 				cvar_enum[v.category],
@@ -103,7 +104,7 @@ function KethoWowpedia:GetCVars(commandType)
 		for _, v in pairs(cvars) do
 			local nameText = format("[[CVar %s||%s]]", v.command, v.command)
 			if cvar_ptr[v.command] then
-				nameText = "{{Test-inline}} "..nameText
+				nameText = "[[File:PTR_client.png|16px|link=]] "..nameText
 			end
 			eb:InsertLine(fs:format(
 				nameText,
