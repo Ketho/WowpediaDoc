@@ -1,20 +1,20 @@
 -- https://github.com/Ketho/BlizzardInterfaceResources/tree/mainline/Resources/GlobalStrings
-local parser = require("Util/wowtoolsparser")
+local parser = require("Util/wago_csv")
 local OUT_PATH = "../BlizzardInterfaceResources/Resources/GlobalStrings/%s.lua"
 
 local short  = [[%s = "%s";]]
 local quoted = [[_G["%s"] = "%s";]]
 
 local locales = {
-	-- "deDE",
+	"deDE",
 	"enUS", -- same as enGB
-	-- "esES", "esMX",
-	-- "frFR",
-	-- "itIT",
-	-- "koKR",
-	-- "ptBR", -- same as ptPT
-	-- "ruRU",
-	-- "zhCN",	"zhTW",
+	"esES", "esMX",
+	"frFR",
+	"itIT",
+	"koKR",
+	"ptBR", -- same as ptPT
+	"ruRU",
+	"zhCN",	"zhTW",
 }
 
 local classic_flavors = {

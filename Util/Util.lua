@@ -2,6 +2,7 @@ local lfs = require "lfs"
 local Path = require "path"
 local https = require "ssl.https"
 local ltn12 = require "ltn12"
+local parser = require "Util/wago_csv"
 
 local Util = {}
 local INVALIDATION_TIME = 60*60
@@ -37,13 +38,13 @@ end
 Util.PtrVersion = "10.1.7"
 
 local flavorInfo = {
-	-- mainline_beta = {flavor = "mainline", header = true, build = "10.0.2.", sort = Util.SortBuild},
-	mainline_ptr = {flavor = "mainline", header = true, build = "10.1.7.", sort = Util.SortPatch},
-	mainline = {flavor = "mainline", header = true, sort = Util.SortPatch},
-	-- mainline = {flavor = "mainline", header = true, build = "10.1.5.", sort = Util.SortBuild},
-	tbc = {flavor = "tbc", header = true, build = "2.5.4."},
-	wrath = {flavor = "wrath", header = true, build = "3.4.1."},
-	vanilla = {flavor = "vanilla", header = true, build = "1.14.3."},
+	mainline_ptr = {flavor = "mainline", branch = "wowt", header = true},
+	mainline = {flavor = "mainline", branch = "wow", header = true},
+	wrath = {flavor = "wrath", header = true, branch = "wow_classic"},
+	wrath_ptr = {flavor = "wrath", header = true, branch = "wow_classic_ptr"},
+	vanilla = {flavor = "vanilla", header = true, branch = "wow_classic_era"},
+	-- vanilla_ptr has 10.1.5 and 10.0.7 builds
+	vanilla_ptr = {flavor = "vanilla", header = true, build = "1.14.4.50643"},
 }
 
 local classicVersions = {
@@ -278,7 +279,12 @@ function Util:GetFlavorOptions(info)
 	if infoType == "table" then
 		return info
 	elseif infoType == "string" then
-		return flavorInfo[info]
+		local t = flavorInfo[info]
+		if t.branch then
+			t.build = parser:GetWagoVersions(t.branch)[1] -- latest build for a branch
+		end
+		t.sort = Util.SortPatch
+		return t
 	elseif not info then
 		return flavorInfo.mainline
 	end

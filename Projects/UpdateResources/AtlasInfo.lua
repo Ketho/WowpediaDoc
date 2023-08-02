@@ -1,5 +1,5 @@
 -- https://github.com/Ketho/BlizzardInterfaceResources/blob/mainline/Resources/AtlasInfo.lua
-local parser = require("Util/wowtoolsparser")
+local parser = require("Util/wago_csv")
 local OUT_PATH = "../BlizzardInterfaceResources/Resources/AtlasInfo.lua"
 
 local function SortTable(tbl, key)
@@ -72,6 +72,7 @@ local function AtlasInfo(options)
 
 	print("writing "..OUT_PATH)
 	local file = io.open(OUT_PATH, "w")
+	file:write("---@diagnostic disable: duplicate-index\n")
 	file:write("-- see also https://wow.gamepedia.com/API_C_Texture.GetAtlasInfo\n")
 	file:write("-- atlas = width, height, leftTexCoord, rightTexCoord, topTexCoord, bottomTexCoord, tilesHorizontally, tilesVertically\n")
 	file:write("local AtlasInfo = {\n")

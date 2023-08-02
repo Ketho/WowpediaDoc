@@ -62,7 +62,10 @@ local function CreateWagoUrl(name, options)
 	local url
 	if options then
 		local t = {}
-		if options.build then
+		if options.branch then
+			local versions = parser:GetWagoVersions(options.branch)
+			table.insert(t, "build="..versions[1])
+		elseif options.build then
 			table.insert(t, "build="..options.build)
 		end
 		if options.locale then
