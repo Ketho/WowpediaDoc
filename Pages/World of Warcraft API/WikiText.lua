@@ -9,7 +9,7 @@ local m = {}
 function m:SaveExport()
 	local url = "https://wowpedia.fandom.com/wiki/Special:Export"
 	local requestBody = "pages=World_of_Warcraft_API&curonly=1"
-	Util:DownloadFilePost(OUTPUT, url, requestBody, true)
+	Util:DownloadFilePost(OUTPUT, url, requestBody, 60)
 end
 
 local symbols = {

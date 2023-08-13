@@ -73,7 +73,7 @@ function Util:GetLatestBuild(flavor)
 	-- end)
 	-- print("using build", t[1].name)
 	-- return Path.join(folder, t[1].name)
-	return Path.join("FrameXML", "mainline", "10.1.7 (50587)")
+	return Path.join("FrameXML", "mainline", "10.1.7 (50793)")
 end
 
 function Util:MakeDir(path)
@@ -132,7 +132,7 @@ function Util:ShouldDownload(path, isCache)
 	local attr = lfs.attributes(path)
 	if not attr then
 		return true
-	elseif isCache and os.time() > attr.modification+INVALIDATION_TIME then
+	elseif isCache and os.time() > attr.modification + (type(isCache) == "number" and isCache or INVALIDATION_TIME) then
 		return true
 	end
 end

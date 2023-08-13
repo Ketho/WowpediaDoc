@@ -23,7 +23,7 @@ end
 
 local function get_api_cat_pages(catName, names)
 	local form = string.format("pages=%s&curonly=1", names)
-	local res = Util:DownloadFilePost(m.OUTPUT_XML:format(catName), export_url, form, true)
+	local res = Util:DownloadFilePost(m.OUTPUT_XML:format(catName), export_url, form, 60)
 end
 
 function m:get_api_cat(catName)
