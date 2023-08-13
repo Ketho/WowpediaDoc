@@ -47,16 +47,23 @@ def get_documented_api():
 	recursiveFiles(fullpath, l)
 	return l
 
-def update_text(s: str):
+def update_text(s:str, name):
 	l = s.splitlines()
 	for i, v in enumerate(l):
-		if v.startswith("|+ "):
-			str_a = "||[[Struct "
-			if str_a in v:
-				l[i] = l[i].replace(str_a, "||Struct ")
-			str_b = "]]}}"
-			if str_b in v:
-				l[i] = l[i].replace(str_b, "}}")
+		if v.startswith("|+ ") and "{{#if:{{{nocaption|}}}||" in v:
+			# str_a = "||[[Struct "
+			# if str_a in v:
+			# 	l[i] = l[i].replace(str_a, "||Struct ")
+			# str_b = "]]}}"
+			# if str_b in v:
+			# 	l[i] = l[i].replace(str_b, "}}")
+			regex = "\}\}\|\|(.*)\}\}"
+			m = re.findall(regex, v)
+			length = len(m[0])
+			half = int(length/2)
+			half_str = m[0][:half]
+			l[i] = v.replace(m[0], half_str)
+			# print(l[i])
 	return str.join("\n", l)
 
 def main():
@@ -66,8 +73,8 @@ def main():
 	# print(pages)
 	for name in pages:
 		page = pywikibot.Page(site, name)
-		page.text = update_text(page.text)
-		page.save(summary="Strip struct hyperlink")
+		page.text = update_text(page.text, name)
+		page.save(summary="Fix struct hyperlink (oops)")
 	print("done")
 
 if __name__ == "__main__":
