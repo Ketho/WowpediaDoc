@@ -2,15 +2,15 @@ import re
 import pywikibot
 import data
 
-# def find_desc(page):
-# 	l = page.text.splitlines()
-# 	if "<!--desc-->" in page.text:
-# 		for line in l:
-# 			m = re.match("<!--desc-->(.+)", line)
-# 			if m:
-# 				return m.group(1)
-# 	else:
-# 		return l[1]
+def find_desc(page):
+	l = page.text.splitlines()
+	if "<!--desc-->" in page.text:
+		for line in l:
+			m = re.match("<!--desc-->(.+)", line)
+			if m:
+				return m.group(1)
+	else:
+		return l[1]
 
 def update_desc(page):
 	title = page.title().replace("API ", "")
@@ -35,6 +35,7 @@ def main():
 		# else:
 		# 	print(page.full_url())
 		newText = update_desc(page)
+		# print(newText)
 		if page.text != newText:
 			page.text = newText
 			page.save("Sync description")
