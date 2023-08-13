@@ -1,11 +1,15 @@
 local Util = require("Util/Util")
-local FOLDER = "Pages/World_of_Warcraft_API/ApiDescription/"
+local FOLDER = "Pages/World of Warcraft API/ApiDescription/"
 local MainList = require(FOLDER.."MainList")
 local PageDescription = require(FOLDER.."Pages")
 
 local invalid = {
 	-- "{protected",
 	-- "Describe the purpose",
+}
+
+local filter_different = {
+	["C_Timer.NewTimer"] = true,
 }
 
 local function isValid(s)
@@ -21,7 +25,7 @@ local function isValid(s)
 	return true
 end
 
-local function main()
+local function main(descType)
 	local mainList = MainList:main()
 	-- for _, name in pairs(Util:SortTable(mainList)) do
 	-- 	local desc = mainList[name]
@@ -39,29 +43,47 @@ local function main()
 	local t = {}
 	local fs = '\t["%s"] = [=[%s]=],'
 	local fs_empy = '\t["%s"] = [=[Empty]=],'
+
+	-- print("\n-- matching")
+	-- for _, k in pairs(Util:SortTable(mainList)) do
+	-- 	local desc1 = mainList[k]
+	-- 	local desc2 = pageDescriptions[k]
+	-- 	if desc1 and desc2 then
+	-- 		if desc1==desc2 then
+	-- 			print(fs:format(k, desc1))
+	-- 		end
+	-- 	end
+	-- end
+
+	print("\n-- different")
 	for _, k in pairs(Util:SortTable(mainList)) do
 		local desc1 = mainList[k]
 		local desc2 = pageDescriptions[k]
-		if (desc1 and not desc2) or (not desc1 and desc2) then
-			t[k] = desc1 or desc2
-			print(fs:format(k, desc1 or desc2))
-		end
-		if desc1 and desc2 then
-			if desc1~=desc2 then
-				print(fs:format(k, desc1))
-				print(fs:format(k, desc2))
-				print()
-			else
-				print(fs:format(k, desc1))
-			end
-		end
-		if not desc1 and not desc2 then
-			print(fs_empy:format(k))
+		if desc1 and desc2 and desc1 ~= desc2 and not filter_different[k] then
+			-- print(fs:format(k, desc1, desc2))
+			print(k)
+			print("", desc1)
+			print("", desc2)
 		end
 	end
-	print(t)
-	-- for _, k in pairs(Util:SortTable(t)) do
-	-- 	print(k, t[k])
+
+	-- print("\n-- either")
+	-- for _, k in pairs(Util:SortTable(mainList)) do
+	-- 	local desc1 = mainList[k]
+	-- 	local desc2 = pageDescriptions[k]
+	-- 	if (desc1 and not desc2) or (not desc1 and desc2) then
+	-- 		local s = desc1 or desc2
+	-- 		print(fs:format(k, s))
+	-- 	end
+	-- end
+
+	-- print("\n-- empty")
+	-- for _, k in pairs(Util:SortTable(mainList)) do
+	-- 	local desc1 = mainList[k]
+	-- 	local desc2 = pageDescriptions[k]
+	-- 	if not desc1 and not desc2 then
+	-- 		print(fs_empy:format(k))
+	-- 	end
 	-- end
 end
 
