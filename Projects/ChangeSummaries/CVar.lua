@@ -33,7 +33,7 @@ local function GetCVarInfo(name)
 		table.insert(t, "type=cvar")
 		table.insert(t, "name="..name)
 		-- cannot use unpack()
-		local default, category, account, character, help = cvar[1], cvar[2], cvar[3], cvar[4], cvar[5]
+		local default, category, account, character, secure, help = cvar[1], cvar[2], cvar[3], cvar[4], cvar[5], cvar[6]
 		if #default > 0 then
 			table.insert(t, "default="..default)
 		end
