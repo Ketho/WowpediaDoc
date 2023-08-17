@@ -7,7 +7,8 @@ local addons_path = Path.join(Util:GetLatestBuild(BRANCH), "AddOns")
 require("WowDocLoader.WowDocLoader"):main("WowDocLoader", addons_path)
 
 local widget_systems = {
-	CooldownFrameAPI = "Cooldown",
+	FrameAPICooldown = "Cooldown",
+	-- CooldownFrameAPI = "Cooldown", -- wtf
 	MinimapFrameAPI = "Minimap",
 	SimpleAnimAPI = "Animation",
 	SimpleAnimAlphaAPI = "Alpha",
