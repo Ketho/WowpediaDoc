@@ -49,6 +49,8 @@ local widget_systems = {
 	SimpleStatusBarAPI = "StatusBar",
 	SimpleTextureAPI = "Texture",
 	SimpleTextureBaseAPI = "TextureBase",
+	FrameAPICharacterModelBase = "CharacterModelBase",
+	FrameAPIDressUpModel = "DressUpModel",
 	-- ScriptRegionSharedDocumentation
 	-- SharedScriptObjectModelLightDocumentation
 }
@@ -59,6 +61,7 @@ local widget_order = {
 	"ScriptRegion", "ScriptRegionResizing", "AnimatableObject",
 	"Region",
 	"TextureBase",
+	"CharacterModelBase",
 	"Texture", "MaskTexture", "Line",
 	"Font",	"FontString",
 	"AnimationGroup",
@@ -73,6 +76,7 @@ local widget_order = {
 	"Frame",
 	"Button", "CheckButton",
 	"Model",
+	"DressUpModel",
 	-- "PlayerModel", "CinematicModel", "DressUpModel", "TabardModel",
 	-- ModelScene
 	-- ModelSceneActor
