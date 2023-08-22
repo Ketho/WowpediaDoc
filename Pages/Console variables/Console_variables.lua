@@ -36,7 +36,7 @@ function m:WriteCVarList(blizzres_cvars, framexml_strings, binary_strings)
 
 	file:write('{| class="sortable darktable zebra col2-center col3-center"\n')
 	file:write("! !! !! !! Name !! Default !! Category !! Scope !! Description\n")
-	local githubLink = "{{framexml_search|%s}}"
+	local githubLink = "{{framexml_search|icon=1|%s}}"
 	local fs = "|-\n| %s || %s || %s || %s\n| %s || %s || %s\n| %s\n"
 	for _, cvar in pairs(Util:SortTable(blizzres_cvars, Util.SortNocase)) do
 		local v = blizzres_cvars[cvar]
