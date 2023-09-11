@@ -1,6 +1,6 @@
 local Path = require "path"
 local Util = require("Util.Util")
-local BRANCH = "mainline"
+local BRANCH = "mainline_ptr"
 
 require("Documenter.LuaEnum"):main(BRANCH)
 Util:LoadDocumentation()

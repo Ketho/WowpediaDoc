@@ -4,7 +4,7 @@ local Util = require("Util/Util")
 local cvar_module = require("Projects/ChangeSummaries/CVar")
 local widget_module = require("Projects/ChangeSummaries/Widget")
 local m = {}
-local BRANCH = "mainline" -- for widgets, cvars
+local BRANCH = "mainline_ptr" -- for widgets, cvars
 -- local DIFF = {"commit", "mainline_ptr", false}
 local DIFF = {"compare", "10.1.5..10.1.7", true}
 
