@@ -13,6 +13,7 @@ local function LoadFile(path)
 end
 
 local function LoadAddon(path, name)
+	print("opening", Path.join(path, name..".toc"))
 	local file = io.open(Path.join(path, name..".toc"))
 	if not file then
 		error(string.format("%s has no TOC file", name))

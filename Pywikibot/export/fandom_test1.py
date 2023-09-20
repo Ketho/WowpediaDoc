@@ -47,23 +47,23 @@ def get_documented_api():
 	return l
 
 def main():
-	# catname = 'API functions'
-	catname = 'API events'
+	catname = 'API functions'
+	# catname = 'API events'
 	# catname = 'Structs'
 	# catname = 'Enums'
 	pages = ([ page['title'] for page in category_members(catname) ])
 	# print(pages)
 	apis = get_documented_api()
 	for v in apis:
-		# if "API " in v and not v in pages:
-		if not "API " in v and not v in pages:
+		if "API " in v and not v in pages:
+		# if not "API " in v and not v in pages:
 		# if not v in pages:
 			# print(v)
 			page = pywikibot.Page(site, v)
 			if not page.exists():
 				# print(v)
 				page.text = apis[v]
-				page.save(summary="10.1.7 (50505)")
+				page.save(summary="10.1.7 (50793)")
 
 	print("done")
 
