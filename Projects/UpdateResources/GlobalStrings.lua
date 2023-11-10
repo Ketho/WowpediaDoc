@@ -81,6 +81,9 @@ local function GlobalStrings(path, options)
 		if key == "KEY_BACKSLASH" then
 			value = [[\\]]
 		end
+		if options.locale == "esES" and key == "ABANDON_QUEST_CONFIRM" then
+			value = [[¿Abandonar \"%s\"?]] -- ""¿Abandonar \%s\?""
+		end
 		local fs = IsValidTableKey(key) and short or quoted
 		file:write(fs:format(key, value), "\n")
 	end
@@ -89,11 +92,11 @@ end
 
 local function WriteLocales(options)
 	for _, locale in pairs(locales) do
-		if not (locale == "itIT" and classic_flavors[options.flavor]) then
-			local path = OUT_PATH:format(locale)
-			options.locale = locale
-			GlobalStrings(path, options)
-		end
+		-- if not (locale == "itIT" and classic_flavors[options.flavor]) then
+		local path = OUT_PATH:format(locale)
+		options.locale = locale
+		GlobalStrings(path, options)
+		-- end
 	end
 	options.locale = nil
 end

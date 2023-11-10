@@ -132,6 +132,14 @@ function parser:PrintCSV(iter)
 end
 -- parser:PrintCSV(parser:ReadCSV("mount"))
 
+local function IsValidBuild(branch, version)
+	if branch == "wow_classic_era_ptr" then
+		return not version:find("10.0.7") and not version:find("10.1.5")
+	else
+		return true
+	end
+end
+
 function parser:GetWagoVersions(branch)
 	local t = {}
 	local path = PATH.join(cache_folder, "versions.json")
@@ -140,7 +148,9 @@ function parser:GetWagoVersions(branch)
 	end
 	local data = ReadJson(path)
 	for _, v in pairs(data[branch]) do
-		table.insert(t, v.version)
+		if IsValidBuild(branch, v.version) then
+			table.insert(t, v.version)
+		end
 	end
 	return t
 end
@@ -148,7 +158,7 @@ end
 local flavors = {
 	mainline = {"wow", "wowt"},
 	wrath = {"wow_classic", "wow_classic_ptr"},
-	vanilla = {"wow_classic_era"}, -- wow_classic_era_ptr has 10.0.7
+	vanilla = {"wow_classic_era", "wow_classic_era_ptr"}, -- wow_classic_era_ptr has 10.0.7
 }
 
 function parser:GetPatches(branch)

@@ -5,6 +5,16 @@ import requests
 
 url = 'https://wowpedia.fandom.com'
 
+categories = [
+	"API functions",
+	"Lua functions",
+	"Widget methods",
+	"Widget script handlers",
+	"API events",
+	"Structs",
+	"Enums",
+]
+
 def category_members(catname):
 	params = {
 		'action': 'query',
@@ -42,12 +52,13 @@ def export(catname):
 def main(catname):
 	xml = export(catname)
 	now = dt.datetime.utcnow().strftime('%Y%m%d%H%M%S')
-	filename = f'Wowpedia-{now}.xml'
+	filename = f'{catname}-{now}.xml'
 	fullpath = Path("Pywikibot", "export", "fandom_api", filename).absolute()
 	print(f'Dumping to "{fullpath}"')
 	with open(fullpath, 'wb') as f:
 		f.write(xml)
 
 if __name__ == '__main__':
-	catname = 'API functions'
-	main(catname)
+	for v in categories:
+		main(v)
+	print("done.")
