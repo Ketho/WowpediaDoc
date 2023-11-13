@@ -16,16 +16,16 @@ m.apiTypes = {
 		map = function(tbl)
 			local t = {}
 			for _, system in pairs(tbl) do
-				if system.Type ~= "ScriptObject" then
-					for _, apiTable in pairs(system.Functions or {}) do
-						if system.Namespace then
-							local fullName = string.format("%s.%s", system.Namespace, apiTable.Name)
-							t[fullName] = apiTable
-						else
-							t[apiTable.Name] = apiTable
-						end
+				-- if system.Type ~= "ScriptObject" then
+				for _, apiTable in pairs(system.Functions or {}) do
+					if system.Namespace then
+						local fullName = string.format("%s.%s", system.Namespace, apiTable.Name)
+						t[fullName] = apiTable
+					else
+						t[apiTable.Name] = apiTable
 					end
 				end
+				-- end
 			end
 			return t
 		end,
@@ -79,5 +79,5 @@ local function main(versions, isWiki)
 end
 
 -- main({"10.1.0 (49318)", "10.1.5 (50006)"}, true)
-main({"10.1.5 (50438)", "10.1.7 (50505)"}, true)
+main({"10.1.7 (51261)", "10.2.0 (52095)"}, true)
 print("done")

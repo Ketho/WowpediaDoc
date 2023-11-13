@@ -88,6 +88,11 @@ local Types =
 		  -- /dump C_WeeklyRewards.GetActivities()[1].rewards
 		{ Name = "WeeklyRewardItemDBID", Type = "string" },
 
+		-- 10.2.0
+		{ Name = "stringView", Type = "string" },
+		{ Name = "SimpleWindow", Type = "unk" },
+		{ Name = "mouseButton", Type = "string", Values = {"LeftButton", "RightButton", "MiddleButton", "Button4", "Button5"} },
+
 		-- widgets
 		-- defined: ScriptObject
 		{ Name = "CScriptObject", Type = "FrameScriptObject", Replace = true, },

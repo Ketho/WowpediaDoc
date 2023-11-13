@@ -1,6 +1,6 @@
 import pywikibot
 
-site = pywikibot.Site("en", "wowpedia")
+site = pywikibot.Site("en", "warcraftwiki")
 
 files = [
 	["out\lua\API_info.flavor.api.lua", "Module:API_info/flavor/api"],
@@ -23,7 +23,7 @@ def getFileText(p):
 def saveFile(text, wikipath):
 	page = pywikibot.Page(site, wikipath)
 	page.text = text
-	page.save(summary = "10.1.7 (51261)")
+	page.save(summary = "10.2.0 (52106)")
 
 def main():
 	for v in files:
