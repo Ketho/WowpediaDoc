@@ -1,5 +1,5 @@
 import pywikibot
 
-site = pywikibot.Site("en", "wowpedia")
-page = pywikibot.Page(site, "Wowpedia:Sandbox/6")
+site = pywikibot.Site("en", "warcraftwiki")
+page = pywikibot.Page(site, "warcraftwiki:Sandbox/6")
 print(page.text)

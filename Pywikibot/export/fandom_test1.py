@@ -3,8 +3,8 @@ import pywikibot
 import os
 from pathlib import Path
 
-site = pywikibot.Site("en", "wowpedia")
-url = 'https://wowpedia.fandom.com'
+site = pywikibot.Site("en", "warcraftwiki")
+url = 'https://warcraft.wiki.gg'
 
 def category_members(catname):
 	params = {
@@ -55,6 +55,7 @@ def main():
 	# print(pages)
 	apis = get_documented_api()
 	for v in apis:
+		# print(v)
 		if "API " in v and not v in pages:
 		# if not "API " in v and not v in pages:
 		# if not v in pages:
@@ -63,7 +64,7 @@ def main():
 			if not page.exists():
 				# print(v)
 				page.text = apis[v]
-				page.save(summary="10.1.7 (50793)")
+				page.save(summary="10.2.0 (52106)")
 
 	print("done")
 
