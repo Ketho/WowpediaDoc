@@ -5,17 +5,18 @@ Util:MakeDir("cache_lua")
 local m = {}
 
 local ignoredTags = {
-	DEPRECATED = true,
-	UI = true,
-	Lua = true,
+	deprecated = true,
+	framexml = true,
+	lua = true,
 }
 
 function m:ParseWikitext(wikitext)
 	local api_names, tag_data = {}, {}
-	for s1, name in string.gmatch(wikitext, "\n:(.-)%[API (.-)|") do
+	for line in string.gmatch(wikitext, "[^\r\n]+") do
+		local name = line:match(": %[%[API (.-)|")
+		local tag = line:match("{{apitag|(.-)}}")
 		table.insert(api_names, name) -- allow finding duplicates
-		local tag = s1:match("<small>''(.-)''</small>")
-		if tag then
+		if name and tag then
 			tag_data[name] = tag
 		end
 	end

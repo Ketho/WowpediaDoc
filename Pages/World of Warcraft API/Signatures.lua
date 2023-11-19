@@ -11,7 +11,7 @@ local m = {}
 
 local function MatchLine(s)
 	local t = {}
-	t.tags = s:match("^: <small>''(.-)''</small>")
+	t.tags = s:match("{{apitag|(.-)}}")
 	t.name = s:match("%[%[API (.-)|")
 	t.signature = signatures[t.name]
 	t.args = s:match("%((.-)%)")
@@ -23,9 +23,6 @@ end
 local function StringBuilder(info)
 	local t = {}
 	table.insert(t, ": ")
-	if info.tags then
-		table.insert(t, string.format("<small>''%s''</small> ", info.tags))
-	end
 	if info.signature then
 		table.insert(t, info.signature)
 	else
@@ -34,6 +31,9 @@ local function StringBuilder(info)
 		if info.returns then
 			table.insert(t, string.format(" : %s", info.returns or ""))
 		end
+	end
+	if info.tags then
+		table.insert(t, string.format(" {{apitag|%s}}", info.tags))
 	end
 	if info.desc then
 		table.insert(t, " - "..info.desc)
