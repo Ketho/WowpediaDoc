@@ -68,7 +68,7 @@ local Types =
 		-- assets
 		{ Name = "FileAsset", Type = "string" }, -- texture path
 		{ Name = "ModelAsset", Type = "string" },
-		{ Name = "TextureAsset", Type = "string" },
+		{ Name = "TextureAsset", Type = "string|number|Texture" },
 		{ Name = "textureAtlas", Type = "string" }, -- texture atlas
 		{ Name = "textureKit", Type = "string" }, -- (what happened to textureKitID as a number?)
 		-- kstrings
@@ -80,7 +80,7 @@ local Types =
 		{ Name = "AnimationDataEnum", Type = "number" },
 		{ Name = "IDOrLink", Type = "number|string" },
 		{ Name = "uiRect", Type = "list", list = {"left", "bottom", "width", "height"} },
-		{ Name = "TextureAssetDisk", Type = "string" },
+		{ Name = "TextureAssetDisk", Type = "string|number" },
 
 		{ Name = "HTMLTextType", Type = "string" },
 		{ Name = "NotificationDbId", Type = "string" },
