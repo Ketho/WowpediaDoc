@@ -126,6 +126,17 @@ local Missing =
 				{ Name = "Cinemascope_2_Dot_4_X_1", Type = "CameraModeAspectRatio ", EnumValue = 3 },
 			}
 		},
+		{
+			-- in mainline but not in classic
+			Name = "RoleShortageReward",
+			Type = "Structure",
+			Fields =
+			{
+				{ Name = "validRoles", Type = "table", InnerType = "cstring", Nilable = false },
+				{ Name = "rewardSpellID", Type = "number", Nilable = false },
+				{ Name = "rewardItemID", Type = "number", Nilable = false },
+			},
+		},
 	},
 }
 

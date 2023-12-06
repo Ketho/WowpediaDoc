@@ -1,9 +1,9 @@
 local Path = require "path"
 local Util = require("Util.Util")
-local BRANCH = "mainline"
+local BRANCH = "vanilla"
 
 require("Documenter.LuaEnum"):main(BRANCH)
-Util:LoadDocumentation()
+Util:LoadDocumentation(BRANCH)
 require("Documenter.Wowpedia.Wowpedia")
 --require("Documenter.Tests.Tests")
 

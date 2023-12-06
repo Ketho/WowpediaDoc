@@ -1,7 +1,7 @@
 local Util = require("Util/Util")
 
 -- mainline, mainline_ptr, wrath, vanilla
-local FLAVOR = "mainline"
+local FLAVOR = "mainline_ptr"
 local options = Util:GetFlavorOptions(FLAVOR)
 require("Projects.UpdateResources.GlobalStrings")(options)
 require("Projects.UpdateResources.AtlasInfo")(options)

@@ -50,6 +50,7 @@ local flavorInfo = {
 local classicVersions = {
 	"^1.13.",
 	"^1.14.",
+	"^1.15.",
 	"^2.5.",
 	"^3.4.",
 }
@@ -60,6 +61,7 @@ Util.RelativePath = {
 }
 
 function Util:GetLatestBuild(flavor)
+	print("Util:GetLatestBuild", flavor)
 	local folder = Path.join("FrameXML", flavor)
 	local t = {}
 	for name in lfs.dir(folder) do
@@ -73,7 +75,6 @@ function Util:GetLatestBuild(flavor)
 	end)
 	print("using build", t[1].name)
 	return Path.join(folder, t[1].name)
-	-- return Path.join("FrameXML", "mainline", "10.1.7 (50793)")
 end
 
 function Util:MakeDir(path)
@@ -342,9 +343,14 @@ function Util:Print(...)
 	end
 end
 
-function Util:LoadDocumentation()
-	local addons_path = Path.join(self:GetLatestBuild("mainline"), "AddOns")
-	require("WowDocLoader.WowDocLoader"):main("WowDocLoader", addons_path)
+function Util:LoadDocumentation(flavor)
+	local addons_path
+	if flavor == "vanilla" then
+		addons_path = Path.join("FrameXML", "vanilla", "1.15.0 (52409)", "Interface", "AddOns")
+	else
+		addons_path = Path.join(self:GetLatestBuild(flavor), "AddOns")
+	end
+	require("WowDocLoader.WowDocLoader"):main(addons_path, flavor)
 end
 
 return Util
