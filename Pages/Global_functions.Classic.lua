@@ -80,10 +80,10 @@ local wp_icons = {
 local sections = {
 	{id = "vanilla", label = "Vanilla"},
 	{id = "wrath", label = "Wrath"},
-	{id = "both", label = "Wrath & Vanilla"},
+	{id = "both", label = "Vanilla & Wrath"},
 	{id = "retail_vanilla", label = "Mainline & Vanilla"},
 	{id = "retail_wrath", label = "Mainline & Wrath"},
-	{id = "retail_both", label = "Mainline & Wrath & Vanilla"},
+	{id = "retail_both", label = "Mainline & Vanilla & Wrath"},
 }
 
 local cvar_enum = {
