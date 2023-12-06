@@ -347,6 +347,10 @@ function Util:LoadDocumentation(flavor)
 	local addons_path
 	if flavor == "vanilla" then
 		addons_path = Path.join("FrameXML", "vanilla", "1.15.0 (52409)", "Interface", "AddOns")
+	elseif flavor == "wrath" then
+		addons_path = Path.join("FrameXML", "wrath", "3.4.3 (51666)", "Interface", "AddOns")
+	elseif flavor == "mainline" then
+		addons_path = Path.join("FrameXML", "mainline", "10.2.0 (52095)", "AddOns")
 	else
 		addons_path = Path.join(self:GetLatestBuild(flavor), "AddOns")
 	end

@@ -78,11 +78,11 @@ local wp_icons = {
 }
 
 local sections = {
-	{id = "wrath", label = "Wrath only"},
+	{id = "vanilla", label = "Vanilla"},
+	{id = "wrath", label = "Wrath"},
 	{id = "both", label = "Wrath & Vanilla"},
-	{id = "retail_wrath", label = "Mainline & Wrath"},
-	{id = "vanilla", label = "Vanilla only"},
 	{id = "retail_vanilla", label = "Mainline & Vanilla"},
+	{id = "retail_wrath", label = "Mainline & Wrath"},
 	{id = "retail_both", label = "Mainline & Wrath & Vanilla"},
 }
 
@@ -152,8 +152,9 @@ function m:GetData(sourceType)
 end
 
 function m:GetEventPayload()
-	local addons_path = Path.join(Util:GetLatestBuild("mainline"), "AddOns")
-	require("WowDocLoader.WowDocLoader"):main("WowDocLoader", addons_path)
+	local branch = "mainline"
+	local addons_path = Path.join(Util:GetLatestBuild(branch), "AddOns")
+	require("WowDocLoader.WowDocLoader"):main(addons_path, branch)
 	local t = {}
 	for _, event in pairs(APIDocumentation.events) do
 		if event.Payload then
