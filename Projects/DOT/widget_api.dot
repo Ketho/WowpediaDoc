@@ -1,0 +1,82 @@
+digraph {
+	FrameScriptObject -> Object
+	FrameScriptObject -> Font
+	Object -> AnimationGroup
+	Object -> Animation
+	Object -> ControlPoint
+	Object -> ScriptRegion
+
+	Animation -> Alpha
+	Animation -> Scale
+	Animation -> Translation
+	Animation -> Path
+	Animation -> LineScale
+	Animation -> LineTranslation
+	Animation -> Rotation
+	Animation -> FlipBook
+	Animation -> TextureCoordTranslation
+
+	ScriptRegion -> Region
+	ScriptRegion -> Frame
+	Region -> FontString
+	Region -> TextureBase
+	TextureBase -> Texture
+	TextureBase -> MaskTexture
+	TextureBase -> Line
+
+	Frame -> Blob
+	Blob -> ArchaeologyDigSiteFrame
+	Blob -> QuestPOIFrame
+	Blob -> ScenarioPOIFrame
+	Frame -> FogOfWarFrame
+	Frame -> UnitPositionFrame
+	Frame -> Model
+	Model -> CharacterModelBase
+	CharacterModelBase -> CinematicModel
+	CharacterModelBase -> DressUpModel
+	CharacterModelBase -> TabardModel
+	Frame -> Button
+	Button -> CheckButton
+	Frame -> EditBox
+	Frame -> MessageFrame
+	Frame -> SimpleHTML
+	Frame -> ColorSelect
+	Frame -> Cooldown
+	Frame -> GameTooltip
+	Frame -> ScrollFrame
+	Frame -> Slider
+	Frame -> StatusBar
+	Frame -> Minimap
+	Frame -> WorldFrame
+	Frame -> MovieFrame
+
+	FrameScriptObject [href="https://warcraft.wiki.gg/wiki/Widget_API#FrameScriptObject",color=orange]
+	Object [href="https://warcraft.wiki.gg/wiki/Widget_API#Object",color=orange]
+	ScriptRegion [href="https://warcraft.wiki.gg/wiki/Widget_API#ScriptRegion",color=orange]
+	Region [href="https://warcraft.wiki.gg/wiki/Widget_API#Region",color=orange]
+	TextureBase [href="https://warcraft.wiki.gg/wiki/Widget_API#TextureBase",color=orange]
+	AnimationGroup [href="https://warcraft.wiki.gg/wiki/UIOBJECT_AnimationGroup"color=blue]
+	Animation [href="https://warcraft.wiki.gg/wiki/UIOBJECT_Animation",color=blue]
+	ControlPoint [href="https://warcraft.wiki.gg/wiki/UIOBJECT_ControlPoint",color=blue]
+	Alpha [href="https://warcraft.wiki.gg/wiki/UIOBJECT_Alpha",color=blue]
+	Scale [href="https://warcraft.wiki.gg/wiki/UIOBJECT_Scale",color=blue]
+	Translation [href="https://warcraft.wiki.gg/wiki/UIOBJECT_Translation",color=blue]
+	Path [href="https://warcraft.wiki.gg/wiki/UIOBJECT_Path",color=blue]
+	LineScale [href="https://warcraft.wiki.gg/wiki/UIOBJECT_LineScale",color=blue]
+	LineTranslation [href="https://warcraft.wiki.gg/wiki/UIOBJECT_LineTranslation",color=blue]
+	Rotation [href="https://warcraft.wiki.gg/wiki/UIOBJECT_Rotation",color=blue]
+	FlipBook [href="https://warcraft.wiki.gg/wiki/UIOBJECT_FlipBook",color=blue]
+	TextureCoordTranslation [href="https://warcraft.wiki.gg/wiki/UIOBJECT_TextureCoordTranslation",color=blue]
+
+	Font [href="https://warcraft.wiki.gg/wiki/UIOBJECT_Font",color=yellow]
+	FontString [href="https://warcraft.wiki.gg/wiki/UIOBJECT_FontString",color=yellow]
+
+	Frame [href="https://warcraft.wiki.gg/wiki/UIOBJECT_Frame",color=purple]
+	Button [href="https://warcraft.wiki.gg/wiki/UIOBJECT_Button",color=purple]
+	CheckButton [href="https://warcraft.wiki.gg/wiki/UIOBJECT_CheckButton",color=purple]
+	EditBox [href="https://warcraft.wiki.gg/wiki/UIOBJECT_EditBox",color=purple]
+	Model [href="https://warcraft.wiki.gg/wiki/UIOBJECT_Model",color=purple]
+	CharacterModelBase [href="https://warcraft.wiki.gg/wiki/UIOBJECT_CharacterModelBase",color=purple]
+	DressUpModel [href="https://warcraft.wiki.gg/wiki/UIOBJECT_DressUpModel",color=purple]
+	ColorSelect [href="https://warcraft.wiki.gg/wiki/UIOBJECT_ColorSelect",color=purple]
+}
