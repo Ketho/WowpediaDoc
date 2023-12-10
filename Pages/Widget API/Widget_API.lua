@@ -4,7 +4,7 @@ local OUT = Path.join("out", "page", "Widget_API.txt")
 local Util = require("Util.Util")
 local BRANCH = "mainline"
 local addons_path = Path.join(Util:GetLatestBuild(BRANCH), "AddOns")
-require("WowDocLoader.WowDocLoader"):main("WowDocLoader", addons_path)
+require("WowDocLoader.WowDocLoader"):main(addons_path)
 
 local widget_systems = {
 	FrameAPICooldown = "Cooldown",
@@ -53,6 +53,18 @@ local widget_systems = {
 	FrameAPIDressUpModel = "DressUpModel",
 	-- ScriptRegionSharedDocumentation
 	-- SharedScriptObjectModelLightDocumentation
+	FrameAPICinematicModel = "CinematicModel",
+	FrameAPITabardModelBase = "TabardModelBase",
+	FrameAPITabardModel = "TabardModel",
+	FrameAPIModelSceneFrame = "ModelScene",
+	FrameAPIModelSceneFrameActorBase = "ModelSceneActorBase",
+	FrameAPIModelSceneFrameActor = "ModelSceneActor",
+	FrameAPIFogOfWarFrame = "FogOfWarFrame",
+	FrameAPIUnitPositionFrame = "UnitPositionFrame",
+	FrameAPIBlob = "Blob",
+	-- FrameAPIArchaeologyDigsite = "ArchaeologyDigSiteFrame",
+	FrameAPIQuestPOI = "QuestPOIFrame",
+	FrameAPIScenarioPOI = "ScenarioPOIFrame",
 }
 
 local widget_order = {
@@ -76,10 +88,10 @@ local widget_order = {
 	"Frame",
 	"Button", "CheckButton",
 	"Model",
-	"DressUpModel",
-	-- "PlayerModel", "CinematicModel", "DressUpModel", "TabardModel",
-	-- ModelScene
-	-- ModelSceneActor
+	-- "DressUpModel",
+	"CharacterModelBase", "CinematicModel", "DressUpModel", "TabardModelBase", "TabardModel",
+	"ModelScene",
+	"ModelSceneActorBase", "ModelSceneActor",
 	"ColorSelect",
 	"Cooldown",
 	"EditBox",
@@ -91,11 +103,12 @@ local widget_order = {
 	"SimpleHTML",
 	"Slider",
 	"StatusBar",
-	-- ArchaeologyDigSiteFrame
-	-- QuestPOIFrame
-	-- ScenarioPOIFrame
-	-- FogOfWarFrame
-	-- UnitPositionFrame
+	"Blob",
+	-- "ArchaeologyDigSiteFrame",
+	"QuestPOIFrame",
+	"ScenarioPOIFrame",
+	"FogOfWarFrame",
+	"UnitPositionFrame",
 	-- "Browser",
 	-- Checkout
 	-- "OffScreenFrame",
