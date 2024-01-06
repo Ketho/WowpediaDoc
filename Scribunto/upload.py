@@ -3,11 +3,11 @@ import pywikibot
 site = pywikibot.Site("en", "warcraftwiki")
 
 files = [
-	["out\lua\API_info.flavor.api.lua", "Module:API_info/flavor/api"],
-	["out\lua\API_info.flavor.event.lua", "Module:API_info/flavor/event"],
+	["out/lua/API_info.flavor.api.lua", "Module:API_info/flavor/api"],
+	["out/lua/API_info.flavor.event.lua", "Module:API_info/flavor/event"],
 
-	["out\lua\API_info.elink.api.lua", "Module:API_info/elink/api"],
-	["out\lua\API_info.elink.event.lua", "Module:API_info/elink/event"],
+	["out/lua/API_info.elink.api.lua", "Module:API_info/elink/api"],
+	["out/lua/API_info.elink.event.lua", "Module:API_info/elink/event"],
 
 	["out/lua/API_info.patch.api_retail.lua", "Module:API_info/patch/api_retail"],
 	["out/lua/API_info.patch.api_classic.lua", "Module:API_info/patch/api_classic"],
@@ -23,7 +23,7 @@ def getFileText(p):
 def saveFile(text, wikipath):
 	page = pywikibot.Page(site, wikipath)
 	page.text = text
-	page.save(summary = "10.2.0 (52106)")
+	page.save(summary = "1.15.0 (52124)")
 
 def main():
 	for v in files:

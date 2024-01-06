@@ -6,14 +6,14 @@ local BRANCH = "mainline"
 require("Documenter.LuaEnum"):main(BRANCH)
 
 local flavors = {
-	retail = {
-		id = "retail",
+	mainline = {
+		id = "mainline",
 		input = "FrameXML/mainline",
 		out = "out/lua/API_info.patch.event_retail.lua",
 	},
 	classic = {
 		id = "classic",
-		input = "FrameXML/classic",
+		input = "FrameXML/vanilla",
 		out = "out/lua/API_info.patch.event_classic.lua",
 	},
 }
@@ -41,13 +41,13 @@ local function WritePatchData(flavor)
 	print("-- reading Blizzard_APIDocumentation", flavor.id)
 	local BlizzardApiDoc = require("Scribunto/API_info/patch/event/BlizzardApiDoc")
 	local tbl_apidoc = BlizzardApiDoc:main(flavors)
-	if flavor.id == "retail" then
+	if flavor.id == "mainline" then
 		-- get older event data by looking through framexml
 		print("-- reading framexml")
 		local tbl_framexml = GetFrameXmlData(tbl_apidoc)
 		-- fill in false values
 		for k, v in pairs(tbl_framexml) do
-			tbl_apidoc.retail[k][1] = v
+			tbl_apidoc.mainline[k][1] = v
 		end
 	end
 	print("writing", flavor.out)
@@ -58,7 +58,7 @@ local function WritePatchData(flavor)
 end
 
 local function main()
-	WritePatchData(flavors.retail)
+	WritePatchData(flavors.mainline)
 	WritePatchData(flavors.classic)
 end
 

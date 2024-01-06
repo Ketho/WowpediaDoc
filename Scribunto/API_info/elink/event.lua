@@ -5,7 +5,7 @@ require("Documenter.LuaEnum"):main(BRANCH)
 local OUT = "out/lua/API_info.elink.event.lua"
 
 local function main()
-	Util:LoadDocumentation()
+	Util:LoadDocumentation(BRANCH)
 	table.sort(APIDocumentation.events, function(a, b)
 		return a.LiteralName < b.LiteralName
 	end)

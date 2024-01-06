@@ -5,7 +5,7 @@ local Util = require("Util/Util")
 local PATH = "Scribunto/API_info/patch/api"
 
 local flavors = {
-	retail = {
+	mainline = {
 		data = require(PATH.."/LoadFiles")(PATH.."/mainline"),
 		out = "out/lua/API_info.patch.api_retail.lua",
 	},
@@ -94,7 +94,7 @@ local function main()
 				t[name][2] = removed[name]
 			end
 		end
-		if flavor == "retail" then
+		if flavor == "mainline" then
 			-- framexml
 			t["C_Timer.NewTimer"] = {"6.0.2"}
 			t["C_Timer.NewTicker"] = {"6.0.2"}
