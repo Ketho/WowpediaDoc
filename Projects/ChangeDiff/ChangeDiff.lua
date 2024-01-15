@@ -5,6 +5,7 @@ local apidoc_nontoc = require("Util/apidoc_nontoc")
 local BRANCH = "mainline"
 -- requires Constants.CharCustomizationConstants 
 require("Documenter.LuaEnum"):main(BRANCH)
+Enum.LFGRoleMeta = {NumValue = 3} -- fix 10.2.5 LFGConstantsDocumentation.lua:60
 
 ChangeDiff = {}
 require("Projects/ChangeDiff/Compare")
@@ -79,5 +80,5 @@ local function main(versions, isWiki)
 end
 
 -- main({"10.1.0 (49318)", "10.1.5 (50006)"}, true)
-main({"10.1.7 (51261)", "10.2.0 (52095)"}, true)
+main({"10.2.0 (52095)", "10.2.5 (52902)"}, true)
 print("done")
