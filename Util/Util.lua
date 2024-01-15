@@ -350,7 +350,8 @@ function Util:LoadDocumentation(flavor)
 	elseif flavor == "wrath" then
 		addons_path = Path.join("FrameXML", "wrath", "3.4.3 (51666)", "Interface", "AddOns")
 	elseif flavor == "mainline" then
-		addons_path = Path.join("FrameXML", "mainline", "10.2.0 (52095)", "AddOns")
+		Enum.LFGRoleMeta = {NumValue = 3} -- fix 10.2.5 LFGConstantsDocumentation.lua:60
+		addons_path = Path.join("FrameXML", "mainline", "10.2.5 (52902)", "AddOns")
 	else
 		addons_path = Path.join(self:GetLatestBuild(flavor), "AddOns")
 	end

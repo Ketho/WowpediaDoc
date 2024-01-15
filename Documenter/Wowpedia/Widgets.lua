@@ -58,6 +58,7 @@ m.widget_docs = {
 	SimpleStatusBarAPI = "StatusBar",
 	SimpleTextureAPI = "Texture",
 	SimpleTextureBaseAPI = "TextureBase",
+	SimpleAnimVertexColorAPI = "VertexColor",
 }
 
 return m

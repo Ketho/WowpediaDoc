@@ -137,6 +137,16 @@ local Missing =
 				{ Name = "rewardItemID", Type = "number", Nilable = false },
 			},
 		},
+
+		-- 10.2.5
+		{
+			-- this is a table but not a structure
+			Name = "LuaValueVariant",
+			Type = "Structure",
+			Fields =
+			{
+			},
+		},
 	},
 }
 
