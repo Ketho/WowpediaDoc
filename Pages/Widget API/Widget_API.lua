@@ -4,6 +4,10 @@ local OUT = Path.join("out", "page", "Widget_API.txt")
 local Util = require("Util.Util")
 local BRANCH = "mainline"
 local addons_path = Path.join(Util:GetLatestBuild(BRANCH), "AddOns")
+-- uh not sure why Enum is suddenly needed
+Enum = {}
+Enum.LFGRoleMeta = {NumValue = 3} -- fix 10.2.5 LFGConstantsDocumentation.lua:60
+Enum.PlayerCurrencyFlagsDbFlags = {InBackpack = 0x4, UnusedInUI = 0x8}
 require("WowDocLoader.WowDocLoader"):main(addons_path)
 
 local widget_systems = {
@@ -22,6 +26,7 @@ local widget_systems = {
 	SimpleAnimTranslationAPI = "Translation",
 	SimpleAnimTranslationLineAPI = "LineTranslation", -- empty
 	SimpleAnimatableObjectAPI = "AnimatableObject",
+	SimpleAnimVertexColorAPI = "VertexColor",
 	-- SimpleBrowserAPI = "Browser",
 	SimpleButtonAPI = "Button",
 	SimpleCheckboxAPI = "CheckButton",
@@ -84,6 +89,7 @@ local widget_order = {
 	"Translation", "LineTranslation",
 	"TextureCoordTranslation",
 	"FlipBook",
+	"VertexColor",
 	"Path",	"ControlPoint",
 	"Frame",
 	"Button", "CheckButton",
