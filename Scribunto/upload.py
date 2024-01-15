@@ -23,7 +23,7 @@ def getFileText(p):
 def saveFile(text, wikipath):
 	page = pywikibot.Page(site, wikipath)
 	page.text = text
-	page.save(summary = "1.15.0 (52124)")
+	page.save(summary = "10.2.5 (52902)")
 
 def main():
 	for v in files:
