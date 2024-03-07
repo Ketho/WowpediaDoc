@@ -2,6 +2,9 @@ local Util = require("Util/Util")
 local WikiText = require("Pages/World of Warcraft API/WikiText")
 Util:MakeDir("cache_lua")
 
+local Signatures_Parse = require("Pages/World of Warcraft API/Signatures_Parse")
+local signatures = Signatures_Parse:GetSignatures()
+
 local m = {}
 
 local ignoredTags = {
@@ -57,7 +60,7 @@ function m:FindMissing(wowpedia, wowpedia_tags, global_api)
 	print("\n-- to add")
 	for _, k in pairs(Util:SortTable(global_api)) do
 		if not map[k] then
-			print(k)
+			print(signatures[k] or k)
 		end
 	end
 	print("\n-- to remove")

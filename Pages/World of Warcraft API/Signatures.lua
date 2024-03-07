@@ -20,7 +20,7 @@ local function MatchLine(s)
 	return t
 end
 
-local function StringBuilder(info)
+function m:StringBuilder(info)
 	local t = {}
 	table.insert(t, ": ")
 	if info.signature then
@@ -49,14 +49,11 @@ function m:UpdateSignatures()
 	local file = io.open(OUTPUT, "w")
 	for line in string.gmatch(wikitext, "(.-)\n") do
 		line = WikiText:ReplaceHtml(line)
-		if line:match("^: (.-)") and not line:find("''UI''") and not isClassic then
+		if line:match("^: (.-)") and not line:find("''UI''") then
 			local info = MatchLine(line)
-			line = StringBuilder(info)
+			line = self:StringBuilder(info)
 		end
 		file:write(line.."\n")
-		if not isClassic and line:find("==Classic==") then
-			isClassic = true
-		end
 	end
 	file:close()
 end
