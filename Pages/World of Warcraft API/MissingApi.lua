@@ -60,7 +60,11 @@ function m:FindMissing(wowpedia, wowpedia_tags, global_api)
 	print("\n-- to add")
 	for _, k in pairs(Util:SortTable(global_api)) do
 		if not map[k] then
-			print(signatures[k] or k)
+			if signatures[k] then
+				print(string.format(": %s", signatures[k]))
+			else
+				print(string.format(": [[API %s|%s]]()", k, k))
+			end
 		end
 	end
 	print("\n-- to remove")
