@@ -21,13 +21,13 @@ function Wowpedia:GetTableText(apiTable, isTemplate, isSubTable)
 	tableClass = tableClass..'" style="margin-left: 3.9em"'
 	tinsert(tbl, tableClass)
 	if isTemplate then
-		local link
-		if transclude == fullName then -- Enum; save some space
-			link = transclude
-		else -- Struct
-			link = format("%s|%s", transclude, fullName)
-		end
-		tinsert(tbl, format("|+ {{#if:{{{nocaption|}}}||[[%s]]}}", link))
+		-- local link
+		-- if transclude == fullName then -- Enum; save some space
+		-- 	link = transclude
+		-- else -- Struct
+		-- 	link = format("%s|%s", transclude, fullName)
+		-- end
+		tinsert(tbl, format("|+ {{#if:{{{nocaption|}}}||%s}}", fullName))
 	elseif isSubTable then
 		tinsert(tbl, format("|+ %s", fullName))
 	end
