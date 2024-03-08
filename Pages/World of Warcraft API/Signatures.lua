@@ -16,7 +16,7 @@ local function MatchLine(s)
 	t.signature = signatures[t.name]
 	t.args = s:match("%((.-)%)")
 	t.returns = s:match("%) : (.+</span>)")
-	t.desc = updated_desc[t.name] or s:match("%) %- (.+)") or s:match("%</span> %- (.+)")
+	t.desc = --[[updated_desc[t.name] or]] s:match("[%)%}] %- (.+)") or s:match("%</span> %- (.+)")
 	return t
 end
 
@@ -43,15 +43,22 @@ end
 
 local isClassic
 
+local blockedTags = {
+	framexml = true,
+	lua = true,
+}
+
 function m:UpdateSignatures()
 	local wikitext = WikiText:GetWikitext().."\n"
 	print("writing "..OUTPUT)
 	local file = io.open(OUTPUT, "w")
 	for line in string.gmatch(wikitext, "(.-)\n") do
 		line = WikiText:ReplaceHtml(line)
-		if line:match("^: (.-)") and not line:find("''UI''") then
+		if line:match("^: (.-)") and not line:find("github.com") then
 			local info = MatchLine(line)
-			line = self:StringBuilder(info)
+			if not blockedTags[info.tags] then
+				line = self:StringBuilder(info)
+			end
 		end
 		file:write(line.."\n")
 	end
