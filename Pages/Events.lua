@@ -3,7 +3,7 @@ local Path = require "path"
 local Util = require("Util.Util")
 
 local addons_path = Path.join(Util:GetLatestBuild("mainline"), "AddOns")
-require("WowDocLoader.WowDocLoader"):main("WowDocLoader", addons_path)
+require("WowDocLoader.WowDocLoader"):main(addons_path)
 local OUTPUT = "out/page/Events.txt"
 
 table.sort(APIDocumentation.systems, function(a, b)

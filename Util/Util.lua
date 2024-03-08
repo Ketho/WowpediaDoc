@@ -73,8 +73,9 @@ function Util:GetLatestBuild(flavor)
 	table.sort(t, function(a, b)
 		return tonumber(a.build) > tonumber(b.build)
 	end)
-	print("using build", t[1].name)
-	return Path.join(folder, t[1].name)
+	local path = Path.join(folder, t[1].name)
+	print(string.format("using build: %s, path: %s", t[1].name, path))
+	return path
 end
 
 function Util:MakeDir(path)

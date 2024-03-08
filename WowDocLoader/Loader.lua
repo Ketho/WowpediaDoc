@@ -27,6 +27,9 @@ local function LoadAddon(path, name)
 end
 
 function m:main()
+	Enum = Enum or {}
+	Enum.LFGRoleMeta = Enum.LFGRoleMeta or {NumValue = 3}
+	Enum.PlayerCurrencyFlagsDbFlags = Enum.PlayerCurrencyFlagsDbFlags or {InBackpack = 0x4, UnusedInUI = 0x8}
 	require(Path.join(WowDocLoader_Path, "Compat"))
 	LoadAddon(Path.join(AddOns_Path, API_DOC), API_DOC)
 	LoadAddon(Path.join(AddOns_Path, GEN_DOC), GEN_DOC)
