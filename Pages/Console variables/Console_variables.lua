@@ -53,6 +53,7 @@ function m:WriteCVarList(blizzres_cvars, framexml_strings, binary_strings)
 			default_text = string.format('<span title="%s">...</span>', default)
 		end
 		local name = string.format("[[CVar %s|%s]]", cvar, cvar)
+		desc = desc and desc:gsub("|", "&#124;")
 		file:write(fs:format(
 			binary_strings[cvar] or "",
 			framexml_strings[cvar] and githubLink:format(cvar) or "",
