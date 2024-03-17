@@ -1,8 +1,8 @@
 -- https://wowprogramming.com/docs/events.html
 -- https://web.archive.org/web/20170519220226id_/http://wowprogramming.com/docs/events
--- https://warcraft.wiki.gg/wiki/Module:API_info/wowprog/events
+-- https://warcraft.wiki.gg/wiki/Module:API_info/wowprog/event
 local gumbo = require "gumbo"
-local document = gumbo.parseFile("Scribunto/API_info/wowprog/events/events.html")
+local document = gumbo.parseFile("Scribunto/API_info/wowprog/event/event.html")
 
 local Util = require("Util/Util")
 
