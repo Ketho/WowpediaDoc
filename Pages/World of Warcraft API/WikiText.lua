@@ -8,7 +8,7 @@ local m = {}
 
 function m:SaveExport()
 	local url = "https://warcraft.wiki.gg/wiki/Special:Export"
-	local requestBody = "pages=World_of_Warcraft_API/Categories&curonly=1"
+	local requestBody = "pages=World_of_Warcraft_API&curonly=1"
 	Util:DownloadFilePost(OUTPUT, url, requestBody, 60)
 end
 
@@ -29,13 +29,6 @@ function m:GetWikitext(isRetail)
 	local text = handler.root.mediawiki.page.revision.text[1]
 	text = self:ReplaceHtml(text)
 	return text
-	-- if isRetail then
-	-- 	local str_start = text:find("==API Reference==")
-	-- 	local str_end = text:find("==Classic==")
-	-- 	return text:sub(str_start, str_end-1)
-	-- else
-	-- 	return text
-	-- end
 end
 
 return m

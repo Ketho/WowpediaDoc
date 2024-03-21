@@ -4,9 +4,9 @@ local Util = require("Util/Util")
 local cvar_module = require("Projects/ChangeSummaries/CVar")
 local widget_module = require("Projects/ChangeSummaries/Widget")
 local m = {}
-local BRANCH = "10.2.5" -- for widgets, cvars
+local BRANCH = "10.2.6" -- for widgets, cvars
 -- local DIFF = {"commit", "mainline_ptr", false}
-local DIFF = {"compare", "10.2.0..10.2.5", true}
+local DIFF = {"compare", "10.2.5..10.2.6", true}
 
 local OUT_FILE = "out/page/ChangeSummaries.txt"
 Util:MakeDir("cache_diff")
@@ -116,7 +116,7 @@ function m:GetWikiTable(info, section)
 		table.sort(info.changes["-"], Util.SortNocase)
 	end
 	local t = {}
-	table.insert(t, string.format('==%s==', info.label or section))
+	table.insert(t, string.format('===%s===', info.label or section))
 	table.insert(t, '{| class="wikitable" style="min-width: 600px"')
 	table.insert(t, string.format('|- class="%s"', info.class))
 	table.insert(t, string.format('! style="width: 50%%" | <font color="lightgreen">Added</font> <small>(%d)</small>', #info.changes["+"]))
@@ -143,6 +143,7 @@ local function main()
 
 	print("writing", OUT_FILE)
 	local file = io.open(OUT_FILE, "w+")
+	file:write("==Diffs==\n")
 	for _, section in pairs(api_order) do
 		local info = data_table[section]
 		file:write(m:GetWikiTable(info, section))
