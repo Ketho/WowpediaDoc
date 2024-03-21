@@ -3,6 +3,7 @@ require("Documenter/Wowpedia/Functions")
 require("Documenter/Wowpedia/Events")
 require("Documenter/Wowpedia/Tables")
 require("Documenter/Wowpedia/Fields")
+require("Documenter/Wowpedia/Missing")
 
 function Wowpedia:GetPageText(apiTable, systemType)
 	local tbl = {}
@@ -55,3 +56,17 @@ function Wowpedia:GetTemplateInfo(apiTable, systemType)
 	end
 	return format("{{%s}}", table.concat(tbl, "|"))
 end
+
+function Wowpedia:main()
+	self:UpdateComplexTableTypes()
+	self:InitComplexFieldRefs()
+	self:InitSubtables()
+	self:InitTypeDocumentation()
+
+	local missingTypes = Wowpedia:FindMissingTypes()
+	if next(missingTypes) then
+		self:PullMissingTypes(missingTypes)
+		self:UpdateComplexTableTypes() -- update complex types again
+	end
+end
+Wowpedia:main()

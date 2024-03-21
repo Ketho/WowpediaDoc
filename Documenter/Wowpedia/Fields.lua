@@ -13,33 +13,38 @@ Wowpedia.blizzardTypes = {}
 Wowpedia.complexRefs = {}
 Wowpedia.subTables = {}
 
--- InitComplexTableTypes
-for _, apiInfo in ipairs(APIDocumentation.tables) do
-	if apiInfo.Type == "Structure" or apiInfo.Type == "Enumeration" or apiInfo.Type == "CallbackType" then
-		Wowpedia.complexTypes[apiInfo.Name] = apiInfo
-	end
-end
-
--- InitComplexFieldRefs
-for _, field in ipairs(APIDocumentation.fields) do
-	local parent = field.Function or field.Event or field.Table
-	local typeName = field.InnerType or field.Type
-	if not Wowpedia.basicTypes[typeName] and parent.Type ~= "Enumeration" then
-		Wowpedia.complexRefs[typeName] = (Wowpedia.complexRefs[typeName] or 0) + 1
-	end
-end
-
--- InitSubtables
-for _, apiTable in ipairs(APIDocumentation.tables) do
-	if apiTable.Type == "Structure" then
-		for _, field in pairs(apiTable.Fields) do
-			Wowpedia.subTables[field.InnerType or field.Type] = true
+function Wowpedia:UpdateComplexTableTypes()
+	for _, apiInfo in ipairs(APIDocumentation.tables) do
+		if apiInfo.Type == "Structure" or apiInfo.Type == "Enumeration" or apiInfo.Type == "CallbackType" then
+			Wowpedia.complexTypes[apiInfo.Name] = apiInfo
 		end
 	end
 end
 
-for _, v in ipairs(TypeDocumentation.Tables) do
-	Wowpedia.blizzardTypes[v.Name] = v
+function Wowpedia:InitComplexFieldRefs()
+	for _, field in ipairs(APIDocumentation.fields) do
+		local parent = field.Function or field.Event or field.Table
+		local typeName = field.InnerType or field.Type
+		if not Wowpedia.basicTypes[typeName] and parent.Type ~= "Enumeration" then
+			Wowpedia.complexRefs[typeName] = (Wowpedia.complexRefs[typeName] or 0) + 1
+		end
+	end
+end
+
+function Wowpedia:InitSubtables()
+	for _, apiTable in ipairs(APIDocumentation.tables) do
+		if apiTable.Type == "Structure" then
+			for _, field in pairs(apiTable.Fields) do
+				Wowpedia.subTables[field.InnerType or field.Type] = true
+			end
+		end
+	end
+end
+
+function Wowpedia:InitTypeDocumentation()
+	for _, v in ipairs(TypeDocumentation.Tables) do
+		Wowpedia.blizzardTypes[v.Name] = v
+	end
 end
 
 local paramFs = ":;%s:%s"
@@ -162,35 +167,5 @@ function Wowpedia:GetComplexTypeInfo(apiTable)
 		local complexTable = self.complexTypes[typeName]
 		local isTransclude = (self.complexRefs[typeName] or 0) > 1
 		return complexTable, isTransclude
-	end
-end
-
-function Wowpedia:FindMissingTypes()
-	local missingTypes = {}
-	for _, field in ipairs(APIDocumentation.fields) do
-		local parent = field.Function or field.Event or field.Table
-		local typeName = field.InnerType or field.Type
-		if not self.basicTypes[typeName] and parent.Type ~= "Enumeration" then
-			if not self.blizzardTypes[typeName] and not self.complexTypes[typeName] then
-				missingTypes[typeName] = {field=field, parent=parent}
-			end
-		end
-	end
-	return missingTypes
-end
-
-function Wowpedia:HasMissingTypes()
-	local missingTypes = self:FindMissingTypes()
-	if next(missingTypes) then
-		print("Found missing types, please add them to WowDocLoader/MissingDocumentation.lua")
-		for complexType, info in pairs(missingTypes) do
-			-- print(Enum.ItemSoundType.Use)
-			if Enum[complexType] then
-				print("Enum:", complexType)
-			else
-				print("Missing:", complexType, info.parent.Type..": "..info.parent.Name)
-			end
-		end
-		return true
 	end
 end

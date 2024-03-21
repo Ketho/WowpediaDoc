@@ -4,7 +4,7 @@ local OUT = Path.join("out", "page", "Widget_API.txt")
 local Util = require("Util.Util")
 
 local BRANCH = "mainline"
-require("WowDocLoader.WowDocLoader"):main(BRANCH)
+Util:LoadDocumentation(BRANCH)
 
 local widget_systems = {
 	FrameAPICooldown = "Cooldown",

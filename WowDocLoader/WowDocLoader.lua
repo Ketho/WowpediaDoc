@@ -16,7 +16,6 @@ end
 local function LoadAddon(framexml_path, name)
 	local path = Path.join(framexml_path, name)
 	local toc_path = Path.join(path, name..".toc")
-	print("opening", toc_path)
 	local file = io.open(toc_path)
 	if not file then
 		error(string.format("%s has no TOC file", path))

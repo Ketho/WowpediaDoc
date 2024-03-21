@@ -39,6 +39,7 @@ local Types =
 		{ Name = "cstring", Type = "string", Common = true, },
 		{ Name = "luaIndex", Type = "number", Common = true, },
 		{ Name = "luaFunction", Type = "function", Common = true, },
+		{ Name = "LuaValueVariant", Type = "table", Common = true, },
 		-- BigInteger in RecruitingClubInfo.lastUpdatedTime (unix time)
 		  -- /dump C_ClubFinder.GetRecruitingClubInfoFromFinderGUID(C_ClubFinder.ReturnMatchingGuildList()[1].clubFinderGUID)
 		{ Name = "BigInteger", Type = "number" },
@@ -92,6 +93,9 @@ local Types =
 		{ Name = "stringView", Type = "string" },
 		{ Name = "SimpleWindow", Type = "unk" },
 		{ Name = "mouseButton", Type = "string", Values = {"LeftButton", "RightButton", "MiddleButton", "Button4", "Button5"} },
+
+		-- 10.2.6
+		{ Name = "ConnectionIptype", Type = "number" }, -- 1=IPv4, 2=IPv6
 
 		-- widgets
 		-- defined: ScriptObject

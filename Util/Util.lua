@@ -76,15 +76,12 @@ function Util:GetLatestBuild(flavor)
 		return tonumber(a.build) > tonumber(b.build)
 	end)
 	local path = Path.join(folder, t[1].name)
-	print(string.format("using build: %s, path: %s", t[1].name, path))
+	print("# Util:GetLatestBuild", path)
 	return path
 end
 
 function Util:LoadDocumentation(branch)
-	local latest = self:GetLatestBuild(branch)
-	local addons_path = Path.join(latest, "AddOns")
-	require("Documenter.LuaEnum"):main(branch)
-	require("WowDocLoader.WowDocLoader"):main(addons_path, branch)
+	require("WowDocLoader.WowDocLoader"):main(branch)
 end
 
 function Util:MakeDir(path)
@@ -358,7 +355,7 @@ function Util:LoadLuaEnums(branch)
 	local url = string.format("https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/LuaEnum.lua", branch)
 	Util:DownloadAndRun(path, url)
 	-- Meta fields are not written to LuaEnum.lua
-	Enum.LFGRoleMeta = {NumValue = 3} -- 10.2.5 LFGConstantsDocumentation.lua:60
+	Enum.LFGRoleMeta = {NumValue = 3} -- 10.2.5 LFGConstantsDocumentation.lua
 end
 
 return Util
