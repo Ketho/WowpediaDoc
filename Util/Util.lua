@@ -61,8 +61,10 @@ Util.RelativePath = {
 }
 
 function Util:GetLatestBuild(flavor)
-	print("Util:GetLatestBuild", flavor)
 	local folder = Path.join("FrameXML", flavor)
+	if not lfs.attributes(folder) then
+		error("path does not exist: "..folder)
+	end
 	local t = {}
 	for name in lfs.dir(folder) do
 		local build = name:match("%((%d+)%)")
@@ -76,6 +78,13 @@ function Util:GetLatestBuild(flavor)
 	local path = Path.join(folder, t[1].name)
 	print(string.format("using build: %s, path: %s", t[1].name, path))
 	return path
+end
+
+function Util:LoadDocumentation(branch)
+	local latest = self:GetLatestBuild(branch)
+	local addons_path = Path.join(latest, "AddOns")
+	require("Documenter.LuaEnum"):main(branch)
+	require("WowDocLoader.WowDocLoader"):main(addons_path, branch)
 end
 
 function Util:MakeDir(path)
@@ -344,21 +353,12 @@ function Util:Print(...)
 	end
 end
 
-function Util:LoadDocumentation(flavor)
-	local addons_path
-	if flavor == "vanilla" then
-		addons_path = Path.join("FrameXML", "vanilla", "1.15.1 (53495)", "Interface", "AddOns")
-	elseif flavor == "wrath" then
-		addons_path = Path.join("FrameXML", "wrath", "3.4.3 (51666)", "Interface", "AddOns")
-	elseif flavor == "mainline" then
-		Enum = Enum or {}
-		Enum.LFGRoleMeta = {NumValue = 3} -- fix 10.2.5 LFGConstantsDocumentation.lua:60
-		Enum.PlayerCurrencyFlagsDbFlags = {InBackpack = 0x4, UnusedInUI = 0x8}
-		addons_path = Path.join("FrameXML", "mainline", "10.2.5 (52902)", "AddOns")
-	else
-		addons_path = Path.join(self:GetLatestBuild(flavor), "AddOns")
-	end
-	require("WowDocLoader.WowDocLoader"):main(addons_path, flavor)
+function Util:LoadLuaEnums(branch)
+	local path = string.format("cache_lua/LuaEnum_%s.lua", branch)
+	local url = string.format("https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/LuaEnum.lua", branch)
+	Util:DownloadAndRun(path, url)
+	-- Meta fields are not written to LuaEnum.lua
+	Enum.LFGRoleMeta = {NumValue = 3} -- 10.2.5 LFGConstantsDocumentation.lua:60
 end
 
 return Util

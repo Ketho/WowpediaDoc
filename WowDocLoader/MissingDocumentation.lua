@@ -78,54 +78,18 @@ local Missing =
 			},
 		},
 		-- enums
-		{
-			-- WeeklyRewardsDocumentation.lua
-			Name = "CachedRewardType",
-			Type = "Enumeration",
-			Fields =
-			{
-				{ Name = "None", Type = "CachedRewardType", EnumValue = 0 },
-				{ Name = "Item", Type = "CachedRewardType", EnumValue = 1 },
-				{ Name = "Currency", Type = "CachedRewardType", EnumValue = 2 },
-				{ Name = "Quest", Type = "CachedRewardType", EnumValue = 3 },
-			},
-		},
-		{
-			-- WeeklyRewardsDocumentation.lua
-			Name = "WeeklyRewardChestThresholdType",
-			Type = "Enumeration",
-			Fields =
-			{
-				{ Name = "None", Type = "WeeklyRewardChestThresholdType", EnumValue = 0 },
-				{ Name = "MythicPlus", Type = "WeeklyRewardChestThresholdType", EnumValue = 1 },
-				{ Name = "RankedPvP", Type = "WeeklyRewardChestThresholdType", EnumValue = 2 },
-				{ Name = "Raid", Type = "WeeklyRewardChestThresholdType", EnumValue = 3 },
-				{ Name = "AlsoReceive", Type = "WeeklyRewardChestThresholdType", EnumValue = 4 },
-				{ Name = "Concession", Type = "WeeklyRewardChestThresholdType", EnumValue = 5 },
-			},
-		},
-		{
-			-- SoundDocumentation.lua (10.0.2)
-			Name = "ItemSoundType",
-			Type = "Enumeration",
-			Fields = {
-				{ Name = "Pickup", Type = "ItemSoundType ", EnumValue = 0 },
-				{ Name = "Drop", Type = "ItemSoundType ", EnumValue = 1 },
-				{ Name = "Use", Type = "ItemSoundType ", EnumValue = 2 },
-				{ Name = "Close", Type = "ItemSoundType ", EnumValue = 3 },
-			}
-		},
-		{
-			-- CameraConstantsDocumentation.lua missing from manifest in 10.1.5 (50438)
-			Name = "CameraModeAspectRatio",
-			Type = "Enumeration",
-			Fields = {
-				{ Name = "Default", Type = "CameraModeAspectRatio ", EnumValue = 0 },
-				{ Name = "LegacyLetterbox", Type = "CameraModeAspectRatio ", EnumValue = 1 },
-				{ Name = "HighDefinition_16_X_9", Type = "CameraModeAspectRatio ", EnumValue = 2 },
-				{ Name = "Cinemascope_2_Dot_4_X_1", Type = "CameraModeAspectRatio ", EnumValue = 3 },
-			}
-		},
+		-- {
+		-- 	-- WeeklyRewardsDocumentation.lua
+		-- 	Name = "CachedRewardType",
+		-- 	Type = "Enumeration",
+		-- 	Fields =
+		-- 	{
+		-- 		{ Name = "None", Type = "CachedRewardType", EnumValue = 0 },
+		-- 		{ Name = "Item", Type = "CachedRewardType", EnumValue = 1 },
+		-- 		{ Name = "Currency", Type = "CachedRewardType", EnumValue = 2 },
+		-- 		{ Name = "Quest", Type = "CachedRewardType", EnumValue = 3 },
+		-- 	},
+		-- },
 		{
 			-- in mainline but not in classic
 			Name = "RoleShortageReward",

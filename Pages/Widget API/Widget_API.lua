@@ -2,13 +2,9 @@ local Path = require "path"
 local lfs = require "lfs"
 local OUT = Path.join("out", "page", "Widget_API.txt")
 local Util = require("Util.Util")
+
 local BRANCH = "mainline"
-local addons_path = Path.join(Util:GetLatestBuild(BRANCH), "AddOns")
--- uh not sure why Enum is suddenly needed
-Enum = {}
-Enum.LFGRoleMeta = {NumValue = 3} -- fix 10.2.5 LFGConstantsDocumentation.lua:60
-Enum.PlayerCurrencyFlagsDbFlags = {InBackpack = 0x4, UnusedInUI = 0x8}
-require("WowDocLoader.WowDocLoader"):main(addons_path)
+require("WowDocLoader.WowDocLoader"):main(BRANCH)
 
 local widget_systems = {
 	FrameAPICooldown = "Cooldown",
