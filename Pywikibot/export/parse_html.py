@@ -2,7 +2,7 @@
 import requests
 from bs4 import BeautifulSoup
 
-export_url = "https://wowpedia.fandom.com/wiki/Special:Export"
+export_url = "https://warcraft.wiki.gg/wiki/Special:Export"
 
 categories = [
 	"API functions",

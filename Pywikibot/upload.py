@@ -2,9 +2,9 @@ import os
 import pywikibot
 import export.parse_html as parse_html
 
-site = pywikibot.Site("en", "wowpedia")
+site = pywikibot.Site("en", "warcraftwiki")
 PATH = "out/export"
-EditSummary = "up to 10.1.0"
+EditSummary = "up to 10.2.6"
 
 def getFileText(p):
 	f = open(p)
