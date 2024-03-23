@@ -111,7 +111,8 @@ def recursiveFiles(path, l):
 	for base in os.listdir(path):
 		newPath = Path(path, base)
 		if os.path.isdir(newPath):
-			recursiveFiles(newPath, l)
+			if base != "widget":
+				recursiveFiles(newPath, l)
 		else:
 			name = base[:-4].replace("_", " ")
 			l.update({name: getFileText(newPath)})
