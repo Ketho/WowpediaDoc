@@ -1,6 +1,7 @@
 import requests
 import pywikibot
 import os
+import time
 from pathlib import Path
 
 site = pywikibot.Site("en", "warcraftwiki")
@@ -138,11 +139,11 @@ def main():
 	docApi = get_documented_api()
 	for v in docApi:
 		if not v in cats and not v in redirects:
-			# print(v)
 			page = pywikibot.Page(site, v)
 			if not page.exists():
 				page.text = docApi[v]
-				page.save(summary="10.2.0 (52106)")
+				page.save(summary="up to 10.2.6")
+				time.sleep(5)
 	print("done")
 
 if __name__ == "__main__":
