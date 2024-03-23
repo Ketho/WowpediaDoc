@@ -45,9 +45,7 @@ function Wowpedia:GetMissingEnum(name)
 		Fields = {},
 	}
 	for k, v in pairs(Enum[name]) do
-		table.insert(t.Fields, {
-			{ Name = k, Type = name, EnumValue = v },
-		})
+		table.insert(t.Fields, { Name = k, Type = name, EnumValue = v })
 	end
 	return t
 end
