@@ -47,5 +47,6 @@ function Wowpedia:GetMissingEnum(name)
 	for k, v in pairs(Enum[name]) do
 		table.insert(t.Fields, { Name = k, Type = name, EnumValue = v })
 	end
+	table.sort(t.Fields, function(a, b) return a.EnumValue < b.EnumValue end)
 	return t
 end
