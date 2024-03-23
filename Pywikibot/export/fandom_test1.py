@@ -69,6 +69,14 @@ redirects = [
 	"API GetUnitPowerBarStringsByID",
 	"API GetUnitPowerBarTextureInfoByID",
 	"API UnitClassBase",
+	"API ToggleCollision",
+	"API ToggleCollisionDisplay",
+	"API TogglePlayerBounds",
+	"API TogglePortals",
+	"API ToggleTris",
+	"API GetNormalizedRealmName",
+	"API UnitFullName",
+	"API UnitNameUnmodified",
 	# events
 	"RAID ROSTER UPDATE",
 	"PVP MATCH STATE CHANGED",
@@ -140,6 +148,7 @@ def main():
 	docApi = get_documented_api()
 	for v in docApi:
 		if not v in cats and not v in redirects:
+			print(v)
 			page = pywikibot.Page(site, v)
 			if not page.exists():
 				page.text = docApi[v]
