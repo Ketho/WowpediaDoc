@@ -2,8 +2,9 @@
 -- https://wowpedia.fandom.com/wiki/Module:API_info/patch/event_classic
 local lfs = require "lfs"
 local write_table = require("Util/write_table")
+local Util = require("Util/Util")
 local BRANCH = "mainline"
-require("Documenter.LuaEnum"):main(BRANCH)
+Util:LoadLuaEnums(BRANCH)
 
 local flavors = {
 	mainline = {

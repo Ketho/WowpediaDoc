@@ -3,7 +3,7 @@ local Util = require("Util/Util")
 local m = {}
 
 function m:main(branch)
-	require("Documenter.LuaEnum"):main(branch)
+	Util:LoadLuaEnums(branch)
 	Util:LoadDocumentation(branch)
 	local globalApi = Util:DownloadAndRun(
 		string.format("cache_lua/GlobalAPI_%s.lua", branch),
