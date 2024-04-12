@@ -153,8 +153,7 @@ end
 
 function m:GetEventPayload()
 	local branch = "mainline"
-	local addons_path = Path.join(Util:GetLatestBuild(branch), "AddOns")
-	require("WowDocLoader.WowDocLoader"):main(addons_path, branch)
+	Util:LoadDocumentation(branch)
 	local t = {}
 	for _, event in pairs(APIDocumentation.events) do
 		if event.Payload then
@@ -167,6 +166,22 @@ function m:GetEventPayload()
 		end
 	end
 	return t
+end
+
+local function GetCVarDefaultText(cvar, default)
+	local s
+	if default then
+		if #default > 0 then
+			s = string.format("<code><font color=#ecbc2a>%s</font></code>", default)
+		end
+		if #default >= 16 then
+			s = string.format('<small>%s</small>', s)
+		end
+		if cvar:find("telemetry") then -- too long
+			s = string.format('<span title="%s">...</span>', default)
+		end
+	end
+	return s
 end
 
 local function main()
@@ -199,10 +214,12 @@ local function main()
 						file:write(string.format("<small>: %s</small>", eventDoc[name]))
 					elseif source == "cvar" then
 						local cvarInfo = parts.wrath[name] or parts.vanilla[name]
-						local default, category, account, character, description = table.unpack(cvarInfo)
+						local default, category, account, character, secure, description = table.unpack(cvarInfo)
+						local default_text = GetCVarDefaultText(name, default) or ""
 						local categoryName = cvar_enum[category] or ""
 						local scope = account and "Account" or character and "Character" or ""
-						file:write(string.format(" || %s || %s || %s || %s", default, categoryName, scope, description))
+						description = description:gsub("|", "&#124;")
+						file:write(string.format(" || %s || %s || %s || %s", default_text, categoryName, scope, description))
 					end
 					file:write("\n")
 				end
