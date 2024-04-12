@@ -78,7 +78,7 @@ local function GlobalStrings(path, options)
 		value = value:gsub([[\"]], [["]]) -- unescape any quotes
 		value = value:gsub([["]], [[\"]]) -- before escaping quotes
 		value = FixEscapes(value)
-		if key == "KEY_BACKSLASH" then
+		if key == "KEY_BACKSLASH" or key == "KEY_OEM5" then
 			value = [[\\]]
 		end
 		if options.locale == "esES" and key == "ABANDON_QUEST_CONFIRM" then
