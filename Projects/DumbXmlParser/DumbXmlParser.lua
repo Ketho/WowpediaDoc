@@ -6,20 +6,32 @@ local FRAMEXML = "../#FrameXML/Generate-Globals/wow-ui-source/"
 -- too lazy to parse FrameXML_TBC.toc or whatever the new file loading structure is
 local flavors = {
 	mainline = {FRAMEXML.."Interface"},
-	wrath = {
+	vanilla = {
 		FRAMEXML.."Interface",
-		FRAMEXML.."Interface_WRATH",
+		FRAMEXML.."Interface_Vanilla",
 	},
 	tbc = {
 		FRAMEXML.."Interface",
 		FRAMEXML.."Interface_TBC",
 	},
-	vanilla = {
+	wrath = {
 		FRAMEXML.."Interface",
-		FRAMEXML.."Interface_Vanilla",
+		FRAMEXML.."Interface_WRATH",
+	},
+	cata = {
+		FRAMEXML.."Interface",
 	},
 }
 local OUT_PATH = "../BlizzardInterfaceResources/Resources"
+
+local flavorFilters = {
+	cata = {
+		["Mainline"] = true,
+		["Vanilla"] = true,
+		["TBC"] = true,
+		["Wrath"] = true,
+	}
+}
 
 local skipDir = {
 	["."] = true,
@@ -87,15 +99,23 @@ local function SortTable(tbl)
 	return t
 end
 
+local function IsFolderFlavor(folder, flavor)
+	if flavorFilters[flavor] then
+		return not flavorFilters[flavor][folder]
+	end
+	return true
+end
+
 local m = {}
 
-function m:IterateFiles(folder)
+function m:IterateFiles(folder, flavor)
 	for fileName in lfs.dir(folder) do
 		local path = folder.."/"..fileName
 		local attr = lfs.attributes(path)
 		if attr.mode == "directory" then
-			if not skipDir[fileName] then
-				self:IterateFiles(path)
+			if not skipDir[fileName] and IsFolderFlavor(fileName, flavor) then
+				-- print(path)
+				self:IterateFiles(path, flavor)
 			end
 		else
 			if fileName:find("%.xml") then
@@ -187,7 +207,7 @@ end
 
 function m:main(flavor)
 	for _, folder in pairs(flavors[flavor]) do
-		m:IterateFiles(folder)
+		m:IterateFiles(folder, flavor)
 	end
 	for _, info in pairs(dataTypes) do
 		m:WriteDataFile(info)
