@@ -4,9 +4,9 @@ local Util = require("Util/Util")
 local FLAVOR = "mainline_beta"
 local options = Util:GetFlavorOptions(FLAVOR)
 require("Projects.UpdateResources.GlobalStrings")(options)
--- require("Projects.UpdateResources.AtlasInfo")(options)
+require("Projects.UpdateResources.AtlasInfo")(options)
 
--- local DumbXmlParser = require("Projects.DumbXmlParser.DumbXmlParser")
--- DumbXmlParser:main(options.flavor)
+local DumbXmlParser = require("Projects.DumbXmlParser.DumbXmlParser")
+DumbXmlParser:main(options.flavor)
 
 print("done")
