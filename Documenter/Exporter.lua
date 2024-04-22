@@ -29,6 +29,7 @@ function m:ExportSystems(folder)
 			Util:MakeDir(format("%s/%s/%s", folder, systemFolder, systemName))
 			local prefix
 			if system.Type == "ScriptObject" then
+				-- if not Widgets.widget_docs[system.Name] then print(system.Name) end
 				prefix = Widgets.widget_docs[system.Name].." "
 			else
 				prefix = system.Namespace and system.Namespace.."." or ""

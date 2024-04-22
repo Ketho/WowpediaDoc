@@ -33,7 +33,7 @@ local function LoadAddon(framexml_path, name)
 end
 
 function m:main(branch)
-	Util:LoadLuaEnums(branch)
+	Util:LoadLuaEnums(branch.."_beta")
 	require(Path.join(LOADER_PATH, "Compat"))
 
 	local latestFrameXML = Util:GetLatestBuild(branch)

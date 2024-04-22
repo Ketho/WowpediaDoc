@@ -59,6 +59,7 @@ m.widget_docs = {
 	SimpleTextureAPI = "Texture",
 	SimpleTextureBaseAPI = "TextureBase",
 	SimpleAnimVertexColorAPI = "VertexColor",
+	SimpleMapSceneAPI = "SimpleMap",
 }
 
 return m

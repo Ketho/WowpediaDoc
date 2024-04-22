@@ -97,6 +97,10 @@ local Types =
 		-- 10.2.6
 		{ Name = "ConnectionIptype", Type = "number" }, -- 1=IPv4, 2=IPv6
 
+		-- 10.2.7
+		{ Name = "SpellIdentifier", Type = "number" }, -- spellID
+		{ Name = "ArtifactTiers", Type = "number" },
+
 		-- widgets
 		-- defined: ScriptObject
 		{ Name = "CScriptObject", Type = "FrameScriptObject", Replace = true, },
