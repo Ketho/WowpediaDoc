@@ -184,7 +184,10 @@ end
 function m:HandleCommaString(tbl, str)
 	if str:find(",") then
 		for part in str:gmatch("[^%s,]+") do
-			tbl[part] = part
+			-- QuestOfferDataProviderMixin = CreateFromMixins(MapCanvasDataProviderMixin, { PIN_LEVEL_RANGE = GetMaxPinLevel(), });
+			if part:find("%w") then
+				tbl[part] = part
+			end
 		end
 	else
 		tbl[str] = str

@@ -35,17 +35,15 @@ function Util.SortBuild(a, b)
 	end
 end
 
-Util.PtrVersion = "10.2.7"
+Util.PtrVersion = "10.2.x"
 
 local flavorInfo = {
+	mainline = {flavor = "mainline", branch = "wow", header = true},
 	mainline_beta = {flavor = "mainline", branch = "wow_beta", header = true},
 	mainline_ptr = {flavor = "mainline", branch = "wowt", header = true},
-	mainline = {flavor = "mainline", branch = "wow", header = true},
 	vanilla = {flavor = "vanilla", header = true, branch = "wow_classic_era"},
-	-- vanilla_ptr has 10.1.5 and 10.0.7 builds
-	vanilla_ptr = {flavor = "vanilla", branch = "wow_classic_era_ptr", header = true},
-	wrath = {flavor = "wrath", header = true, branch = "wow_classic"},
-	wrath_ptr = {flavor = "wrath", header = true, branch = "wow_classic_ptr"},
+	vanilla_ptr = {flavor = "vanilla", branch = "wow_classic_era_ptr", header = true}, -- has 10.1.5 and 10.0.7 builds
+	cata = {flavor = "cata", header = true, branch = "wow_classic"},
 	cata_ptr = {flavor = "cata", header = true, branch = "wow_classic_beta"},
 }
 
