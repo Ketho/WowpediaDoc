@@ -88,7 +88,10 @@ local Types =
 		-- WeeklyRewardItemDBID in WeeklyRewardActivityRewardInfo
 		  -- /dump C_WeeklyRewards.GetActivities()[1].rewards
 		{ Name = "WeeklyRewardItemDBID", Type = "string" },
-
+		
+		-- 10.2.7
+		{ Name = "JustifyHorizontal", Type = "string" }, -- LEFT, RIGHT, CENTER
+		{ Name = "JustifyVertical", Type = "string" },
 		-- 10.2.0
 		{ Name = "stringView", Type = "string" },
 		{ Name = "SimpleWindow", Type = "unk" },
