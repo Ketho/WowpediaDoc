@@ -34,19 +34,19 @@ function Wowpedia:GetTableText(apiTable, isTemplate, isSubTable)
 	if apiTable.Type == "Enumeration" then
 		tinsert(tbl, "! Value !! Field !! Description")
 		for _, field in ipairs(apiTable.Fields) do
-			tinsert(tbl, format('|-\n| %s || %s || ', field.EnumValue, field.Name))
+			tinsert(tbl, format('|-\n| %s || <code>%s</code> || ', field.EnumValue, field.Name))
 		end
 	elseif apiTable.Type == "Structure" then
 		tinsert(tbl, "! Field !! Type !! Description")
 		for _, field in ipairs(apiTable.Fields) do
 			local prettyType = self:GetPrettyType(field)
-			tinsert(tbl, format('|-\n| %s || %s || ', field.Name, prettyType))
+			tinsert(tbl, format('|-\n| <code>%s</code> || %s || ', field.Name, prettyType))
 		end
 	elseif apiTable.Type == "Constants" then
 		tinsert(tbl, "! Constant !! Type !! Value !! Description")
 		for _, field in ipairs(apiTable.Values) do
 			local prettyType = self:GetPrettyType(field)
-			tinsert(tbl, format('|-\n| %s || %s || %s || ', field.Name, prettyType, field.Value))
+			tinsert(tbl, format('|-\n| <code>%s</code> || %s || %s || ', field.Name, prettyType, field.Value))
 		end
 	end
 	tinsert(tbl, "|}")

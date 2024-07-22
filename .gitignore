@@ -16,3 +16,4 @@ apicache-py3
 user-config.py
 user-password.py
 /logs
+/apicache
