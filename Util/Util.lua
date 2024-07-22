@@ -351,11 +351,10 @@ function Util:Print(...)
 end
 
 function Util:LoadLuaEnums(branch)
+	if Enum then return end
 	local path = string.format("cache_lua/LuaEnum_%s.lua", branch)
 	local url = string.format("https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/LuaEnum.lua", branch)
 	Util:DownloadAndRun(path, url)
-	-- Meta fields are not written to LuaEnum.lua
-	Enum.LFGRoleMeta = {NumValue = 3} -- 10.2.5 LFGConstantsDocumentation.lua
 	require("Util.WowDocFix")
 end
 
