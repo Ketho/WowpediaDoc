@@ -2,6 +2,23 @@
 local parser = require("Util/wago_csv")
 local OUT_PATH = "../BlizzardInterfaceResources/Resources/AtlasInfo.lua"
 
+local columns = {
+	["CommittedName"] = "Field_11_0_2_55665_000",
+	["ID"] = "Field_11_0_2_55665_001",
+	["UiTextureAtlasID"] = "Field_11_0_2_55665_002",
+	["Width"] = "Field_11_0_2_55665_003",
+	["Height"] = "Field_11_0_2_55665_004",
+	["CommittedLeft"] = "Field_11_0_2_55665_005",
+	["CommittedRight"] = "Field_11_0_2_55665_006",
+	["CommittedTop"] = "Field_11_0_2_55665_007",
+	["CommittedBottom"] = "Field_11_0_2_55665_008",
+	["UiTextureAtlasElementID"] = "Field_11_0_2_55665_009",
+	["OverrideWidth"] = "Field_11_0_2_55665_010",
+	["OverrideHeight"] = "Field_11_0_2_55665_011",
+	["CommittedFlags"] = "Field_11_0_2_55665_012",
+	["UiCanvasID"] = "Field_11_0_2_55665_013",
+}
+
 local function SortTable(tbl, key)
 	table.sort(tbl, function(a, b)
 		return a[key] < b[key]
@@ -40,6 +57,12 @@ local function AtlasInfo(options)
 
 	local uitextureatlasmember = parser:ReadCSV("uitextureatlasmember", options)
 	for line in uitextureatlasmember:lines() do
+		-- 11.0.2 hack
+		if not line.CommittedName then
+			for k, v in pairs(columns) do
+				line[k] = line[v]
+			end
+		end
 		-- line.CommitedName is not a valid atlas id
 		local name = element_names[tonumber(line.UiTextureAtlasElementID)]
 		if name and name ~= "" then -- 1130222 interface/store/shop has empty atlas members
@@ -73,7 +96,6 @@ local function AtlasInfo(options)
 	print("writing "..OUT_PATH)
 	local file = io.open(OUT_PATH, "w")
 	file:write("---@diagnostic disable: duplicate-index\n")
-	file:write("-- see also https://wow.gamepedia.com/API_C_Texture.GetAtlasInfo\n")
 	file:write("-- atlas = width, height, leftTexCoord, rightTexCoord, topTexCoord, bottomTexCoord, tilesHorizontally, tilesVertically\n")
 	file:write("local AtlasInfo = {\n")
 	for _, atlas in pairs(atlasOrder) do
