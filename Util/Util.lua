@@ -356,6 +356,7 @@ function Util:LoadLuaEnums(branch)
 	Util:DownloadAndRun(path, url)
 	-- Meta fields are not written to LuaEnum.lua
 	Enum.LFGRoleMeta = {NumValue = 3} -- 10.2.5 LFGConstantsDocumentation.lua
+	require("Util.WowDocFix")
 end
 
 return Util
