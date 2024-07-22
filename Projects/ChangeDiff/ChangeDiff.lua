@@ -1,14 +1,15 @@
 -- compares framexml versions
-local Util = require("Util/Util")
-local apidoc_nontoc = require("Util/apidoc_nontoc")
+local Util = require("Util.Util")
+local apidoc_nontoc = require("Util.apidoc_nontoc")
+require("Util.WowDocFix")
 
 local BRANCH = "mainline"
 Util:LoadLuaEnums(BRANCH)
 
 ChangeDiff = {}
-require("Projects/ChangeDiff/Compare")
+require("Projects.ChangeDiff.Compare")
 local m = ChangeDiff
-local PrintView = require("Projects/ChangeDiff/PrintView")
+local PrintView = require("Projects.ChangeDiff.PrintView")
 
 m.apiTypes = {
 	Function = {
@@ -75,5 +76,5 @@ local function main(versions, isWiki)
 	PrintView:PrintView(changes, isWiki)
 end
 
-main({"10.2.5 (52902)", "10.2.6 (53840)"}, true)
+main({"10.2.7 (55461)", "11.0.2 (55763)"}, true)
 print("done")

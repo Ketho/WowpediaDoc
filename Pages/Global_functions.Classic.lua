@@ -66,24 +66,24 @@ local sources = {
 -- https://github.com/Ketho/BlizzardInterfaceResources/branches
 local branches = {
 	"mainline",
-	"wrath",
+	"cata",
 	"vanilla",
 }
 
 -- avoid using templates as that increases page processing time
 local wp_icons = {
 	mainline = "[[File:Dragonflight-Icon-Inline.png|34px|link=]]",
-	wrath = "[[File:Wrath-Logo-Small.png|link=]]",
+	cata = "[[File:Cata-Logo-Small.png|link=]]",
 	vanilla = "[[File:WoW Icon update.png|link=]]",
 }
 
 local sections = {
 	{id = "vanilla", label = "Vanilla"},
-	{id = "wrath", label = "Wrath"},
-	{id = "both", label = "Vanilla & Wrath"},
+	{id = "cata", label = "Cataclysm"},
+	{id = "both", label = "Vanilla & Cataclysm"},
 	{id = "retail_vanilla", label = "Mainline & Vanilla"},
-	{id = "retail_wrath", label = "Mainline & Wrath"},
-	{id = "retail_both", label = "Mainline & Vanilla & Wrath"},
+	{id = "retail_cata", label = "Mainline & Cataclysm"},
+	{id = "retail_both", label = "Mainline & Vanilla & Cataclysm"},
 }
 
 local cvar_enum = {
@@ -127,22 +127,22 @@ function m:GetData(sourceType)
 
 	for name in pairs(mainTbl) do
 		local retail = parts.mainline[name]
-		local wrath = parts.wrath[name]
+		local cata = parts.cata[name]
 		local vanilla = parts.vanilla[name]
 
 		if retail then
-			if wrath and vanilla then
-				sectionData.retail_both[name] = wrath
-			elseif wrath then
-				sectionData.retail_wrath[name] = wrath
+			if cata and vanilla then
+				sectionData.retail_both[name] = cata
+			elseif cata then
+				sectionData.retail_cata[name] = cata
 			elseif vanilla then
 				sectionData.retail_vanilla[name] = vanilla
 			end
 		else
-			if wrath and vanilla then
-				sectionData.both[name] = wrath
-			elseif wrath then
-				sectionData.wrath[name] = wrath
+			if cata and vanilla then
+				sectionData.both[name] = cata
+			elseif cata then
+				sectionData.cata[name] = cata
 			elseif vanilla then
 				sectionData.vanilla[name] = vanilla
 			end
@@ -206,14 +206,14 @@ local function main()
 				file:write(section_fs:format(sectionInfo.label))
 				for _, name in pairs(Util:SortTable(data[sectionInfo.id], info.sortFunc)) do
 					local retail = parts.mainline[name] and wp_icons.mainline or ""
-					local wrath = parts.wrath[name] and wp_icons.wrath or ""
+					local cata = parts.cata[name] and wp_icons.cata or ""
 					local vanilla = parts.vanilla[name] and wp_icons.vanilla or ""
 					local nameLink = info.name_fs:format(name, name)
-					file:write(row_fs:format(retail, wrath, vanilla, nameLink))
+					file:write(row_fs:format(retail, cata, vanilla, nameLink))
 					if source == "event" and eventDoc[name] then
 						file:write(string.format("<small>: %s</small>", eventDoc[name]))
 					elseif source == "cvar" then
-						local cvarInfo = parts.wrath[name] or parts.vanilla[name]
+						local cvarInfo = parts.cata[name] or parts.vanilla[name]
 						local default, category, account, character, secure, description = table.unpack(cvarInfo)
 						local default_text = GetCVarDefaultText(name, default) or ""
 						local categoryName = cvar_enum[category] or ""
