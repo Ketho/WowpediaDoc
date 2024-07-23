@@ -98,8 +98,22 @@ local function GetFullName(api)
     elseif system.Name then
         table.insert(t, system.Name)
         table.insert(t, parent.Name)
-        return table.concat(t, "~"), parent,source
+        return table.concat(t, "~"), parent, source
     end
+end
+
+local function apilink_builder(name, arg, ret)
+    local t = {}
+    table.insert(t, "{{apilink")
+    table.insert(t, "t=a")
+    table.insert(t, name)
+    if #arg > 0 then
+        table.insert(t, "arg="..arg)
+    end
+    if #ret > 0 then
+        table.insert(t, "ret="..ret)
+    end
+    return table.concat(t, "|").."}}"
 end
 
 local function main()
@@ -116,15 +130,12 @@ local function main()
             -- print(k, parent:GetFullName(false, false))
             if apiName == "SpellIdentifier" then
                 local r = {}
-                local func = parent:GetFullName(false, false)
+                -- local func = parent:GetFullName(false, false)
+                local func = fullName
+                local arg = parent:GetArgumentString(false, false)
                 local ret = parent:GetReturnString(false, false)
-                local wiki1 = ": {{api|t=a|%s}}"
-                table.insert(r, wiki1:format(func))
-                if ret then
-                    wiki2 = [[ <span style="font-size:smaller;">: <span style="color:#4ec9b0;">%s</span></span>]]
-                    table.insert(r, wiki2:format(ret))
-                end
-                print(table.concat(r))
+                local link = apilink_builder(func, arg, ret)
+                print(": "..link)
             end
         end
     end
