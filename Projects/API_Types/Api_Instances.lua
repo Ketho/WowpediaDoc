@@ -115,8 +115,16 @@ local function main()
             -- print(k, fullName, parent:GetFullName(false, false), source, v:GetFullName(false, false))
             -- print(k, parent:GetFullName(false, false))
             if apiName == "SpellIdentifier" then
-                local wikitext = ": {{api|t=a|%s}}"
-                print(wikitext:format(parent:GetFullName(false, false)))
+                local r = {}
+                local func = parent:GetFullName(false, false)
+                local ret = parent:GetReturnString(false, false)
+                local wiki1 = ": {{api|t=a|%s}}"
+                table.insert(r, wiki1:format(func))
+                if ret then
+                    wiki2 = [[ <span style="font-size:smaller;">: <span style="color:#4ec9b0;">%s</span></span>]]
+                    table.insert(r, wiki2:format(ret))
+                end
+                print(table.concat(r))
             end
         end
     end
