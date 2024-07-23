@@ -33,6 +33,7 @@ local function LoadAddon(framexml_path, name)
 end
 
 function m:main(branch)
+	if APIDocumentation then return end
 	Util:LoadLuaEnums(branch.."_beta")
 	require(Path.join(LOADER_PATH, "Compat"))
 

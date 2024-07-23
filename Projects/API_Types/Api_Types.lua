@@ -3,6 +3,8 @@ local Util = require("Util.Util")
 local loader = require("WowDocLoader.WowDocLoader")
 loader:main("mainline")
 
+local m = {}
+
 local function explode(t)
     for k, v in pairs(t) do
         print(k, v)
@@ -149,7 +151,7 @@ local widgets = {
     SimpleWindow = true,
 }
 
-local function main()
+function m:GetSpecialTypes()
     local structures = GetStructureTypes()
     local enums = GetEnumTypes()
     local functions = GetFunctionTypes()
@@ -159,9 +161,16 @@ local function main()
     local t1 = union(structures, missingStructures, enums, docNoExistEnums, basicTypes, mixins, widgets)
     local t2 = union(functions, events, fields)
     local types = difference(t2, t1)
-    for k, v in pairs(Util:SortTable(types)) do
+    local sorted = Util:SortTable(types)
+    return sorted
+end
+
+local function main()
+    local sorted = m:GetSpecialTypes()
+    for k, v in pairs(sorted) do
         print(v)
     end
 end
+-- main()
 
-main()
+return m
