@@ -181,11 +181,16 @@ function m:FindAttribute(line, name)
 	return line:match(pattern)
 end
 
+local bl = {
+	GetMaxPinLevel = true,
+	PIN_LEVEL_RANGE = true,
+	settings = true,
+}
+
 function m:HandleCommaString(tbl, str)
 	if str:find(",") then
-		for part in str:gmatch("[^%s,]+") do
-			-- QuestOfferDataProviderMixin = CreateFromMixins(MapCanvasDataProviderMixin, { PIN_LEVEL_RANGE = GetMaxPinLevel(), });
-			if part:find("%w") then
+		for part in str:gmatch("[^%s,%(%)]+") do
+			if part:find("%w") and not bl[part] then
 				tbl[part] = part
 			end
 		end
