@@ -3,6 +3,7 @@ local Util = require("Util.Util")
 local loader = require("WowDocLoader.WowDocLoader")
 loader:main("mainline")
 local m_Api_Types = require("Projects.API_Types.Api_Types")
+local widgetSystems = require("Util.widget_system")
 
 local function explode(t)
     for k, v in pairs(t) do
@@ -96,30 +97,48 @@ local function GetFullName(api)
         table.insert(t, parent.Name)
         return table.concat(t, "."), parent, source
     elseif system.Name then
-        table.insert(t, system.Name)
-        table.insert(t, parent.Name)
-        return table.concat(t, "~"), parent, source
+        if system.Type == "ScriptObject" then
+            local widgetName =  widgetSystems[system.Name]
+            table.insert(t, widgetName)
+            table.insert(t, parent.Name)
+            return table.concat(t, ":"), parent, source
+        else
+            table.insert(t, parent.Name)
+            return table.concat(t), parent, source
+        end
     end
 end
 
-local function apilink_builder(name, arg, ret)
+local function apilink_builder(parent, name, params)
     local t = {}
     table.insert(t, "{{apilink")
-    table.insert(t, "t=a")
-    table.insert(t, name)
-    if #arg > 0 then
-        table.insert(t, "arg="..arg)
-    end
-    if #ret > 0 then
-        table.insert(t, "ret="..ret)
+    if parent.Type == "Function" then
+        if parent.System.Type == "ScriptObject" then
+            table.insert(t, "t=w")
+        else
+            table.insert(t, "t=a")
+        end
+        table.insert(t, name)
+        if #params.arg > 0 then
+            table.insert(t, "arg="..params.arg)
+        end
+        if #params.ret > 0 then
+            table.insert(t, "ret="..params.ret)
+        end
+    elseif parent.Type == "Event" then
+        table.insert(t, "t=e")
+        table.insert(t, name)
+        if params.payload then
+            table.insert(t, "payload="..params.payload)
+        end
     end
     return table.concat(t, "|").."}}"
 end
 
-local function main()
+local function main(search_name)
     local specialTypes = m_Api_Types:GetSpecialTypes()
     for _, apiName in pairs(specialTypes) do
-        print("# "..apiName)
+        -- print("# "..apiName)
         -- local functions = GetFunctionTypes(apiName) -- api.System
         -- local events = GetEventTypes(apiName)       -- api.System
         local fields = GetFieldTypes(apiName)          -- api.Table, api.Function, api.Event
@@ -128,18 +147,24 @@ local function main()
             local fullName, parent, source = GetFullName(v)
             -- print(k, fullName, parent:GetFullName(false, false), source, v:GetFullName(false, false))
             -- print(k, parent:GetFullName(false, false))
-            if apiName == "SpellIdentifier" then
-                local r = {}
+            if apiName == search_name then
+                local link
                 -- local func = parent:GetFullName(false, false)
-                local func = fullName
-                local arg = parent:GetArgumentString(false, false)
-                local ret = parent:GetReturnString(false, false)
-                local link = apilink_builder(func, arg, ret)
+                if parent.Type == "Function" then
+                    local arg = parent:GetArgumentString(false, false)
+                    local ret = parent:GetReturnString(false, false)
+                    link = apilink_builder(parent, fullName, {arg=arg, ret=ret})
+                elseif parent.Type == "Event" then
+                    local payload = parent:GetPayloadString(false, false)
+                    link = apilink_builder(parent, parent.LiteralName, {payload=payload})
+                elseif parent.Type == "Structure" then
+                    local struct_name = parent:GetFullName()
+                    link = string.format("[[Struct_%s|%s]]", struct_name, struct_name)
+                end
                 print(": "..link)
             end
         end
     end
 end
 
-main()
--- /run for k, v in pairs(APIDocumentation.functions) do if v.Name == "GetAnimation" then Spew("", v) end end
+main("WOWGUID")
