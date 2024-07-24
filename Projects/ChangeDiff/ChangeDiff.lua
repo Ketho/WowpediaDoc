@@ -1,7 +1,6 @@
 -- compares framexml versions
 local Util = require("Util.Util")
 local apidoc_nontoc = require("Util.apidoc_nontoc")
-require("Util.WowDocFix")
 
 local BRANCH = "mainline"
 Util:LoadLuaEnums(BRANCH)
@@ -41,12 +40,28 @@ m.apiTypes = {
 		end,
 		params = {"Payload"},
 	},
+	Enumeration = {
+		map = function(tbl)
+			local t = {}
+			for _, system in pairs(tbl) do
+				for _, apiTable in pairs(system.Tables or {}) do
+					if apiTable.Type == "Enumeration" then
+						t[apiTable.Name] = apiTable
+					end
+				end
+			end
+			return t
+		end,
+		params = {"Fields"},
+	},
 	Structure = {
 		map = function(tbl)
 			local t = {}
 			for _, system in pairs(tbl) do
 				for _, apiTable in pairs(system.Tables or {}) do
-					t[apiTable.Name] = apiTable
+					if apiTable.Type == "Structure" then
+						t[apiTable.Name] = apiTable
+					end
 				end
 			end
 			return t
@@ -54,7 +69,7 @@ m.apiTypes = {
 		params = {"Fields"},
 	},
 }
-m.apiType_order = {"Function", "Event", "Structure"}
+m.apiType_order = {"Function", "Event", "Enumeration", "Structure"}
 
 function m:LoadFrameXML(versions)
 	local t = {}
@@ -76,5 +91,5 @@ local function main(versions, isWiki)
 	PrintView:PrintView(changes, isWiki)
 end
 
-main({"10.2.7 (55461)", "11.0.2 (55763)"}, true)
+main({"11.0.0 (55818)", "11.0.2 (55763)"}, true)
 print("done")

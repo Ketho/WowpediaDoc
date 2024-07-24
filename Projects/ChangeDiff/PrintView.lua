@@ -59,10 +59,12 @@ local fs_info = {
 		modified_nilable = '  # %s%d: %s, Nilable: %s -> %s',
 	},
 	wiki = {
-		add              = '   + %s%d: <font color="#00b400">%s</font>',
-		remove           = '   - %s%d: <font color="#ff6767">%s</font>',
-		modified_type    = '   # %s%d: <font color="#ecbc2a">%s</font>, Type: %s -> %s',
-		modified_nilable = '   # %s%d: <font color="#ecbc2a">%s</font>, Nilable: %s -> %s',
+		add                = '   + %s%d: <font color="#00b400">%s</font>',
+		remove             = '   - %s%d: <font color="#ff6767">%s</font>',
+		modified_type      = '   # %s%d: <font color="#ecbc2a">%s</font>, Type: %s -> %s',
+		modified_innertype = '   # %s%d: <font color="#ecbc2a">%s</font>, InnerType: %s -> %s',
+		modified_nilable   = '   # %s%d: <font color="#ecbc2a">%s</font>, Nilable: %s -> %s',
+		modified_doc       = '   # %s%d: <font color="#ecbc2a">%s</font>, Documentation: %s -> %s',
 	},
 }
 
@@ -97,8 +99,16 @@ function m:PrintParamChanges(param, a, b, isWiki)
 				if right.Type ~= left.info.Type then
 					print(string.format(fs.modified_type, label, tbl.value.id, tbl.key, left.info.Type, right.Type))
 				end
+				if right.InnerType ~= left.info.InnerType then
+					print(string.format(fs.modified_innertype, label, tbl.value.id, tbl.key, left.info.InnerType, right.InnerType))
+				end
 				if right.Nilable ~= left.info.Nilable then
 					print(string.format(fs.modified_nilable, label, tbl.value.id, tbl.key, left.info.Nilable, right.Nilable))
+				end
+				local rightDoc = table.concat(right.Documentation or {})
+				local leftDoc = table.concat(left.info.Documentation or {})
+				if rightDoc ~= leftDoc then
+					print(string.format(fs.modified_doc, label, tbl.value.id, tbl.key, leftDoc, rightDoc))
 				end
 			end
 		end
