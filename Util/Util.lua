@@ -38,7 +38,7 @@ end
 Util.PtrVersion = "10.2.x"
 
 local flavorInfo = {
-	mainline = {flavor = "mainline", branch = "wow", header = true},
+	mainline = {flavor = "mainline", branch = "wow_beta", header = true},
 	mainline_beta = {flavor = "mainline", branch = "wow_beta", header = true},
 	mainline_ptr = {flavor = "mainline", branch = "wowt", header = true},
 	vanilla = {flavor = "vanilla", header = true, branch = "wow_classic_era"},
@@ -60,6 +60,11 @@ Util.RelativePath = {
 	[".."] = true,
 }
 
+--- Looks through the FrameXML folder and returns
+--- the copy of the FrameXML with the highest build number number
+--- it does not look at the semantic version (major,minor,patch) but only at the build number
+---@param flavor string
+---@return string path
 function Util:GetLatestBuild(flavor)
 	local folder = Path.join("FrameXML", flavor)
 	if not lfs.attributes(folder) then
