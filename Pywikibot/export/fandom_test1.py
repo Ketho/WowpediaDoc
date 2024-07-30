@@ -148,11 +148,11 @@ def main():
 	docApi = get_documented_api()
 	for v in docApi:
 		if not v in cats and not v in redirects:
-			print(v)
+			# print(v)
 			page = pywikibot.Page(site, v)
 			if not page.exists():
 				page.text = docApi[v]
-				page.save(summary="up to 10.2.6")
+				page.save(summary="up to 11.0.2 (55763)")
 				time.sleep(5)
 	print("done")
 
