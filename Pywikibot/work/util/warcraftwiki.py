@@ -2,7 +2,7 @@ import pywikibot
 import xml.etree.ElementTree as ET
 from math import floor
 from pathlib import Path
-from time import time
+from time import time, sleep
 
 xmlns = "{http://www.mediawiki.org/xml/export-0.11/}"
 categories = [
@@ -42,7 +42,7 @@ def read_xml(li, func, path):
 					li.append([page[0].text, newText])
 
 def save_pages(changes, summary, test):
-	site = pywikibot.Site("en", "wowpedia")
+	site = pywikibot.Site("en", "warcraftwiki")
 	numEdits, elapsed = 0, time()
 	for l in changes:
 		name, text = l
@@ -50,6 +50,7 @@ def save_pages(changes, summary, test):
 			page = pywikibot.Page(site, name)
 			page.text = text
 			page.save(summary)
+			sleep(3)
 			numEdits = numEdits+1
 		elif test == "verbose":
 			print(name, text)

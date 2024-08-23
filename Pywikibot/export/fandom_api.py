@@ -3,7 +3,7 @@ import datetime as dt
 from pathlib import Path
 import requests
 
-url = 'https://wowpedia.fandom.com'
+url = 'https://warcraft.wiki.gg/'
 
 categories = [
 	"API functions",

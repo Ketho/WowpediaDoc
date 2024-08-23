@@ -1,5 +1,5 @@
 import re
-import util.wowpedia
+import util.warcraftwiki
 
 rep = {
 	'{{api|t=t|'            : "{{apitype|",
@@ -36,7 +36,7 @@ def update_text(name: str, s: str):
 		return str.join("\n", l)
 
 def main():
-	util.wowpedia.main(update_text, summary="apitype template")
+	util.warcraftwiki.main(update_text, summary="apitype template")
 
 if __name__ == "__main__":
 	main()

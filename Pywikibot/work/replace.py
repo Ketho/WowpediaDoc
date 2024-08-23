@@ -1,5 +1,5 @@
 import re
-import util.wowpedia
+import util.warcraftwiki
 
 import sys
 sys.path.append('Pywikibot/export')
@@ -13,7 +13,7 @@ def update_text(name: str, s: str):
 		return s
 
 def main():
-	util.wowpedia.main(update_text, summary="restrictedapi note")
+	util.warcraftwiki.main(update_text, summary="restrictedapi note")
 	parse_html.main()
 
 if __name__ == "__main__":

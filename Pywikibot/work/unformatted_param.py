@@ -1,5 +1,5 @@
 import re
-import util.wowpedia
+import util.warcraftwiki
 
 types = {
 	"number": "number",
@@ -38,7 +38,7 @@ def update_text(name: str, s: str):
 		return str.join("\n", l)
 
 def main():
-	util.wowpedia.main(update_text, summary="format apitype", test=True)
+	util.warcraftwiki.main(update_text, summary="format apitype", test=True)
 
 if __name__ == "__main__":
 	main()

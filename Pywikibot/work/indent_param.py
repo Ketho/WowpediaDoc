@@ -1,5 +1,5 @@
 import re
-import util.wowpedia
+import util.warcraftwiki
 
 def update_text(name: str, s: str):
 	l = s.splitlines()
@@ -14,7 +14,7 @@ def update_text(name: str, s: str):
 		return str.join("\n", l)
 
 def main():
-	util.wowpedia.main(update_text, summary="trim param whitespace")
+	util.warcraftwiki.main(update_text, summary="trim param whitespace")
 
 if __name__ == "__main__":
 	main()

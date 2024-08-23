@@ -1,4 +1,4 @@
-import util.wowpedia
+import util.warcraftwiki
 
 comments = {
 	"<!-- or {{wowapievent}}, {{luapi}}, {{widgethandler}}, {{widgetmethod}}, {{framexmlfunc}} -->",
@@ -34,7 +34,7 @@ def update_text(name: str, text: str):
 			return new_text
 
 def main():
-	util.wowpedia.main(update_text, summary="Strip comments")
+	util.warcraftwiki.main(update_text, summary="Strip comments")
 
 if __name__ == "__main__":
 	main()
