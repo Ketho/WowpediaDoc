@@ -6,11 +6,11 @@ local cjsonutil = require "cjson.util"
 local csv = require "Util/csv/csv"
 
 local cache_folder = "cache_csv"
-local listfile_path = PATH.join(cache_folder, "listfile.csv")
+local listfile_path = PATH.join(cache_folder, "community-listfile.csv")
 
 local wago_csv_url = "https://wago.tools/db2/%s/csv"
 local wago_builds_url = "https://wago.tools/api/builds"
-local listfile_url = "https://raw.githubusercontent.com/wowdev/wow-listfile/master/community-listfile.csv"
+local listfile_url = "https://github.com/wowdev/wow-listfile/releases/latest/download/community-listfile.csv"
 
 local parser = {}
 
@@ -30,6 +30,9 @@ CreateFolder(cache_folder)
 local function DownloadFile(url, path)
 	local res, code, _, status = https.request(url)
 	if code == 200 then
+        if url:find("listfile") then -- hack for empty lines in file
+            res = res:gsub("\r\n", "\n")
+        end
 		local file = io.open(path, "w")
 		file:write(res)
 		file:close()

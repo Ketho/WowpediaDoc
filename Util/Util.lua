@@ -38,7 +38,7 @@ end
 Util.PtrVersion = "10.2.x"
 
 local flavorInfo = {
-	mainline = {flavor = "mainline", branch = "wow_beta", header = true},
+	mainline = {flavor = "mainline", branch = "wow", header = true},
 	mainline_beta = {flavor = "mainline", branch = "wow_beta", header = true},
 	mainline_ptr = {flavor = "mainline", branch = "wowt", header = true},
 	vanilla = {flavor = "vanilla", header = true, branch = "wow_classic_era"},

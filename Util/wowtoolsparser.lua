@@ -9,7 +9,7 @@ local parser = {}
 parser.CACHE_PATH = "cache_csv/"
 parser.INVALIDATION_TIME = 60*60
 
-local listfile_cache = parser.CACHE_PATH.."listfile.csv"
+local listfile_cache = parser.CACHE_PATH.."community-listfile.csv"
 local versions_cache = parser.CACHE_PATH.."%s/%s_versions.json"
 local csv_cache = parser.CACHE_PATH.."%s/%s.csv"
 local json_cache = parser.CACHE_PATH.."%s/%s.json"
@@ -40,7 +40,7 @@ local function ShouldDownload(path)
 	local attr = lfs.attributes(path)
 	if not attr then
 		return true
-	elseif path:find("versions%.json") or path:find("listfile%.csv") then
+	elseif path:find("versions%.json") or path:find("community-listfile%.csv") then
 		local modified = attr.modification
 		if os.time() > modified + parser.INVALIDATION_TIME then
 			return true
