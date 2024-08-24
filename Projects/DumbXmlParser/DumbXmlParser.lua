@@ -185,6 +185,7 @@ local bl = {
 	GetMaxPinLevel = true,
 	PIN_LEVEL_RANGE = true,
 	settings = true,
+	self = true,
 }
 
 function m:HandleCommaString(tbl, str)
