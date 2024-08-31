@@ -9,6 +9,9 @@ local LOADER_PATH = "WowDocLoader"
 local function LoadFile(path)
 	if lfs.attributes(path) then
 		local file = loadfile(path)
+		if not file then
+			error("could not load "..path)
+		end
 		file()
 	end
 end
@@ -34,7 +37,7 @@ end
 
 function m:main(branch)
 	if APIDocumentation then return end
-	Util:LoadLuaEnums(branch.."_beta")
+	Util:LoadLuaEnums(branch)
 	require(Path.join(LOADER_PATH, "Compat"))
 
 	local latestFrameXML = Util:GetLatestBuild(branch)
