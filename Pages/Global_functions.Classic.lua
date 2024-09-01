@@ -172,7 +172,7 @@ local function GetCVarDefaultText(cvar, default)
 	local s
 	if default then
 		if #default > 0 then
-			s = string.format("<code><font color=#ecbc2a>%s</font></code>", default)
+			s = string.format("<code>%s</code>", default)
 		end
 		if #default >= 16 then
 			s = string.format('<small>%s</small>', s)

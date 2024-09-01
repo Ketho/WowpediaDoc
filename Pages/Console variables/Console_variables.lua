@@ -30,6 +30,11 @@ local cvar_enum = {
 	[10] = "None",
 }
 
+local long_names = {
+	telemetryTargetPackage = true,
+	serverAlert = true,
+}
+
 function m:WriteCVarList(blizzres_cvars, framexml_strings, binary_strings)
 	print("writing to "..OUTPUT_CVAR)
 	local file = io.open(OUTPUT_CVAR, "w")
@@ -49,7 +54,7 @@ function m:WriteCVarList(blizzres_cvars, framexml_strings, binary_strings)
 			default_text = string.format('<small>%s</small>', default_text)
 		end
 
-		if cvar == "telemetryTargetPackage" then -- too long
+		if long_names[cvar] then
 			default_text = string.format('<span title="%s">...</span>', default)
 		end
 		local name = string.format("[[CVar %s|%s]]", cvar, cvar)
