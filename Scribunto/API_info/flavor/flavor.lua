@@ -7,7 +7,7 @@ local flavor = {
 	mainline = 0x1,
 	vanilla = 0x2,
 	cata = 0x4,
-	mainline_beta = 0x8,
+	-- mainline_beta = 0x8,
 }
 
 local m = {}
@@ -60,7 +60,7 @@ local branches = {
 	"mainline",
 	"vanilla",
 	"cata",
-	"mainline_beta",
+	-- "mainline_beta",
 }
 
 function m:GetData(sourceType)
@@ -82,8 +82,8 @@ function m:GetData(sourceType)
 		local mainline = parts.mainline[k] and flavor.mainline or 0
 		local vanilla = parts.vanilla[k] and flavor.vanilla or 0
 		local cata = parts.cata[k] and flavor.cata or 0
-		local mainline_beta = parts.mainline_beta[k] and flavor.mainline_beta or 0
-		data[k] = mainline | vanilla | cata | mainline_beta
+		-- local mainline_beta = parts.mainline_beta[k] and flavor.mainline_beta or 0
+		data[k] = mainline | vanilla | cata
 	end
 	return data
 end
