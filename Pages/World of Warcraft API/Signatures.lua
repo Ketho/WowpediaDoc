@@ -41,8 +41,6 @@ function m:StringBuilder(info)
 	return table.concat(t)
 end
 
-local isClassic
-
 local blockedTags = {
 	framexml = true,
 	lua = true,
