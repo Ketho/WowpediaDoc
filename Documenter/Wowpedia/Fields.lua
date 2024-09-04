@@ -78,7 +78,7 @@ function Wowpedia:GetSignature(paramTbl)
 		for _, param in ipairs(paramTbl) do
 			local name = param.Name
 			if param:IsOptional() then
-				name = format("[%s]", name)
+				name = format("%s?", name)
 			end
 			tinsert(tbl, name)
 		end
