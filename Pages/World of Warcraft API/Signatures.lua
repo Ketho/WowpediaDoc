@@ -2,6 +2,7 @@ local Util = require("Util/Util")
 local WikiText = require("Pages/World of Warcraft API/WikiText")
 local Signatures_Parse = require("Pages/World of Warcraft API/Signatures_Parse")
 local signatures = Signatures_Parse:GetSignatures()
+local wiki_signatures = require("Pages/World of Warcraft API/ParseAnnotations/BuildSignatures"):main()
 
 package.path = package.path..";../?.lua"
 local updated_desc = require("wow-api-descriptions/updated")
@@ -25,6 +26,8 @@ function m:StringBuilder(info)
 	table.insert(t, ": ")
 	if info.signature then
 		table.insert(t, info.signature)
+	elseif wiki_signatures[info.name] then
+		table.insert(t, wiki_signatures[info.name])
 	else
 		table.insert(t, string.format("[[API %s|%s]]", info.name, info.name))
 		table.insert(t, string.format("(%s)", info.args or ""))
