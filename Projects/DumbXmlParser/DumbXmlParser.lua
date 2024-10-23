@@ -81,6 +81,7 @@ local filterMixinArgs = {
 	["nodeMixin"] = true,
 	["self"] = true,
 	["subSystemMixin"] = true,
+	["pinFrameLevel"] = true,
 }
 
 local filterTemplates = {
@@ -186,6 +187,7 @@ local bl = {
 	PIN_LEVEL_RANGE = true,
 	settings = true,
 	self = true,
+	pinFrameLevel = true,
 }
 
 function m:HandleCommaString(tbl, str)
