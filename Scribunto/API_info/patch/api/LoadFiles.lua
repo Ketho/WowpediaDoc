@@ -5,9 +5,19 @@ local function LoadFiles(path)
 	for fileName in lfs.dir(path) do
 		local patch = fileName:match("(.+)%.lua")
 		if patch then
+			local data = loadfile(path.."/"..fileName)()
+			local set = {}
+			-- hack: convert data to a set
+			if #data > 0 then
+				for k, v in pairs(data) do
+					set[v] = true
+				end
+			else
+				set = data
+			end
 			table.insert(t, {
 				version = patch,
-				data = loadfile(path.."/"..fileName)()
+				data = set
 			})
 		end
 	end

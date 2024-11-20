@@ -363,4 +363,46 @@ function Util:LoadLuaEnums(branch)
 	require("Util.WowDocFix")
 end
 
+function Util:template_apilink(apitype, apitable)
+    local t = {}
+    table.insert(t, "{{apilink")
+	table.insert(t, "t="..apitype)
+	table.insert(t, self:api_func_GetFullName(apitable))
+    if apitype == "a" or apitype == "w" then
+        if apitable.Arguments and #apitable.Arguments > 0 then
+			local r = {}
+			for _, v in pairs(apitable.Arguments) do
+				table.insert(r, v.Name)
+			end
+            table.insert(t, "arg="..table.concat(r, ", "))
+        end
+        if apitable.Returns and #apitable.Returns > 0 then
+			local r = {}
+			for _, v in pairs(apitable.Returns) do
+				table.insert(r, v.Name)
+			end
+            table.insert(t, "ret="..table.concat(r, ", "))
+        end
+    elseif apitype == "e" then
+        if apitable.payload then
+            table.insert(t, "payload="..apitable.payload)
+        end
+    end
+    return table.concat(t, "|").."}}"
+end
+
+function Util:api_func_GetFullName(v)
+    if v.Type == "Function" then
+		if v.System.Type == "System" then
+			if v.System.Namespace then
+				return string.format("%s.%s", v.System.Namespace, v.Name)
+			else
+				return v.Name
+			end
+		elseif v.System.Type == "ScriptObject" then
+			return string.format("%s:%s", v.System.Name, v.Name)
+		end
+    end
+end
+
 return Util

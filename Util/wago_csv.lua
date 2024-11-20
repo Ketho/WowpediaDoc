@@ -28,6 +28,7 @@ end
 CreateFolder(cache_folder)
 
 local function DownloadFile(url, path)
+	print("downloading", url, "to", path)
 	local res, code, _, status = https.request(url)
 	if code == 200 then
         if url:find("listfile") then -- hack for empty lines in file

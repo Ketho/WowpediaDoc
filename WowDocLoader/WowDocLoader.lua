@@ -28,10 +28,6 @@ local function LoadAddon(framexml_path, name)
 			LoadFile(Path.join(path, line))
 		end
 	end
-	if name == "Blizzard_APIDocumentationGenerated" then -- missing from toc in 10.2.6
-		LoadFile(Path.join(path, "GameEnvironmentManagerDocumentation.lua"))
-		LoadFile(Path.join(path, "WorldLootObjectDocumentation.lua"))
-	end
 	file:close()
 end
 

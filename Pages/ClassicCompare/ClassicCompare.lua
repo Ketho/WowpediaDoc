@@ -3,6 +3,7 @@
 -- https://wowpedia.fandom.com/wiki/Console_variables/Classic
 local Util = require("Util/Util")
 local Path = require "path"
+local Signatures = require("Pages/ClassicCompare/Signatures")
 
 local m = {}
 
@@ -18,7 +19,7 @@ local sources = {
 		map = function(tbl)
 			return Util:ToMap(tbl)
 		end,
-		name_fs = "[[API %s|%s]]",
+		name_fs = "{{apilink|t=a|%s}}",
 	},
 	event = {
 		label = "Event Name",
@@ -37,7 +38,7 @@ local sources = {
 			end
 			return t
 		end,
-		name_fs = "[[%s]]",
+		name_fs = "{{apilink|t=e|%s}}",
 	},
 	cvar = {
 		label = "CVar Name",
@@ -72,9 +73,9 @@ local branches = {
 
 -- avoid using templates as that increases page processing time
 local wp_icons = {
-	mainline = "[[File:TheWarWithin-Icon-Inline.png|34px|link=]]",
-	cata = "[[File:Cata-Logo-Small.png|link=]]",
-	vanilla = "[[File:WoW Icon update.png|link=]]",
+	mainline = "{{apiexp|tww}}",
+	cata = "{{apiexp|cata}}",
+	vanilla = "{{apiexp|vanilla}}",
 }
 
 local sections = {
@@ -102,6 +103,19 @@ local cvar_enum = {
 
 local function sortLowerCase(a, b)
 	return a:lower() < b:lower()
+end
+
+local function GetExpansionIconTemplate(expansions)
+	local t = {"{{apiexp|"}
+	local r = {}
+	for _, v in pairs(expansions) do
+		if v then
+			table.insert(r, v.."=1")
+		end
+	end
+	table.insert(t, table.concat(r, "|"))
+	table.insert(t, "}}")
+	return table.concat(t)
 end
 
 function m:GetData(sourceType)
@@ -199,17 +213,25 @@ local function main()
 		end
 
 		local section_fs = string.format('|-\n! colspan="%d" style="text-align:left; padding-left: 9em;" | %%s\n', info.sectioncols or 4)
-		local row_fs = "|-\n| "..string.rep("%s", 4, " || ")
+		local row_fs = "|-\n| "..string.rep("%s", 2, " || ")
 
 		for _, sectionInfo in pairs(sections) do
 			if next(data[sectionInfo.id]) then
 				file:write(section_fs:format(sectionInfo.label))
 				for _, name in pairs(Util:SortTable(data[sectionInfo.id], info.sortFunc)) do
-					local retail = parts.mainline[name] and wp_icons.mainline or ""
-					local cata = parts.cata[name] and wp_icons.cata or ""
-					local vanilla = parts.vanilla[name] and wp_icons.vanilla or ""
-					local nameLink = info.name_fs:format(name, name)
-					file:write(row_fs:format(retail, cata, vanilla, nameLink))
+					local expansions = {
+						parts.mainline[name] and "mainline",
+						parts.cata[name] and "cata",
+						parts.vanilla[name] and "vanilla",
+					}
+					local expansionTemplate = GetExpansionIconTemplate(expansions)
+					local nameLink
+					if source == "api" then
+						nameLink = Signatures.vanilla[name] or Signatures.cata[name] or Signatures.mainline[name] or string.format("{{apilink|t=a|%s|noparens=1}}", name)
+					else
+						nameLink = info.name_fs:format(name, name)
+					end
+					file:write(row_fs:format(expansionTemplate, nameLink))
 					if source == "event" and eventDoc[name] then
 						file:write(string.format("<small>: %s</small>", eventDoc[name]))
 					elseif source == "cvar" then

@@ -1,7 +1,7 @@
 local Util = require("Util/Util")
 
--- mainline, mainline_ptr, wrath, vanilla
-local FLAVOR = "mainline"
+-- mainline, mainline_ptr, cata, vanilla
+local FLAVOR = "vanilla"
 local options = Util:GetFlavorOptions(FLAVOR)
 -- local options = Util:GetFlavorOptions({build="10.2.7.55664", header = true})
 require("Projects.UpdateResources.GlobalStrings")(options)

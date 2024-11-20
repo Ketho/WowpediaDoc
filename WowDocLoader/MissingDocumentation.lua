@@ -71,6 +71,14 @@ local Missing =
 				{ Name = "z", Type = "number", Nilable = true },
 			},
 		},
+		{
+			-- cata PvpInfoDocumentation.lua
+			Name = "RoleShortageReward",
+			Type = "Structure",
+			Fields =
+			{
+			},
+		},
 	},
 }
 

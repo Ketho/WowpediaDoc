@@ -13,6 +13,10 @@ local flavors = {
 		data = require(PATH.."/LoadFiles")(PATH.."/classic"),
 		out = "out/lua/API_info.patch.api_classic.lua",
 	},
+	classic_era = {
+		data = require(PATH.."/LoadFiles")(PATH.."/classic_era"),
+		out = "out/lua/API_info.patch.api_classic_era.lua",
+	},
 }
 
 local m = {}
@@ -36,6 +40,9 @@ local underscore = {
 -- 7.3.0, 7.3.2, 7.3.5, 8.0.1 dumps include framexml
 -- also try to filter lua api and C_namespace tables
 function m:IsFrameXML(s, added, removed)
+	if type(s) == "number" then
+		print(s, added, removed)
+	end
 	if underscore[s] then
 		return false
 	elseif self.LuaAPI[s] then

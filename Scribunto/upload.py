@@ -11,6 +11,7 @@ files = [
 
 	["out/lua/API_info.patch.api_retail.lua", "Module:API_info/patch/api_retail"],
 	["out/lua/API_info.patch.api_classic.lua", "Module:API_info/patch/api_classic"],
+	["out/lua/API_info.patch.api_classic_era.lua", "Module:API_info/patch/api_classic_era"],
 	["out/lua/API_info.patch.event_retail.lua", "Module:API_info/patch/event_retail"],
 	["out/lua/API_info.patch.event_classic.lua", "Module:API_info/patch/event_classic"],
 ]
@@ -23,7 +24,7 @@ def getFileText(p):
 def saveFile(text, wikipath):
 	page = pywikibot.Page(site, wikipath)
 	page.text = text
-	page.save(summary = "1.15.3 (55917)")
+	page.save(summary = "1.15.5 data")
 
 def main():
 	for v in files:
