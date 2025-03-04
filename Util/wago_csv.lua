@@ -16,6 +16,12 @@ local parser = {}
 
 parser.INVALIDATION_TIME = 60*60
 
+local flavors = {
+	mainline = {"wow", "wowt"},
+	wrath = {"wow_classic", "wow_classic_ptr"},
+	vanilla = {"wow_classic_era", "wow_classic_era_ptr"}, -- wow_classic_era_ptr has 10.0.7
+}
+
 local function PathExists(path)
 	return lfs.attributes(path)
 end
@@ -67,8 +73,7 @@ local function CreateWagoUrl(name, options)
 	if options then
 		local t = {}
 		if options.branch then
-			local versions = parser:GetWagoVersions(options.branch)
-			table.insert(t, "build="..versions[1])
+			table.insert(t, "branch="..options.branch)
 		elseif options.build then
 			table.insert(t, "build="..options.build)
 		end
@@ -158,12 +163,6 @@ function parser:GetWagoVersions(branch)
 	end
 	return t
 end
-
-local flavors = {
-	mainline = {"wow", "wowt"},
-	wrath = {"wow_classic", "wow_classic_ptr"},
-	vanilla = {"wow_classic_era", "wow_classic_era_ptr"}, -- wow_classic_era_ptr has 10.0.7
-}
 
 function parser:GetPatches(branch)
 	local t = {}
