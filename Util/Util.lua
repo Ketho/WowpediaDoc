@@ -35,7 +35,7 @@ function Util.SortBuild(a, b)
 	end
 end
 
-Util.PtrVersion = "10.2.x"
+Util.PtrVersion = "11.1.5"
 
 local flavorInfo = {
 	mainline = {flavor = "mainline", branch = "wow", header = true},
