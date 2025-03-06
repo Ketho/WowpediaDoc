@@ -7,13 +7,16 @@ local m = {}
 local LOADER_PATH = "WowDocLoader"
 
 local function LoadFile(path)
-	if lfs.attributes(path) then
-		local file = loadfile(path)
-		if not file then
-			error("could not load "..path)
-		end
-		file()
+	local attr = lfs.attributes(path)
+	if not attr then
+		error("path not found: "..path)
 	end
+
+	local file = loadfile(path)
+	if not file then
+		error("could not load path: "..path)
+	end
+	file()
 end
 
 local function LoadAddon(framexml_path, name)
@@ -24,8 +27,9 @@ local function LoadAddon(framexml_path, name)
 		error(string.format("%s has no TOC file", path))
 	end
 	for line in file:lines() do
-		if line:find("%.lua") then
-			LoadFile(Path.join(path, line))
+		local fileName = line:match(".-%.lua") -- trim the newline char
+		if fileName then
+			LoadFile(Path.join(path, fileName))
 		end
 	end
 	file:close()

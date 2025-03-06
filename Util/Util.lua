@@ -357,6 +357,7 @@ end
 
 function Util:LoadLuaEnums(branch)
 	if Enum then return end
+	Util:MakeDir("cache_lua")
 	local path = string.format("cache_lua/LuaEnum_%s.lua", branch)
 	local url = string.format("https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/LuaEnum.lua", branch)
 	Util:DownloadAndRun(path, url)
