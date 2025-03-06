@@ -36,10 +36,10 @@ local Types =
 		{ Name = "FilterMode", Type = "string", Values = {"LINEAR", "TRILINEAR", "NEAREST"} },
 
 		-- basic types
-		{ Name = "cstring", Type = "string", Common = true, },
-		{ Name = "luaIndex", Type = "number", Common = true, },
-		{ Name = "luaFunction", Type = "function", Common = true, },
-		{ Name = "LuaValueVariant", Type = "table", Common = true, },
+		{ Name = "cstring", Type = "string", Common = true },
+		{ Name = "luaIndex", Type = "number", Common = true },
+		{ Name = "luaFunction", Type = "function", Common = true },
+		{ Name = "LuaValueVariant", Type = "table", Common = true },
 		-- BigInteger in RecruitingClubInfo.lastUpdatedTime (unix time)
 		  -- /dump C_ClubFinder.GetRecruitingClubInfoFromFinderGUID(C_ClubFinder.ReturnMatchingGuildList()[1].clubFinderGUID)
 		{ Name = "BigInteger", Type = "number" },
@@ -104,22 +104,26 @@ local Types =
 		{ Name = "SpellIdentifier", Type = "number" }, -- spellID
 		{ Name = "ArtifactTiers", Type = "number" },
 
+		-- 11.1.0
+		{ Name = "FontAlphabet", Type = "string", Values = {"roman", "korean", "simplifiedchinese", "traditionalchinese", "russian"} },
+		{ Name = "QuestObjectiveType", Type = "number"} ,
+
 		-- widgets
 		-- defined: ScriptObject
-		{ Name = "CScriptObject", Type = "FrameScriptObject", Replace = true, },
-		{ Name = "ModelSceneFrame", Type = "ModelScene", Replace = true, },
-		{ Name = "ModelSceneFrameActor", Type = "ModelSceneActor", Replace = true, },
-		{ Name = "ScriptRegion", Type = "ScriptRegion", Replace = true, },
-		{ Name = "SimpleAnim", Type = "Animation", Replace = true, },
-		{ Name = "SimpleAnimGroup", Type = "AnimationGroup", Replace = true, },
-		{ Name = "SimpleControlPoint", Type = "ControlPoint", Replace = true, },
-		{ Name = "SimpleFont", Type = "Font", Replace = true, },
-		{ Name = "SimpleFontString", Type = "FontString", Replace = true, },
-		{ Name = "SimpleFrame", Type = "Frame", Replace = true, },
-		{ Name = "SimpleLine", Type = "Line", Replace = true, },
-		{ Name = "SimpleMaskTexture", Type = "MaskTexture", Replace = true, },
-		{ Name = "SimplePathAnim", Type = "Path", Replace = true, },
-		{ Name = "SimpleTexture", Type = "Texture", Replace = true, },
+		{ Name = "CScriptObject", Type = "FrameScriptObject", Replace = true },
+		{ Name = "ModelSceneFrame", Type = "ModelScene", Replace = true },
+		{ Name = "ModelSceneFrameActor", Type = "ModelSceneActor", Replace = true },
+		{ Name = "ScriptRegion", Type = "ScriptRegion", Replace = true },
+		{ Name = "SimpleAnim", Type = "Animation", Replace = true },
+		{ Name = "SimpleAnimGroup", Type = "AnimationGroup", Replace = true },
+		{ Name = "SimpleControlPoint", Type = "ControlPoint", Replace = true },
+		{ Name = "SimpleFont", Type = "Font", Replace = true },
+		{ Name = "SimpleFontString", Type = "FontString", Replace = true },
+		{ Name = "SimpleFrame", Type = "Frame", Replace = true },
+		{ Name = "SimpleLine", Type = "Line", Replace = true },
+		{ Name = "SimpleMaskTexture", Type = "MaskTexture", Replace = true },
+		{ Name = "SimplePathAnim", Type = "Path", Replace = true },
+		{ Name = "SimpleTexture", Type = "Texture", Replace = true },
 		-- frame widgets
 		{ Name = "ChatBubbleFrame", Type = "Frame" },
 		{ Name = "NamePlateFrame", Type = "Frame", Mixin = "NamePlateBaseMixin" },
