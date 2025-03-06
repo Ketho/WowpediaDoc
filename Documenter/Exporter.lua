@@ -53,7 +53,7 @@ function m:ExportSystems(folder)
 		local isTransclude = Wowpedia.complexRefs[apiTable.Name]
 		if isTransclude and isTransclude > 1 then
 			local transcludeBase, shortType = Wowpedia:GetTranscludeBase(apiTable)
-			local path = format("%s/%s/%s.txt", folder, shortType, transcludeBase)
+			local path = format("%s/%s/%s.txt", folder, shortType:lower(), transcludeBase)
 			local pageText = Wowpedia:GetTableText(apiTable, true)
 			WriteFile(path, pageText)
 		end
