@@ -1,3 +1,4 @@
+local log = require("Util/log")
 
 function Wowpedia:FindMissingTypes()
 	local missingTypes = {}
@@ -24,14 +25,14 @@ function Wowpedia:PullMissingTypes(missingTypes)
 
 	for complexType, info in pairs(missingTypes) do
 		if Enum[complexType] then
-			print("~ info - getting missing Enum."..complexType)
+			log.warn("Fetching missing Enum."..complexType)
 			table.insert(missingDocs.Tables, self:GetMissingEnum(complexType))
 		elseif missingStructures[complexType] then
-			print("~ info - getting missing struct "..complexType)
+			log.warn("Fetching missing struct "..complexType)
 			-- only get a structure if its missing so it wont overwrite any Blizzard docs if they appear
 			table.insert(missingDocs.Tables, missingStructures[complexType])
 		else
-			print(string.format("! warning - undocumented type: %s (source: %s - %s)",
+			log.warn(string.format("Undocumented type: %s (source: %s - %s)",
 				complexType, info.parent.Type, info.parent.Name))
 		end
 	end

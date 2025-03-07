@@ -2,7 +2,8 @@ local lfs = require "lfs"
 local Path = require "path"
 local https = require "ssl.https"
 local ltn12 = require "ltn12"
-local parser = require "Util/wago_csv"
+local parser = require("Util/wago_csv")
+local log = require("Util/log")
 
 local Util = {}
 local INVALIDATION_TIME = 60*60
@@ -81,7 +82,7 @@ function Util:GetLatestBuild(flavor)
 		return tonumber(a.build) > tonumber(b.build)
 	end)
 	local path = Path.join(folder, t[1].name)
-	print("# Util:GetLatestBuild", path)
+	log.success("Util:GetLatestBuild: "..path)
 	return path
 end
 

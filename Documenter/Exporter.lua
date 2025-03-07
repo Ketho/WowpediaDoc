@@ -1,5 +1,6 @@
 local Util = require("Util.Util")
 local Widgets = require("Documenter.Wowpedia.Widgets")
+local log = require("Util/log")
 
 Util:MakeDir("out")
 Util:MakeDir("out/export")
@@ -23,7 +24,7 @@ function m:ExportSystems(folder)
 		elseif system.Type == "ScriptObject" then
 			systemFolder = "widget"
 		end
-		print("Exporting", system:GetFullName())
+		log.info("Exporting system: "..system:GetFullName())
 		local systemName = system.Namespace or system.Name
 		if systemName then
 			Util:MakeDir(format("%s/%s/%s", folder, systemFolder, systemName))
@@ -48,7 +49,7 @@ function m:ExportSystems(folder)
 	end
 	Util:MakeDir(format("%s/enum", folder))
 	Util:MakeDir(format("%s/struct", folder))
-	print("Exporting (systemless) tables")
+	log.info("Exporting (systemless) tables")
 	for _, apiTable in ipairs(APIDocumentation.tables) do
 		local isTransclude = Wowpedia.complexRefs[apiTable.Name]
 		if isTransclude and isTransclude > 1 then
@@ -58,7 +59,7 @@ function m:ExportSystems(folder)
 			WriteFile(path, pageText)
 		end
 	end
-	print("Finished exporting")
+	log.success("Finished exporting")
 end
 
 return m
