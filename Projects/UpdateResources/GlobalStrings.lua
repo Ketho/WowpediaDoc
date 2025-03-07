@@ -1,6 +1,5 @@
 -- https://github.com/Ketho/BlizzardInterfaceResources/tree/mainline/Resources/GlobalStrings
 local parser = require("Util/wago_csv")
-local OUT_PATH = "../BlizzardInterfaceResources/Resources/GlobalStrings/%s.lua"
 
 local short  = [[%s = "%s";]]
 local quoted = [[_G["%s"] = "%s";]]
@@ -93,7 +92,7 @@ end
 local function WriteLocales(options)
 	for _, locale in pairs(locales) do
 		-- if not (locale == "itIT" and classic_flavors[options.flavor]) then
-		local path = OUT_PATH:format(locale)
+		local path = OUT_GLOBALSTRINGS:format(locale)
 		options.locale = locale
 		GlobalStrings(path, options)
 		-- end

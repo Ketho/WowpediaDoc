@@ -18,9 +18,16 @@
 			"problemMatcher": []
 		},
 		{
-			"label": "Documenter.lua",
+			"label": "Documenter",
 			"type": "shell",
 			"command": "lua5.4 'Documenter/Documenter.lua'",
+			"presentation": {"showReuseMessage": false, "clear": true},
+			"problemMatcher": []
+		},
+		{
+			"label": "UpdateResources",
+			"type": "shell",
+			"command": "lua5.4 'Projects/UpdateResources/UpdateResources.lua'",
 			"presentation": {"showReuseMessage": false, "clear": true},
 			"problemMatcher": []
 		}

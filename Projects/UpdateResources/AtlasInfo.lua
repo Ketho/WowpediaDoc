@@ -1,6 +1,5 @@
 -- https://github.com/Ketho/BlizzardInterfaceResources/blob/mainline/Resources/AtlasInfo.lua
 local parser = require("Util/wago_csv")
-local OUT_PATH = "../BlizzardInterfaceResources/Resources/AtlasInfo.lua"
 
 local columns = {
 	["CommittedName"] = "Field_11_0_2_55665_000",
@@ -93,8 +92,8 @@ local function AtlasInfo(options)
 	local fsAtlas = '\t["%s"] = { -- %d\n'
 	local fsMember = '\t\t["%s"] = {%d, %d, %s, %s, %s, %s, %s, %s},\n'
 
-	print("writing "..OUT_PATH)
-	local file = io.open(OUT_PATH, "w")
+	print("writing "..OUT_ATLAS)
+	local file = io.open(OUT_ATLAS, "w")
 	file:write("---@diagnostic disable: duplicate-index\n")
 	file:write("-- atlas = width, height, leftTexCoord, rightTexCoord, topTexCoord, bottomTexCoord, tilesHorizontally, tilesVertically\n")
 	file:write("local AtlasInfo = {\n")

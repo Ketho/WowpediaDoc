@@ -1,28 +1,25 @@
 -- first strip out UTF8 BOM from files with powershell
 local lfs = require "lfs"
 
-local FRAMEXML = "../#FrameXML/Generate-Globals/wow-ui-source/"
-
 -- too lazy to parse FrameXML_TBC.toc or whatever the new file loading structure is
 local flavors = {
-	mainline = {FRAMEXML.."Interface"},
+	mainline = {IN_FRAMEXML.."Interface"},
 	vanilla = {
-		FRAMEXML.."Interface",
-		FRAMEXML.."Interface_Vanilla",
+		IN_FRAMEXML.."Interface",
+		IN_FRAMEXML.."Interface_Vanilla",
 	},
 	tbc = {
-		FRAMEXML.."Interface",
-		FRAMEXML.."Interface_TBC",
+		IN_FRAMEXML.."Interface",
+		IN_FRAMEXML.."Interface_TBC",
 	},
 	wrath = {
-		FRAMEXML.."Interface",
-		FRAMEXML.."Interface_WRATH",
+		IN_FRAMEXML.."Interface",
+		IN_FRAMEXML.."Interface_WRATH",
 	},
 	cata = {
-		FRAMEXML.."Interface",
+		IN_FRAMEXML.."Interface",
 	},
 }
-local OUT_PATH = "../BlizzardInterfaceResources/Resources"
 
 local flavorFilters = {
 	cata = {
@@ -203,7 +200,7 @@ function m:HandleCommaString(tbl, str)
 end
 
 function m:WriteDataFile(info)
-	local fullPath = OUT_PATH.."/"..info.label..".lua"
+	local fullPath = OUT_RESOURCES.."/"..info.label..".lua"
 	print("writing", fullPath)
 	local file = io.open(fullPath, "w")
 	file:write(string.format("local %s = {\n", info.label))
