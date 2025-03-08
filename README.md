@@ -2,7 +2,7 @@
 Wikifies [Blizzard API Documentation](https://github.com/Gethe/wow-ui-source/tree/live/Interface/AddOns/Blizzard_APIDocumentation)
  
 ## Setup
-This project is using Lua 5.4 and [LuaRocks](https://github.com/luarocks/luarocks/blob/main/docs/installation_instructions_for_unix.md) on [WSL](https://code.visualstudio.com/docs/remote/wsl) which should be easier to setup compared to on Windows.
+This project uses Lua 5.4 and [LuaRocks](https://github.com/luarocks/luarocks/blob/main/docs/installation_instructions_for_unix.md) on [WSL](https://code.visualstudio.com/docs/remote/wsl).
 
 ```sh
 # lua
@@ -30,7 +30,12 @@ sudo luarocks install gumbo
 ```
 
 ### Usage
-Exports wikitext to `out/`
+Exports wikitext to `out/`. Requires manually pulling in the FrameXML.
+```sh
+git clone https://github.com/Gethe/wow-ui-source
+cd wow-ui-source
+git pull
+```
 ```lua
 lua Documenter/Documenter.lua
 ```
