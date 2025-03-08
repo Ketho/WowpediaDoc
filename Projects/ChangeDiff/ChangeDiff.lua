@@ -5,6 +5,9 @@ local apidoc_nontoc = require("Util.apidoc_nontoc")
 local BRANCH = "mainline"
 Util:LoadLuaEnums(BRANCH)
 
+local BUILD1 = "11.0.2 (56819)"
+local BUILD2 = "11.0.5 (57212)"
+
 ChangeDiff = {}
 require("Projects.ChangeDiff.Compare")
 local m = ChangeDiff
@@ -91,5 +94,5 @@ local function main(versions, isWiki)
 	PrintView:PrintView(changes, isWiki)
 end
 
-main({"11.1.0 (59538)", "11.1.5 (59571)"}, true)
+main({BUILD1, BUILD2}, true)
 print("done")

@@ -4,9 +4,12 @@ local Util = require("Util/Util")
 local cvar_module = require("Projects/ChangeSummaries/CVar")
 local widget_module = require("Projects/ChangeSummaries/Widget")
 local m = {}
-local BRANCH = "11.1.5" -- for widgets, cvars
+local BRANCH1 = "11.0.2"
+local BRANCH2 = "11.0.5"
+local WIDGET= BRANCH2 -- for widgets
+local CVAR1, CVAR2 = BRANCH1, BRANCH2
 -- local DIFF = {"commit", "mainline", false}
-local DIFF = {"compare", "11.1.0..11.1.5", false}
+local DIFF = {"compare", BRANCH1..".."..BRANCH2, false}
 
 local OUT_FILE = "out/page/ChangeSummaries.txt"
 Util:MakeDir("out/page")
@@ -62,7 +65,7 @@ local data_table = {
 	},
 	CVars = {
 		textfunc = function(name)
-			local tt = cvar_module.main(BRANCH, name) or name
+			local tt = cvar_module.main(name, CVAR1, CVAR2) or name
 			return ": "..tt
 		end,
 		parseName = function(innerLine)
@@ -139,12 +142,12 @@ end
 local function main()
 	local path = GetDiff()
 	m:ParseDiff(path) -- fill changes tbl
-	widget_module.main(data_table.WidgetAPI, path, BRANCH)
+	widget_module.main(data_table.WidgetAPI, path, WIDGET)
 	cvar_module:SanitizeCVars(data_table)
 
 	print("writing", OUT_FILE)
 	local file = io.open(OUT_FILE, "w+")
-	file:write("==Diffs==\n")
+	file:write("==Consolidated Diffs==\n")
 	for _, section in pairs(api_order) do
 		local info = data_table[section]
 		file:write(m:GetWikiTable(info, section))
