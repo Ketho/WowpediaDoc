@@ -1,5 +1,5 @@
 ## WowpediaDoc
-Wikifies [Blizzard API Documentation](https://github.com/Gethe/wow-ui-source/tree/live/Interface/AddOns/Blizzard_APIDocumentation)
+Wikifies [Blizzard API Documentation](https://github.com/Gethe/wow-ui-source/tree/live/Interface/AddOns/Blizzard_APIDocumentationGenerated)
  
 ## Setup
 This project uses Lua 5.4 and [LuaRocks](https://github.com/luarocks/luarocks/blob/main/docs/installation_instructions_for_unix.md) on [WSL](https://code.visualstudio.com/docs/remote/wsl).
@@ -30,13 +30,10 @@ sudo luarocks install gumbo
 ```
 
 ### Usage
-Exports wikitext to `out/`. Requires manually pulling in the FrameXML.
+Exports wikitext to `out/`. Requires cloning the FrameXML mirror.
 ```sh
 git clone https://github.com/Gethe/wow-ui-source
-cd wow-ui-source
-git pull
-```
-```lua
+git -C wow-ui-source pull
 lua Documenter/Documenter.lua
 ```
 
