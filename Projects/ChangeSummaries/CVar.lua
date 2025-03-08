@@ -2,7 +2,7 @@
 local Util = require("Util/Util")
 
 local m = {}
-local data
+local data = {}
 
 local ConsoleCategory = {
 	[0] = "Debug",
@@ -23,11 +23,11 @@ local function GetData(flavor)
 		string.format("cache_lua/CVars_%s.lua", flavor),
 		string.format("https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/CVars.lua", flavor)
 	)
-	return tbl
+	return tbl[1]
 end
 
 local function GetCVarInfo(name)
-	local cvar = data[1].var[name]
+	local cvar = data[2].var[name] or data[1].var[name]
 	if cvar then
 		local t = {"apitooltip"}
 		table.insert(t, "type=cvar")
@@ -40,6 +40,20 @@ local function GetCVarInfo(name)
 		if account or character then
 			table.insert(t, "scope="..(account and "Account" or character and "Character"))
 		end
+		if category ~= 5 then -- Default
+			table.insert(t, "cat="..category)
+		end
+		if #help > 0 then
+			table.insert(t, "desc="..help)
+		end
+		return string.format("{{%s}}", table.concat(t, "|"))
+	end
+	local command = data[2].command[name] or data[1].command[name]
+	if command then
+		local t = {"apitooltip"}
+		table.insert(t, "type=command")
+		table.insert(t, "name="..name)
+		local category,  help = command[1], command[2]
 		if category ~= 5 then -- Default
 			table.insert(t, "cat="..category)
 		end
@@ -71,8 +85,9 @@ function m:SanitizeCVars(ApiTypes)
 	end
 end
 
-function m.main(flavor, name)
-	data = data or GetData(flavor)
+function m.main(name, patch1, patch2)
+	data[1] = GetData(patch1)
+	data[2] = GetData(patch2)
 	return GetCVarInfo(name)
 end
 
