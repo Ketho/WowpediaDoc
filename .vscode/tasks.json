@@ -11,7 +11,7 @@
 			"problemMatcher": []
 		},
 		{
-			"label": "Lua 5.4",
+			"label": "Lua",
 			"type": "shell",
 			"command": "lua '${file}'",
 			"presentation": {"showReuseMessage": false, "clear": true},
