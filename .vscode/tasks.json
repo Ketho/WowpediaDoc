@@ -13,21 +13,21 @@
 		{
 			"label": "Lua 5.4",
 			"type": "shell",
-			"command": "lua5.4 '${file}'",
+			"command": "lua '${file}'",
 			"presentation": {"showReuseMessage": false, "clear": true},
 			"problemMatcher": []
 		},
 		{
 			"label": "Documenter",
 			"type": "shell",
-			"command": "lua5.4 'Documenter/Documenter.lua'",
+			"command": "lua 'Documenter/Documenter.lua'",
 			"presentation": {"showReuseMessage": false, "clear": true},
 			"problemMatcher": []
 		},
 		{
 			"label": "UpdateResources",
 			"type": "shell",
-			"command": "lua5.4 'Projects/UpdateResources/UpdateResources.lua'",
+			"command": "lua 'Projects/UpdateResources/UpdateResources.lua'",
 			"presentation": {"showReuseMessage": false, "clear": true},
 			"problemMatcher": []
 		}
