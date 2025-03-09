@@ -25,16 +25,9 @@
 			"problemMatcher": []
 		},
 		{
-			"label": "Python 3",
+			"label": "Python",
 			"type": "shell",
-			"command": "python3 '${file}'",
-			"presentation": {"showReuseMessage": false, "clear": true},
-			"problemMatcher": []
-		},
-		{
-			"label": "Pywikibot",
-			"type": "shell",
-			"command": "pwb '${file}'",
+			"command": "python '${file}'",
 			"presentation": {"showReuseMessage": false, "clear": true},
 			"problemMatcher": []
 		},

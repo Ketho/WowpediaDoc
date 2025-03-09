@@ -55,11 +55,15 @@ class Family(family.FandomFamily):
 
 ## Usage
 Test if it works by printing a page, for example [API_UnitLevel](https://warcraft.wiki.gg/wiki/API_UnitLevel)
+```sh
+python 'Pywikibot/hello-read.py'
+```
 ```py
 import pywikibot
 
 site = pywikibot.Site("en", "warcraftwiki")
 page = pywikibot.Page(site, "API_UnitName")
+
 print(page.text)
 ```
 ```
@@ -72,4 +76,19 @@ Returns the level of the unit.
 
 ==Returns==
 :;level:{{apitype|number}} - The unit level. Returns <code>-1</code> for boss units or hostile units 10 levels above the player (Level ??).
+```
+
+Login and try editing a page, for example https://warcraft.wiki.gg/wiki/Warcraft_Wiki:Sandbox/6
+```sh
+pwb login
+python 'Pywikibot/hello-save.py'
+```
+```py
+import pywikibot
+
+site = pywikibot.Site("en", "warcraftwiki")
+page = pywikibot.Page(site, "Warcraft_Wiki:Sandbox/6")
+
+page.text = "hello pywikibot"
+page.save(summary = "Some test")
 ```

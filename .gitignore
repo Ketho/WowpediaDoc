@@ -8,7 +8,6 @@
 # python
 /.venv
 /apicache
-/apicache-py3
 /logs
 *.lwp
 *.ctrl
