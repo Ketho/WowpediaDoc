@@ -3,18 +3,26 @@
 *.xml
 *.html
 *.diff
-/out
-/cache_*
-/FrameXML
+*.csv
 /Projects/CursePoints/*.csv
+
 # python
-apicache-py3
+/.venv
+/apicache
+/apicache-py3
+/logs
 *.lwp
 *.ctrl
 *.pyc
+
+# pywikibot
 user-config.py
 user-password.py
-/logs
-/apicache
-*.csv
+
+# framexml
+/FrameXML
 wow-ui-source
+
+# output
+/out
+/cache_*
