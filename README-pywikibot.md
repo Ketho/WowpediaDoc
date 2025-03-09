@@ -1,5 +1,5 @@
 ## Pywikibot
-Pywikibot is useful for automating tasks on wikis like editing pages.
+[Pywikibot](https://github.com/wikimedia/pywikibot) is useful for automating tasks on wikis like editing pages.
 
 ## Resources
 - https://warcraft.wiki.gg/wiki/Warcraft_Wiki:Wiki_bots

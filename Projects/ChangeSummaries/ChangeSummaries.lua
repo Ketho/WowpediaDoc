@@ -147,7 +147,7 @@ local function main()
 
 	print("writing", OUT_FILE)
 	local file = io.open(OUT_FILE, "w+")
-	file:write("==Consolidated Diffs==\n")
+	file:write("==Consolidated changes==\n")
 	for _, section in pairs(api_order) do
 		local info = data_table[section]
 		file:write(m:GetWikiTable(info, section))
