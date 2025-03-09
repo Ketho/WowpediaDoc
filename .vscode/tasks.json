@@ -4,13 +4,6 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "Python 3",
-			"type": "shell",
-			"command": "python3 '${file}'",
-			"presentation": {"showReuseMessage": false, "clear": true},
-			"problemMatcher": []
-		},
-		{
 			"label": "Lua",
 			"type": "shell",
 			"command": "lua '${file}'",
@@ -18,16 +11,37 @@
 			"problemMatcher": []
 		},
 		{
-			"label": "Documenter",
+			"label": "Lua Documenter",
 			"type": "shell",
 			"command": "git -C wow-ui-source pull && git -C wow-ui-source log -1 --pretty=%B && lua 'Documenter/Documenter.lua'",
 			"presentation": {"showReuseMessage": false, "clear": true},
 			"problemMatcher": []
 		},
 		{
-			"label": "UpdateResources",
+			"label": "Lua UpdateResources",
 			"type": "shell",
 			"command": "lua 'Projects/UpdateResources/UpdateResources.lua'",
+			"presentation": {"showReuseMessage": false, "clear": true},
+			"problemMatcher": []
+		},
+		{
+			"label": "Python 3",
+			"type": "shell",
+			"command": "python3 '${file}'",
+			"presentation": {"showReuseMessage": false, "clear": true},
+			"problemMatcher": []
+		},
+		{
+			"label": "Pywikibot",
+			"type": "shell",
+			"command": "pwb '${file}'",
+			"presentation": {"showReuseMessage": false, "clear": true},
+			"problemMatcher": []
+		},
+		{
+			"label": "Pywikibot login",
+			"type": "shell",
+			"command": "pwb login",
 			"presentation": {"showReuseMessage": false, "clear": true},
 			"problemMatcher": []
 		}
