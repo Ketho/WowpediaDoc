@@ -7,7 +7,7 @@
 - https://en.wikipedia.org/wiki/Help:Creating_a_bot
 
 ## Creating a bot account
-You basically create a new user account (e.g. [KethoBot](https://warcraft.wiki.gg/wiki/Special:Contributions/KethoBot)) and request the admins to give it the [bot role](https://warcraft.wiki.gg/wiki/Special:ListUsers?group=bot). 
+You basically create a new user account (e.g. [KethoBot](https://warcraft.wiki.gg/wiki/Special:Contributions/KethoBot)) and request the admins to give it the [bot role](https://warcraft.wiki.gg/wiki/Special:ListUsers?group=bot). Note that you probably need a certain amount of trust to request a bot account and this is just in case I get hit by a bus.
 
 ### Bot passwords
 Pywikibot requires a bot password which can be set in `user-password.py`
