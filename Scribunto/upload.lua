@@ -1,4 +1,7 @@
 local Path = require "path"
+local Util = require("Util.Util")
+
+Util:MakeDir("out")
 
 local function WriteFiles()
     local scribunto = Path.join("Scribunto", "API_info")
@@ -16,7 +19,7 @@ end
 
 local function UploadFiles()
     os.execute("pwb login")
-    os.execute("pwb Scribunto\\upload.py")
+    os.execute("pwb Scribunto/upload.py")
 end
 
 local function main()

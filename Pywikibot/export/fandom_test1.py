@@ -152,7 +152,7 @@ def main():
 			page = pywikibot.Page(site, v)
 			if not page.exists():
 				page.text = docApi[v]
-				page.save(summary="up to 11.0.2 (55763)")
+				page.save(summary="PTR 11.1.5 (59571)")
 				time.sleep(5)
 	print("done")
 

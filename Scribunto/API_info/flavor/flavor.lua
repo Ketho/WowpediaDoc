@@ -2,6 +2,9 @@
 -- https://wowpedia.fandom.com/wiki/Module:API_info/flavor/event
 local Util = require("Util/Util")
 Util:MakeDir("cache_lua")
+Util:MakeDir("out/lua")
+
+local IsMainlinePTR = true
 
 local flavor = {
 	mainline = 0x1,
@@ -79,7 +82,12 @@ function m:GetData(sourceType)
 		end
 	end
 	for k in pairs(data) do
-		local mainline = parts.mainline[k] and flavor.mainline or 0
+		local mainline
+		if IsMainlinePTR then
+			mainline = parts.mainline_ptr[k] and flavor.mainline_ptr or 0
+		else
+			mainline = parts.mainline[k] and flavor.mainline or 0
+		end
 		local vanilla = parts.vanilla[k] and flavor.vanilla or 0
 		local cata = parts.cata[k] and flavor.cata or 0
 		-- local mainline_beta = parts.mainline_beta[k] and flavor.mainline_beta or 0
@@ -96,7 +104,7 @@ local function main()
 		end
 		print("writing", info.out)
 		local file = io.open(info.out, "w")
-		file:write("-- https://github.com/Ketho/WowpediaApiDoc/blob/master/Scribunto/API_info/flavor/flavor.lua\n")
+		file:write("-- https://github.com/Ketho/WowpediaDoc/blob/master/Scribunto/API_info/flavor/flavor.lua\n")
 		file:write('local data = {\n')
 		for _, name in pairs(Util:SortTable(data)) do
 			local flavors = data[name]
@@ -108,6 +116,13 @@ local function main()
 		file:write("}\n\nreturn data\n")
 		file:close()
 	end
+end
+
+-- hack
+if IsMainlinePTR then
+	flavor.mainline = nil
+	flavor.mainline_ptr = 0x1
+	branches[1] = "mainline_ptr"
 end
 
 main()
