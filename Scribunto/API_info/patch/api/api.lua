@@ -111,7 +111,7 @@ local function main()
 
 		print("writing", info.out)
 		local file = io.open(info.out, "w")
-		file:write("-- https://github.com/Ketho/WowpediaApiDoc/blob/master/Scribunto/API_info/patch/api/api.lua\n")
+		file:write("-- https://github.com/Ketho/WowpediaDoc/blob/master/Scribunto/API_info/patch/api/api.lua\n")
 		file:write("local data = {\n")
 		for _, name in pairs(Util:SortTable(t)) do
 			local tbl = t[name]

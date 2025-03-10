@@ -1,4 +1,4 @@
--- https://github.com/Ketho/WowpediaApiDoc/blob/master/Scribunto/API_info/patch/api/api.lua
+-- https://github.com/Ketho/WowpediaDoc/blob/master/Scribunto/API_info/patch/api/api.lua
 local data = {
 	["AbandonQuest"] = {"1.13.2"},
 	["AbandonSkill"] = {"1.13.2"},

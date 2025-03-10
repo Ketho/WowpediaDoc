@@ -1,4 +1,4 @@
--- https://github.com/Ketho/WowpediaApiDoc/blob/master/Scribunto/API_info/flavor/flavor.lua
+-- https://github.com/Ketho/WowpediaDoc/blob/master/Scribunto/API_info/flavor/flavor.lua
 local data = {
 	["ACHIEVEMENT_EARNED"] = 0x7,
 	["ACHIEVEMENT_PLAYER_NAME"] = 0x7,

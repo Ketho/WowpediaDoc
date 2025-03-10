@@ -1,4 +1,4 @@
--- https://github.com/Ketho/WowpediaApiDoc/blob/master/Scribunto/API_info/flavor/flavor.lua
+-- https://github.com/Ketho/WowpediaDoc/blob/master/Scribunto/API_info/flavor/flavor.lua
 local data = {
 	["AbandonQuest"] = 0x6,
 	["AbandonSkill"] = 0x7,

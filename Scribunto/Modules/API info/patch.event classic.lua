@@ -1029,4 +1029,4 @@ local data = {
 }
 
 return data
--- https://github.com/Ketho/WowpediaApiDoc/blob/master/Scribunto/API_info/patch/event/event.lua
+-- https://github.com/Ketho/WowpediaDoc/blob/master/Scribunto/API_info/patch/event/event.lua
