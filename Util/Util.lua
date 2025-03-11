@@ -407,4 +407,23 @@ function Util:api_func_GetFullName(v)
     end
 end
 
+function Util:IsBitEnum(apiTbl)
+	local t = {}
+	for _, v in pairs(apiTbl.Fields) do
+		t[v.EnumValue] = true
+	end
+	if apiTbl.name == "Damageclass" then
+		return true
+	end
+	for i = 1, 3 do
+		if not t[2^i] then
+			return false
+		end
+	end
+	if t[3] or t[5] or t[7] then
+		return false
+	end
+	return true
+end
+
 return Util
