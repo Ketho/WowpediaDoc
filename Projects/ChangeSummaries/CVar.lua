@@ -60,7 +60,7 @@ local function GetCVarInfo(name)
 		if #help > 0 then
 			table.insert(t, "desc="..help)
 		end
-		return string.format("{{%s}}", table.concat(t, "|"))
+		return string.format("''{{%s}}''", table.concat(t, "|"))
 	end
 end
 
