@@ -48,7 +48,7 @@ function m:WriteCVarList(blizzres_cvars, framexml_strings, binary_strings)
 		local default, category, server, character, secure, desc = table.unpack(v)
 		local default_text
 		if #default > 0 then
-			default_text = string.format("<font color=#ecbc2a><code>%s</code></font>", default)
+			default_text = string.format("<code>%s</code>", default)
 		end
 		if #default >= 16 then
 			default_text = string.format('<small>%s</small>', default_text)
