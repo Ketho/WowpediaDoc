@@ -2,7 +2,7 @@
 local lfs = require "lfs"
 local Util = require("Util.Util")
 
-local PATH = [[E:\Prog\World of Warcraft\Binaries]]
+local PATH = [[/mnt/d/Prog/World of Warcraft/Binaries]]
 Util:MakeDir("cache_strings")
 
 local function SortPatchReverse(a, b)
