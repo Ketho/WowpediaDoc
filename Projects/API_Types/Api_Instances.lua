@@ -1,7 +1,7 @@
 local Util = require("Util.Util")
 
 local loader = require("WowDocLoader.WowDocLoader")
-loader:main("mainline")
+loader:main("mainline_ptr")
 local m_Api_Types = require("Projects.API_Types.Api_Types")
 local widgetSystems = require("Util.widget_system")
 

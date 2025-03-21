@@ -5,7 +5,7 @@ local signatures = Signatures_Parse:GetSignatures()
 local wiki_signatures = require("Pages/World of Warcraft API/ParseAnnotations/BuildSignatures"):main()
 
 package.path = package.path..";../?.lua"
-local updated_desc = require("wow-api-descriptions/updated")
+-- local updated_desc = require("wow-api-descriptions/updated")
 
 local OUTPUT = "cache_lua/World_of_Warcraft_API.txt"
 local m = {}

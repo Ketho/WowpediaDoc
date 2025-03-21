@@ -1,6 +1,7 @@
 local Util = require("Util/Util")
 local WikiText = require("Pages/World of Warcraft API/WikiText")
 Util:MakeDir("cache_lua")
+local BRANCH = "mainline_ptr"
 
 local Signatures_Parse = require("Pages/World of Warcraft API/Signatures_Parse")
 local signatures = Signatures_Parse:GetSignatures()
@@ -29,7 +30,7 @@ end
 function m:GetGlobalApi()
 	local global_api = Util:DownloadAndRun(
 		"cache_lua/GlobalAPI.lua",
-		"https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/mainline/Resources/GlobalAPI.lua"
+		string.format("https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/GlobalAPI.lua", BRANCH)
 	)
 	return Util:ToMap(global_api[1])
 end

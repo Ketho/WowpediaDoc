@@ -90,9 +90,9 @@ function m:main()
 	local annotations = m:ParseAnnotations()
 	for k in pairs(undoc) do
 		local info = annotations[k]
-		if not info then
-			error("missing annotation: "..k)
-		end
+		-- if not info then
+		-- 	error("missing annotation: "..k)
+		-- end
 		-- if not info.nopage then
 		-- 	print(k, m:ToString(info))
 		-- end

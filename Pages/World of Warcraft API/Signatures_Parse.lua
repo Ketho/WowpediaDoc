@@ -1,5 +1,5 @@
 local Util = require("Util/Util")
-local BRANCH = "mainline"
+local BRANCH = "mainline_ptr"
 Util:LoadDocumentation(BRANCH)
 require "Documenter/Wowpedia/Wowpedia"
 
