@@ -24,6 +24,7 @@ local wpExpansion = {
 	[7] = "{{Bfa-inline|}}",
 	[8] = "{{Sl-inline|}}",
 	[9] = "{{Df-inline|}}",
+	[10] = "{{Tww-inline|}}",
 }
 
 local wpLink = {
@@ -32,6 +33,7 @@ local wpLink = {
 	[309] = "Zul%27Gurub (Classic)", -- Ancient Zul'Gurub
 	[489] = "Warsong Gulch", -- Classic Warsong Gulch
 	[529] = "Arathi Basin", -- Classic Arathi Basin
+	[608] = "Violet Hold (instance)", -- Violet Hold
 	[648] = "Lost Isles", -- LostIsles
 	[731] = "The Bomb", -- Stonetalon Bomb
 	[951] = "Nexus (instance)#Dragonwrath.2C Tarecgosa.27s Rest", -- Nexus Legendary
@@ -47,9 +49,11 @@ local wpLink = {
 	[1825] = "Hook Point (arena)", -- Hook Point
 	[1904] = "The Stormwind Extraction", -- Stormwind Escape from Stockades
 	[1944] = "Thros, the Blighted Lands", -- Thros, The Blighted Lands
+	[2070] = "Battle of Dazar'alor (instance)", -- Battle of Dazar'alor
 	[2117] = "N%27Zoth", -- NZoth
 	[2177] = "Brawl: Comp Stomp", -- Arathi Basin Comp Stomp
 	[2179] = "Stratholme (pet battle)", -- Stratholme Pet Dungeon
+	[2526] = "Algeth'ar Academy (instance)", -- Algeth'ar Academy
 	-- also serves as a whitelist
 	[628] = "Isle of Conquest", -- Isle of Conquest (quest)
 }
@@ -114,6 +118,7 @@ local patterns = {
 	"transport",
 	"zone",
 	"zzold",
+	"zzz",
 }
 
 local patch_override = {
@@ -165,6 +170,7 @@ end
 local function main(options)
 	options = Util:GetFlavorOptions(options)
 	options.initial = false
+	options.sort = Util.SortBuild -- I dont even remember how and why I implemented sorting
 	local map = parser:ReadCSV("map", options)
 	local patchData = dbc_patch:GetPatchData("map", options)
 

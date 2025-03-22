@@ -214,9 +214,9 @@ function m:WriteDataFile(info)
 end
 
 function m:main(flavor)
-	for _, folder in pairs(flavors[flavor]) do
-		m:IterateFiles(folder, flavor)
-	end
+	-- for _, folder in pairs(flavors[flavor]) do
+	m:IterateFiles(IN_FRAMEXML.."Interface", flavor)
+	-- end
 	for _, info in pairs(dataTypes) do
 		m:WriteDataFile(info)
 	end

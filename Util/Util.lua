@@ -36,7 +36,7 @@ function Util.SortBuild(a, b)
 	end
 end
 
-Util.PtrVersion = "11.1.5"
+Util.PtrVersion = "11.2.0"
 
 local flavorInfo = {
 	mainline = {flavor = "mainline", branch = "wow", header = true},
@@ -296,6 +296,7 @@ function Util:GetFlavorOptions(info)
 	elseif infoType == "string" then
 		local t = flavorInfo[info]
 		if t.branch then
+			-- need to know what the latest build is when downloading
 			t.build = parser:GetWagoVersions(t.branch)[1] -- latest build for a branch
 		end
 		t.sort = Util.SortPatch
