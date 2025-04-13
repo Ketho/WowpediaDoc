@@ -3,7 +3,7 @@ local lfs = require "lfs"
 local OUT = Path.join("out", "page", "Widget_API.txt")
 local Util = require("Util.Util")
 
-local BRANCH = "mainline"
+local BRANCH = "mainline_ptr"
 Util:LoadDocumentation(BRANCH)
 
 local widget_systems = {

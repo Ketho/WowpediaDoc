@@ -66,7 +66,7 @@ local sources = {
 
 -- https://github.com/Ketho/BlizzardInterfaceResources/branches
 local branches = {
-	"mainline",
+	"mainline_ptr",
 	"cata",
 	"vanilla",
 }
@@ -140,7 +140,7 @@ function m:GetData(sourceType)
 	end
 
 	for name in pairs(mainTbl) do
-		local retail = parts.mainline[name]
+		local retail = parts.mainline_ptr[name]
 		local cata = parts.cata[name]
 		local vanilla = parts.vanilla[name]
 
@@ -166,7 +166,7 @@ function m:GetData(sourceType)
 end
 
 function m:GetEventPayload()
-	local branch = "mainline"
+	local branch = "mainline_ptr"
 	Util:LoadDocumentation(branch)
 	local t = {}
 	for _, event in pairs(APIDocumentation.events) do
@@ -220,7 +220,7 @@ local function main()
 				file:write(section_fs:format(sectionInfo.label))
 				for _, name in pairs(Util:SortTable(data[sectionInfo.id], info.sortFunc)) do
 					local expansions = {
-						parts.mainline[name] and "mainline",
+						parts.mainline_ptr[name] and "mainline_ptr",
 						parts.cata[name] and "cata",
 						parts.vanilla[name] and "vanilla",
 					}

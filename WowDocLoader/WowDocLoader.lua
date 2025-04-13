@@ -40,8 +40,8 @@ function m:main(branch)
 	Util:LoadLuaEnums(branch)
 	require(Path.join(LOADER_PATH, "Compat"))
 
-	-- local latestFrameXML = Util:GetLatestBuild(branch)
-	local latestFrameXML = "./wow-ui-source/Interface"
+	local latestFrameXML = Util:GetLatestBuild(branch)
+	-- local latestFrameXML = "./wow-ui-source/Interface"
 	local addons_path = Path.join(latestFrameXML, "AddOns")
 	LoadAddon(addons_path, "Blizzard_APIDocumentation")
 	LoadAddon(addons_path, "Blizzard_APIDocumentationGenerated")
