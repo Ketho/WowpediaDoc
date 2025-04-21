@@ -5,8 +5,8 @@ local apidoc_nontoc = require("Util.apidoc_nontoc")
 local BRANCH = "mainline"
 Util:LoadLuaEnums(BRANCH)
 
-local BUILD1 = "11.0.2 (56819)"
-local BUILD2 = "11.0.5 (57212)"
+local BUILD1 = "11.1.5 (59571)"
+local BUILD2 = "11.1.5 (60253)"
 
 ChangeDiff = {}
 require("Projects.ChangeDiff.Compare")
