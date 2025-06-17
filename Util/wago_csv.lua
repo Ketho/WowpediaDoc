@@ -72,10 +72,10 @@ local function CreateWagoUrl(name, options)
 	local url
 	if options then
 		local t = {}
-		if options.branch then
-			table.insert(t, "branch="..options.branch)
-		elseif options.build then
+		if options.build then
 			table.insert(t, "build="..options.build)
+		elseif options.branch then
+			table.insert(t, "branch="..options.branch)
 		end
 		if options.locale then
 			table.insert(t, "locale="..options.locale)
