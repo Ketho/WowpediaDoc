@@ -35,6 +35,15 @@ local m = {}
 ---|"vanilla"
 ---|"vanilla_ptr"
 
+---@alias GameType string
+---|"mainline"
+---|"classic"
+---|"mists"
+---|"cata"
+---|"wrath"
+---|"tbc"
+---|"vanilla"
+
 ---@type table<TactProduct, GetheBranch>
 m.gethe_branch = {
 	-- mainline
@@ -62,6 +71,16 @@ m.blizzres_branch = {
 	wow_classic_beta = "mists_beta",
 	wow_classic_era = "vanilla",
 	wow_classic_era_ptr = "vanilla_ptr",
+}
+
+---@type table<GameType, GetheBranch>
+m.gameversion_branch = {
+	mainline = "live",
+	mists = "classic",
+	cata = "4.4.2",
+	wrath = "3.4.3",
+	tbc = "2.5.4",
+	vanilla = "classic_era",
 }
 
 return m

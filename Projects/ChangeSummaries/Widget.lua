@@ -7,7 +7,7 @@ local pos_tbl = {}
 
 local function GetWidgetFile(path, branch)
 	local url = bir_url:format(branch)
-	Util:DownloadFile(path, url, true)
+	Util:DownloadFile(url, path, true)
 end
 
 local function GetWidgetObjectName(path)

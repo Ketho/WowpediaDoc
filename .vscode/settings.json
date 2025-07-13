@@ -3,6 +3,7 @@
         "${3rd}/lfs/library"
     ],
     "Lua.diagnostics.globals": [
-        "Enum"
+        "Enum",
+        "mw"
     ]
 }

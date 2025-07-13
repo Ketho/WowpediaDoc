@@ -28,7 +28,7 @@ local function GetDiff()
 		url = string.format("https://github.com/Ketho/BlizzardInterfaceResources/compare/%s.diff", DIFF[2])
 	end
 	local isCache = DIFF[3]
-	Util:DownloadFile(path, url, isCache)
+	Util:DownloadFile(url, path, isCache)
 	return path
 end
 

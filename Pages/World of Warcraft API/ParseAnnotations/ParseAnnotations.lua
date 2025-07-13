@@ -10,7 +10,7 @@ local CACHE_ANNOTATIONS = "cache_lua/Wiki.lua"
 local m = {}
 
 function m:DownloadAnnotations()
-	Util:DownloadFile(CACHE_ANNOTATIONS, URL_ANNOTATIONS, true)
+	Util:DownloadFile(URL_ANNOTATIONS, CACHE_ANNOTATIONS, true)
 end
 
 -- ugly crap

@@ -1,3 +1,4 @@
+---@diagnostic disable: need-check-nil
 local lfs = require("lfs")
 local Path = require("path")
 local https = require("ssl.https")
@@ -63,6 +64,17 @@ m.RelativePath = {
 	[".."] = true,
 }
 
+--- Runs a commmand in the shell
+---@param cmd string
+---@return string result
+function m:run_command(cmd)
+	log:info("Running command: "..cmd)
+    local handle = io.popen(cmd)
+	local result = handle:read("a")
+	handle:close()
+	return result
+end
+
 --- Looks through the FrameXML folder and returns
 --- the copy of the FrameXML with the highest build number number
 --- it does not look at the semantic version (major,minor,patch) but only at the build number
@@ -92,6 +104,10 @@ function m:LoadDocumentation(branch)
 	require("WowDocLoader"):main(branch)
 end
 
+function m:FolderExists(path)
+    return lfs.attributes(path, "mode") == "directory"
+end
+
 function m:MakeDir(path)
 	if not lfs.attributes(path) then
 		lfs.mkdir(path)
@@ -99,7 +115,7 @@ function m:MakeDir(path)
 end
 
 function m:WriteFile(path, text)
-	print("Writing", path)
+	log:info(string.format("Writing `%s`", path))
 	local file = io.open(path, "w")
 	if file then
 		file:write(text)
@@ -108,22 +124,23 @@ function m:WriteFile(path, text)
 end
 
 --- Downloads a file
----@param path string Path to write the file to
 ---@param url string URL to download from
----@param isCache boolean If the file should be redownloaded after `INVALIDATION_TIME`
-function m:DownloadFile(path, url, isCache)
+---@param path string Path to write the file to
+---@param isCache? boolean If the file should be redownloaded after `INVALIDATION_TIME`
+function m:DownloadFile(url, path, isCache)
 	if self:ShouldDownload(path, isCache) then
+		log:info(string.format("Downloading %s to `%s`", url, path))
 		local body = https.request(url)
 		self:WriteFile(path, body)
 	end
 end
 
 --- Downloads and runs a Lua file
----@param path string Path to write the file to
 ---@param url string URL to download from
+---@param path string Path to write the file to
 ---@return ... @ The values returned from the Lua file, if applicable
-function m:DownloadAndRun(path, url)
-	self:DownloadFile(path, url, true)
+function m:DownloadAndRun(url, path)
+	self:DownloadFile(url, path, true)
 	local p = path:gsub("%.lua", "")
 	if p:find("%.") then
 		return loadfile(path)()
@@ -133,11 +150,11 @@ function m:DownloadAndRun(path, url)
 end
 
 --- Sends a POST request and downloads a file
----@param path string Path to write the file to
 ---@param url string URL to download from
+---@param path string Path to write the file to
 ---@param requestBody string Contents of the request
----@param isCache boolean If the file should be redownloaded after `INVALIDATION_TIME`
-function m:DownloadFilePost(path, url, requestBody, isCache)
+---@param isCache? boolean If the file should be redownloaded after `INVALIDATION_TIME`
+function m:DownloadFilePost(url, path, requestBody, isCache)
 	if self:ShouldDownload(path, isCache) then
 		local body = self:HttpPostRequest(url, requestBody)
 		if body then

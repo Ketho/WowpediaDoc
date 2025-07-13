@@ -11,7 +11,7 @@ local github_url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceRes
 
 local function WutRequest(folder, search)
 	local path = string.format("cache_wut/%s/%s.json", folder, search)
-	Util:DownloadFilePost(path, wut_url:format(search), "", false)
+	Util:DownloadFilePost(wut_url:format(search), path, "", false)
 	if not lfs.attributes(path) then
 		local file = io.open(path, "w")
 		file:write([[{"a":{}}]]) -- create placeholder json to avoid further requests
