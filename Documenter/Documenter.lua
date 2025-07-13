@@ -1,28 +1,29 @@
+local util = require("util")
 local log = require("util.log")
 local products = require("util.products")
+local git = require("util.git")
 
-local REPO = "https://github.com/Gethe/wow-ui-source"
-local PRODUCT = products.products.wowxptr
--- local BRANCH = "ptr2"
+-- the starting point will be the TACT product
+local PRODUCT = "wow" ---@type TactProduct
+local FRAMEXML_BRANCH = products.gethe_branch[PRODUCT]
+local BLIZZRES_BRANCH = products.blizzres_branch[PRODUCT]
 
-if BRANCH then
-    log:success(string.format("Branch: %s", BRANCH))
-elseif PRODUCT then
-    BRANCH = products.product_branch[PRODUCT]
-    log:success(string.format("Product: %s", PRODUCT))
-    log:success(string.format("Branch: %s", BRANCH))
-else
-    error("no branch or product specified")
+if PRODUCT and #PRODUCT > 0 then
+    log:success(string.format("TACT product: %s", PRODUCT))
+end
+if FRAMEXML_BRANCH and #FRAMEXML_BRANCH > 0 then
+    log:success(string.format("Gethe branch: %s", FRAMEXML_BRANCH))
+end
+if BLIZZRES_BRANCH and #BLIZZRES_BRANCH > 0 then
+    log:success(string.format("BlizzRes branch: %s", BLIZZRES_BRANCH))
 end
 
-local util = require("util")
-local git = require("util.git")
-git:pull(REPO, BRANCH)
+git:pull("https://github.com/Gethe/wow-ui-source", FRAMEXML_BRANCH)
 
-util:LoadDocumentation(BRANCH)
--- require("Documenter.Wowpedia.Wowpedia")
--- --require("Documenter.Tests.Tests")
+util:LoadDocumentation(BLIZZRES_BRANCH)
+require("Documenter.Wowpedia.Wowpedia")
+--require("Documenter.Tests.Tests")
 
--- local Exporter = require("Documenter/Exporter")
--- Exporter:ExportSystems("out/export")
--- print("done")
+local Exporter = require("Documenter/Exporter")
+Exporter:ExportSystems("out/export")
+print("done")

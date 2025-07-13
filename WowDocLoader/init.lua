@@ -1,11 +1,10 @@
--- WoWDocLoader is only supposed to read Blizzard_APIDocumentation
 local lfs = require("lfs")
-local Path = require("path")
+local pathlib = require("path")
 
 local log = require("util.log")
-local util = require("util")
-local m = {}
+local lua_enum = require("WowDocLoader.LuaEnum")
 
+local m = {}
 local LOADER_PATH = "WowDocLoader"
 
 local function LoadFile(path)
@@ -22,8 +21,8 @@ local function LoadFile(path)
 end
 
 local function LoadAddon(framexml_path, name)
-	local path = Path.join(framexml_path, name)
-	local toc_path = Path.join(path, name..".toc")
+	local path = pathlib.join(framexml_path, name)
+	local toc_path = pathlib.join(path, name..".toc")
 	local file = io.open(toc_path)
 	if not file then
 		error(string.format("%s has no TOC file", path))
@@ -31,24 +30,25 @@ local function LoadAddon(framexml_path, name)
 	for line in file:lines() do
 		local fileName = line:match(".-%.lua") -- trim the newline char
 		if fileName then
-			LoadFile(Path.join(path, fileName))
+			LoadFile(pathlib.join(path, fileName))
 		end
 	end
 	file:close()
 end
 
 function m:main(branch)
-	if APIDocumentation then return end
-	-- util:LoadLuaEnums(branch)
-	require(Path.join(LOADER_PATH, "Compat"))
+	if APIDocumentation then
+		log:warn("WoWDocLoader: APIDocumentation already loaded")
+		return
+	end
+	lua_enum:LoadLuaEnums(branch)
+	require(pathlib.join(LOADER_PATH, "Compat"))
 
-	local latestFrameXML = util:GetLatestBuild(branch)
-	-- local latestFrameXML = "./wow-ui-source/Interface"
-	local addons_path = Path.join(latestFrameXML, "AddOns")
+	local addons_path = pathlib.join("wow-ui-source", "Interface", "AddOns")
 	LoadAddon(addons_path, "Blizzard_APIDocumentation")
 	LoadAddon(addons_path, "Blizzard_APIDocumentationGenerated")
 
-	require(Path.join(LOADER_PATH, "TypeDocumentation"))
+	require(pathlib.join(LOADER_PATH, "TypeDocumentation"))
 	-- require(Path.join(WowDocLoader_Path, "MissingDocumentation"))
 	-- self:PrintSystems()
 end

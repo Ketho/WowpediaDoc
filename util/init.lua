@@ -355,15 +355,6 @@ function m:equals(a, b)
     return true
 end
 
-function m:LoadLuaEnums(branch)
-	if Enum then return end
-	m:MakeDir("cache_lua")
-	local path = string.format("cache_lua/LuaEnum_%s.lua", branch)
-	local url = string.format("https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/LuaEnum.lua", branch)
-	m:DownloadAndRun(path, url)
-	require("Util.WowDocFix")
-end
-
 function m:template_apilink(apitype, apitable)
     local t = {}
     table.insert(t, "{{apilink")
