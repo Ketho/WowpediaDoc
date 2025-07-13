@@ -42,7 +42,7 @@ function m:main(branch)
 		return
 	end
 	lua_enum:LoadLuaEnums(branch)
-	require(pathlib.join(LOADER_PATH, "Compat"))
+	require(pathlib.join(LOADER_PATH, "compat"))
 
 	local addons_path = pathlib.join("wow-ui-source", "Interface", "AddOns")
 	LoadAddon(addons_path, "Blizzard_APIDocumentation")

@@ -1,7 +1,7 @@
 local util = require("util")
 local log = require("util.log")
-local products = require("util.products")
-local git = require("util.git")
+local git = require("WowDocLoader.git")
+local products = require("WowDocLoader.products")
 
 -- the starting point will be the TACT product
 local PRODUCT = "wow" ---@type TactProduct
