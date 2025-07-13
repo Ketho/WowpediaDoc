@@ -7,8 +7,8 @@ OUT_GLOBALSTRINGS = "/mnt/d/Repo/wow-api/BlizzardInterfaceResources/Resources/Gl
 OUT_RESOURCES = "/mnt/d/Repo/wow-api/BlizzardInterfaceResources/Resources"
 OUT_ATLAS = "/mnt/d/Repo/wow-api/BlizzardInterfaceResources/Resources/AtlasInfo.lua"
 
--- mainline, mainline_ptr, cata, vanilla
-local FLAVOR = "mainline_ptr"
+-- mainline, mainline_ptr, mists, cata, vanilla
+local FLAVOR = "mists_beta"
 local options = Util:GetFlavorOptions(FLAVOR)
 
 -- local options = Util:GetFlavorOptions({build="10.2.7.55664", header = true})

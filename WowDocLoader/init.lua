@@ -1,7 +1,9 @@
 -- WoWDocLoader is only supposed to read Blizzard_APIDocumentation
-local lfs = require "lfs"
-local Path = require "path"
-local Util = require("Util.Util")
+local lfs = require("lfs")
+local Path = require("path")
+
+local log = require("util.log")
+local util = require("util")
 local m = {}
 
 local LOADER_PATH = "WowDocLoader"
@@ -37,10 +39,10 @@ end
 
 function m:main(branch)
 	if APIDocumentation then return end
-	Util:LoadLuaEnums(branch)
+	-- util:LoadLuaEnums(branch)
 	require(Path.join(LOADER_PATH, "Compat"))
 
-	local latestFrameXML = Util:GetLatestBuild(branch)
+	local latestFrameXML = util:GetLatestBuild(branch)
 	-- local latestFrameXML = "./wow-ui-source/Interface"
 	local addons_path = Path.join(latestFrameXML, "AddOns")
 	LoadAddon(addons_path, "Blizzard_APIDocumentation")

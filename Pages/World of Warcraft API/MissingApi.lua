@@ -1,7 +1,7 @@
 local Util = require("Util/Util")
 local WikiText = require("Pages/World of Warcraft API/WikiText")
 Util:MakeDir("cache_lua")
-local BRANCH = "mainline_ptr"
+local BRANCH = "mainline"
 
 local Signatures_Parse = require("Pages/World of Warcraft API/Signatures_Parse")
 local signatures = Signatures_Parse:GetSignatures()

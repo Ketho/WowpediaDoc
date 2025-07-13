@@ -13,7 +13,7 @@
 		{
 			"label": "Lua Documenter",
 			"type": "shell",
-			"command": "git -C wow-ui-source pull && git -C wow-ui-source log -1 --pretty=%B && lua 'Documenter/Documenter.lua'",
+			"command": "lua 'Documenter/Documenter.lua'",
 			"presentation": {"showReuseMessage": false, "clear": true},
 			"problemMatcher": []
 		},

@@ -1,16 +1,17 @@
-local lfs = require "lfs"
-local Path = require "path"
-local https = require "ssl.https"
-local ltn12 = require "ltn12"
-local parser = require("Util/wago_csv")
-local log = require("Util/log")
+local lfs = require("lfs")
+local Path = require("path")
+local https = require("ssl.https")
+local ltn12 = require("ltn12")
 
-local Util = {}
+local parser = require("util.wago")
+local log = require("util.log")
+
+local m = {}
 local INVALIDATION_TIME = 60*60
 
 -- useful when using PTR builds and a retail build is higher than a PTR build
 -- e.g. PTR 10.1.7.50587 vs retail 10.1.5.50622
-function Util.SortPatch(a, b)
+function m.SortPatch(a, b)
 	local major_a, minor_a, patch_a, build_a = a:match("(%d+)%.(%d+)%.(%d+)%.(%d+)")
 	local major_b, minor_b, patch_b, build_b = b:match("(%d+)%.(%d+)%.(%d+)%.(%d+)")
 	major_a = tonumber(major_a); major_b = tonumber(major_b)
@@ -28,7 +29,7 @@ function Util.SortPatch(a, b)
 	end
 end
 
-function Util.SortBuild(a, b)
+function m.SortBuild(a, b)
 	local build_a = tonumber(a:match("(%d+)$"))
 	local build_b = tonumber(b:match("(%d+)$"))
 	if build_a ~= build_b then
@@ -36,16 +37,17 @@ function Util.SortBuild(a, b)
 	end
 end
 
-Util.PtrVersion = "11.2.0"
+m.PtrVersion = "11.1.7"
 
 local flavorInfo = {
 	mainline = {flavor = "mainline", branch = "wow", header = true},
 	mainline_beta = {flavor = "mainline", branch = "wow_beta", header = true},
-	mainline_ptr = {flavor = "mainline", branch = "wowt", header = true},
+	mainline_ptr = {flavor = "mainline", branch = "wowxptr", header = true},
 	vanilla = {flavor = "vanilla", header = true, branch = "wow_classic_era"},
 	vanilla_ptr = {flavor = "vanilla", branch = "wow_classic_era_ptr", header = true}, -- has 10.1.5 and 10.0.7 builds
 	cata = {flavor = "cata", header = true, branch = "wow_classic"},
 	cata_ptr = {flavor = "cata", header = true, branch = "wow_classic_beta"},
+	mists_beta = {flavor = "mists", header = true, branch = "wow_classic_beta"},
 }
 
 local classicVersions = {
@@ -56,7 +58,7 @@ local classicVersions = {
 	"^3.4.",
 }
 
-Util.RelativePath = {
+m.RelativePath = {
 	["."] = true,
 	[".."] = true,
 }
@@ -66,7 +68,7 @@ Util.RelativePath = {
 --- it does not look at the semantic version (major,minor,patch) but only at the build number
 ---@param flavor string
 ---@return string path
-function Util:GetLatestBuild(flavor)
+function m:GetLatestBuild(flavor)
 	local folder = Path.join("FrameXML", flavor)
 	if not lfs.attributes(folder) then
 		error("path does not exist: "..folder)
@@ -86,28 +88,30 @@ function Util:GetLatestBuild(flavor)
 	return path
 end
 
-function Util:LoadDocumentation(branch)
-	require("WowDocLoader.WowDocLoader"):main(branch)
+function m:LoadDocumentation(branch)
+	require("WowDocLoader"):main(branch)
 end
 
-function Util:MakeDir(path)
+function m:MakeDir(path)
 	if not lfs.attributes(path) then
 		lfs.mkdir(path)
 	end
 end
 
-function Util:WriteFile(path, text)
+function m:WriteFile(path, text)
 	print("Writing", path)
 	local file = io.open(path, "w")
-	file:write(text)
-	file:close()
+	if file then
+		file:write(text)
+		file:close()
+	end
 end
 
 --- Downloads a file
 ---@param path string Path to write the file to
 ---@param url string URL to download from
 ---@param isCache boolean If the file should be redownloaded after `INVALIDATION_TIME`
-function Util:DownloadFile(path, url, isCache)
+function m:DownloadFile(path, url, isCache)
 	if self:ShouldDownload(path, isCache) then
 		local body = https.request(url)
 		self:WriteFile(path, body)
@@ -118,7 +122,7 @@ end
 ---@param path string Path to write the file to
 ---@param url string URL to download from
 ---@return ... @ The values returned from the Lua file, if applicable
-function Util:DownloadAndRun(path, url)
+function m:DownloadAndRun(path, url)
 	self:DownloadFile(path, url, true)
 	local p = path:gsub("%.lua", "")
 	if p:find("%.") then
@@ -133,7 +137,7 @@ end
 ---@param url string URL to download from
 ---@param requestBody string Contents of the request
 ---@param isCache boolean If the file should be redownloaded after `INVALIDATION_TIME`
-function Util:DownloadFilePost(path, url, requestBody, isCache)
+function m:DownloadFilePost(path, url, requestBody, isCache)
 	if self:ShouldDownload(path, isCache) then
 		local body = self:HttpPostRequest(url, requestBody)
 		if body then
@@ -142,7 +146,7 @@ function Util:DownloadFilePost(path, url, requestBody, isCache)
 	end
 end
 
-function Util:ShouldDownload(path, isCache)
+function m:ShouldDownload(path, isCache)
 	local attr = lfs.attributes(path)
 	if not attr then
 		return true
@@ -152,7 +156,7 @@ function Util:ShouldDownload(path, isCache)
 end
 
 -- https://github.com/brunoos/luasec/wiki/LuaSec-1.0.x#httpsrequesturl---body
-function Util:HttpPostRequest(url, request)
+function m:HttpPostRequest(url, request)
 	local response = {}
 	local _, code = https.request{
 		url = url,
@@ -172,7 +176,7 @@ function Util:HttpPostRequest(url, request)
 	return table.concat(response)
 end
 
-function Util:CopyTable(tbl)
+function m:CopyTable(tbl)
 	local t = {}
 	for k, v in pairs(tbl) do
 		t[k] = v
@@ -180,13 +184,13 @@ function Util:CopyTable(tbl)
 	return t
 end
 
-function Util:Wipe(tbl)
+function m:Wipe(tbl)
 	for k in pairs(tbl) do
 		tbl[k] = nil
 	end
 end
 
-function Util:ToMap(tbl)
+function m:ToMap(tbl)
 	local t = {}
 	for _, v in pairs(tbl) do
 		t[v] = true
@@ -194,7 +198,7 @@ function Util:ToMap(tbl)
 	return t
 end
 
-function Util:ToList(tbl, func)
+function m:ToList(tbl, func)
 	local t = {}
 	for _, v in pairs(tbl) do
 		table.insert(t, v)
@@ -203,7 +207,7 @@ function Util:ToList(tbl, func)
 	return t
 end
 
-function Util:SortTable(tbl, func)
+function m:SortTable(tbl, func)
 	local t = {}
 	for k in pairs(tbl) do
 		table.insert(t, k)
@@ -212,7 +216,7 @@ function Util:SortTable(tbl, func)
 	return t
 end
 
-function Util:SortTableCustom(tbl, func)
+function m:SortTableCustom(tbl, func)
 	local t = {}
 	for k, v in pairs(tbl) do
 		table.insert(t, {
@@ -224,12 +228,12 @@ function Util:SortTableCustom(tbl, func)
 	return t
 end
 
-function Util.SortNocase(a, b)
+function m.SortNocase(a, b)
 	return a:lower() < b:lower()
 end
 
 -- https://stackoverflow.com/a/7615129/1297035
-function Util:strsplit(input, sep)
+function m:strsplit(input, sep)
 	local t = {}
 	for s in string.gmatch(input, "([^"..sep.."]+)") do
 		table.insert(t, s)
@@ -240,7 +244,7 @@ end
 --- combines table keys
 ---@vararg string
 ---@return table
-function Util:CombineTable(...)
+function m:CombineTable(...)
 	local t = {}
 	for i = 1, select("#", ...) do
 		local tbl = select(i, ...)
@@ -251,7 +255,7 @@ function Util:CombineTable(...)
 	return t
 end
 
-function Util:GetFullName(apiTable)
+function m:GetFullName(apiTable)
 	local fullName
 	local system = apiTable.System
 	if system.Type == "System" then
@@ -266,11 +270,11 @@ function Util:GetFullName(apiTable)
 	return fullName
 end
 
-function Util:GetPatchVersion(v)
+function m:GetPatchVersion(v)
 	return v:match("%d+%.%d+%.%d+")
 end
 
-function Util:GetPatchText(patchData, ID, patch_override)
+function m:GetPatchText(patchData, ID, patch_override)
 	local version = self:GetPatchVersion(patchData[ID].patch)
 	local text = patch_override and patch_override[version] or version
 	if text == self.PtrVersion then
@@ -279,7 +283,7 @@ function Util:GetPatchText(patchData, ID, patch_override)
 	return text
 end
 
-function Util:IsClassicVersion(v)
+function m:IsClassicVersion(v)
 	for _, pattern in pairs(classicVersions) do
 		if v:find(pattern) then
 			return true
@@ -289,7 +293,7 @@ function Util:IsClassicVersion(v)
 end
 
 -- accepts an options table or a game flavor
-function Util:GetFlavorOptions(info)
+function m:GetFlavorOptions(info)
 	local infoType = type(info)
 	if infoType == "table" then
 		return info
@@ -299,15 +303,15 @@ function Util:GetFlavorOptions(info)
 			-- need to know what the latest build is when downloading
 			t.build = parser:GetWagoVersions(t.branch)[1] -- latest build for a branch
 		end
-		t.sort = Util.SortPatch
+		t.sort = m.SortPatch
 		return t
 	elseif not info then
 		return flavorInfo.mainline
 	end
 end
 
-function Util:ReadCSV(dbc, parser, options, func)
-	-- print("DBC", dbc)
+function m:ReadCSV(dbc, parser, options, func)
+	log:info("Reading "..dbc)
 	local csv = parser:ReadCSV(dbc, options)
 	local tbl = {}
 	for l in csv:lines() do
@@ -319,7 +323,7 @@ function Util:ReadCSV(dbc, parser, options, func)
 	return tbl
 end
 
-function Util:IterateFiles(folder, func)
+function m:IterateFiles(folder, func)
 	for fileName in lfs.dir(folder) do
 		local path = folder.."/"..fileName
 		local attr = lfs.attributes(path)
@@ -337,7 +341,7 @@ function Util:IterateFiles(folder, func)
 end
 
 -- https://stackoverflow.com/a/32660766/1297035
-function Util:equals(a, b)
+function m:equals(a, b)
     if a == b then return true end
     local type_a, type_b = type(a), type(b)
     if type_a ~= type_b then return false end
@@ -351,22 +355,16 @@ function Util:equals(a, b)
     return true
 end
 
-function Util:Print(...)
-	if self.DEBUG then
-		print(...)
-	end
-end
-
-function Util:LoadLuaEnums(branch)
+function m:LoadLuaEnums(branch)
 	if Enum then return end
-	Util:MakeDir("cache_lua")
+	m:MakeDir("cache_lua")
 	local path = string.format("cache_lua/LuaEnum_%s.lua", branch)
 	local url = string.format("https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/LuaEnum.lua", branch)
-	Util:DownloadAndRun(path, url)
+	m:DownloadAndRun(path, url)
 	require("Util.WowDocFix")
 end
 
-function Util:template_apilink(apitype, apitable)
+function m:template_apilink(apitype, apitable)
     local t = {}
     table.insert(t, "{{apilink")
 	table.insert(t, "t="..apitype)
@@ -394,7 +392,7 @@ function Util:template_apilink(apitype, apitable)
     return table.concat(t, "|").."}}"
 end
 
-function Util:api_func_GetFullName(v)
+function m:api_func_GetFullName(v)
     if v.Type == "Function" then
 		if v.System.Type == "System" then
 			if v.System.Namespace then
@@ -408,7 +406,7 @@ function Util:api_func_GetFullName(v)
     end
 end
 
-function Util:IsBitEnum(apiTbl)
+function m:IsBitEnum(apiTbl)
 	local t = {}
 	for _, v in pairs(apiTbl.Fields) do
 		t[v.EnumValue] = true
@@ -427,4 +425,4 @@ function Util:IsBitEnum(apiTbl)
 	return true
 end
 
-return Util
+return m

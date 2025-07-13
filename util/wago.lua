@@ -1,9 +1,10 @@
-local lfs = require "lfs"
-local PATH = require "path"
-local https = require "ssl.https"
-local cjson = require "cjson"
-local cjsonutil = require "cjson.util"
-local csv = require "Util/csv/csv"
+local lfs = require("lfs")
+local PATH = require("path")
+local https = require("ssl.https")
+local cjson = require("cjson")
+local cjsonutil = require("cjson.util")
+
+local csv = require("util.lua-csv")
 
 local cache_folder = "cache_csv"
 local listfile_path = PATH.join(cache_folder, "community-listfile.csv")
@@ -12,9 +13,9 @@ local wago_csv_url = "https://wago.tools/db2/%s/csv"
 local wago_builds_url = "https://wago.tools/api/builds"
 local listfile_url = "https://github.com/wowdev/wow-listfile/releases/latest/download/community-listfile.csv"
 
-local parser = {}
+local m = {}
 
-parser.INVALIDATION_TIME = 60*60
+m.INVALIDATION_TIME = 60*60
 
 local flavors = {
 	mainline = {"wow", "wowt"},
@@ -89,7 +90,7 @@ end
 
 local function IsStale(path)
 	local modified = lfs.attributes(path).modification
-	return os.time() > modified + parser.INVALIDATION_TIME
+	return os.time() > modified + m.INVALIDATION_TIME
 end
 
 local function ReadJson(path)
@@ -102,7 +103,7 @@ local function ShouldDownload(path, isCache)
 	return not PathExists(path) or isCache and IsStale(path)
 end
 
-function parser:ReadCSV(name, options)
+function m:ReadCSV(name, options)
 	local path = CreateCsvPath(name, options)
 	if ShouldDownload(path) then
 		local url = CreateWagoUrl(name, options)
@@ -117,7 +118,7 @@ end
 -- parser:ReadCSV("mount", {header = true, build = "10.0.2.47657", locale = "deDE"})
 -- parser:ReadCSV("battlepetspecies")
 
-function parser:ReadListfile()
+function m:ReadListfile()
 	if ShouldDownload(listfile_path, true) then
 		print("downloading listfile...")
 		DownloadFile(listfile_url, listfile_path)
@@ -134,7 +135,7 @@ function parser:ReadListfile()
 end
 -- parser:ReadListfile()
 
-function parser:PrintCSV(iter)
+function m:PrintCSV(iter)
 	for line in iter:lines() do
 		print(table.unpack(line))
 	end
@@ -149,7 +150,7 @@ local function IsValidBuild(branch, version)
 	end
 end
 
-function parser:GetWagoVersions(branch)
+function m:GetWagoVersions(branch)
 	local t = {}
 	local path = PATH.join(cache_folder, "versions.json")
 	if ShouldDownload(path, true) then
@@ -164,17 +165,17 @@ function parser:GetWagoVersions(branch)
 	return t
 end
 
-function parser:GetPatches(branch)
+function m:GetPatches(branch)
 	local t = {}
 	local info = flavors[branch or "mainline"]
-	for _, version in pairs(parser:GetWagoVersions(info[1])) do
+	for _, version in pairs(m:GetWagoVersions(info[1])) do
 		local major = version:match("%d+%.%d+%.%d+")
 		if not t[major] then
 			t[major] = version
 		end
 	end
 	if info[2] then -- get latest PTR build
-		local ptr_build = parser:GetWagoVersions(info[2])[1]
+		local ptr_build = m:GetWagoVersions(info[2])[1]
 		local major = ptr_build:match("%d+%.%d+%.%d+")
 		if not t[major] then
 			t[major] = ptr_build
@@ -183,7 +184,7 @@ function parser:GetPatches(branch)
 	return t
 end
 
-function parser:FindBuild(branch, build)
+function m:FindBuild(branch, build)
 	local versions = self:GetWagoVersions(branch)
 	if build then
 		for _, version in pairs(versions) do
@@ -198,4 +199,4 @@ function parser:FindBuild(branch, build)
 end
 -- print(parser:FindBuild("wow"))
 
-return parser
+return m
