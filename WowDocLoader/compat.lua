@@ -1,4 +1,6 @@
 ---@meta
+-- compat code for Blizzard_APIDocumentation
+
 unpack = table.unpack ---@diagnostic disable-line: deprecated
 tinsert = table.insert
 format = string.format
@@ -45,17 +47,3 @@ end
 function CreateFromMixins(...)
 	return Mixin({}, ...)
 end
-
-Enum = Enum or {
-	PlayerCurrencyFlagsDbFlags = {
-		InBackpack = 0,
-		UnusedInUI = 0,
-	}
-}
-
-Constants = Constants or {
-	CharCustomizationConstants = {
-		CHAR_CUSTOMIZE_CUSTOM_DISPLAY_OPTION_FIRST = 0,
-		CHAR_CUSTOMIZE_CUSTOM_DISPLAY_OPTION_LAST = 0,
-	}
-}

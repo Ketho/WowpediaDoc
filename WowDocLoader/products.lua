@@ -60,8 +60,8 @@ m.blizzres_branch = {
 	wow_classic = "mists",
 	wow_classic_ptr = "mists_ptr",
 	wow_classic_beta = "mists_beta",
-	wow_classic_era = "classic_era",
-	wow_classic_era_ptr = "classic_era_ptr",
+	wow_classic_era = "vanilla",
+	wow_classic_era_ptr = "vanilla_ptr",
 }
 
 return m

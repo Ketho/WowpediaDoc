@@ -13,7 +13,7 @@
 		{
 			"label": "Lua Documenter",
 			"type": "shell",
-			"command": "lua 'Documenter/Documenter.lua'",
+			"command": "lua 'Documenter/init.lua'",
 			"presentation": {"showReuseMessage": false, "clear": true},
 			"problemMatcher": []
 		},
