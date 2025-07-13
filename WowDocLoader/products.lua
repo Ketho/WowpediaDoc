@@ -38,17 +38,17 @@ local m = {}
 ---@type table<TactProduct, GetheBranch>
 m.gethe_branch = {
 	-- mainline
-	wow = "live", -- 11.1.7
-	wowt = "ptr", -- 11.1.7
-	wowxptr = "ptr2", -- 11.2.0
-	wow_beta = "beta", -- 11.0.2
+	wow = "live",
+	wowt = "ptr",
+	wowxptr = "ptr2",
+	wow_beta = "beta",
 	-- classic
-	wow_classic = "classic", -- 5.5.0
-	wow_classic_ptr = "classic_ptr", -- 5.5.0
-	wow_classic_beta = "classic_beta", -- 5.5.0
+	wow_classic = "classic",
+	wow_classic_ptr = "classic_ptr",
+	wow_classic_beta = "classic_beta",
 	-- vanilla
-	wow_classic_era = "classic_era", -- 1.15.7
-	wow_classic_era_ptr = "classic_era_ptr", -- 1.15.7
+	wow_classic_era = "classic_era",
+	wow_classic_era_ptr = "classic_era_ptr",
 }
 
 ---@type table<TactProduct, BlizzResBranch>
@@ -57,11 +57,9 @@ m.blizzres_branch = {
 	wowt = "mainline_ptr",
 	wowxptr = "mainline_ptr",
 	wow_beta = "mainline_beta",
-
 	wow_classic = "mists",
 	wow_classic_ptr = "mists_ptr",
 	wow_classic_beta = "mists_beta",
-
 	wow_classic_era = "classic_era",
 	wow_classic_era_ptr = "classic_era_ptr",
 }
