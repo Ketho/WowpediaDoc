@@ -2,7 +2,9 @@ local lfs = require("lfs")
 local pathlib = require("path")
 
 local log = require("util.log")
-local lua_enum = require("WowDocLoader.LuaEnum")
+local products = require("WowDocLoader.products")
+local git = require("WowDocLoader.git")
+local enum = require("WowDocLoader.enum")
 
 local m = {}
 local LOADER_PATH = "WowDocLoader"
@@ -36,12 +38,29 @@ local function LoadAddon(framexml_path, name)
 	file:close()
 end
 
-function m:main(branch)
+local function ProductToBranch(product)
+	local framexml = products.gethe_branch[product]
+	local blizzres = products.blizzres_branch[product]
+	if product and #product > 0 then
+		log:success(string.format("TACT product: %s", product))
+	end
+	if framexml and #framexml > 0 then
+		log:success(string.format("Gethe branch: %s", framexml))
+	end
+	if blizzres and #blizzres > 0 then
+		log:success(string.format("BlizzRes branch: %s", blizzres))
+	end
+	return framexml, blizzres
+end
+
+function m:main(product)
 	if APIDocumentation then
 		log:warn("WoWDocLoader: APIDocumentation already loaded")
 		return
 	end
-	lua_enum:LoadLuaEnums(branch)
+	local framexml_branch, blizzres_branch = ProductToBranch(product)
+	git:pull("https://github.com/Gethe/wow-ui-source", framexml_branch)
+	enum:LoadLuaEnums(blizzres_branch)
 	require(pathlib.join(LOADER_PATH, "compat"))
 
 	local addons_path = pathlib.join("wow-ui-source", "Interface", "AddOns")

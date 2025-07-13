@@ -1,3 +1,4 @@
+-- Blizzard_APIDocumentationGenerated requires the `Enum` table
 local util = require("util")
 local pathlib = require("path")
 local log = require("util.log")

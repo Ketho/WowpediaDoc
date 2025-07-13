@@ -108,6 +108,25 @@ local Types =
 		{ Name = "FontAlphabet", Type = "string", Values = {"roman", "korean", "simplifiedchinese", "traditionalchinese", "russian"} },
 		{ Name = "QuestObjectiveType", Type = "number"} ,
 
+		-- 11.2.0
+		{ Name = "MouseButton", Type = "string", Values = {"LeftButton", "RightButton", "MiddleButton", "Button4", "Button5"} },
+		{ Name = "SendChatMessageType", Type = "string", Values = {
+			"SAY",
+			"EMOTE",
+			"YELL",
+			"PARTY",
+			"RAID",
+			"RAID_WARNING",
+			"INSTANCE_CHAT",
+			"GUILD",
+			"OFFICER",
+			"WHISPER",
+			"CHANNEL",
+			"AFK",
+			"DND",
+			"VOICE_TEXT",
+		} },
+
 		-- widgets
 		-- defined: ScriptObject
 		{ Name = "CScriptObject", Type = "FrameScriptObject", Replace = true },
