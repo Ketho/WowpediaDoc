@@ -1,21 +1,32 @@
-local Util = require("Util/Util")
+local log = require("util.log")
+local git = require("util.git")
+local products = require("util.products")
+local wago = require("util.wago")
 
--- fuck I'm writing from wsl to the windows filesystem
--- this is a horrible mess
-IN_FRAMEXML = "/mnt/d/Repo/wow-api/wow-ui-source/"
 OUT_GLOBALSTRINGS = "/mnt/d/Repo/wow-api/BlizzardInterfaceResources/Resources/GlobalStrings/%s.lua"
-OUT_RESOURCES = "/mnt/d/Repo/wow-api/BlizzardInterfaceResources/Resources"
 OUT_ATLAS = "/mnt/d/Repo/wow-api/BlizzardInterfaceResources/Resources/AtlasInfo.lua"
+OUT_RESOURCES = "/mnt/d/Repo/wow-api/BlizzardInterfaceResources/Resources"
+IN_FRAMEXML = "./wow-ui-source/"
 
--- mainline, mainline_ptr, mists, cata, vanilla
-local FLAVOR = "mists_beta"
-local options = Util:GetFlavorOptions(FLAVOR)
+local globalstrings = require("Projects.UpdateResources.GlobalStrings")
+local atlasinfo = require("Projects.UpdateResources.AtlasInfo")
+local dumbparser = require("Projects.DumbXmlParser")
 
--- local options = Util:GetFlavorOptions({build="10.2.7.55664", header = true})
-require("Projects.UpdateResources.GlobalStrings")(options)
-require("Projects.UpdateResources.AtlasInfo")(options)
+local PRODUCT = "wowxptr" ---@type TactProduct
+local branch = products:GetBranch(PRODUCT)
+git:checkout("https://github.com/Gethe/wow-ui-source", branch)
 
-local DumbXmlParser = require("Projects.DumbXmlParser.DumbXmlParser")
-DumbXmlParser:main(options.flavor)
+local latestBuild = wago:GetLatestBuild(PRODUCT) -- want the latest build number for caching the csv
+log:success(string.format("Latest wago build for product: %s", latestBuild))
+local options = {build = latestBuild, header = true}
 
-print("done")
+log:info("Updating GlobalStrings")
+globalstrings:WriteLocales(options)
+
+log:info("Updating AtlasInfo")
+atlasinfo:WriteAtlases(options)
+
+log:info("Parsing FrameXML for mixins and templates")
+dumbparser:ParseFrameXML()
+
+log:success("Done")

@@ -1,16 +1,20 @@
+---@diagnostic disable: need-check-nil
 local lfs = require("lfs")
 local PATH = require("path")
 local https = require("ssl.https")
 local cjson = require("cjson")
 local cjsonutil = require("cjson.util")
 
+local log = require("util.log")
 local csv = require("util.lua-csv")
+local products = require("util.products")
 
 local cache_folder = "cache_csv"
 local listfile_path = PATH.join(cache_folder, "community-listfile.csv")
 
-local wago_csv_url = "https://wago.tools/db2/%s/csv"
+local wago_builds_latest_url = "https://wago.tools/api/builds/%s/latest"
 local wago_builds_url = "https://wago.tools/api/builds"
+local wago_csv_url = "https://wago.tools/db2/%s/csv"
 local listfile_url = "https://github.com/wowdev/wow-listfile/releases/latest/download/community-listfile.csv"
 
 local m = {}
@@ -35,7 +39,7 @@ end
 CreateFolder(cache_folder)
 
 local function DownloadFile(url, path)
-	print("downloading", url, "to", path)
+	log:info(string.format("Downloading %s to %s", url, path))
 	local res, code, _, status = https.request(url)
 	if code == 200 then
         if url:find("listfile") then -- hack for empty lines in file
@@ -45,7 +49,7 @@ local function DownloadFile(url, path)
 		file:write(res)
 		file:close()
 	else
-		print(string.format("failed: %s, HTTP %s", path, status))
+		log:failure(string.format("failed: %s, HTTP %s", path, status))
 	end
 end
 
@@ -75,7 +79,7 @@ local function CreateWagoUrl(name, options)
 		local t = {}
 		if options.build then
 			table.insert(t, "build="..options.build)
-		elseif options.branch then
+		elseif options.branch then -- tact product
 			table.insert(t, "branch="..options.branch)
 		end
 		if options.locale then
@@ -120,17 +124,17 @@ end
 
 function m:ReadListfile()
 	if ShouldDownload(listfile_path, true) then
-		print("downloading listfile...")
+		log:info("Downloading listfile")
 		DownloadFile(listfile_url, listfile_path)
 	end
 	local iter = csv.open(listfile_path, {separator = ";"})
 	local filedata = {}
-	print("reading listfile...")
+	log:info("Reading listfile, this will take a while")
 	for line in iter:lines() do
 		local fdid, filePath = tonumber(line[1]), line[2]
 		filedata[fdid] = filePath
 	end
-	print("finished reading.")
+	log:success("Finished reading listfile")
 	return filedata
 end
 -- parser:ReadListfile()
@@ -148,6 +152,13 @@ local function IsValidBuild(branch, version)
 	else
 		return true
 	end
+end
+
+function m:GetLatestBuild(product)
+	local url = wago_builds_latest_url:format(product)
+	local json = https.request(url)
+	local data = cjson.decode(json)
+	return data.version
 end
 
 function m:GetWagoVersions(branch)

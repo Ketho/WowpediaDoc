@@ -1,4 +1,6 @@
 -- https://wago.tools/
+local log = require("util.log")
+
 local m = {}
 
 ---@alias TactProduct string
@@ -82,5 +84,20 @@ m.gameversion_branch = {
 	tbc = "2.5.4",
 	vanilla = "classic_era",
 }
+
+function m:GetBranch(product)
+	local framexml = self.gethe_branch[product]
+	local blizzres = self.blizzres_branch[product]
+	if product then
+		log:success(string.format("TACT product: %s", product))
+	end
+	if framexml then
+		log:success(string.format("Gethe branch: %s", framexml))
+	end
+	if blizzres then
+		log:success(string.format("BlizzRes branch: %s", blizzres))
+	end
+	return framexml, blizzres
+end
 
 return m

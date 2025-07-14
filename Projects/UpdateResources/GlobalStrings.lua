@@ -1,5 +1,6 @@
 -- https://github.com/Ketho/BlizzardInterfaceResources/tree/mainline/Resources/GlobalStrings
-local parser = require("Util/wago_csv")
+---@diagnostic disable: need-check-nil
+local wago = require("util.wago")
 
 local short  = [[%s = "%s";]]
 local quoted = [[_G["%s"] = "%s";]]
@@ -14,11 +15,6 @@ local locales = {
 	"ptBR", -- same as ptPT
 	"ruRU",
 	"zhCN",	"zhTW",
-}
-
-local classic_flavors = {
-	wrath = true,
-	vanilla = true,
 }
 
 local function IsValidTableKey(s)
@@ -53,7 +49,7 @@ local function FixEscapes(s)
 end
 
 local function GlobalStrings(path, options)
-	local globalstrings = parser:ReadCSV("globalstrings", options)
+	local globalstrings = wago:ReadCSV("globalstrings", options)
 	local stringsTable = {}
 	for line in globalstrings:lines() do
 		local flags = tonumber(line.Flags)
@@ -89,15 +85,15 @@ local function GlobalStrings(path, options)
 	file:close()
 end
 
-local function WriteLocales(options)
+local m = {}
+
+function m:WriteLocales(options)
 	for _, locale in pairs(locales) do
-		-- if not (locale == "itIT" and classic_flavors[options.flavor]) then
 		local path = OUT_GLOBALSTRINGS:format(locale)
 		options.locale = locale
 		GlobalStrings(path, options)
-		-- end
 	end
 	options.locale = nil
 end
 
-return WriteLocales
+return m

@@ -19,7 +19,7 @@ function m:LoadLuaEnums(branch)
 	util:MakeDir("cache_lua")
     local path = pathlib.join("cache_lua", string.format("LuaEnum_%s.lua", branch))
 	local url = string.format("%s/%s/Resources/LuaEnum.lua", REPO, branch)
-	util:DownloadAndRun(path, url)
+	util:DownloadAndRun(url, path)
     ApplyFixes()
 end
 

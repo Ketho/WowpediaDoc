@@ -1,3 +1,4 @@
+---@diagnostic disable: need-check-nil
 -- first strip out UTF8 BOM from files with powershell
 local lfs = require "lfs"
 
@@ -111,7 +112,7 @@ function m:IterateFiles(folder, flavor)
 		local path = folder.."/"..fileName
 		local attr = lfs.attributes(path)
 		if attr.mode == "directory" then
-			if not skipDir[fileName] and IsFolderFlavor(fileName, flavor) then
+			if not skipDir[fileName] then
 				-- print(path)
 				self:IterateFiles(path, flavor)
 			end
@@ -213,9 +214,9 @@ function m:WriteDataFile(info)
 	file:close()
 end
 
-function m:main(flavor)
+function m:ParseFrameXML()
 	-- for _, folder in pairs(flavors[flavor]) do
-	m:IterateFiles(IN_FRAMEXML.."Interface", flavor)
+	m:IterateFiles(IN_FRAMEXML.."Interface")
 	-- end
 	for _, info in pairs(dataTypes) do
 		m:WriteDataFile(info)

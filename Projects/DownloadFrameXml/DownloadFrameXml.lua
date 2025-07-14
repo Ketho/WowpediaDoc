@@ -3,7 +3,7 @@ local https = require("ssl.https")
 
 local util = require("util")
 local log = require("util.log")
-local products = require("WowDocLoader.products")
+local products = require("util.products")
 
 local GAMETYPE = "classic" ---@type GameType
 local branch = products.gameversion_branch[GAMETYPE]
@@ -25,4 +25,4 @@ util:DownloadFile(URL, zipFile)
 -- unpack
 local command = string.format('unzip "%s" -d "%s"', zipFile, unpackFolder)
 util:run_command(command)
-log:success("done")
+log:success("Done")

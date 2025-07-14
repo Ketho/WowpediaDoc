@@ -1,5 +1,8 @@
 -- https://github.com/Ketho/BlizzardInterfaceResources/blob/mainline/Resources/AtlasInfo.lua
-local parser = require("Util/wago_csv")
+---@diagnostic disable: need-check-nil
+local wago = require("util.wago")
+
+local m = {}
 
 local columns = {
 	["CommittedName"] = "Field_11_0_2_55665_000",
@@ -24,11 +27,11 @@ local function SortTable(tbl, key)
 	end)
 end
 
-local function AtlasInfo(options)
+function m:WriteAtlases(options)
 	options = options or {}
 	options.header = true
-	local filedata = parser:ReadListfile()
-	local uitextureatlas = parser:ReadCSV("uitextureatlas", options)
+	local filedata = wago:ReadListfile()
+	local uitextureatlas = wago:ReadCSV("uitextureatlas", options)
 	local atlasTable, atlasOrder, atlasSize = {}, {}, {}
 	for line in uitextureatlas:lines() do
 		local atlasID = tonumber(line.ID)
@@ -49,12 +52,12 @@ local function AtlasInfo(options)
 	SortTable(atlasOrder, "fileName")
 
 	local element_names = {}
-	local uitextureatlaselement = parser:ReadCSV("uitextureatlaselement", options)
+	local uitextureatlaselement = wago:ReadCSV("uitextureatlaselement", options)
 	for line in uitextureatlaselement:lines() do
 		element_names[tonumber(line.ID)] = line.Name
 	end
 
-	local uitextureatlasmember = parser:ReadCSV("uitextureatlasmember", options)
+	local uitextureatlasmember = wago:ReadCSV("uitextureatlasmember", options)
 	for line in uitextureatlasmember:lines() do
 		-- 11.0.2 hack
 		if not line.CommittedName then
@@ -110,4 +113,4 @@ local function AtlasInfo(options)
 	file:close()
 end
 
-return AtlasInfo
+return m
