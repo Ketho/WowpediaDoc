@@ -1,7 +1,7 @@
 -- compares framexml versions
 local log = require("util.log")
 local products = require("util.products")
-local enum = require("WowDocLoader.enum")
+local enum = require("util.enum")
 local apidoc_nontoc = require("util.apidoc_nontoc")
 
 local PRODUCT = "wow"

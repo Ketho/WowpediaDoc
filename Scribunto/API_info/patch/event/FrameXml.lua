@@ -16,7 +16,7 @@ local m = {}
 function m:GetPatches(path)
 	local t = {}
 	for folder in lfs.dir(path) do
-		if not Util.RelativePath[folder] then
+		if not util.RelativePath[folder] then
 			table.insert(t, folder)
 		end
 	end
@@ -49,7 +49,7 @@ function m:IterateFiles(folder, search)
 		local path = folder.."/"..fileName
 		local attr = lfs.attributes(path)
 		if attr.mode == "directory" then
-			if not Util.RelativePath[fileName] then
+			if not util.RelativePath[fileName] then
 				local path2 = self:IterateFiles(path, search)
 				if path2 then
 					return path2

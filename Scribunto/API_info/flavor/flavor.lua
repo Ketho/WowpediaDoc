@@ -72,8 +72,8 @@ function m:GetData(sourceType)
 	local data = {}
 	for _, branch in pairs(branches) do
 		local fileTbl = util:DownloadAndRun(
-			info.cache:format(branch),
-			info.url:format(branch)
+			info.url:format(branch),
+			info.cache:format(branch)
 		)
 		local location = info.location(fileTbl)
 		parts[branch] = info.map(location)

@@ -1,13 +1,14 @@
 local util = require("util")
+local products = require("util.products")
 
 local m = {}
 
-function m:main(branch)
-	util:LoadLuaEnums(branch)
-	util:LoadDocumentation(branch)
+function m:main(product)
+	util:LoadDocumentation(product)
+	local _, branch = products:GetBranch(product)
 	local globalApi = util:DownloadAndRun(
-		string.format("cache_lua/GlobalAPI_%s.lua", branch),
-		string.format("https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/GlobalAPI.lua", branch)
+		string.format("https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/GlobalAPI.lua", branch),
+		string.format("cache_lua/GlobalAPI_%s.lua", branch)
 	)
 
 	local blizzDoc = {}

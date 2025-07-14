@@ -2,8 +2,8 @@
 local util = require("util")
 local api_get = require("Scribunto/API_info/elink/api_get")
 
-local BRANCH = "mainline"
-local ApiDoc = api_get:main(BRANCH)
+local PRODUCT = "wowxptr" ---@type TactProduct
+local ApiDoc = api_get:main(PRODUCT)
 local OUT = "out/lua/API_info.elink.api.lua"
 
 local function main()

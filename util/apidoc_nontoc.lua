@@ -40,9 +40,13 @@ local function IsTocRemoved(fileName, version)
 	return key and key[fileName]
 end
 
--- 10.0.0 / 3.4.0: fix CharacterCustomizationSharedDocumentation.lua
-CHAR_CUSTOMIZE_CUSTOM_DISPLAY_OPTION_FIRST = 5
-CHAR_CUSTOMIZE_CUSTOM_DISPLAY_OPTION_LAST = 8
+-- 11.0.0 hacks for Blizzard_APIDocumentationGenerated/PetConstantsDocumentation.lua
+MAX_STABLE_SLOTS = 0
+NUM_PET_SLOTS_THAT_NEED_LEARNED_SPELL = 0
+EXTRA_PET_STABLE_SLOT = 0
+Constants.PetConsts.MAX_STABLE_SLOTS = 0
+Constants.PetConsts.NUM_PET_SLOTS_THAT_NEED_LEARNED_SPELL = 0
+Constants.PetConsts.EXTRA_PET_STABLE_SLOT = 0
 
 -- only checks for :AddDocumentationTable files
 function m:LoadBlizzardDocs(folder)

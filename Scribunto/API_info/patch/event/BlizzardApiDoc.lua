@@ -1,7 +1,7 @@
 local lfs = require("lfs")
 local PATH = require("path")
 local util = require("util")
-local apidoc_nontoc = require("Util/apidoc_nontoc")
+local apidoc_nontoc = require("util.apidoc_nontoc")
 
 local function GetEventMap(data)
 	local t = {}
@@ -38,7 +38,7 @@ local m = {}
 function m:GetDocEvents(info)
 	local t = {}
 	for folder in lfs.dir(info.input) do
-		if not Util.RelativePath[folder] then
+		if not util.RelativePath[folder] then
 			local path = FindApiDocFolder(PATH.join(info.input, folder))
 			if path then
 				local version = folder:match("%d+%.%d+.%d+")

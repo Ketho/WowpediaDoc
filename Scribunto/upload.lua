@@ -1,5 +1,10 @@
 local Path = require("path")
 local util = require("util")
+local enum = require("util.enum")
+local products = require("util.products")
+
+local PRODUCT = "wowxptr" ---@type TactProduct
+local _, blizzres_branch = products:GetBranch(PRODUCT)
 
 util:MakeDir("out")
 
@@ -23,6 +28,7 @@ local function UploadFiles()
 end
 
 local function main()
+    enum:LoadLuaEnums(blizzres_branch)
     WriteFiles()
     UploadFiles()
 end

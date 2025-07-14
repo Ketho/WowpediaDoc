@@ -13,8 +13,10 @@ end
 
 function m:LoadLuaEnums(branch)
 	if Enum then
-		log:warn("WowDocLoader: `Enum` already loaded")
+		log:warn("WowDocLoader: Enum already loaded")
 		return
+	else
+		log:success("WowDocLoader: Loading Enum")
 	end
 	util:MakeDir("cache_lua")
     local path = pathlib.join("cache_lua", string.format("LuaEnum_%s.lua", branch))

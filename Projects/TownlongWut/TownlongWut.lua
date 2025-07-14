@@ -25,22 +25,22 @@ end
 local sources = {
 	GlobalAPI = function(name)
 		local tbl = util:DownloadAndRun(
-			string.format("cache_lua/%s.lua", name),
-			github_url:format(name)
+			github_url:format(name),
+			string.format("cache_lua/%s.lua", name)
 		)
 		return tbl[1]
 	end,
 	Lua = function()
 		local tbl = util:DownloadAndRun(
-			string.format("cache_lua/%s.lua", "GlobalAPI"),
-			github_url:format("GlobalAPI")
+			github_url:format("GlobalAPI"),
+			string.format("cache_lua/%s.lua", "GlobalAPI")
 		)
 		return tbl[2]
 	end,
 	Events = function(name)
 		local tbl = util:DownloadAndRun(
-			string.format("cache_lua/%s.lua", name),
-			github_url:format(name)
+			github_url:format(name),
+			string.format("cache_lua/%s.lua", name)
 		)
 		local t = {}
 		for _, namespace in pairs(tbl) do
@@ -53,15 +53,15 @@ local sources = {
 	end,
 	-- CVars = function(name)
 	-- local tbl = util:DownloadAndRun(
-	-- 	string.format("cache_lua/%s.lua", name),
-	-- 	github_url:format(name)
+		-- 	github_url:format(name),
+	-- 	string.format("cache_lua/%s.lua", name)
 	-- )
 	-- 	return util:SortTable(tbl[1].var)
 	-- end,
 	FrameXML = function(name)
 		local tbl = util:DownloadAndRun(
-			string.format("cache_lua/%s.lua", name),
-			github_url:format(name)
+			github_url:format(name),
+			string.format("cache_lua/%s.lua", name)
 		)
 		for _, v in pairs(tbl[2]) do
 			table.insert(tbl[1], v)
@@ -70,22 +70,22 @@ local sources = {
 	end,
 	Frames = function(name)
 		local tbl = util:DownloadAndRun(
-			string.format("cache_lua/%s.lua", name),
-			github_url:format(name)
+			github_url:format(name),
+			string.format("cache_lua/%s.lua", name)
 		)
 		return tbl[1]
 	end,
 	Templates = function(name)
 		local tbl = util:DownloadAndRun(
-			string.format("cache_lua/%s.lua", name),
-			github_url:format(name)
+			github_url:format(name),
+			string.format("cache_lua/%s.lua", name)
 		)
 		return util:SortTable(tbl)
 	end,
 	Mixins = function(name)
 		local tbl = util:DownloadAndRun(
-			string.format("cache_lua/%s.lua", name),
-			github_url:format(name)
+			github_url:format(name),
+			string.format("cache_lua/%s.lua", name)
 		)
 		return tbl
 	end,

@@ -21,8 +21,8 @@ end
 
 local function GetCvars()
 	local data = util:DownloadAndRun(
-		"cache_lua/CVars_mainline.lua",
-		"https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/mainline/Resources/CVars.lua"
+		"https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/mainline/Resources/CVars.lua",
+		"cache_lua/CVars_mainline.lua"
 	)
 	return data[1].var
 end

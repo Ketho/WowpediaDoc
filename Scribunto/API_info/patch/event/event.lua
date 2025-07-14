@@ -1,10 +1,12 @@
 -- https://wowpedia.fandom.com/wiki/Module:API_info/patch/event_retail
 -- https://wowpedia.fandom.com/wiki/Module:API_info/patch/event_classic
 local lfs = require("lfs")
-local write_table = require("Util/write_table")
+local write_table = require("util.write_table")
 local util = require("util")
-local BRANCH = "mainline"
-util:LoadLuaEnums(BRANCH)
+local enum = require("util.enum")
+
+local BRANCH = "mainline" ---@type BlizzResBranch
+enum:LoadLuaEnums(BRANCH)
 
 local flavors = {
 	mainline = {

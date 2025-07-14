@@ -29,8 +29,7 @@ end
 
 function m:GetGlobalApi()
 	local global_api = util:DownloadAndRun(
-		"cache_lua/GlobalAPI.lua",
-		string.format("https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/GlobalAPI.lua", BRANCH)
+		string.format("https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/GlobalAPI.lua", BRANCH),		"cache_lua/GlobalAPI.lua"
 	)
 	return util:ToMap(global_api[1])
 end

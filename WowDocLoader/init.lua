@@ -4,7 +4,7 @@ local pathlib = require("path")
 local log = require("util.log")
 local products = require("util.products")
 local git = require("util.git")
-local enum = require("WowDocLoader.enum")
+local enum = require("util.enum")
 
 local m = {}
 local LOADER_PATH = "WowDocLoader"
@@ -42,6 +42,8 @@ function m:main(product)
 	if APIDocumentation then
 		log:warn("WoWDocLoader: APIDocumentation already loaded")
 		return
+	else
+		log:success("WowDocLoader: Loading APIDocumentation")
 	end
 	local framexml_branch, blizzres_branch = products:GetBranch(product)
 	git:checkout("https://github.com/Gethe/wow-ui-source", framexml_branch)
