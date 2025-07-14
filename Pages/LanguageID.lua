@@ -1,6 +1,6 @@
 -- https://wowpedia.fandom.com/wiki/LanguageID
 local util = require("util")
-local parser = require("Util/wago_csv")
+local parser = require("util.wago")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT = "out/page/LanguageID.txt"
 

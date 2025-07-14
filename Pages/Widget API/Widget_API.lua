@@ -1,9 +1,8 @@
 local Path = require("path")
 local OUT = Path.join("out", "page", "Widget_API.txt")
 local util = require("util")
-local products = require("util.products")
 
-local PRODUCT = "wow"
+local PRODUCT = "wowxptr"
 util:LoadDocumentation(PRODUCT)
 
 local widget_systems = {

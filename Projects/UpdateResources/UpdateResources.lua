@@ -12,7 +12,7 @@ local globalstrings = require("Projects.UpdateResources.GlobalStrings")
 local atlasinfo = require("Projects.UpdateResources.AtlasInfo")
 local dumbparser = require("Projects.DumbXmlParser")
 
-local PRODUCT = "wowxptr" ---@type TactProduct
+local PRODUCT = "wow_classic_ptr" ---@type TactProduct
 local branch = products:GetBranch(PRODUCT)
 git:checkout("https://github.com/Gethe/wow-ui-source", branch)
 

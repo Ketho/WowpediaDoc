@@ -1,7 +1,7 @@
 local util = require("util")
 local Path = require("path")
 -- local parser = require("Util/wowtoolsparser")
-local wago_csv = require("Util/wago_csv")
+local wago_csv = require("util.wago")
 local output = "KethoWowpedia/patch/%s.lua"
 
 util:MakeDir("KethoWowpedia/patch")

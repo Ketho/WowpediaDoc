@@ -1,4 +1,5 @@
 -- compares framexml versions
+local log = require("util.log")
 local products = require("util.products")
 local enum = require("WowDocLoader.enum")
 local apidoc_nontoc = require("util.apidoc_nontoc")
@@ -7,8 +8,8 @@ local PRODUCT = "wow"
 local _, branch = products:GetBranch(PRODUCT)
 enum:LoadLuaEnums(branch)
 
-local BUILD1 = "11.1.0 (60257)"
-local BUILD2 = "11.1.5 (61265)"
+local BUILD1 = "11.1.7 (61609)"
+local BUILD2 = "11.2.0 (61871)"
 
 ChangeDiff = {}
 require("Projects.ChangeDiff.Compare")
@@ -97,4 +98,4 @@ local function main(versions, isWiki)
 end
 
 main({BUILD1, BUILD2}, true)
-print("done")
+log:success("Done")

@@ -1,6 +1,6 @@
 -- https://wowpedia.fandom.com/wiki/MovieID
 local util = require("util")
-local parser = require("Util/wago_csv")
+local parser = require("util.wago")
 local wowpedia_export = require("Util/wowpedia_export")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 

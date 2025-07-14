@@ -1,11 +1,11 @@
 -- https://wowpedia.fandom.com/wiki/API_change_summaries
-local lfs = require("lfs")
 local util = require("util")
+local log = require("util.log")
 local cvar_module = require("Projects/ChangeSummaries/CVar")
 local widget_module = require("Projects/ChangeSummaries/Widget")
 local m = {}
-local BRANCH1 = "11.1.0"
-local BRANCH2 = "11.1.5"
+local BRANCH1 = "11.1.7"
+local BRANCH2 = "11.2.0"
 local WIDGET= BRANCH2 -- for widgets
 local CVAR1, CVAR2 = BRANCH1, BRANCH2
 -- local DIFF = {"commit", "mainline", false}
@@ -155,4 +155,4 @@ local function main()
 end
 
 main()
-print("done")
+log:success("Done")

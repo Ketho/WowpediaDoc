@@ -171,7 +171,6 @@ end
 --- Parses the CSV listfile
 function parser:ReadListfile()
 	if ShouldDownload(listfile_cache) then
-		print("downloading listfile...")
 		DownloadFile(listfile_url, listfile_cache)
 	end
 	local iter = csv.open(listfile_cache, {separator = ";"})

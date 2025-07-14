@@ -1,6 +1,6 @@
 -- https://wowpedia.fandom.com/wiki/GarrFollowerID
 local Util = require("util")
-local parser = require("util/wago")
+local parser = require("util.wago")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT = "out/page/GarrFollowerID.txt"
 
