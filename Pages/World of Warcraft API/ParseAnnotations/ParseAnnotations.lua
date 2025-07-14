@@ -1,4 +1,4 @@
-local Util = require("Util/Util")
+local util = require("util")
 local api_get = require("Scribunto/API_info/elink/api_get")
 
 local BRANCH = "mainline"
@@ -10,7 +10,7 @@ local CACHE_ANNOTATIONS = "cache_lua/Wiki.lua"
 local m = {}
 
 function m:DownloadAnnotations()
-	Util:DownloadFile(URL_ANNOTATIONS, CACHE_ANNOTATIONS, true)
+	util:DownloadFile(URL_ANNOTATIONS, CACHE_ANNOTATIONS, true)
 end
 
 -- ugly crap

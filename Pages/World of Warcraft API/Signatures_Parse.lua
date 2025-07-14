@@ -1,6 +1,6 @@
-local Util = require("Util/Util")
+local util = require("util")
 local BRANCH = "mainline"
-Util:LoadDocumentation(BRANCH)
+util:LoadDocumentation(BRANCH)
 require "Documenter/Wowpedia/Wowpedia"
 
 local m = {}
@@ -32,7 +32,7 @@ function m:GetSignatures()
 	local fs_args = '<span class="apiarg">%s</span>'
 	local fs_returns = ' : <span class="apiret">%s</span>'
 	for _, func in ipairs(APIDocumentation.functions) do
-		local name = Util:GetFullName(func)
+		local name = util:GetFullName(func)
 		local args, returns = "", ""
 		if func.Arguments then
 			args = fs_args:format(Wowpedia:GetSignature(func.Arguments))

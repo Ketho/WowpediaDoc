@@ -1,8 +1,8 @@
 -- https://wow.gamepedia.com/Events
-local Path = require "path"
-local Util = require("Util.Util")
+local Path = require("path")
+local util = require("util")
 
-local addons_path = Path.join(Util:GetLatestBuild("mainline"), "AddOns")
+local addons_path = Path.join(util:GetLatestBuild("mainline"), "AddOns")
 require("WowDocLoader.WowDocLoader"):main("mainline")
 local OUTPUT = "out/page/Events.txt"
 

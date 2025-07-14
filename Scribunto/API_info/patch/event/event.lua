@@ -1,10 +1,10 @@
 -- https://wowpedia.fandom.com/wiki/Module:API_info/patch/event_retail
 -- https://wowpedia.fandom.com/wiki/Module:API_info/patch/event_classic
-local lfs = require "lfs"
+local lfs = require("lfs")
 local write_table = require("Util/write_table")
-local Util = require("Util/Util")
+local util = require("util")
 local BRANCH = "mainline"
-Util:LoadLuaEnums(BRANCH)
+util:LoadLuaEnums(BRANCH)
 
 local flavors = {
 	mainline = {

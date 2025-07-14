@@ -1,10 +1,10 @@
-local Util = require("Util/Util")
-local Path = require "path"
+local util = require("util")
+local Path = require("path")
 -- local parser = require("Util/wowtoolsparser")
 local wago_csv = require("Util/wago_csv")
 local output = "KethoWowpedia/patch/%s.lua"
 
-Util:MakeDir("KethoWowpedia/patch")
+util:MakeDir("KethoWowpedia/patch")
 
 local m = {}
 
@@ -36,15 +36,15 @@ function m:GetPatchData(name, options)
 		-- just scan the whole folder for any missing retail builds
 		local folder = Path.join("cache_csv", name)
 		for fileName in lfs.dir(folder) do
-			local major = Util:GetPatchVersion(fileName)
-			if major and not patches[major] and not Util:IsClassicVersion(major) then
+			local major = util:GetPatchVersion(fileName)
+			if major and not patches[major] and not util:IsClassicVersion(major) then
 				local build = fileName:match("%d+%.%d+%.%d+%.%d+")
 				print("adding", build)
 				table.insert(patches, build)
 			end
 		end
 	end
-	local patches_sorted = Util:ToList(patches, options.sort)
+	local patches_sorted = util:ToList(patches, options.sort)
 	local t = {}
 	for _, patch in pairs(patches_sorted) do
 		local iter = wago_csv:ReadCSV(name, {header = true, build = patch})

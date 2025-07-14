@@ -1,6 +1,6 @@
 ---@diagnostic disable: need-check-nil
 -- first strip out UTF8 BOM from files with powershell
-local lfs = require "lfs"
+local lfs = require("lfs")
 
 -- too lazy to parse FrameXML_TBC.toc or whatever the new file loading structure is
 local flavors = {

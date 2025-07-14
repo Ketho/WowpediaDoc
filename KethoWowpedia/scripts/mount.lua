@@ -53,7 +53,7 @@ function KethoWowpedia:GetMountIDs(num)
 			local factionIcon = faction == 0 and "{{Horde}}" or faction == 1 and "{{Alliance}}" or ""
 			local nameText = name
 			if IsValidName(name) then
-				nameText = self.Util:GetLinkName(wpLink[id], wpName[id] or name, 40)
+				nameText = self.util:GetLinkName(wpLink[id], wpName[id] or name, 40)
 			end
 			-- EnumeratedString 105: 6: Exclude from Journal if not learned
 			local flags = self.dbc.mount[id] or 0

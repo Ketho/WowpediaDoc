@@ -1,4 +1,4 @@
-local Util = require("Util/Util")
+local util = require("util")
 local FOLDER = "Pages/World of Warcraft API/ApiDescription/"
 local MainList = require(FOLDER.."MainList")
 local PageDescription = require(FOLDER.."Pages")
@@ -27,13 +27,13 @@ end
 
 local function main(descType)
 	local mainList = MainList:main()
-	-- for _, name in pairs(Util:SortTable(mainList)) do
+	-- for _, name in pairs(util:SortTable(mainList)) do
 	-- 	local desc = mainList[name]
 	-- 	print(name, desc)
 	-- end
 
 	local pageDescriptions = PageDescription:main()
-	-- for _, name in pairs(Util:SortTable(pageDescriptions)) do
+	-- for _, name in pairs(util:SortTable(pageDescriptions)) do
 	-- 	local desc = pageDescriptions[name]
 	-- 	if isValid(desc) then
 	-- 		print(name, desc)
@@ -45,7 +45,7 @@ local function main(descType)
 	local fs_empy = '\t["%s"] = [=[Empty]=],'
 
 	-- print("\n-- matching")
-	-- for _, k in pairs(Util:SortTable(mainList)) do
+	-- for _, k in pairs(util:SortTable(mainList)) do
 	-- 	local desc1 = mainList[k]
 	-- 	local desc2 = pageDescriptions[k]
 	-- 	if desc1 and desc2 then
@@ -56,7 +56,7 @@ local function main(descType)
 	-- end
 
 	print("\n-- different")
-	for _, k in pairs(Util:SortTable(mainList)) do
+	for _, k in pairs(util:SortTable(mainList)) do
 		local desc1 = mainList[k]
 		local desc2 = pageDescriptions[k]
 		if desc1 and desc2 and desc1 ~= desc2 and not filter_different[k] then
@@ -68,7 +68,7 @@ local function main(descType)
 	end
 
 	-- print("\n-- either")
-	-- for _, k in pairs(Util:SortTable(mainList)) do
+	-- for _, k in pairs(util:SortTable(mainList)) do
 	-- 	local desc1 = mainList[k]
 	-- 	local desc2 = pageDescriptions[k]
 	-- 	if (desc1 and not desc2) or (not desc1 and desc2) then
@@ -78,7 +78,7 @@ local function main(descType)
 	-- end
 
 	-- print("\n-- empty")
-	-- for _, k in pairs(Util:SortTable(mainList)) do
+	-- for _, k in pairs(util:SortTable(mainList)) do
 	-- 	local desc1 = mainList[k]
 	-- 	local desc2 = pageDescriptions[k]
 	-- 	if not desc1 and not desc2 then

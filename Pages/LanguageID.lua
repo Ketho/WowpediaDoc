@@ -1,5 +1,5 @@
 -- https://wowpedia.fandom.com/wiki/LanguageID
-local Util = require("Util/Util")
+local util = require("util")
 local parser = require("Util/wago_csv")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT = "out/page/LanguageID.txt"
@@ -57,13 +57,13 @@ local patch_override = {
 }
 
 local function main(options)
-	options = Util:GetFlavorOptions(options)
+	options = util:GetFlavorOptions(options)
 	options.initial = false
 	local patchData = dbc_patch:GetPatchData("languages", options)
 	local fs = "|-\n| %d || %s || %s || %s\n"
 	local file = io.open(OUTPUT, "w")
 	file:write('{| class="sortable darktable zebra col1-center col2-center"\n! ID !! !! Name !! Patch\n')
-	Util:ReadCSV("languages", parser, options, function(_, ID, l)
+	util:ReadCSV("languages", parser, options, function(_, ID, l)
 		local icon
 		if wpIcon[ID] then
 			icon = wpIcon[ID]
@@ -81,7 +81,7 @@ local function main(options)
 		else
 			name = string.format("[[%s]]", l.Name_lang)
 		end
-		local patch = Util:GetPatchText(patchData, ID, patch_override)
+		local patch = util:GetPatchText(patchData, ID, patch_override)
 		file:write(fs:format(ID, icon or "", name, patch))
 	end)
 	file:write("|}\n")

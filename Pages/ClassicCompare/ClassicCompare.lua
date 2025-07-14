@@ -1,8 +1,8 @@
 -- https://wowpedia.fandom.com/wiki/Global_functions/Classic
 -- https://wowpedia.fandom.com/wiki/Events/Classic
 -- https://wowpedia.fandom.com/wiki/Console_variables/Classic
-local Util = require("Util/Util")
-local Path = require "path"
+local util = require("util")
+local Path = require("path")
 local Signatures = require("Pages/ClassicCompare/Signatures")
 
 local m = {}
@@ -17,7 +17,7 @@ local sources = {
 			return tbl[1]
 		end,
 		map = function(tbl)
-			return Util:ToMap(tbl)
+			return util:ToMap(tbl)
 		end,
 		name_fs = "{{apilink|t=a|%s}}",
 	},
@@ -128,7 +128,7 @@ function m:GetData(sourceType)
 	end
 
 	for _, branch in pairs(branches) do
-		local fileTbl = Util:DownloadAndRun(
+		local fileTbl = util:DownloadAndRun(
 			info.cache:format(branch),
 			info.url:format(branch)
 		)
@@ -167,7 +167,7 @@ end
 
 function m:GetEventPayload()
 	local branch = "mainline_ptr"
-	Util:LoadDocumentation(branch)
+	util:LoadDocumentation(branch)
 	local t = {}
 	for _, event in pairs(APIDocumentation.events) do
 		if event.Payload then
@@ -218,7 +218,7 @@ local function main()
 		for _, sectionInfo in pairs(sections) do
 			if next(data[sectionInfo.id]) then
 				file:write(section_fs:format(sectionInfo.label))
-				for _, name in pairs(Util:SortTable(data[sectionInfo.id], info.sortFunc)) do
+				for _, name in pairs(util:SortTable(data[sectionInfo.id], info.sortFunc)) do
 					local expansions = {
 						parts.mainline_ptr[name] and "mainline_ptr",
 						parts.cata[name] and "cata",

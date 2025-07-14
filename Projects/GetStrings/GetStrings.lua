@@ -1,8 +1,8 @@
-local lfs = require "lfs"
-local Util = require("Util.Util")
+local lfs = require("lfs")
+local util = require("util")
 local PATH = [[D:\Prog\World of Warcraft\Binaries]]
 local BRANCH = "mainline"
-Util:MakeDir("cache_txt")
+util:MakeDir("cache_txt")
 
 local function GetBuilds(path)
 	local t = {}
@@ -39,14 +39,14 @@ end
 local function WriteFile(path, tbl)
 	print("writing to", path)
 	local file = io.open(path, "w")
-	for _, k in pairs(Util:SortTable(tbl)) do
+	for _, k in pairs(util:SortTable(tbl)) do
 		file:write(k.."\n")
 	end
 	file:close()
 end
 
 local function GetCVars(branch)
-	return Util:DownloadAndRun(
+	return util:DownloadAndRun(
 		string.format("cache_lua/CVars_%s", branch),
 		string.format("https://github.com/Ketho/BlizzardInterfaceResources/blob/%s/Resources/CVars.lua", branch)
 	)
@@ -101,7 +101,7 @@ local function main()
 	print("writing to ", out_path)
 	local file = io.open(out_path, "w")
 	file:write("KethoWowpedia.patch.cvar = {\n")
-	for _, k in pairs(Util:SortTable(t, Util.SortNocase)) do
+	for _, k in pairs(util:SortTable(t, util.SortNocase)) do
 		file:write(string.format('\t["%s"] = "%s",\n', k, t[k]))
 	end
 	file:write("}\n")

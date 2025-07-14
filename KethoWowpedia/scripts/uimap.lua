@@ -90,7 +90,7 @@ function KethoWowpedia:GetUiMapIDs(numMap, numGroup)
 			mapInfo[i] = info
 		end
 	end
-	for _, id in pairs(self.Util:SortTable(mapInfo)) do
+	for _, id in pairs(self.util:SortTable(mapInfo)) do
 		local info = mapInfo[id]
 		local mapText = info.name
 		if wpLinkMap[id] then

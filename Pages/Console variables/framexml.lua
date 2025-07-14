@@ -1,5 +1,5 @@
-local Util = require("Util.Util")
--- local parser = require "Util/wago_csv"
+local util = require("util")
+-- local parser = require("util/wago")
 
 local framexml_strings = {}
 
@@ -18,8 +18,8 @@ local function GetStrings(path)
 end
 
 local function main(blizzres)
-	local frameXML = Util:GetLatestBuild(BRANCH)
-	Util:IterateFiles(frameXML, GetStrings)
+	local frameXML = util:GetLatestBuild(BRANCH)
+	util:IterateFiles(frameXML, GetStrings)
 	local framexml_cvars = {}
 	for k, v in pairs(blizzres[1].var) do
 		if framexml_strings[k:lower()] then

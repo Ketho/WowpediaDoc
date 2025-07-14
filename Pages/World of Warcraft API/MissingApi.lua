@@ -1,6 +1,6 @@
-local Util = require("Util/Util")
+local util = require("util")
 local WikiText = require("Pages/World of Warcraft API/WikiText")
-Util:MakeDir("cache_lua")
+util:MakeDir("cache_lua")
 local BRANCH = "mainline"
 
 local Signatures_Parse = require("Pages/World of Warcraft API/Signatures_Parse")
@@ -28,11 +28,11 @@ function m:ParseWikitext(wikitext)
 end
 
 function m:GetGlobalApi()
-	local global_api = Util:DownloadAndRun(
+	local global_api = util:DownloadAndRun(
 		"cache_lua/GlobalAPI.lua",
 		string.format("https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/GlobalAPI.lua", BRANCH)
 	)
-	return Util:ToMap(global_api[1])
+	return util:ToMap(global_api[1])
 end
 
 function m:FindDuplicates(wowpedia)
@@ -48,7 +48,7 @@ function m:FindDuplicates(wowpedia)
 end
 
 function m:HasIgnoredTag(str)
-	local tags = Util:strsplit(str, ", ")
+	local tags = util:strsplit(str, ", ")
 	for _, tag in pairs(tags) do
 		if ignoredTags[tag] then
 			return true
@@ -57,9 +57,9 @@ function m:HasIgnoredTag(str)
 end
 
 function m:FindMissing(wowpedia, wowpedia_tags, global_api)
-	local map = Util:ToMap(wowpedia)
+	local map = util:ToMap(wowpedia)
 	print("\n-- to add")
-	for _, k in pairs(Util:SortTable(global_api)) do
+	for _, k in pairs(util:SortTable(global_api)) do
 		if not map[k] then
 			if signatures[k] then
 				print(string.format(": %s", signatures[k]))

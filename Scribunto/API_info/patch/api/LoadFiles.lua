@@ -1,4 +1,4 @@
-local lfs = require "lfs"
+local lfs = require("lfs")
 
 local function LoadFiles(path)
 	local t = {}

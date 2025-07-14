@@ -1,8 +1,8 @@
-local lfs = require "lfs"
-local Util = require("Util/Util")
+local lfs = require("lfs")
+local util = require("util")
 
 local PATH = "Projects/TownlongWut"
-Util:MakeDir(PATH.."/Metrics")
+util:MakeDir(PATH.."/Metrics")
 
 local api_types = {
 	"Events",

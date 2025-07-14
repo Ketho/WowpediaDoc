@@ -1,6 +1,6 @@
 -- https://wowpedia.fandom.com/wiki/Module:API_info/patch/api_retail
 -- https://wowpedia.fandom.com/wiki/Module:API_info/patch/api_classic
-local Util = require("Util/Util")
+local util = require("util")
 
 local PATH = "Scribunto/API_info/patch/api"
 
@@ -113,7 +113,7 @@ local function main()
 		local file = io.open(info.out, "w")
 		file:write("-- https://github.com/Ketho/WowpediaDoc/blob/master/Scribunto/API_info/patch/api/api.lua\n")
 		file:write("local data = {\n")
-		for _, name in pairs(Util:SortTable(t)) do
+		for _, name in pairs(util:SortTable(t)) do
 			local tbl = t[name]
 			file:write(string.format('\t["%s"] = {', name))
 			if tbl[1] then

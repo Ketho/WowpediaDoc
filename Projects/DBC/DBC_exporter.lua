@@ -1,11 +1,11 @@
 -- exports to lua tables for use in an addon
-local Util = require("Util/Util")
+local util = require("util")
 local parser = require("Util/wago_csv")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT_DBC = "KethoWowpedia/dbc/%s.lua"
 local OUTPUT_PATCH = "KethoWowpedia/patch/%s.lua"
 
-Util:MakeDir("KethoWowpedia/dbc")
+util:MakeDir("KethoWowpedia/dbc")
 
 local handlers = {
 	creaturemodeldata = {
@@ -92,7 +92,7 @@ local function WriteDbcTable(name, path, options)
 	local file = io.open(path, "w")
 	file:write(string.format("KethoWowpedia.dbc.%s = {\n", name))
 	local fs = handlers[name].fs
-	for _, id in pairs(Util:SortTable(dbc)) do
+	for _, id in pairs(util:SortTable(dbc)) do
 		local v = dbc[id]
 		file:write(fs:format(id, table.unpack(v)))
 	end
@@ -105,7 +105,7 @@ local function WritePatchTable(name, path, options)
 	local file = io.open(path, "w")
 	file:write(string.format("KethoWowpedia.patch.%s = {\n", name))
 	local fs = '\t[%d] = "%s",\n'
-	for _, id in pairs(Util:SortTable(data)) do
+	for _, id in pairs(util:SortTable(data)) do
 		local version = data[id].patch:match("^%d+%.%d+%.%d+")
 		if filters[name] ~= version then
 			file:write(fs:format(id, version))
@@ -116,7 +116,7 @@ local function WritePatchTable(name, path, options)
 end
 
 local function main(options)
-	options = Util:GetFlavorOptions(options)
+	options = util:GetFlavorOptions(options)
 	print("-- writing dbc data")
 	for name in pairs(handlers) do
 		WriteDbcTable(name, OUTPUT_DBC:format(name), options)

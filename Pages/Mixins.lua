@@ -1,5 +1,5 @@
 -- https://wowpedia.fandom.com/wiki/Category:Mixins
-local Util = require("Util/Util")
+local util = require("util")
 local OUTPUT = "out/page/%s.txt"
 local BRANCH = "mainline"
 -- require("Documenter.Load_APIDocumentation.Loader"):main(BRANCH)
@@ -34,13 +34,13 @@ local function GetMixinReferences()
 	for _, func in pairs(APIDocumentation.functions) do
 		for _, field in pairs(func.Arguments or {}) do
 			if field.Mixin then
-				local fullName = Util:GetFullName(func)
+				local fullName = util:GetFullName(func)
 				t.functions.Arguments[fullName] = field.Mixin
 			end
 		end
 		for _, field in pairs(func.Returns or {}) do
 			if field.Mixin then
-				local fullName = Util:GetFullName(func)
+				local fullName = util:GetFullName(func)
 				t.functions.Returns[fullName] = field.Mixin
 			end
 		end
@@ -107,10 +107,10 @@ local function GetTableOwners(mixinTables)
 	end
 	for _, func in pairs(APIDocumentation.functions) do
 		for _, field in pairs(func.Arguments or {}) do
-			GetTypeInfo(field, func, Util:GetFullName(func))
+			GetTypeInfo(field, func, util:GetFullName(func))
 		end
 		for _, field in pairs(func.Returns or {}) do
-			GetTypeInfo(field, func, Util:GetFullName(func))
+			GetTypeInfo(field, func, util:GetFullName(func))
 		end
 	end
 	for _, event in pairs(APIDocumentation.events) do
@@ -157,7 +157,7 @@ local function WriteFile(mixin, info, owners)
 			file:write(string.format("| %s\n", cat_label))
 			-- bleh what a mess
 			if cat_key == "tables" then
-				for _, name in pairs(Util:SortTable(info[cat_key])) do
+				for _, name in pairs(util:SortTable(info[cat_key])) do
 					local link = FormatLink(cat_key, name)
 					if owners[name] then
 						file:write(fs:format(link))
@@ -177,7 +177,7 @@ local function WriteFile(mixin, info, owners)
 					end
 				end
 			else
-				for _, name in pairs(Util:SortTable(info[cat_key])) do
+				for _, name in pairs(util:SortTable(info[cat_key])) do
 					local link = FormatLink(cat_key, name)
 					file:write(fs:format(link))
 				end

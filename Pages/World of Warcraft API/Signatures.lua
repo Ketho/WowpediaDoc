@@ -1,4 +1,4 @@
-local Util = require("Util/Util")
+local util = require("util")
 local WikiText = require("Pages/World of Warcraft API/WikiText")
 local Signatures_Parse = require("Pages/World of Warcraft API/Signatures_Parse")
 local signatures = Signatures_Parse:GetSignatures()

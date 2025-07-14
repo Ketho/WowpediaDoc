@@ -1,5 +1,5 @@
 -- https://wowpedia.fandom.com/wiki/JournalEncounterID
-local Util = require("Util/Util")
+local util = require("util")
 local parser = require("Util/wago_csv")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT = "out/page/JournalEncounterID.txt"
@@ -46,11 +46,11 @@ local patch_override = {
 }
 
 local function main(options)
-	options = Util:GetFlavorOptions(options)
-	local journalinstance_csv = Util:ReadCSV("journalinstance", parser, options, function(tbl, ID, l)
+	options = util:GetFlavorOptions(options)
+	local journalinstance_csv = util:ReadCSV("journalinstance", parser, options, function(tbl, ID, l)
 		tbl[ID] = l.Name_lang
 	end)
-	local journalencountercreature_csv = Util:ReadCSV("journalencountercreature", parser, options, function(tbl, _, l)
+	local journalencountercreature_csv = util:ReadCSV("journalencountercreature", parser, options, function(tbl, _, l)
 		local encounterID = tonumber(l.JournalEncounterID)
 		local displayID = tonumber(l.CreatureDisplayInfoID)
 		local order = tonumber(l.OrderIndex)
@@ -58,10 +58,10 @@ local function main(options)
 			tbl[encounterID] = displayID
 		end
 	end)
-	local dungeonencounter_csv = Util:ReadCSV("dungeonencounter", parser, options, function(tbl, ID, l)
+	local dungeonencounter_csv = util:ReadCSV("dungeonencounter", parser, options, function(tbl, ID, l)
 		tbl[ID] = {l.Name_lang, tonumber(l.MapID)}
 	end)
-	local map_csv = Util:ReadCSV("map", parser, options, function(tbl, ID, l)
+	local map_csv = util:ReadCSV("map", parser, options, function(tbl, ID, l)
 		tbl[ID] = l.MapName_lang
 	end)
 	local patchData = dbc_patch:GetPatchData("journalencounter", options)
@@ -69,7 +69,7 @@ local function main(options)
 	local file = io.open(OUTPUT, "w")
 	file:write('{| class="sortable darktable zebra col1-center"\n! ID !! Name !! Map !! [[DisplayID]] !! <small>[[DungeonEncounterID]]</small> !! [[InstanceID]] !! Patch\n')
 	local fs = '|-\n| %d || %s || %s || %s || %s || %s || %s\n'
-	Util:ReadCSV("journalencounter", parser, options, function(_, ID, l)
+	util:ReadCSV("journalencounter", parser, options, function(_, ID, l)
 		local name = l.Name_lang
 		local journalInstanceID = tonumber(l.JournalInstanceID)
 		local dungeonEncounterID = tonumber(l.DungeonEncounterID)
@@ -91,7 +91,7 @@ local function main(options)
 		if dungeonEncounterID > 0 then
 			dungeonEncounterName, instanceID = table.unpack(dungeonencounter_csv[dungeonEncounterID])
 		end
-		local patch = Util:GetPatchText(patchData, ID, patch_override)
+		local patch = util:GetPatchText(patchData, ID, patch_override)
 
 		file:write(fs:format(
 			ID,

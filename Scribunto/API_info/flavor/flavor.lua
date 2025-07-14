@@ -1,8 +1,8 @@
 -- https://wowpedia.fandom.com/wiki/Module:API_info/flavor/api
 -- https://wowpedia.fandom.com/wiki/Module:API_info/flavor/event
-local Util = require("Util/Util")
-Util:MakeDir("cache_lua")
-Util:MakeDir("out/lua")
+local util = require("util")
+util:MakeDir("cache_lua")
+util:MakeDir("out/lua")
 
 local IsMainlinePTR = true
 
@@ -24,7 +24,7 @@ local sources = {
 			return tbl[1]
 		end,
 		map = function(tbl)
-			return Util:ToMap(tbl)
+			return util:ToMap(tbl)
 		end,
 		update = function(t)
 			-- C_Timer is in framexml in vanilla
@@ -71,7 +71,7 @@ function m:GetData(sourceType)
 	local parts = {}
 	local data = {}
 	for _, branch in pairs(branches) do
-		local fileTbl = Util:DownloadAndRun(
+		local fileTbl = util:DownloadAndRun(
 			info.cache:format(branch),
 			info.url:format(branch)
 		)
@@ -106,7 +106,7 @@ local function main()
 		local file = io.open(info.out, "w")
 		file:write("-- https://github.com/Ketho/WowpediaDoc/blob/master/Scribunto/API_info/flavor/flavor.lua\n")
 		file:write('local data = {\n')
-		for _, name in pairs(Util:SortTable(data)) do
+		for _, name in pairs(util:SortTable(data)) do
 			local flavors = data[name]
 			file:write(string.format('\t["%s"] = 0x%X,\n', name, flavors))
 		end

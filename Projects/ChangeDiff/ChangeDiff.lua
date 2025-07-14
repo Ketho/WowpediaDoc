@@ -1,12 +1,14 @@
 -- compares framexml versions
-local Util = require("Util.Util")
-local apidoc_nontoc = require("Util.apidoc_nontoc")
+local products = require("util.products")
+local enum = require("WowDocLoader.enum")
+local apidoc_nontoc = require("util.apidoc_nontoc")
 
-local BRANCH = "mainline"
-Util:LoadLuaEnums(BRANCH)
+local PRODUCT = "wow"
+local _, branch = products:GetBranch(PRODUCT)
+enum:LoadLuaEnums(branch)
 
-local BUILD1 = "11.1.5 (59571)"
-local BUILD2 = "11.1.5 (60253)"
+local BUILD1 = "11.1.0 (60257)"
+local BUILD2 = "11.1.5 (61265)"
 
 ChangeDiff = {}
 require("Projects.ChangeDiff.Compare")
@@ -78,7 +80,7 @@ function m:LoadFrameXML(versions)
 	local t = {}
 	for _, version in pairs(versions) do
 		t[version] = {}
-		local path = "FrameXML/mainline/%s/AddOns/Blizzard_APIDocumentationGenerated"
+		local path = "FrameXML/mainline/%s/Interface/AddOns/Blizzard_APIDocumentationGenerated"
 		local docs = apidoc_nontoc:LoadBlizzardDocs(path:format(version))
 		for apiType, apiTable in pairs(self.apiTypes) do
 			local map = apiTable.map(docs)

@@ -1,4 +1,4 @@
-local Util = require("Util/Util")
+local util = require("util")
 
 local m = {}
 local p = ChangeDiff
@@ -18,14 +18,14 @@ function m:PrintView(changes, isWiki)
 	for _, apiType in pairs(p.apiType_order) do
 		print(apiType)
 		local t = changes[apiType]
-		for _, name in pairs(Util:SortTable(t[1])) do
+		for _, name in pairs(util:SortTable(t[1])) do
 			local s = FormatEnum(t[1][name]) or name
 			print("+ "..s)
 		end
-		for _, name in pairs(Util:SortTable(t[2])) do
+		for _, name in pairs(util:SortTable(t[2])) do
 			print("- "..name)
 		end
-		for _, name in pairs(Util:SortTable(t[3])) do
+		for _, name in pairs(util:SortTable(t[3])) do
 			local v = t[3][name]
 			name = FormatEnum(v[1]) or name
 			if isWiki then
@@ -90,7 +90,7 @@ function m:PrintParamChanges(param, a, b, isWiki)
 		for k, v in pairs(b) do
 			t_b[v.Name] = {id=k, info=v}
 		end
-		for _, tbl in pairs(Util:SortTableCustom(t_b, SortIndex)) do
+		for _, tbl in pairs(util:SortTableCustom(t_b, SortIndex)) do
 			local left = t_a[tbl.key]
 			local right = tbl.value.info
 			if not left then
@@ -112,7 +112,7 @@ function m:PrintParamChanges(param, a, b, isWiki)
 				end
 			end
 		end
-		for _, tbl in pairs(Util:SortTableCustom(t_a, SortIndex)) do
+		for _, tbl in pairs(util:SortTableCustom(t_a, SortIndex)) do
 			if not t_b[tbl.key] then
 				print(string.format(fs.remove, label, tbl.value.id, tbl.key))
 			end

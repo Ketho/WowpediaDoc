@@ -8,7 +8,7 @@ local w = KethoWowpedia
 
 w.Util.PtrVersion = "10.1.7"
 
-function w.Util:SortTable(tbl)
+function w.util:SortTable(tbl)
 	local t = {}
 	for k in pairs(tbl) do
 		tinsert(t, k)
@@ -17,7 +17,7 @@ function w.Util:SortTable(tbl)
 	return t
 end
 
-function w.Util:GetLinkName(link, name, maxLength)
+function w.util:GetLinkName(link, name, maxLength)
 	local length = #name
 	if link then
 		name = format("[[%s||%s]]", link, name)

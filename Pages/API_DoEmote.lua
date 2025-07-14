@@ -1,5 +1,5 @@
 -- https://wowpedia.fandom.com/wiki/API_DoEmote
-local Util = require("Util/Util")
+local util = require("util")
 local parser = require("Util/wago_csv")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT = "out/page/EmoteToken.txt"
@@ -26,13 +26,13 @@ EMOTE136_TOKEN = "STINK"
 -- emote ids in framexml and the dbc dont really match
 -- this complicates things a bit
 function m:main(options)
-	options = Util:GetFlavorOptions(options)
+	options = util:GetFlavorOptions(options)
 
 	local cmd_tbl = self:GetCmdTbl()
 	local patchData = dbc_patch:GetPatchData("emotestext", options)
 
 	local dbc_emotestextdata = {}
-	Util:ReadCSV("emotestextdata", parser, options, function(_, ID, l)
+	util:ReadCSV("emotestextdata", parser, options, function(_, ID, l)
 		local EmotesTextID = tonumber(l.EmotesTextID)
 		local RelationshipFlags = tonumber(l.RelationshipFlags)
 		dbc_emotestextdata[EmotesTextID] = dbc_emotestextdata[EmotesTextID] or {}
@@ -40,12 +40,12 @@ function m:main(options)
 	end)
 
 	local dbc_emotes = {}
-	Util:ReadCSV("emotes", parser, options, function(_, ID, l)
+	util:ReadCSV("emotes", parser, options, function(_, ID, l)
 		dbc_emotes[ID] = tonumber(l.AnimID)
 	end)
 
 	local dbc_emotestextsound = {}
-	Util:ReadCSV("emotestextsound", parser, options, function(_, ID, l)
+	util:ReadCSV("emotestextsound", parser, options, function(_, ID, l)
 		local EmotesTextID = tonumber(l.EmotesTextID)
 		dbc_emotestextsound[EmotesTextID] = true
 	end)
@@ -55,7 +55,7 @@ function m:main(options)
 	..'! Token !! Slash Command !! Anim !! Voice !! No Target Text !! Targeted Text !! Patch\n')
 	local fs = '|-\n| %s || %s || %s || %s || %s || %s || %s\n'
 
-	Util:ReadCSV("emotestext", parser, options, function(_, ID, l)
+	util:ReadCSV("emotestext", parser, options, function(_, ID, l)
 		local token = l.Name
 		local cmd_list = cmd_tbl[token] or "❌"
 		if wp_removed[ID] then
@@ -75,7 +75,7 @@ function m:main(options)
 			target = dbc_emotestextdata[ID][2] or ""
 			notarget = dbc_emotestextdata[ID][6] or ""
 		end
-		local patch = Util:GetPatchText(patchData, ID, patch_override)
+		local patch = util:GetPatchText(patchData, ID, patch_override)
 		file:write(fs:format(token, cmd_list, anim, voice, notarget, target, patch))
 	end)
 

@@ -1,6 +1,6 @@
 -- https://wowpedia.fandom.com/wiki/FactionID
-local Util = require "Util/Util"
-local parser = require "Util/wago_csv"
+local Util = require("util")
+local parser = require("util/wago")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT = "out/page/FactionID.txt"
 
@@ -83,7 +83,7 @@ local patch_override = {
 }
 
 local function main(options)
-	options = Util:GetFlavorOptions(options)
+	options = util:GetFlavorOptions(options)
 	options.initial = false
 	local patchData = dbc_patch:GetPatchData("faction", options)
 
@@ -144,7 +144,7 @@ local function main(options)
 						local displayName = faction_names[parentFactionID] or "unknown"
 						parentName = string.format('<span title="%s">%s</span>', parentFactionID, displayName)
 					end
-					local patch = Util:GetPatchText(patchData, ID, patch_override)
+					local patch = util:GetPatchText(patchData, ID, patch_override)
 					file:write(fs:format(ID, factionIcon, friendText, nameText, parentName, patch))
 				end
 			end

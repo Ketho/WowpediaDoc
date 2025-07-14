@@ -1,4 +1,4 @@
-local lfs = require "lfs"
+local lfs = require("lfs")
 local https = require "ssl.https"
 local cjson = require "cjson"
 local cjsonutil = require "cjson.util"

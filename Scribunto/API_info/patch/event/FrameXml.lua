@@ -1,5 +1,5 @@
-local lfs = require "lfs"
-local Util = require("Util/Util")
+local lfs = require("lfs")
+local util = require("util")
 
 local non_framexml_added = {
 	UNIT_TARGET = "2.0.1",
@@ -21,14 +21,14 @@ function m:GetPatches(path)
 		end
 	end
 	-- sorting by build is easier in this case
-	table.sort(t, Util.SortBuild)
+	table.sort(t, util.SortBuild)
 	return t
 end
 
 function m:GetEvents(flavors, patches, tbl_apidoc)
 	local path = flavors.retail.input
 	local t = {}
-	for _, event in pairs(Util:SortTable(tbl_apidoc)) do
+	for _, event in pairs(util:SortTable(tbl_apidoc)) do
 		local v = tbl_apidoc[event]
 		if v[1] == false then
 			for _, patch in pairs(patches) do

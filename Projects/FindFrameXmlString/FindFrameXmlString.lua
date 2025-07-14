@@ -1,4 +1,4 @@
-local Util = require("Util/Util")
+local util = require("util")
 local FRAMEXML = "../#FrameXML/Generate-Globals/wow-ui-source/"
 
 local m = {}
@@ -20,7 +20,7 @@ local function GetStrings(path)
 end
 
 local function GetCvars()
-	local data = Util:DownloadAndRun(
+	local data = util:DownloadAndRun(
 		"cache_lua/CVars_mainline.lua",
 		"https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/mainline/Resources/CVars.lua"
 	)
@@ -31,7 +31,7 @@ local function WriteTable(tbl)
 	local file = io.open("KethoWowpedia/scripts/cvar_framexml.lua", "w")
 	file:write("local m = KethoWowpedia\n\nm.cvar_framexml = {\n")
 	local fs = '\t["%s"] = true,\n'
-	for _, name in pairs(Util:SortTable(tbl, Util.SortNocase)) do
+	for _, name in pairs(util:SortTable(tbl, util.SortNocase)) do
 		file:write(fs:format(name))
 	end
 	file:write("}\n")
@@ -39,7 +39,7 @@ local function WriteTable(tbl)
 end
 
 local function main()
-	Util:IterateFiles(FRAMEXML, GetStrings)
+	util:IterateFiles(FRAMEXML, GetStrings)
 	local t = {}
 	for k in pairs(GetCvars()) do
 		-- there are some cvars that dont match case insensitive

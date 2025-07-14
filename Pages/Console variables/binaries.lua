@@ -1,9 +1,9 @@
 -- note that "AreaTriggers" is in the string table for PTR binaries
-local lfs = require "lfs"
-local Util = require("Util.Util")
+local lfs = require("lfs")
+local util = require("util")
 
 local PATH = [[/mnt/d/Prog/World of Warcraft/Binaries]]
-Util:MakeDir("cache_strings")
+util:MakeDir("cache_strings")
 
 local function SortPatchReverse(a, b)
 	local major_a, minor_a, patch_a, build_a = a:match("(%d+)%.(%d+)%.(%d+)%.(%d+)")
@@ -56,7 +56,7 @@ local function WriteFile(path, tbl)
 	local file = io.open(path, "w")
 	file:write("local t = {\n")
 	local fs = '["%s"]=1,\n'
-	for _, k in pairs(Util:SortTable(tbl)) do
+	for _, k in pairs(util:SortTable(tbl)) do
 		file:write(fs:format(k))
 	end
 	file:write("}\n\nreturn t\n")

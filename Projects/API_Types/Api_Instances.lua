@@ -1,4 +1,4 @@
-local Util = require("Util.Util")
+local util = require("util")
 
 local loader = require("WowDocLoader.WowDocLoader")
 loader:main("mainline_ptr")

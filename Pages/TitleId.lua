@@ -1,6 +1,6 @@
 -- https://wowpedia.fandom.com/wiki/TitleId
 local parser = require("Util/wago_csv")
-local Util = require("Util/Util")
+local util = require("util")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT = "out/page/TitleId.txt"
 
@@ -163,7 +163,7 @@ local header = '{| class="sortable darktable zebra col1-center col2-center"\n! M
 local fs = '|-\n| %d || [https://www.wowhead.com/title=%d %d] || %s || %s\n'
 
 local function main(options)
-	options = Util:GetFlavorOptions(options)
+	options = util:GetFlavorOptions(options)
 	options.initial = false
 	local dbc, build = parser:ReadCSV("chartitles", options)
 	local patchData = dbc_patch:GetPatchData("chartitles", options)
@@ -183,7 +183,7 @@ local function main(options)
 			else
 				nameText = GetNameText(l.Name_lang, maskID)
 			end
-			local patch = Util:GetPatchText(patchData, ID, patch_override)
+			local patch = util:GetPatchText(patchData, ID, patch_override)
 			file:write(fs:format(maskID, ID, ID, nameText, patch))
 		end
 	end

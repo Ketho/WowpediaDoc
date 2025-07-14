@@ -1,17 +1,17 @@
 -- queries townlong yak wut and writes tp csv with api sorted by popularity
-local lfs = require "lfs"
+local lfs = require("lfs")
 local cjson = require "cjson"
 local cjsonutil = require "cjson.util"
-local Util = require("Util/Util")
+local util = require("util")
 -- local print_table = require("Util/print_table")
 
-Util:MakeDir("cache_wut")
+util:MakeDir("cache_wut")
 local wut_url = "https://www.townlong-yak.com/globe/api/wut-symbol?q=%s"
 local github_url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/mainline/Resources/%s.lua"
 
 local function WutRequest(folder, search)
 	local path = string.format("cache_wut/%s/%s.json", folder, search)
-	Util:DownloadFilePost(wut_url:format(search), path, "", false)
+	util:DownloadFilePost(wut_url:format(search), path, "", false)
 	if not lfs.attributes(path) then
 		local file = io.open(path, "w")
 		file:write([[{"a":{}}]]) -- create placeholder json to avoid further requests
@@ -24,21 +24,21 @@ end
 
 local sources = {
 	GlobalAPI = function(name)
-		local tbl = Util:DownloadAndRun(
+		local tbl = util:DownloadAndRun(
 			string.format("cache_lua/%s.lua", name),
 			github_url:format(name)
 		)
 		return tbl[1]
 	end,
 	Lua = function()
-		local tbl = Util:DownloadAndRun(
+		local tbl = util:DownloadAndRun(
 			string.format("cache_lua/%s.lua", "GlobalAPI"),
 			github_url:format("GlobalAPI")
 		)
 		return tbl[2]
 	end,
 	Events = function(name)
-		local tbl = Util:DownloadAndRun(
+		local tbl = util:DownloadAndRun(
 			string.format("cache_lua/%s.lua", name),
 			github_url:format(name)
 		)
@@ -52,14 +52,14 @@ local sources = {
 		return t
 	end,
 	-- CVars = function(name)
-	-- local tbl = Util:DownloadAndRun(
+	-- local tbl = util:DownloadAndRun(
 	-- 	string.format("cache_lua/%s.lua", name),
 	-- 	github_url:format(name)
 	-- )
-	-- 	return Util:SortTable(tbl[1].var)
+	-- 	return util:SortTable(tbl[1].var)
 	-- end,
 	FrameXML = function(name)
-		local tbl = Util:DownloadAndRun(
+		local tbl = util:DownloadAndRun(
 			string.format("cache_lua/%s.lua", name),
 			github_url:format(name)
 		)
@@ -69,21 +69,21 @@ local sources = {
 		return tbl[1]
 	end,
 	Frames = function(name)
-		local tbl = Util:DownloadAndRun(
+		local tbl = util:DownloadAndRun(
 			string.format("cache_lua/%s.lua", name),
 			github_url:format(name)
 		)
 		return tbl[1]
 	end,
 	Templates = function(name)
-		local tbl = Util:DownloadAndRun(
+		local tbl = util:DownloadAndRun(
 			string.format("cache_lua/%s.lua", name),
 			github_url:format(name)
 		)
-		return Util:SortTable(tbl)
+		return util:SortTable(tbl)
 	end,
 	Mixins = function(name)
-		local tbl = Util:DownloadAndRun(
+		local tbl = util:DownloadAndRun(
 			string.format("cache_lua/%s.lua", name),
 			github_url:format(name)
 		)
@@ -93,7 +93,7 @@ local sources = {
 
 local function WriteResource(apiType)
 	local start = os.time()
-	Util:MakeDir("cache_wut/"..apiType)
+	util:MakeDir("cache_wut/"..apiType)
 	local t = {}
 	local resource = sources[apiType](apiType)
 	for _, name in pairs(resource) do
@@ -118,7 +118,7 @@ local function WriteResource(apiType)
 	local fs = "%s,%s\n"
 	local file = io.open(string.format("Projects/TownlongWut/%s.csv", apiType), "w")
 	file:write("Count,Name\n")
-	for _, tbl in pairs(Util:SortTableCustom(t, sortfunc)) do
+	for _, tbl in pairs(util:SortTableCustom(t, sortfunc)) do
 		file:write(fs:format(tbl.value, tbl.key))
 	end
 	file:close()

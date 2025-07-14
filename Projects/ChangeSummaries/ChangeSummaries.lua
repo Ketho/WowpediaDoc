@@ -1,6 +1,6 @@
 -- https://wowpedia.fandom.com/wiki/API_change_summaries
-local lfs = require "lfs"
-local Util = require("Util/Util")
+local lfs = require("lfs")
+local util = require("util")
 local cvar_module = require("Projects/ChangeSummaries/CVar")
 local widget_module = require("Projects/ChangeSummaries/Widget")
 local m = {}
@@ -12,10 +12,10 @@ local CVAR1, CVAR2 = BRANCH1, BRANCH2
 local DIFF = {"compare", BRANCH1..".."..BRANCH2, false}
 
 local OUT_FILE = "out/page/ChangeSummaries.txt"
-Util:MakeDir("out/page")
-Util:MakeDir("cache_diff")
-Util:MakeDir("cache_diff/commit")
-Util:MakeDir("cache_diff/compare")
+util:MakeDir("out/page")
+util:MakeDir("cache_diff")
+util:MakeDir("cache_diff/commit")
+util:MakeDir("cache_diff/compare")
 
 local function GetDiff()
 	local path, url
@@ -28,7 +28,7 @@ local function GetDiff()
 		url = string.format("https://github.com/Ketho/BlizzardInterfaceResources/compare/%s.diff", DIFF[2])
 	end
 	local isCache = DIFF[3]
-	Util:DownloadFile(url, path, isCache)
+	util:DownloadFile(url, path, isCache)
 	return path
 end
 
@@ -116,8 +116,8 @@ end
 function m:GetWikiTable(info, section)
 	-- need to sort events at least, and cvars
 	if section ~= "WidgetAPI" then
-		table.sort(info.changes["+"], Util.SortNocase)
-		table.sort(info.changes["-"], Util.SortNocase)
+		table.sort(info.changes["+"], util.SortNocase)
+		table.sort(info.changes["-"], util.SortNocase)
 	end
 	local t = {}
 	table.insert(t, string.format('===%s===', info.label or section))

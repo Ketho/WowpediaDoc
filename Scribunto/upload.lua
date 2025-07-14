@@ -1,7 +1,7 @@
-local Path = require "path"
-local Util = require("Util.Util")
+local Path = require("path")
+local util = require("util")
 
-Util:MakeDir("out")
+util:MakeDir("out")
 
 local function WriteFiles()
     local scribunto = Path.join("Scribunto", "API_info")

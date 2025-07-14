@@ -1,7 +1,7 @@
 local xml2lua = require "xml2lua"
 local handler = require "xmlhandler.tree"
 handler = handler:new()
-local Util = require("Util/Util")
+local util = require("util")
 local wowpedia_export = require("Util/wowpedia_export")
 local m = {}
 
@@ -10,7 +10,7 @@ local function GetDescription(text)
 	if tag then
 		return tag
 	else
-		local t = Util:strsplit(text, "\n")
+		local t = util:strsplit(text, "\n")
 		return t[2]
 	end
 end

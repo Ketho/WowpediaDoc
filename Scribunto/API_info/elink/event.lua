@@ -1,11 +1,11 @@
 -- https://wowpedia.fandom.com/wiki/Module:API_info/elink/event
-local Util = require("Util/Util")
+local util = require("util")
 local BRANCH = "mainline"
-Util:LoadLuaEnums(BRANCH)
+util:LoadLuaEnums(BRANCH)
 local OUT = "out/lua/API_info.elink.event.lua"
 
 local function main()
-	Util:LoadDocumentation(BRANCH)
+	util:LoadDocumentation(BRANCH)
 	table.sort(APIDocumentation.events, function(a, b)
 		return a.LiteralName < b.LiteralName
 	end)

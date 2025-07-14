@@ -1,6 +1,6 @@
 -- https://wowpedia.fandom.com/wiki/GarrFollowerID
-local Util = require "Util/Util"
-local parser = require "Util/wago_csv"
+local Util = require("util")
+local parser = require("util/wago")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT = "out/page/GarrFollowerID.txt"
 
@@ -39,7 +39,7 @@ local function FormatLink(ID, s)
 end
 
 local function main(options)
-	options = Util:GetFlavorOptions(options)
+	options = util:GetFlavorOptions(options)
 	options.initial = false
 	local faction = parser:ReadCSV("garrfollower", options)
 	local patchData = dbc_patch:GetPatchData("garrfollower", options)
@@ -78,7 +78,7 @@ local function main(options)
 				local allianceName = creatures[allianceid]
 				local hordeName = creatures[hordeid]
 
-				local patch = Util:GetPatchText(patchData, ID, patch_override)
+				local patch = util:GetPatchText(patchData, ID, patch_override)
 				if allianceName == hordeName then -- creature ID can be different but still have the same name
 					table.insert(t, {id = ID, text = fs_same:format(ID, followerTypeIcon, FormatLink(ID, allianceName), qualityText, patch)})
 				else

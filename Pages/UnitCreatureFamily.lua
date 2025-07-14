@@ -1,5 +1,5 @@
 -- https://warcraft.wiki.gg/wiki/API_UnitCreatureFamily
-local Util = require("Util/Util")
+local util = require("util")
 local parser = require("Util/wago_csv")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT = "out/page/UnitCreatureFamily.txt"
@@ -22,16 +22,16 @@ local function GetWikiIcon(filedata, fileid)
 end
 
 local function main(options)
-	options = Util:GetFlavorOptions(options)
+	options = util:GetFlavorOptions(options)
 	options.initial = false
-    options.sort = Util.SortBuild
+    options.sort = util.SortBuild
     local patchData = dbc_patch:GetPatchData("creaturefamily", options)
     local listfile = wago:ReadListfile()
 	local fs = "|-\n| %d || %s || %s || %s\n"
 	local file = io.open(OUTPUT, "w")
 	file:write('{| class="sortable darktable zebra col1-center col2-center"\n! ID !! Icon !! Name (enUS) !! Patch\n')
-	Util:ReadCSV("creaturefamily", parser, options, function(_, ID, l)
-		local patch = Util:GetPatchText(patchData, ID, patch_override)
+	util:ReadCSV("creaturefamily", parser, options, function(_, ID, l)
+		local patch = util:GetPatchText(patchData, ID, patch_override)
         local icon = GetWikiIcon(listfile, l.IconFileID)
 		file:write(fs:format(ID, icon, l.Name_lang, patch))
 	end)

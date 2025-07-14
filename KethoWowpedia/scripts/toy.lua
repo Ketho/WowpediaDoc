@@ -81,7 +81,7 @@ function KethoWowpedia:GetToyIDs(num)
 			)
 		end
 	end
-	for _, k in pairs(self.Util:SortTable(lines)) do
+	for _, k in pairs(self.util:SortTable(lines)) do
 		eb:InsertLine(lines[k])
 	end
 	eb:InsertLine("|}")

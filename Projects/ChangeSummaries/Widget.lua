@@ -1,4 +1,4 @@
-local Util = require("Util/Util")
+local util = require("util")
 local bir_url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/WidgetAPI.lua"
 local WIDGET_PATH = "cache_lua/WidgetAPI_%s.lua"
 
@@ -7,7 +7,7 @@ local pos_tbl = {}
 
 local function GetWidgetFile(path, branch)
 	local url = bir_url:format(branch)
-	Util:DownloadFile(url, path, true)
+	util:DownloadFile(url, path, true)
 end
 
 local function GetWidgetObjectName(path)

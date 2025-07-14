@@ -1,5 +1,5 @@
 -- https://wowpedia.fandom.com/wiki/LfgDungeonID
-local Util = require("Util/Util")
+local util = require("util")
 local parser = require("Util/wago_csv")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT = "out/page/LfgDungeonID.txt"
@@ -92,14 +92,14 @@ local patch_override = {
 }
 
 local function main(options)
-	options = Util:GetFlavorOptions(options)
+	options = util:GetFlavorOptions(options)
 	options.initial = false
-	local difficulty_csv = Util:ReadCSV("difficulty", parser, options, function(tbl, ID, l)
+	local difficulty_csv = util:ReadCSV("difficulty", parser, options, function(tbl, ID, l)
 		local name = l.Name_lang
 		local instanceType = tonumber(l.InstanceType)
 		tbl[ID] = {instanceTypes[instanceType], name}
 	end)
-	local map_csv = Util:ReadCSV("map", parser, options, function(tbl, ID, l)
+	local map_csv = util:ReadCSV("map", parser, options, function(tbl, ID, l)
 		tbl[ID] = l.MapName_lang
 	end)
 	local patchData = dbc_patch:GetPatchData("lfgdungeons", options)
@@ -107,7 +107,7 @@ local function main(options)
 	local file = io.open(OUTPUT, "w")
 	file:write('{| class="sortable darktable zebra col1-center"\n! ID !! Name !! Type !! [[DifficultyID]] !! [[InstanceID]] !! Patch\n')
 	local fs = '|-\n| %d || %s || %s || %s || %s || %s\n'
-	Util:ReadCSV("lfgdungeons", parser, options, function(_, ID, l)
+	util:ReadCSV("lfgdungeons", parser, options, function(_, ID, l)
 		local name = l.Name_lang
 		local typeid = tonumber(l.TypeID)
 		local subtype = tonumber(l.Subtype)
@@ -142,7 +142,7 @@ local function main(options)
 		if instanceID > -1 then
 			mapText = string.format('<span title="%s">%d</span>', map_csv[instanceID] or "", instanceID)
 		end
-		local patch = Util:GetPatchText(patchData, ID, patch_override)
+		local patch = util:GetPatchText(patchData, ID, patch_override)
 		file:write(fs:format(ID, nameText, typeText, diffText or "", mapText, patch))
 	end)
 	file:write("|}\n")

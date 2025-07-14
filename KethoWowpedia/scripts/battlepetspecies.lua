@@ -95,7 +95,7 @@ function KethoWowpedia:GetPetSpeciesIDs(num)
 			local spellID, sourceType, flags = unpack(self.dbc.battlepetspecies[id])
 			local linkName
 			if IsValidName(name) then
-				linkName = self.Util:GetLinkName(wpLink[id], name, 32)
+				linkName = self.util:GetLinkName(wpLink[id], name, 32)
 			else
 				linkName = name
 			end

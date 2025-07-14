@@ -6,7 +6,7 @@ local log = require("util.log")
 local products = require("util.products")
 
 local GAMETYPE = "classic" ---@type GameType
-local branch = products.gameversion_branch[GAMETYPE]
+local branch = products.gametype_branch[GAMETYPE]
 
 -- download framexml zip
 local URL = string.format("https://github.com/Gethe/wow-ui-source/archive/refs/heads/%s.zip", branch)

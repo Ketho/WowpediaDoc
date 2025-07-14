@@ -1,4 +1,4 @@
-local Util = require("Util.Util")
+local util = require("util")
 
 local loader = require("WowDocLoader.WowDocLoader")
 loader:main("mainline")
@@ -161,7 +161,7 @@ function m:GetSpecialTypes()
     local t1 = union(structures, missingStructures, enums, docNoExistEnums, basicTypes, mixins, widgets)
     local t2 = union(functions, events, fields)
     local types = difference(t2, t1)
-    local sorted = Util:SortTable(types)
+    local sorted = util:SortTable(types)
     return sorted
 end
 

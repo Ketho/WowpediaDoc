@@ -1,6 +1,6 @@
 -- https://wowprogramming.com/docs/widgets.html
 -- https://wowpedia.fandom.com/wiki/Module:API_info/main/widget
-local Util = require("Util/Util")
+local util = require("util")
 local gumbo = require("gumbo")
 
 local path = "Scribunto/API_info/wowprog/widgets/widgets.html"
@@ -30,6 +30,6 @@ for i, element in ipairs(document.links) do
 	end
 end
 
-for _, k in pairs(Util:SortTable(t)) do
+for _, k in pairs(util:SortTable(t)) do
 	print(k)
 end

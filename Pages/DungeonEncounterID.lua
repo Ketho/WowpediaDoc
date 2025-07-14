@@ -1,5 +1,5 @@
 -- https://wowpedia.fandom.com/wiki/DungeonEncounterID
-local Util = require("Util/Util")
+local util = require("util")
 local parser = require("Util/wago_csv")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT = "out/page/DungeonEncounterID.txt"
@@ -119,8 +119,8 @@ local patch_override = {
 }
 
 local function main(options)
-	options = Util:GetFlavorOptions(options)
-	local map_csv = Util:ReadCSV("map", parser, options, function(tbl, ID, l)
+	options = util:GetFlavorOptions(options)
+	local map_csv = util:ReadCSV("map", parser, options, function(tbl, ID, l)
 		tbl[ID] = l.MapName_lang
 	end)
 	local patchData = dbc_patch:GetPatchData("dungeonencounter", options)
@@ -128,7 +128,7 @@ local function main(options)
 	local file = io.open(OUTPUT, "w")
 	file:write('{| class="sortable darktable zebra col1-center"\n! ID !! Name !! Map !! [[InstanceID]] !! Patch\n')
 	local fs = '|-\n| %d || %s || %s || %s || %s\n'
-	Util:ReadCSV("dungeonencounter", parser, options, function(_, ID, l)
+	util:ReadCSV("dungeonencounter", parser, options, function(_, ID, l)
 		local encounterName = l.Name_lang
 		local nameText
 		if wpLink[ID] then
@@ -149,7 +149,7 @@ local function main(options)
 		else
 			mapText = mapName
 		end
-		local patch = Util:GetPatchText(patchData, ID, patch_override)
+		local patch = util:GetPatchText(patchData, ID, patch_override)
 		file:write(fs:format(ID, nameText, mapText, mapID, patch))
 	end)
 	file:write("|}\n")

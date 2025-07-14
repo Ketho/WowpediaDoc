@@ -96,12 +96,12 @@ function m:GetLatestBuild(flavor)
 		return tonumber(a.build) > tonumber(b.build)
 	end)
 	local path = Path.join(folder, t[1].name)
-	log.success("Util:GetLatestBuild: "..path)
+	log.success("util:GetLatestBuild: "..path)
 	return path
 end
 
-function m:LoadDocumentation(branch)
-	require("WowDocLoader"):main(branch)
+function m:LoadDocumentation(product)
+	require("WowDocLoader"):main(product)
 end
 
 function m:FolderExists(path)

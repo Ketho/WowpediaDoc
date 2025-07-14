@@ -1,6 +1,6 @@
-local lfs = require "lfs"
-local PATH = require "path"
-local Util = require("Util/Util")
+local lfs = require("lfs")
+local PATH = require("path")
+local util = require("util")
 local apidoc_nontoc = require("Util/apidoc_nontoc")
 
 local function GetEventMap(data)
@@ -58,7 +58,7 @@ end
 -- apparently this goes through all patches of both classic and retail
 function m:GetPatchData(tbl)
 	local added, removed = {}, {}
-	for _, build in pairs(Util:SortTable(tbl)) do
+	for _, build in pairs(util:SortTable(tbl)) do
 		local v = tbl[build]
 		local version, data = table.unpack(v)
 		for name in pairs(data) do

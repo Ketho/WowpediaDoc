@@ -4,7 +4,7 @@
 local gumbo = require "gumbo"
 local document = gumbo.parseFile("Scribunto/API_info/wowprog/event/event.html")
 
-local Util = require("Util/Util")
+local util = require("util")
 
 local class = document:getElementsByClassName("event-hack")
 local api_elements = class[1].children[1]
@@ -25,6 +25,6 @@ for _, v in pairs(api_elements.children) do
 	end
 end
 
-for _, v in pairs(Util:SortTable(t)) do
+for _, v in pairs(util:SortTable(t)) do
 	print(v)
 end

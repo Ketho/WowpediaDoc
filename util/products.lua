@@ -3,7 +3,7 @@ local log = require("util.log")
 
 local m = {}
 
----@alias TactProduct string
+---@alias TactProduct
 ---|"wow"
 ---|"wowt"
 ---|"wowxptr"
@@ -37,7 +37,7 @@ local m = {}
 ---|"vanilla"
 ---|"vanilla_ptr"
 
----@alias GameType string
+---@alias GameType
 ---|"mainline"
 ---|"classic"
 ---|"mists"
@@ -76,7 +76,7 @@ m.blizzres_branch = {
 }
 
 ---@type table<GameType, GetheBranch>
-m.gameversion_branch = {
+m.gametype_branch = {
 	mainline = "live",
 	mists = "classic",
 	cata = "4.4.2",

@@ -1,5 +1,5 @@
 -- https://wowpedia.fandom.com/wiki/InstanceID#Complete_list
-local Util = require("Util/Util")
+local util = require("util")
 -- local parser = require("Util/wowtoolsparser")
 local parser = require("Util/wago_csv")
 local dbc_patch = require("Projects/DBC/DBC_patch")
@@ -162,15 +162,15 @@ local function ReadValues(t, l, patchData, isRemoved)
 			nameText = mapName
 		end
 		local instance = InstanceTypes[tonumber(l.InstanceType)] or ""
-		local patch = Util:GetPatchText(patchData, ID, patch_override)
+		local patch = util:GetPatchText(patchData, ID, patch_override)
 		t[ID] = fs:format(ID, expansion, removedIcon..devmap, dir, nameText, instance, patch)
 	end
 end
 
 local function main(options)
-	options = Util:GetFlavorOptions(options)
+	options = util:GetFlavorOptions(options)
 	options.initial = false
-	options.sort = Util.SortBuild -- I dont even remember how and why I implemented sorting
+	options.sort = util.SortBuild -- I dont even remember how and why I implemented sorting
 	local map = parser:ReadCSV("map", options)
 	local patchData = dbc_patch:GetPatchData("map", options)
 
@@ -186,7 +186,7 @@ local function main(options)
 			ReadValues(t, v.l, patchData, true)
 		end
 	end
-	for _, k in pairs(Util:SortTable(t)) do
+	for _, k in pairs(util:SortTable(t)) do
 		file:write(t[k])
 	end
 	file:write("|}\n")

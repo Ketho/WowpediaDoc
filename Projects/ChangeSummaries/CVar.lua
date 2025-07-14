@@ -1,5 +1,5 @@
 -- similar codebase as https://wowpedia.fandom.com/wiki/Module:API_info/cvar
-local Util = require("Util/Util")
+local util = require("util")
 
 local m = {}
 local data = {}
@@ -19,9 +19,9 @@ local ConsoleCategory = {
 }
 
 local function GetData(flavor)
-	local tbl = Util:DownloadAndRun(
-		string.format("cache_lua/CVars_%s.lua", flavor),
-		string.format("https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/CVars.lua", flavor)
+	local tbl = util:DownloadAndRun(
+		string.format("https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/CVars.lua", flavor),
+		string.format("cache_lua/CVars_%s.lua", flavor)
 	)
 	return tbl[1]
 end
@@ -66,8 +66,8 @@ end
 
 -- check if it's not some minor CVar attribute change
 function m:SanitizeCVars(ApiTypes)
-	local added = Util:ToMap(ApiTypes.CVars.changes["+"])
-	local removed = Util:ToMap(ApiTypes.CVars.changes["-"])
+	local added = util:ToMap(ApiTypes.CVars.changes["+"])
+	local removed = util:ToMap(ApiTypes.CVars.changes["-"])
 	for k in pairs(added) do
 		if removed[k] then
 			added[k] = nil
@@ -75,8 +75,8 @@ function m:SanitizeCVars(ApiTypes)
 		end
 	end
 	-- cba safely removing while iterating
-	Util:Wipe(ApiTypes.CVars.changes["+"])
-	Util:Wipe(ApiTypes.CVars.changes["-"])
+	util:Wipe(ApiTypes.CVars.changes["+"])
+	util:Wipe(ApiTypes.CVars.changes["-"])
 	for k in pairs(added) do
 		table.insert(ApiTypes.CVars.changes["+"], k)
 	end

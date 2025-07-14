@@ -1,10 +1,10 @@
-local Path = require "path"
-local lfs = require "lfs"
+local Path = require("path")
 local OUT = Path.join("out", "page", "Widget_API.txt")
-local Util = require("Util.Util")
+local util = require("util")
+local products = require("util.products")
 
-local BRANCH = "mainline_ptr"
-Util:LoadDocumentation(BRANCH)
+local PRODUCT = "wow"
+util:LoadDocumentation(PRODUCT)
 
 local widget_systems = {
 	FrameAPICooldown = "Cooldown",
