@@ -42,9 +42,9 @@ local function DownloadFile(url, path)
 	log:info(string.format("Downloading %s to %s", url, path))
 	local res, code, _, status = https.request(url)
 	if code == 200 then
-        if url:find("listfile") then -- hack for empty lines in file
-            res = res:gsub("\r\n", "\n")
-        end
+		if url:find("listfile") then -- hack for empty lines in file
+			res = res:gsub("\r\n", "\n")
+		end
 		local file = io.open(path, "w")
 		file:write(res)
 		file:close()

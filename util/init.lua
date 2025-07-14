@@ -69,7 +69,7 @@ m.RelativePath = {
 ---@return string result
 function m:run_command(cmd)
 	log:info("Running command: "..cmd)
-    local handle = io.popen(cmd)
+	local handle = io.popen(cmd)
 	local result = handle:read("a")
 	handle:close()
 	return result
@@ -105,7 +105,7 @@ function m:LoadDocumentation(product)
 end
 
 function m:FolderExists(path)
-    return lfs.attributes(path, "mode") == "directory"
+	return lfs.attributes(path, "mode") == "directory"
 end
 
 function m:MakeDir(path)
@@ -359,49 +359,49 @@ end
 
 -- https://stackoverflow.com/a/32660766/1297035
 function m:equals(a, b)
-    if a == b then return true end
-    local type_a, type_b = type(a), type(b)
-    if type_a ~= type_b then return false end
-    if type_a ~= "table" then return false end
-    for k, v in pairs(a) do
-        if b[k] == nil or not self:equals(v, b[k]) then return false end
-    end
-    for k in pairs(b) do
-        if a[k] == nil then return false end
-    end
-    return true
+	if a == b then return true end
+	local type_a, type_b = type(a), type(b)
+	if type_a ~= type_b then return false end
+	if type_a ~= "table" then return false end
+	for k, v in pairs(a) do
+		if b[k] == nil or not self:equals(v, b[k]) then return false end
+	end
+	for k in pairs(b) do
+		if a[k] == nil then return false end
+	end
+	return true
 end
 
 function m:template_apilink(apitype, apitable)
-    local t = {}
-    table.insert(t, "{{apilink")
+	local t = {}
+	table.insert(t, "{{apilink")
 	table.insert(t, "t="..apitype)
 	table.insert(t, self:api_func_GetFullName(apitable))
-    if apitype == "a" or apitype == "w" then
-        if apitable.Arguments and #apitable.Arguments > 0 then
+	if apitype == "a" or apitype == "w" then
+		if apitable.Arguments and #apitable.Arguments > 0 then
 			local r = {}
 			for _, v in pairs(apitable.Arguments) do
 				table.insert(r, v.Name)
 			end
-            table.insert(t, "arg="..table.concat(r, ", "))
-        end
-        if apitable.Returns and #apitable.Returns > 0 then
+			table.insert(t, "arg="..table.concat(r, ", "))
+		end
+		if apitable.Returns and #apitable.Returns > 0 then
 			local r = {}
 			for _, v in pairs(apitable.Returns) do
 				table.insert(r, v.Name)
 			end
-            table.insert(t, "ret="..table.concat(r, ", "))
-        end
-    elseif apitype == "e" then
-        if apitable.payload then
-            table.insert(t, "payload="..apitable.payload)
-        end
-    end
-    return table.concat(t, "|").."}}"
+			table.insert(t, "ret="..table.concat(r, ", "))
+		end
+	elseif apitype == "e" then
+		if apitable.payload then
+			table.insert(t, "payload="..apitable.payload)
+		end
+	end
+	return table.concat(t, "|").."}}"
 end
 
 function m:api_func_GetFullName(v)
-    if v.Type == "Function" then
+	if v.Type == "Function" then
 		if v.System.Type == "System" then
 			if v.System.Namespace then
 				return string.format("%s.%s", v.System.Namespace, v.Name)
@@ -411,7 +411,7 @@ function m:api_func_GetFullName(v)
 		elseif v.System.Type == "ScriptObject" then
 			return string.format("%s:%s", v.System.Name, v.Name)
 		end
-    end
+	end
 end
 
 function m:IsBitEnum(apiTbl)
