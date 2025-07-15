@@ -1,7 +1,6 @@
 local util = require("util")
-local BRANCH = "mainline"
-util:LoadDocumentation(BRANCH)
-require "Documenter/Wowpedia/Wowpedia"
+
+require("Documenter.Wowpedia")
 
 local m = {}
 local RETURN_MAX_LENGTH = 60

@@ -2,14 +2,14 @@
 local log = require("util.log")
 local products = require("util.products")
 local enum = require("util.enum")
-local apidoc_nontoc = require("util.apidoc_nontoc")
 
 local PRODUCT = "wow"
 local _, branch = products:GetBranch(PRODUCT)
 enum:LoadLuaEnums(branch)
+local apidoc_nontoc = require("util.apidoc_nontoc")
 
-local BUILD1 = "11.1.7 (61609)"
-local BUILD2 = "11.2.0 (61871)"
+local BUILD1 = "11.2.0 (61871)"
+local BUILD2 = "11.2.0 (61981)"
 
 ChangeDiff = {}
 require("Projects.ChangeDiff.Compare")

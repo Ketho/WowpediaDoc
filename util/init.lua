@@ -115,7 +115,7 @@ function m:MakeDir(path)
 end
 
 function m:WriteFile(path, text)
-	log:info(string.format("Writing `%s`", path))
+	log:info(string.format('Writing "%s"', path))
 	local file = io.open(path, "w")
 	if file then
 		file:write(text)
@@ -129,7 +129,7 @@ end
 ---@param isCache? boolean If the file should be redownloaded after `INVALIDATION_TIME`
 function m:DownloadFile(url, path, isCache)
 	if self:ShouldDownload(path, isCache) then
-		log:info(string.format("Downloading %s to `%s`", url, path))
+		log:info(string.format('Downloading %s to "%s"', url, path))
 		local body = https.request(url)
 		self:WriteFile(path, body)
 	end

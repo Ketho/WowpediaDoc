@@ -1,7 +1,11 @@
 local util = require("util")
+local products = require("util.products")
 local WikiText = require("Pages/World of Warcraft API/WikiText")
 util:MakeDir("cache_lua")
-local BRANCH = "mainline"
+
+local PRODUCT = "wowxptr" ---@type TactProduct
+util:LoadDocumentation(PRODUCT)
+local _, blizres_branch = products:GetBranch(PRODUCT)
 
 local Signatures_Parse = require("Pages/World of Warcraft API/Signatures_Parse")
 local signatures = Signatures_Parse:GetSignatures()
@@ -29,7 +33,8 @@ end
 
 function m:GetGlobalApi()
 	local global_api = util:DownloadAndRun(
-		string.format("https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/GlobalAPI.lua", BRANCH),		"cache_lua/GlobalAPI.lua"
+		string.format("https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/GlobalAPI.lua", blizres_branch),
+		string.format("cache_lua/GlobalAPI_%s.lua", blizres_branch)
 	)
 	return util:ToMap(global_api[1])
 end
