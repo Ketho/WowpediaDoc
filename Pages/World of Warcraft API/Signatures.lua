@@ -1,4 +1,11 @@
 local util = require("util")
+
+local products = require("util.products")
+PRODUCT = "wowxptr" ---@type TactProduct
+local _, blizres_branch = products:GetBranch(PRODUCT)
+BRANCH = blizres_branch -- hack
+util:LoadDocumentation(PRODUCT)
+
 local WikiText = require("Pages/World of Warcraft API/WikiText")
 local Signatures_Parse = require("Pages/World of Warcraft API/Signatures_Parse")
 local signatures = Signatures_Parse:GetSignatures()
