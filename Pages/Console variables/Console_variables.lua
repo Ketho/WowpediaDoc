@@ -35,6 +35,10 @@ local long_names = {
 	serverAlert = true,
 }
 
+local false_positives = {
+	AreaTriggers = true, -- 11.2.0 ptr
+}
+
 function m:WriteCVarList(blizzres_cvars, framexml_strings, binary_strings)
 	print("writing to "..OUTPUT_CVAR)
 	local file = io.open(OUTPUT_CVAR, "w")
@@ -60,7 +64,7 @@ function m:WriteCVarList(blizzres_cvars, framexml_strings, binary_strings)
 		local name = string.format("[[CVar %s|%s]]", cvar, cvar)
 		desc = desc and desc:gsub("|", "&#124;")
 		file:write(fs:format(
-			binary_strings[cvar] or "",
+			not false_positives[cvar] and binary_strings[cvar] or "",
 			framexml_strings[cvar] and githubLink:format(cvar) or "",
 			secure and "<span title=secure>🛡️</span>" or "",
 			name,

@@ -96,7 +96,7 @@ function m:GetLatestBuild(flavor)
 		return tonumber(a.build) > tonumber(b.build)
 	end)
 	local path = Path.join(folder, t[1].name)
-	log.success("util:GetLatestBuild: "..path)
+	log:success("util:GetLatestBuild: "..path)
 	return path
 end
 

@@ -1,9 +1,10 @@
 -- https://wow.gamepedia.com/Events
 local Path = require("path")
 local util = require("util")
+local wowdoc = require("WowDocLoader")
 
-local addons_path = Path.join(util:GetLatestBuild("mainline"), "AddOns")
-require("WowDocLoader.WowDocLoader"):main("mainline")
+local PRODUCT = "wowxptr" ---@type TactProduct
+wowdoc:main(PRODUCT)
 local OUTPUT = "out/page/Events.txt"
 
 table.sort(APIDocumentation.systems, function(a, b)
