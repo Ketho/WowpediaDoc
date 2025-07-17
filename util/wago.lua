@@ -129,7 +129,7 @@ function m:ReadListfile()
 	end
 	local iter = csv.open(listfile_path, {separator = ";"})
 	local filedata = {}
-	log:info("Reading listfile, this will take a while")
+	log:info("Reading listfile, this will take a moment")
 	for line in iter:lines() do
 		local fdid, filePath = tonumber(line[1]), line[2]
 		filedata[fdid] = filePath

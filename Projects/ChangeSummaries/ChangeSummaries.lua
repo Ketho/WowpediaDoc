@@ -8,8 +8,8 @@ local BRANCH1 = "11.1.7"
 local BRANCH2 = "11.2.0"
 local WIDGET= BRANCH2 -- for widgets
 local CVAR1, CVAR2 = BRANCH1, BRANCH2
--- local DIFF = {"commit", "mainline", false}
-local DIFF = {"compare", BRANCH1..".."..BRANCH2, false}
+-- local DIFF = {"commit", "mainline"}
+local DIFF = {"compare", BRANCH1..".."..BRANCH2}
 
 local OUT_FILE = "out/page/ChangeSummaries.txt"
 util:MakeDir("out/page")
@@ -27,8 +27,7 @@ local function GetDiff()
 		path = string.format("cache_diff/compare/%s.diff", fpath)
 		url = string.format("https://github.com/Ketho/BlizzardInterfaceResources/compare/%s.diff", DIFF[2])
 	end
-	local isCache = DIFF[3]
-	util:DownloadFile(url, path, isCache)
+	util:DownloadFile(url, path, true)
 	return path
 end
 
