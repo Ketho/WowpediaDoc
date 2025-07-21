@@ -16,7 +16,6 @@ local widget_systems = {
 	SimpleAnimTranslationLineAPI = "LineTranslation", -- empty
 	SimpleAnimatableObjectAPI = "AnimatableObject",
 	SimpleAnimVertexColorAPI = "VertexColor",
-	-- SimpleBrowserAPI = "Browser",
 	SimpleButtonAPI = "Button",
 	SimpleCheckboxAPI = "CheckButton",
 	SimpleColorSelectAPI = "ColorSelect",
@@ -31,10 +30,8 @@ local widget_systems = {
 	SimpleMaskTextureAPI = "MaskTexture", -- empty
 	SimpleMessageFrameAPI = "MessageFrame",
 	SimpleModelAPI = "Model",
-	-- SimpleModelFFXAPI = "ModelFFX", -- unavailable to addons
 	SimpleMovieAPI = "MovieFrame",
 	SimpleObjectAPI = "Object",
-	-- SimpleOffScreenFrameAPI = "OffScreenFrame",
 	SimpleRegionAPI = "Region",
 	SimpleScriptRegionAPI = "ScriptRegion",
 	SimpleScriptRegionResizingAPI = "ScriptRegionResizing",
@@ -56,9 +53,15 @@ local widget_systems = {
 	FrameAPIFogOfWarFrame = "FogOfWarFrame",
 	FrameAPIUnitPositionFrame = "UnitPositionFrame",
 	FrameAPIBlob = "Blob",
-	-- FrameAPIArchaeologyDigsite = "ArchaeologyDigSiteFrame",
+	FrameAPIArchaeologyDigsite = "ArchaeologyDigSiteFrame",
 	FrameAPIQuestPOI = "QuestPOIFrame",
 	FrameAPIScenarioPOI = "ScenarioPOIFrame",
+
+	-- special cases
+	FrameAPISimpleCheckout = "SimpleCheckout",
+	SimpleBrowserAPI = "Browser",
+	SimpleModelFFXAPI = "ModelFFX", -- unavailable to addons
+	SimpleOffScreenFrameAPI = "OffScreenFrame",
 }
 
 return widget_systems

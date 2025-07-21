@@ -110,6 +110,7 @@ local Types =
 
 		-- 11.2.0
 		{ Name = "MouseButton", Type = "string", Values = {"LeftButton", "RightButton", "MiddleButton", "Button4", "Button5"} },
+		{ Name = "ClickButton", Type = "string", Values = {"AnyUp", "AnyDown", "LeftButtonUp", "LeftButtonDown", "RightButtonUp", "RightButtonDown", "MiddleButtonUp", "MiddleButtonDown", "Button4Up", "Button4Down", "Button5Up", "Button5Down"} },
 		{ Name = "SendChatMessageType", Type = "string", Values = {
 			"SAY",
 			"EMOTE",
@@ -133,6 +134,7 @@ local Types =
 		{ Name = "ModelSceneFrame", Type = "ModelScene", Replace = true },
 		{ Name = "ModelSceneFrameActor", Type = "ModelSceneActor", Replace = true },
 		{ Name = "ScriptRegion", Type = "ScriptRegion", Replace = true },
+		{ Name = "SimpleRegion", Type = "ScriptRegion", Replace = true }, -- 11.2.0
 		{ Name = "SimpleAnim", Type = "Animation", Replace = true },
 		{ Name = "SimpleAnimGroup", Type = "AnimationGroup", Replace = true },
 		{ Name = "SimpleControlPoint", Type = "ControlPoint", Replace = true },
