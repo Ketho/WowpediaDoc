@@ -2,8 +2,9 @@
 -- https://wowpedia.fandom.com/wiki/Events/Classic
 -- https://wowpedia.fandom.com/wiki/Console_variables/Classic
 local util = require("util")
-local Path = require("path")
 local Signatures = require("Pages/ClassicCompare/Signatures")
+
+local PRODUCT = "wowxptr" ---@type TactProduct
 
 local m = {}
 
@@ -67,24 +68,24 @@ local sources = {
 -- https://github.com/Ketho/BlizzardInterfaceResources/branches
 local branches = {
 	"mainline_ptr",
-	"cata",
+	"mists",
 	"vanilla",
 }
 
 -- avoid using templates as that increases page processing time
 local wp_icons = {
 	mainline = "{{apiexp|tww}}",
-	cata = "{{apiexp|cata}}",
+	mists = "{{apiexp|mists}}",
 	vanilla = "{{apiexp|vanilla}}",
 }
 
 local sections = {
 	{id = "vanilla", label = "Vanilla"},
-	{id = "cata", label = "Cataclysm"},
-	{id = "both", label = "Vanilla & Cataclysm"},
+	{id = "mists", label = "Mists"},
+	{id = "both", label = "Vanilla & Mists"},
 	{id = "retail_vanilla", label = "Mainline & Vanilla"},
-	{id = "retail_cata", label = "Mainline & Cataclysm"},
-	{id = "retail_both", label = "Mainline & Vanilla & Cataclysm"},
+	{id = "retail_cata", label = "Mainline & Mists"},
+	{id = "retail_both", label = "Mainline & Vanilla & Mists"},
 }
 
 local cvar_enum = {
@@ -100,10 +101,6 @@ local cvar_enum = {
 	[9] = "Reveal",
 	[10] = "None",
 }
-
-local function sortLowerCase(a, b)
-	return a:lower() < b:lower()
-end
 
 local function GetExpansionIconTemplate(expansions)
 	local t = {"{{apiexp|"}
@@ -141,22 +138,22 @@ function m:GetData(sourceType)
 
 	for name in pairs(mainTbl) do
 		local retail = parts.mainline_ptr[name]
-		local cata = parts.cata[name]
+		local mists = parts.mists[name]
 		local vanilla = parts.vanilla[name]
 
 		if retail then
-			if cata and vanilla then
-				sectionData.retail_both[name] = cata
-			elseif cata then
-				sectionData.retail_cata[name] = cata
+			if mists and vanilla then
+				sectionData.retail_both[name] = mists
+			elseif mists then
+				sectionData.retail_cata[name] = mists
 			elseif vanilla then
 				sectionData.retail_vanilla[name] = vanilla
 			end
 		else
-			if cata and vanilla then
-				sectionData.both[name] = cata
-			elseif cata then
-				sectionData.cata[name] = cata
+			if mists and vanilla then
+				sectionData.both[name] = mists
+			elseif mists then
+				sectionData.mists[name] = mists
 			elseif vanilla then
 				sectionData.vanilla[name] = vanilla
 			end
@@ -166,8 +163,7 @@ function m:GetData(sourceType)
 end
 
 function m:GetEventPayload()
-	local branch = "mainline_ptr"
-	util:LoadDocumentation(branch)
+	util:LoadDocumentation(PRODUCT)
 	local t = {}
 	for _, event in pairs(APIDocumentation.events) do
 		if event.Payload then
@@ -221,13 +217,13 @@ local function main()
 				for _, name in pairs(util:SortTable(data[sectionInfo.id], info.sortFunc)) do
 					local expansions = {
 						parts.mainline_ptr[name] and "mainline_ptr",
-						parts.cata[name] and "cata",
+						parts.mists[name] and "mists",
 						parts.vanilla[name] and "vanilla",
 					}
 					local expansionTemplate = GetExpansionIconTemplate(expansions)
 					local nameLink
 					if source == "api" then
-						nameLink = Signatures.vanilla[name] or Signatures.cata[name] or Signatures.mainline[name] or string.format("{{apilink|t=a|%s|noparens=1}}", name)
+						nameLink = Signatures.wow_classic_era[name] or Signatures.wow_classic[name] or Signatures.wowxptr[name] or string.format("{{apilink|t=a|%s|noparens=1}}", name)
 					else
 						nameLink = info.name_fs:format(name, name)
 					end
@@ -235,7 +231,7 @@ local function main()
 					if source == "event" and eventDoc[name] then
 						file:write(string.format("<small>: %s</small>", eventDoc[name]))
 					elseif source == "cvar" then
-						local cvarInfo = parts.cata[name] or parts.vanilla[name]
+						local cvarInfo = parts.mists[name] or parts.vanilla[name]
 						local default, category, account, character, secure, description = table.unpack(cvarInfo)
 						local default_text = GetCVarDefaultText(name, default) or ""
 						local categoryName = cvar_enum[category] or ""

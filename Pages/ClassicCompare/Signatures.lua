@@ -1,15 +1,16 @@
--- 1. load vanilla and cata docs
+-- 1. load vanilla and classic docs
 -- 2. generate their api signatures
 -- 3. return them
 
 local Path = require("path")
 local util = require("util")
-local WowDocLoader = require("WowDocLoader.WowDocLoader")
+local WowDocLoader = require("WowDocLoader")
 
+---@type table<TactProduct, table>
 local signatures = {
-    mainline = {},
-    cata = {},
-    vanilla = {},
+    wowxptr = {},
+    wow_classic = {},
+    wow_classic_era = {},
 }
 
 for flavor in pairs(signatures) do

@@ -24,7 +24,7 @@ def getFileText(p):
 def saveFile(text, wikipath):
 	page = pywikibot.Page(site, wikipath)
 	page.text = text
-	page.save(summary = "11.2.0 (62049)")
+	page.save(summary = "try to fix mists flavor")
 
 def main():
 	for v in files:
