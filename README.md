@@ -12,36 +12,46 @@ The purpose of this project is to wikify the [Blizzard API Documentation](https:
 Install Lua 5.4 and [LuaRocks](https://github.com/luarocks/luarocks/blob/main/docs/installation_instructions_for_unix.md) on [WSL](https://code.visualstudio.com/docs/remote/wsl), which should be easier to set up compared to on Windows.
 
 ```sh
+# if this is a fresh WSL ubuntu install
+sudo apt update
+cd ~
+
 # lua
 sudo apt install lua5.4
 
 # luarocks
 sudo apt install liblua5.4-dev -y
 sudo apt install build-essential libreadline-dev unzip -y
-wget https://luarocks.github.io/luarocks/releases/luarocks-3.12.2.tar.gz
-sudo tar -xvf luarocks-3.12.2.tar.gz
-cd luarocks-3.12.2/
-./configure
-sudo make
-sudo make install
+version=3.12.2
+wget https://luarocks.github.io/luarocks/releases/luarocks-$version.tar.gz
+tar -xvf luarocks-$version.tar.gz
+cd luarocks-$version/
+./configure --prefix=$HOME/.local
+make
+make install
+
+## update paths
+echo 'eval "$(~/.local/bin/luarocks path --bin)"' >> ~/.bashrc
+source ~/.bashrc
 
 # modules
-sudo luarocks install luafilesystem
-sudo luarocks install lua-path
-sudo luarocks install luasocket
-sudo apt install libssl-dev
-sudo luarocks install luasec
-sudo luarocks install xml2lua
-sudo luarocks install lua-cjson
-sudo luarocks install gumbo
+luarocks install luafilesystem
+luarocks install lua-path
+luarocks install luasocket
+sudo apt install libssl-dev -y
+luarocks install luasec
+luarocks install xml2lua
+luarocks install lua-cjson
+luarocks install gumbo
 ```
 
 ## Usage
-Exports wikitext to `out/`. Requires cloning the FrameXML mirror.
+Exports wikitext to `out/`.
 ```sh
-git clone https://github.com/Gethe/wow-ui-source 
-git -C wow-ui-source pull
-lua Documenter/Documenter.lua
+cd ~
+git clone https://github.com/Ketho/WowpediaDoc
+cd WowpediaDoc
+lua Documenter/init.lua
 ```
 
 ![](https://i.imgur.com/MqdgasV.png)
