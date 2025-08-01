@@ -16,14 +16,14 @@ Install Lua 5.4 and [LuaRocks](https://github.com/luarocks/luarocks/blob/main/do
 sudo apt install lua5.4
 
 # luarocks
-sudo apt install liblua5.4-dev
-sudo apt install build-essential libreadline-dev unzip
-wget https://luarocks.github.io/luarocks/releases/luarocks-3.11.1.tar.gz
-tar -xvf luarocks-3.11.1.tar.gz
-cd luarocks-3.11.1/
-.configure
-make
-make install
+sudo apt install liblua5.4-dev -y
+sudo apt install build-essential libreadline-dev unzip -y
+wget https://luarocks.github.io/luarocks/releases/luarocks-3.12.2.tar.gz
+sudo tar -xvf luarocks-3.12.2.tar.gz
+cd luarocks-3.12.2/
+./configure
+sudo make
+sudo make install
 
 # modules
 sudo luarocks install luafilesystem
