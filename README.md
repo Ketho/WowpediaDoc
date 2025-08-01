@@ -9,7 +9,7 @@ The purpose of this project is to wikify the [Blizzard API Documentation](https:
 * [KethoWowpedia/](https://github.com/Ketho/WowpediaDoc/tree/master/KethoWowpedia) - AddOn for dumping data in-game.
  
 ## Setup
-Install Lua 5.4 and [LuaRocks](https://github.com/luarocks/luarocks/blob/main/docs/installation_instructions_for_unix.md) on [WSL](https://code.visualstudio.com/docs/remote/wsl), which should be easier to set up compared to on Windows.
+Installs Lua 5.4 and [LuaRocks](https://github.com/luarocks/luarocks/blob/main/docs/installation_instructions_for_unix.md) on [WSL](https://code.visualstudio.com/docs/remote/wsl), which should be easier to set up compared to on Windows.
 
 ```sh
 # if this is a fresh WSL ubuntu install
@@ -30,7 +30,7 @@ cd luarocks-$version/
 make
 make install
 
-## update paths
+# update luarocks and package paths
 echo 'eval "$(~/.local/bin/luarocks path --bin)"' >> ~/.bashrc
 source ~/.bashrc
 
