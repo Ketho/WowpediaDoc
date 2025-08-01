@@ -21,7 +21,7 @@ sudo apt install lua5.4
 
 # luarocks
 sudo apt install liblua5.4-dev -y
-sudo apt install build-essential libreadline-dev unzip -y
+sudo apt install build-essential unzip -y
 version=3.12.2
 wget https://luarocks.github.io/luarocks/releases/luarocks-$version.tar.gz
 tar -xvf luarocks-$version.tar.gz
