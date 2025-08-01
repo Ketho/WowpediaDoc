@@ -19,7 +19,7 @@ There you will also be able to set grants (user rights) for it, like editing and
 ## Setup
 Create a virtual environment and install pywikibot.
 ```sh
-sudo apt install python3-venv
+sudo apt install python3-venv -y
 python3 -m venv .venv
 source .venv/bin/activate
 pip install requests wikitextparser
@@ -87,7 +87,7 @@ python 'Pywikibot/hello-save.py'
 import pywikibot
 
 site = pywikibot.Site("en", "warcraftwiki")
-page = pywikibot.Page(site, "Warcraft_Wiki:Sandbox/6")
+page = pywikibot.Page(site, "User:Ketho/Sandbox")
 
 page.text = "hello pywikibot"
 page.save(summary = "Some test")
