@@ -34,7 +34,7 @@ function m:DownloadZip(name)
 	else
 		error("No known branch or valid tag found")
 	end
-	local patch, build = self:GetPatchBuild(version)
+	local patch, build = self:GetPatchBuild(name, version)
 	local fileBaseName = string.format("%s (%s)", patch, build)
 	local fileExtName = fileBaseName..".zip"
 
@@ -70,15 +70,21 @@ function m:GetCommitVersion(tag)
 	return version
 end
 
-function m:GetPatchBuild(s)
+function m:GetPatchBuild(name, msg)
+	-- up to 5.2.0 is in "Build %d" format
+	if msg:find("Build") then -- Build 16650
+		local build = msg:match("Build (%d+)")
+		return name, build
+	end
 	local patterns = {
 		"(%d+%.%d+%.%d+)%.(%d+)",    -- 11.1.7.61967
 		"(%d+%.%d+%.%d+) %((%d+)%)", -- 11.1.7 (61967)
 	}
 	for _, v in pairs(patterns) do
-		local patch, build = s:match(v)
+		local patch, build = msg:match(v)
+		print(msg, patch, build)
 		if patch then
-			print(patch, build)
+			-- print(patch, build)
 			return patch, build
 		end
 	end
