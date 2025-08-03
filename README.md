@@ -23,7 +23,7 @@ cd WowDoc
 
 sudo apt update
 # venv
-sudo apt install python3-pip python3.12-venv -y
+sudo apt install python3-pip python3-venv -y
 python3 -m venv .venv
 source .venv/bin/activate
 # hererocks
@@ -45,7 +45,6 @@ luarocks install gumbo
 ```
 
 Alternatively, installs Lua 5.4 and [LuaRocks](https://github.com/luarocks/luarocks/blob/main/docs/installation_instructions_for_unix.md) 3.12.2 (in `~/.local`) manually.
-
 ```sh
 sudo apt update
 # lua
