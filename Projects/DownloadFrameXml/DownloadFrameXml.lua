@@ -6,7 +6,7 @@ local ltn12 = require("ltn12")
 local util = require("util")
 local log = require("util.log")
 local products = require("util.products")
-local tags = require("util.tags")
+local tags = require("util.framexml_tags")
 
 -- os.getenv("GITHUB_TOKEN") did not return the token on WSL even if the env var was set
 local GITHUB_TOKEN = util:run_command("gh auth token")
@@ -35,10 +35,9 @@ end
 
 function m:DownloadZip(name)
 	local url, version
-	local isTag = name:find("%d+%.%d+%.%d+")
 	if products.gethe_branch[name] then
 		url, version = self:GetGithubBranch(name)
-	elseif isTag then
+	elseif name:find("%d+%.%d+%.%d+") then
 		url, version = self:GetGithubTag(name)
 	else
 		error("No known branch or valid tag found")
