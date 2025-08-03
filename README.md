@@ -36,12 +36,12 @@ source .lua/bin/activate
 luarocks install luafilesystem
 luarocks install lua-path
 luarocks install luasocket
+
+sudo apt install libssl-dev -y
+luarocks install luasec
 luarocks install xml2lua
 luarocks install lua-cjson
 luarocks install gumbo
-## luasec
-sudo apt install libssl-dev -y
-luarocks install luasec
 ```
 
 Alternatively, installs Lua 5.4 and [LuaRocks](https://github.com/luarocks/luarocks/blob/main/docs/installation_instructions_for_unix.md) 3.12.2 (in `~/.local`) manually.
@@ -70,12 +70,12 @@ source ~/.bashrc
 luarocks install luafilesystem
 luarocks install lua-path
 luarocks install luasocket
+
+sudo apt install libssl-dev -y
+luarocks install luasec
 luarocks install xml2lua
 luarocks install lua-cjson
 luarocks install gumbo
-## luasec
-sudo apt install libssl-dev -y
-luarocks install luasec
 
 # wherever you want to clone the repo
 cd ~
