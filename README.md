@@ -1,12 +1,12 @@
-# WowpediaDoc
+# WowDoc
 The purpose of this project is to wikify the [Blizzard API Documentation](https://github.com/Gethe/wow-ui-source/tree/live/Interface/AddOns/Blizzard_APIDocumentationGenerated).
 
 ## Overview
-* [Documenter/](https://github.com/Ketho/WowpediaDoc/tree/master/Documenter) - Generates wikitext from Blizzard API documentation.
-* [Pywikibot/](https://github.com/Ketho/WowpediaDoc/tree/master/Pywikibot) - [Pywikibot](https://pypi.org/project/pywikibot/) scripts for using the MediaWiki API.
+* [Documenter/](https://github.com/Ketho/WowDoc/tree/master/Documenter) - Generates wikitext from Blizzard API documentation.
+* [Pywikibot/](https://github.com/Ketho/WowDoc/tree/master/Pywikibot) - [Pywikibot](https://pypi.org/project/pywikibot/) scripts for using the MediaWiki API.
     - See the [README-pywikibot.md](README-pywikibot.md) example for setting up Pywikibot.
-* [Scribunto/](https://github.com/Ketho/WowpediaDoc/tree/master/Scribunto) - [Scribunto](https://help.fandom.com/wiki/Extension:Scribunto) scripts running on the wiki that power the API [infoboxes](https://warcraft.wiki.gg/wiki/Module:API_info).
-* [KethoWowpedia/](https://github.com/Ketho/WowpediaDoc/tree/master/KethoWowpedia) - AddOn for dumping data in-game.
+* [Scribunto/](https://github.com/Ketho/WowDoc/tree/master/Scribunto) - [Scribunto](https://help.fandom.com/wiki/Extension:Scribunto) scripts running on the wiki that power the API [infoboxes](https://warcraft.wiki.gg/wiki/Module:API_info).
+* [KethoWowpedia/](https://github.com/Ketho/WowDoc/tree/master/KethoWowpedia) - AddOn for dumping data in-game.
  
 ## Setup
 This project is being developed on [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) and the VS Code [extension](https://code.visualstudio.com/docs/remote/wsl).
