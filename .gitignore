@@ -13,6 +13,9 @@
 *.ctrl
 *.pyc
 
+# hererocks
+/.lua
+
 # pywikibot
 user-config.py
 user-password.py

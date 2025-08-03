@@ -9,13 +9,45 @@ The purpose of this project is to wikify the [Blizzard API Documentation](https:
 * [KethoWowpedia/](https://github.com/Ketho/WowpediaDoc/tree/master/KethoWowpedia) - AddOn for dumping data in-game.
  
 ## Setup
-Installs Lua 5.4 and [LuaRocks](https://github.com/luarocks/luarocks/blob/main/docs/installation_instructions_for_unix.md) on [WSL](https://code.visualstudio.com/docs/remote/wsl), which should be easier to set up compared to on Windows.
+This project is being developed on [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) and the VS Code [extension](https://code.visualstudio.com/docs/remote/wsl).
+```
+wsl --install
+```
+
+Installs the latest version of Lua 5.4 and LuaRocks via [hererocks](https://github.com/luarocks/hererocks) which is self-contained.
+```sh
+# wherever you want to clone the repo
+cd ~
+git clone https://github.com/Ketho/WowDoc
+cd WowDoc
+
+sudo apt update
+# venv
+sudo apt install python3-pip python3.12-venv -y
+python3 -m venv .venv
+source .venv/bin/activate
+# hererocks
+sudo apt install libreadline-dev unzip -y
+pip install git+https://github.com/luarocks/hererocks
+hererocks .lua -l latest -r latest
+source .lua/bin/activate
+
+# modules
+luarocks install luafilesystem
+luarocks install lua-path
+luarocks install luasocket
+luarocks install xml2lua
+luarocks install lua-cjson
+luarocks install gumbo
+## luasec
+sudo apt install libssl-dev -y
+luarocks install luasec
+```
+
+Alternatively, installs Lua 5.4 and [LuaRocks](https://github.com/luarocks/luarocks/blob/main/docs/installation_instructions_for_unix.md) 3.12.2 (in `~/.local`) manually.
 
 ```sh
-# if this is a fresh WSL ubuntu install
 sudo apt update
-cd ~
-
 # lua
 sudo apt install lua5.4
 
@@ -38,19 +70,22 @@ source ~/.bashrc
 luarocks install luafilesystem
 luarocks install lua-path
 luarocks install luasocket
-sudo apt install libssl-dev -y
-luarocks install luasec
 luarocks install xml2lua
 luarocks install lua-cjson
 luarocks install gumbo
+## luasec
+sudo apt install libssl-dev -y
+luarocks install luasec
+
+# wherever you want to clone the repo
+cd ~
+git clone https://github.com/Ketho/WowDoc
 ```
 
 ## Usage
 Exports wikitext to `out/`.
 ```sh
-cd ~
-git clone https://github.com/Ketho/WowpediaDoc
-cd WowpediaDoc
+cd ~/WowDoc
 lua Documenter/init.lua
 ```
 
