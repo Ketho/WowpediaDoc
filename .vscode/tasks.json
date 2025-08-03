@@ -39,9 +39,9 @@
 			"problemMatcher": []
 		},
 		{
-			"label": "Sync shared-util",
+			"label": "Sync wowdoc",
 			"type": "shell",
-			"command": "rsync -av --delete shared-util/ ~/vscode-wow-api/shared-util/",
+			"command": "rsync -av --delete wowdoc/ ~/vscode-wow-api/wowdoc/",
 			"presentation": {"showReuseMessage": false, "clear": true},
 			"problemMatcher": []
 		}
