@@ -46,8 +46,21 @@ local m = {}
 ---|"tbc"
 ---|"vanilla"
 
----@type table<TactProduct, GetheBranch>
+---@type table<GetheBranch, true>
 m.gethe_branch = {
+	live = true,
+	ptr = true,
+	ptr2 = true,
+	beta = true,
+	classic = true,
+	classic_ptr = true,
+	classic_beta = true,
+	classic_era = true,
+	classic_era_ptr = true,
+}
+
+---@type table<TactProduct, GetheBranch>
+m.tact_gethe = {
 	-- mainline
 	wow = "live",
 	wowt = "ptr",
@@ -86,7 +99,7 @@ m.gametype_branch = {
 }
 
 function m:GetBranch(product)
-	local framexml = self.gethe_branch[product]
+	local framexml = self.tact_gethe[product]
 	local blizzres = self.blizzres_branch[product]
 	if product then
 		log:success(string.format("TACT product: %s", product))

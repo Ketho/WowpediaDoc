@@ -11,24 +11,8 @@ local tags = require("util.tags")
 -- os.getenv("GITHUB_TOKEN") did not return the token on WSL even if the env var was set
 local GITHUB_TOKEN = util:run_command("gh auth token")
 
-local BRANCH = "ptr2" ---@type GetheBranch
-
 local m = {}
 
----@type table<GetheBranch, string>
-local branches = {
-	live = "mainline",
-	ptr = "mainline",
-	ptr2 = "mainline",
-	beta = "mainline",
-	classic = "mists",
-	classic_ptr = "mists",
-	classic_beta = "mists",
-	classic_era = "vanilla",
-	classic_era_ptr = "vanilla",
-}
-
--- idk why sometimes I get HTTP 400 and 403, nothing wrong with the user agent
 local function SendHttpsRequest(url)
 	local headers = {
 		["Authorization"] = "Bearer "..GITHUB_TOKEN,
@@ -40,6 +24,7 @@ local function SendHttpsRequest(url)
 		headers = headers,
 		sink = ltn12.sink.table(body)
 	}
+	-- idk why sometimes I get HTTP 400 and 403, nothing wrong with the user agent
 	if code ~= 200 then
 		error("HTTP "..code)
 	end
@@ -51,7 +36,7 @@ end
 function m:DownloadZip(name)
 	local url, version
 	local isTag = name:find("%d+%.%d+%.%d+")
-	if branches[name] then
+	if products.gethe_branch[name] then
 		url, version = self:GetGithubBranch(name)
 	elseif isTag then
 		url, version = self:GetGithubTag(name)
@@ -111,8 +96,8 @@ function m:GetPatchBuild(name, msg)
 	end
 end
 
-function m:UnpackZip(fileBaseName, zipFile)
-	local gameTypeFolder = pathlib.join("FrameXML", branches[BRANCH])
+function m:UnpackZip(branch, fileBaseName, zipFile)
+	local gameTypeFolder = pathlib.join("FrameXML", branch)
 	local unpackFolder = pathlib.join(gameTypeFolder, fileBaseName)
 	if not pathlib.exists(unpackFolder) then
 		local command = string.format('unzip "%s" -d "%s"', zipFile, unpackFolder)
@@ -121,9 +106,11 @@ function m:UnpackZip(fileBaseName, zipFile)
 end
 
 local function main()
-	for _, v in pairs(tags.live) do
+	local BRANCH = "live" ---@type GetheBranch
+	pathlib.mkdir(pathlib.join("FrameXML", BRANCH))
+	for _, v in pairs(tags[BRANCH]) do
 		local fileBaseName, zipFile = m:DownloadZip(v)
-		m:UnpackZip(fileBaseName, zipFile)
+		m:UnpackZip(BRANCH, fileBaseName, zipFile)
 	end
 	log:success("Done")
 end
