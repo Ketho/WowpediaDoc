@@ -86,6 +86,10 @@ git clone https://github.com/Ketho/WowDoc
 Exports wikitext to `out/`.
 ```sh
 cd ~/WowDoc
+
+# if using hererocks
+source .lua/bin/activate
+
 lua Documenter/init.lua
 ```
 

@@ -6,21 +6,21 @@
 		{
 			"label": "Lua",
 			"type": "shell",
-			"command": "lua '${file}'",
+			"command": "source .lua/bin/activate && lua '${file}'",
 			"presentation": {"showReuseMessage": false, "clear": true},
 			"problemMatcher": []
 		},
 		{
 			"label": "Lua Documenter",
 			"type": "shell",
-			"command": "lua 'Documenter/init.lua'",
+			"command": "source .lua/bin/activate && lua 'Documenter/init.lua'",
 			"presentation": {"showReuseMessage": false, "clear": true},
 			"problemMatcher": []
 		},
 		{
 			"label": "Lua UpdateResources",
 			"type": "shell",
-			"command": "lua 'Projects/UpdateResources/UpdateResources.lua'",
+			"command": "source .lua/bin/activate && lua 'Projects/UpdateResources/init.lua'",
 			"presentation": {"showReuseMessage": false, "clear": true},
 			"problemMatcher": []
 		},
