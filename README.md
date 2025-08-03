@@ -85,8 +85,8 @@ git clone https://github.com/Ketho/WowDoc
 ## Usage
 Exports wikitext to `out/`.
 ```sh
+# wherever the repo is
 cd ~/WowDoc
-
 # if using hererocks
 source .lua/bin/activate
 
