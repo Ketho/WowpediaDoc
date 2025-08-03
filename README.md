@@ -83,7 +83,7 @@ git clone https://github.com/Ketho/WowDoc
 ```
 
 ## Usage
-Exports wikitext to `out/`.
+Exports wikitext to the `out/` folder. This is also available as the `Lua Documenter` VS Code task.
 ```sh
 # wherever the repo is
 cd ~/WowDoc
