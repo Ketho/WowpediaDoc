@@ -3,10 +3,11 @@ sudo apt update
 mkdir ~/heretest
 cd ~/heretest
 
-sudo apt install python3-pip
+sudo apt install python3-pip python3.12-venv -y
 python3 -m venv .venv
 source .venv/bin/activate
+sudo apt install libreadline-dev unzip -y
 pip install git+https://github.com/luarocks/hererocks
-hererocks luah -l latest -r latest
-source luah/bin/activate
+hererocks .lua -l latest -r latest
+source .lua/bin/activate
 ```
