@@ -1,11 +1,15 @@
 local pathlib = require("path")
 local https = require("ssl.https")
 local cjson = require("cjson")
+local ltn12 = require("ltn12")
 
 local util = require("util")
 local log = require("util.log")
 local products = require("util.products")
 local tags = require("util.tags")
+
+-- os.getenv("GITHUB_TOKEN") did not return the token on WSL even if the env var was set
+local GITHUB_TOKEN = util:run_command("gh auth token")
 
 local BRANCH = "ptr2" ---@type GetheBranch
 
@@ -23,6 +27,27 @@ local branches = {
 	classic_era = "vanilla",
 	classic_era_ptr = "vanilla",
 }
+
+--  idk why sometimes I get HTTP 400 and 403
+local function SendHttpsRequest(url)
+	local headers = {
+		["Authorization"] = "Bearer "..GITHUB_TOKEN,
+		["User-Agent"] = "WowpediaDoc/1.0"
+	}
+	local body = {}
+	local _, code = https.request{
+		url = url,
+		headers = headers,
+		sink = ltn12.sink.table(body)
+	}
+	if code ~= 200 then
+		-- for some reason this block is load bearing
+		error("HTTP status code "..code)
+	end
+	local res = table.concat(body)
+	local data = cjson.decode(res)
+	return data
+end
 
 function m:DownloadZip(name)
 	local url, version
@@ -58,14 +83,12 @@ function m:GetGithubTag(v)
 end
 
 function m:GetCommitVersion(tag)
-	local tags_url = "https://api.github.com/repos/Gethe/wow-ui-source/git/refs/tags/%s"
-	local res1 = https.request(tags_url:format(tag))
-	local data1 = cjson.decode(res1)
+	local tag_url = string.format("https://api.github.com/repos/Gethe/wow-ui-source/git/refs/tags/%s", tag)
+	local data1 = SendHttpsRequest(tag_url)
 
-	local commits_url = "https://api.github.com/repos/Gethe/wow-ui-source/git/commits/%s"
-	if not data1.object then print(data1) end
-	local res2 = https.request(commits_url:format(data1.object.sha))
-	local data2 = cjson.decode(res2)
+	local commits_url = string.format("https://api.github.com/repos/Gethe/wow-ui-source/git/commits/%s", data1.object.sha)
+	local data2 = SendHttpsRequest(commits_url)
+
 	local version = data2.message
 	return version
 end
@@ -82,7 +105,6 @@ function m:GetPatchBuild(name, msg)
 	}
 	for _, v in pairs(patterns) do
 		local patch, build = msg:match(v)
-		print(msg, patch, build)
 		if patch then
 			-- print(patch, build)
 			return patch, build
@@ -92,7 +114,6 @@ end
 
 local function main()
 	for _, v in pairs(tags.live) do
-		print(v)
 		m:DownloadZip(v)
 	end
 end
