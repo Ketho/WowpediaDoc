@@ -2,7 +2,7 @@
 local lfs = require("lfs")
 local cjson = require "cjson"
 local cjsonutil = require "cjson.util"
-local util = require("util")
+local util = require("wowdoc")
 -- local print_table = require("Util/print_table")
 
 util:MakeDir("cache_wut")

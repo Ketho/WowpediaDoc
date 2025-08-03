@@ -1,5 +1,5 @@
 local lfs = require("lfs")
-local util = require("util")
+local util = require("wowdoc")
 
 local non_framexml_added = {
 	UNIT_TARGET = "2.0.1",

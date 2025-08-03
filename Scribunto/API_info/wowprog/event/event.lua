@@ -4,7 +4,7 @@
 local gumbo = require "gumbo"
 local document = gumbo.parseFile("Scribunto/API_info/wowprog/event/event.html")
 
-local util = require("util")
+local util = require("wowdoc")
 
 local class = document:getElementsByClassName("event-hack")
 local api_elements = class[1].children[1]

@@ -1,5 +1,5 @@
-local util = require("util")
-local products = require("util.products")
+local util = require("wowdoc")
+local products = require("wowdoc.products")
 local WikiText = require("Pages/World of Warcraft API/WikiText")
 util:MakeDir("cache_lua")
 

@@ -1,6 +1,6 @@
 local pathlib = require("path")
-local util = require("util")
-local log = require("util.log")
+local util = require("wowdoc")
+local log = require("wowdoc.log")
 local Widgets = require("Documenter.Wowpedia.Widgets")
 
 util:MakeDir("out")

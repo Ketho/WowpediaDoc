@@ -1,6 +1,6 @@
 -- https://wowprogramming.com/docs/widgets.html
 -- https://wowpedia.fandom.com/wiki/Module:API_info/main/widget
-local util = require("util")
+local util = require("wowdoc")
 local gumbo = require("gumbo")
 
 local path = "Scribunto/API_info/wowprog/widgets/widgets.html"

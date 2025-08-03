@@ -1,9 +1,9 @@
 -- https://wowpedia.fandom.com/wiki/Module:API_info/patch/event_retail
 -- https://wowpedia.fandom.com/wiki/Module:API_info/patch/event_classic
 local lfs = require("lfs")
-local write_table = require("util.write_table")
-local util = require("util")
-local enum = require("util.enum")
+local write_table = require("wowdoc.write_table")
+local util = require("wowdoc")
+local enum = require("wowdoc.enum")
 
 local BRANCH = "mainline" ---@type BlizzResBranch
 enum:LoadLuaEnums(BRANCH)

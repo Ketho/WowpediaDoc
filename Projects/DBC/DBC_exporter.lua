@@ -1,6 +1,6 @@
 -- exports to lua tables for use in an addon
-local util = require("util")
-local parser = require("util.wago")
+local util = require("wowdoc")
+local parser = require("wowdoc.wago")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT_DBC = "KethoWowpedia/dbc/%s.lua"
 local OUTPUT_PATCH = "KethoWowpedia/patch/%s.lua"

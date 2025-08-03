@@ -1,6 +1,6 @@
 -- https://wowpedia.fandom.com/wiki/Module:API_info/flavor/api
 -- https://wowpedia.fandom.com/wiki/Module:API_info/flavor/event
-local util = require("util")
+local util = require("wowdoc")
 util:MakeDir("cache_lua")
 util:MakeDir("out/lua")
 

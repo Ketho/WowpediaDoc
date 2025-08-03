@@ -1,6 +1,6 @@
 -- https://wowpedia.fandom.com/wiki/API_change_summaries
-local util = require("util")
-local log = require("util.log")
+local util = require("wowdoc")
+local log = require("wowdoc.log")
 local cvar_module = require("Projects/ChangeSummaries/CVar")
 local widget_module = require("Projects/ChangeSummaries/Widget")
 local m = {}

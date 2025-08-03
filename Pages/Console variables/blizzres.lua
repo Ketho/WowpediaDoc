@@ -1,4 +1,4 @@
-local util = require("util")
+local util = require("wowdoc")
 
 local function main()
 	local data = util:DownloadAndRun(

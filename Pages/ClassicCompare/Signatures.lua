@@ -3,7 +3,7 @@
 -- 3. return them
 
 local Path = require("path")
-local util = require("util")
+local util = require("wowdoc")
 local WowDocLoader = require("WowDocLoader")
 
 ---@type table<TactProduct, table>

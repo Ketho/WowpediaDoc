@@ -1,5 +1,5 @@
 local WikiText = require("Pages/World of Warcraft API/WikiText")
-local util = require("util")
+local util = require("wowdoc")
 local m = {}
 
 function m:ParseWikitext(wikitext)

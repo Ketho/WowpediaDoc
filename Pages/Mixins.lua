@@ -1,5 +1,5 @@
 -- https://wowpedia.fandom.com/wiki/Category:Mixins
-local util = require("util")
+local util = require("wowdoc")
 local OUTPUT = "out/page/%s.txt"
 local BRANCH = "mainline"
 -- require("Documenter.Load_APIDocumentation.Loader"):main(BRANCH)

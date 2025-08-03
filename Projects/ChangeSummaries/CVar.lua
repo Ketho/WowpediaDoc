@@ -1,5 +1,5 @@
 -- similar codebase as https://wowpedia.fandom.com/wiki/Module:API_info/cvar
-local util = require("util")
+local util = require("wowdoc")
 
 local m = {}
 local data = {}

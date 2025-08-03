@@ -1,4 +1,4 @@
-local util = require("util")
+local util = require("wowdoc")
 
 local loader = require("WowDocLoader.WowDocLoader")
 loader:main("mainline")

@@ -1,6 +1,6 @@
 -- https://wowpedia.fandom.com/wiki/API_DoEmote
-local util = require("util")
-local parser = require("util.wago")
+local util = require("wowdoc")
+local parser = require("wowdoc.wago")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT = "out/page/EmoteToken.txt"
 

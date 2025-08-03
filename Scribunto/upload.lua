@@ -1,7 +1,7 @@
 local Path = require("path")
-local util = require("util")
-local enum = require("util.enum")
-local products = require("util.products")
+local util = require("wowdoc")
+local enum = require("wowdoc.enum")
+local products = require("wowdoc.products")
 
 local PRODUCT = "wowxptr" ---@type TactProduct
 local _, blizzres_branch = products:GetBranch(PRODUCT)

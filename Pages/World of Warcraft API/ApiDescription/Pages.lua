@@ -1,7 +1,7 @@
 local xml2lua = require "xml2lua"
 local handler = require "xmlhandler.tree"
 handler = handler:new()
-local util = require("util")
+local util = require("wowdoc")
 local wowpedia_export = require("Util/wowpedia_export")
 local m = {}
 

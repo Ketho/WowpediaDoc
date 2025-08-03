@@ -1,6 +1,6 @@
 -- https://wow.gamepedia.com/Events
 local Path = require("path")
-local util = require("util")
+local util = require("wowdoc")
 local wowdoc = require("WowDocLoader")
 
 local PRODUCT = "wowxptr" ---@type TactProduct

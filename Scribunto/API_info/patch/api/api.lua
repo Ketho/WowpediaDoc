@@ -1,6 +1,6 @@
 -- https://wowpedia.fandom.com/wiki/Module:API_info/patch/api_retail
 -- https://wowpedia.fandom.com/wiki/Module:API_info/patch/api_classic
-local util = require("util")
+local util = require("wowdoc")
 
 local PATH = "Scribunto/API_info/patch/api"
 

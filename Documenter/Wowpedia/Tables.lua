@@ -1,4 +1,4 @@
-local util = require("util")
+local util = require("wowdoc")
 
 local shortComplex = {
 	Enumeration = "Enum",

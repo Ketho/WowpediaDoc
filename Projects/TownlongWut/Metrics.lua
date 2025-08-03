@@ -1,5 +1,5 @@
 local lfs = require("lfs")
-local util = require("util")
+local util = require("wowdoc")
 
 local PATH = "Projects/TownlongWut"
 util:MakeDir(PATH.."/Metrics")

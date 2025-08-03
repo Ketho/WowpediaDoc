@@ -3,7 +3,7 @@
 local gumbo = require "gumbo"
 local document = gumbo.parseFile("Scribunto/API_info/wowprog/api/api.html")
 
-local util = require("util")
+local util = require("wowdoc")
 
 local api_alpha = document:getElementsByClassName("api-alpha")
 local api_elements = api_alpha[1].children[2]

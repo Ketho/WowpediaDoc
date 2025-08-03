@@ -1,6 +1,6 @@
 -- note that "AreaTriggers" is in the string table for PTR binaries
 local lfs = require("lfs")
-local util = require("util")
+local util = require("wowdoc")
 
 local PATH = [[/mnt/d/Prog/World of Warcraft/Binaries]]
 util:MakeDir("cache_strings")

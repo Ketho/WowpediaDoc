@@ -1,6 +1,6 @@
 -- https://github.com/Ketho/BlizzardInterfaceResources/blob/mainline/Resources/AtlasInfo.lua
 ---@diagnostic disable: need-check-nil
-local wago = require("util.wago")
+local wago = require("wowdoc.wago")
 
 local m = {}
 

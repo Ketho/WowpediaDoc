@@ -1,6 +1,6 @@
 -- https://github.com/ketho-wow/WardrobeSort/blob/master/Data/FileData.lua
 -- https://github.com/ketho-wow/ClickMorph/blob/master/Data/Live/ItemAppearance.lua
-local parser = require("util.wago")
+local parser = require("wowdoc.wago")
 local output = "out/ItemAppearance.lua"
 local data = {}
 local fd

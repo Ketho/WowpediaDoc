@@ -1,5 +1,5 @@
 -- https://wowpedia.fandom.com/wiki/Module:API_info/elink/event
-local util = require("util")
+local util = require("wowdoc")
 local PRODUCT = "wow" ---@type TactProduct
 local OUT = "out/lua/API_info.elink.event.lua"
 

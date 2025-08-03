@@ -1,4 +1,4 @@
-local util = require("util")
+local util = require("wowdoc")
 local bir_url = "https://raw.githubusercontent.com/Ketho/BlizzardInterfaceResources/%s/Resources/WidgetAPI.lua"
 local WIDGET_PATH = "cache_lua/WidgetAPI_%s.lua"
 

@@ -1,4 +1,4 @@
-local util = require("util")
+local util = require("wowdoc")
 local FRAMEXML = "../#FrameXML/Generate-Globals/wow-ui-source/"
 
 local m = {}

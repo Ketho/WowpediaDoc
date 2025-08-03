@@ -1,6 +1,6 @@
 -- when we dont need the Blizzard_APIDocumentation addon
 local lfs = require("lfs")
-local util = require("util")
+local util = require("wowdoc")
 
 local m = {}
 local docTables = {}

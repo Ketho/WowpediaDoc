@@ -4,8 +4,8 @@ local Path = require("path")
 local https = require("ssl.https")
 local ltn12 = require("ltn12")
 
-local parser = require("util.wago")
-local log = require("util.log")
+local parser = require("wowdoc.wago")
+local log = require("wowdoc.log")
 
 local m = {}
 local INVALIDATION_TIME = 60*60

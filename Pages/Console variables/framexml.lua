@@ -1,5 +1,5 @@
-local util = require("util")
--- local parser = require("util.wago")
+local util = require("wowdoc")
+-- local parser = require("wowdoc.wago")
 
 local framexml_strings = {}
 

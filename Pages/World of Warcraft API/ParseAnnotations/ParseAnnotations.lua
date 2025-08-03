@@ -1,4 +1,4 @@
-local util = require("util")
+local util = require("wowdoc")
 local api_get = require("Scribunto/API_info/elink/api_get")
 
 local undoc = api_get:main(PRODUCT)[2]

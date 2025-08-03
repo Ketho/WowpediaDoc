@@ -1,7 +1,7 @@
 ---@diagnostic disable: need-check-nil
 local pathlib = require("path")
-local widget_docs = require("util.widget_system")
-local log = require("util.log")
+local widget_docs = require("wowdoc.widget_system")
+local log = require("wowdoc.log")
 
 local properties = {
     MayReturnNothing = 0,

@@ -1,6 +1,6 @@
-local util = require("util")
+local util = require("wowdoc")
 
-local products = require("util.products")
+local products = require("wowdoc.products")
 PRODUCT = "wowxptr" ---@type TactProduct
 local _, blizres_branch = products:GetBranch(PRODUCT)
 BRANCH = blizres_branch -- hack

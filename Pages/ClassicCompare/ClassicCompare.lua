@@ -1,7 +1,7 @@
 -- https://wowpedia.fandom.com/wiki/Global_functions/Classic
 -- https://wowpedia.fandom.com/wiki/Events/Classic
 -- https://wowpedia.fandom.com/wiki/Console_variables/Classic
-local util = require("util")
+local util = require("wowdoc")
 local Signatures = require("Pages/ClassicCompare/Signatures")
 
 local PRODUCT = "wowxptr" ---@type TactProduct

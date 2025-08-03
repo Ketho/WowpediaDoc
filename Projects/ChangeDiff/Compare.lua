@@ -1,5 +1,5 @@
-local util = require("util")
-local log = require("util.log")
+local util = require("wowdoc")
+local log = require("wowdoc.log")
 local m = ChangeDiff
 
 local function CompareApiTable(a, b)

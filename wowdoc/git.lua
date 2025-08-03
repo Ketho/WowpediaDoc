@@ -1,6 +1,6 @@
 
 
-local util = require("util")
+local util = require("wowdoc")
 
 local m = {}
 

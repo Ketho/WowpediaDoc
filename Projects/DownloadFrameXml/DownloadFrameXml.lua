@@ -3,10 +3,10 @@ local https = require("ssl.https")
 local cjson = require("cjson")
 local ltn12 = require("ltn12")
 
-local util = require("util")
-local log = require("util.log")
-local products = require("util.products")
-local tags = require("util.framexml_tags")
+local util = require("wowdoc")
+local log = require("wowdoc.log")
+local products = require("wowdoc.products")
+local tags = require("wowdoc.framexml_tags")
 
 -- os.getenv("GITHUB_TOKEN") did not return the token on WSL even if the env var was set
 local GITHUB_TOKEN = util:run_command("gh auth token")

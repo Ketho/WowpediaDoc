@@ -1,7 +1,7 @@
 local lfs = require("lfs")
 local PATH = require("path")
-local util = require("util")
-local apidoc_nontoc = require("util.apidoc_nontoc")
+local util = require("wowdoc")
+local apidoc_nontoc = require("wowdoc.apidoc_nontoc")
 
 local function GetEventMap(data)
 	local t = {}

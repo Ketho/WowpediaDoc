@@ -1,6 +1,6 @@
 -- https://wow.gamepedia.com/Console_variables/Complete_list
 local Path = require("path")
-local util = require("util")
+local util = require("wowdoc")
 
 BRANCH = "mainline"
 OUTPUT_CVAR = "out/page/Console_variables_cvar.txt"

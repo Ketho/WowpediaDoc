@@ -1,7 +1,7 @@
-local log = require("util.log")
-local git = require("util.git")
-local products = require("util.products")
-local wago = require("util.wago")
+local log = require("wowdoc.log")
+local git = require("wowdoc.git")
+local products = require("wowdoc.products")
+local wago = require("wowdoc.wago")
 
 OUT_GLOBALSTRINGS = "/mnt/d/Repo/wow-api/BlizzardInterfaceResources/Resources/GlobalStrings/%s.lua"
 OUT_ATLAS = "/mnt/d/Repo/wow-api/BlizzardInterfaceResources/Resources/AtlasInfo.lua"

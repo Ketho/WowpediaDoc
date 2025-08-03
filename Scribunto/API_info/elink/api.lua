@@ -1,5 +1,5 @@
 -- https://wowpedia.fandom.com/wiki/Module:API_info/elink/api
-local util = require("util")
+local util = require("wowdoc")
 local api_get = require("Scribunto/API_info/elink/api_get")
 
 local PRODUCT = "wowxptr" ---@type TactProduct

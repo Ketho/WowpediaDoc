@@ -37,6 +37,13 @@
 			"command": "pwb login",
 			"presentation": {"showReuseMessage": false, "clear": true},
 			"problemMatcher": []
+		},
+		{
+			"label": "Sync shared-util",
+			"type": "shell",
+			"command": "rsync -av --delete shared-util/ ~/vscode-wow-api/shared-util/",
+			"presentation": {"showReuseMessage": false, "clear": true},
+			"problemMatcher": []
 		}
 	]
 }

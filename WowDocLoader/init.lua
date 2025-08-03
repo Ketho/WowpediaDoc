@@ -1,10 +1,10 @@
 local lfs = require("lfs")
 local pathlib = require("path")
 
-local log = require("util.log")
-local products = require("util.products")
-local git = require("util.git")
-local enum = require("util.enum")
+local log = require("wowdoc.log")
+local products = require("wowdoc.products")
+local git = require("wowdoc.git")
+local enum = require("wowdoc.enum")
 
 local m = {}
 local LOADER_PATH = "WowDocLoader"

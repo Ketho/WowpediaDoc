@@ -5,9 +5,9 @@ local https = require("ssl.https")
 local cjson = require("cjson")
 local cjsonutil = require("cjson.util")
 
-local log = require("util.log")
-local csv = require("util.lua-csv")
-local products = require("util.products")
+local log = require("wowdoc.log")
+local csv = require("wowdoc.lua-csv")
+local products = require("wowdoc.products")
 
 local cache_folder = "cache_csv"
 local listfile_path = PATH.join(cache_folder, "community-listfile.csv")

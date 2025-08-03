@@ -1,6 +1,6 @@
 -- https://github.com/Ketho/BlizzardInterfaceResources/tree/mainline/Resources/GlobalStrings
 ---@diagnostic disable: need-check-nil
-local wago = require("util.wago")
+local wago = require("wowdoc.wago")
 
 local short  = [[%s = "%s";]]
 local quoted = [[_G["%s"] = "%s";]]

@@ -1,4 +1,4 @@
-local util = require("util")
+local util = require("wowdoc")
 local FOLDER = "Pages/World of Warcraft API/ApiDescription/"
 local MainList = require(FOLDER.."MainList")
 local PageDescription = require(FOLDER.."Pages")

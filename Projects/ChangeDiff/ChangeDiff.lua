@@ -1,12 +1,12 @@
 -- compares framexml versions
-local log = require("util.log")
-local products = require("util.products")
-local enum = require("util.enum")
+local log = require("wowdoc.log")
+local products = require("wowdoc.products")
+local enum = require("wowdoc.enum")
 
 local PRODUCT = "wow"
 local _, branch = products:GetBranch(PRODUCT)
 enum:LoadLuaEnums(branch)
-local apidoc_nontoc = require("util.apidoc_nontoc")
+local apidoc_nontoc = require("wowdoc.apidoc_nontoc")
 
 local BUILD1 = "11.2.0 (61871)"
 local BUILD2 = "11.2.0 (61981)"

@@ -1,4 +1,4 @@
-local util = require("util")
+local util = require("wowdoc")
 package.path = package.path..";../?.lua"
 local updated_desc = require("wow-api-descriptions/updated")
 local OUT = "Pywikibot/descriptions/data.py"

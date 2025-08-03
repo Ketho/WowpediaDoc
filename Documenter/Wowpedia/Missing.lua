@@ -1,4 +1,4 @@
-local log = require("util.log")
+local log = require("wowdoc.log")
 
 function Wowpedia:FindMissingTypes()
 	local missingTypes = {}

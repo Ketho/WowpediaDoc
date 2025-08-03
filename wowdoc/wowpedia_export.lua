@@ -1,7 +1,7 @@
 local gumbo = require "gumbo"
 local xml2lua = require "xml2lua"
 local handler = require "xmlhandler.tree"
-local util = require("util")
+local util = require("wowdoc")
 local m = {}
 
 local export_url = "https://wowpedia.fandom.com/wiki/Special:Export"
