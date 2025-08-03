@@ -28,11 +28,11 @@ local branches = {
 	classic_era_ptr = "vanilla",
 }
 
---  idk why sometimes I get HTTP 400 and 403
+-- idk why sometimes I get HTTP 400 and 403, nothing wrong with the user agent
 local function SendHttpsRequest(url)
 	local headers = {
 		["Authorization"] = "Bearer "..GITHUB_TOKEN,
-		["User-Agent"] = "WowpediaDoc/1.0"
+		["User-Agent"] = "WowpediaDoc"
 	}
 	local body = {}
 	local _, code = https.request{
@@ -41,8 +41,7 @@ local function SendHttpsRequest(url)
 		sink = ltn12.sink.table(body)
 	}
 	if code ~= 200 then
-		-- for some reason this block is load bearing
-		error("HTTP status code "..code)
+		error("HTTP "..code)
 	end
 	local res = table.concat(body)
 	local data = cjson.decode(res)
@@ -66,6 +65,7 @@ function m:DownloadZip(name)
 	local zipFolder = pathlib.join("FrameXML", "zips")
 	local zipFile = pathlib.join(zipFolder, fileExtName)
 	util:DownloadFile(url, zipFile)
+	return fileBaseName, zipFile
 end
 
 function m:GetGithubBranch(v)
@@ -106,22 +106,26 @@ function m:GetPatchBuild(name, msg)
 	for _, v in pairs(patterns) do
 		local patch, build = msg:match(v)
 		if patch then
-			-- print(patch, build)
 			return patch, build
 		end
 	end
 end
 
-local function main()
-	for _, v in pairs(tags.live) do
-		m:DownloadZip(v)
+function m:UnpackZip(fileBaseName, zipFile)
+	local gameTypeFolder = pathlib.join("FrameXML", branches[BRANCH])
+	local unpackFolder = pathlib.join(gameTypeFolder, fileBaseName)
+	if not pathlib.exists(unpackFolder) then
+		local command = string.format('unzip "%s" -d "%s"', zipFile, unpackFolder)
+		util:run_command(command)
 	end
 end
+
+local function main()
+	for _, v in pairs(tags.live) do
+		local fileBaseName, zipFile = m:DownloadZip(v)
+		m:UnpackZip(fileBaseName, zipFile)
+	end
+	log:success("Done")
+end
+
 main()
-
--- unpack
--- local unpackFolder = pathlib.join(gameTypeFolder, fileBaseName)
--- local command = string.format('unzip "%s" -d "%s"', zipFile, unpackFolder)
--- util:run_command(command)
-
-log:success("Done")
