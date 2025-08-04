@@ -106,6 +106,7 @@ end
 
 local function main()
 	local BRANCH = "live" ---@type GetheBranch
+	pathlib.mkdir(pathlib.join("FrameXML", "zips"))
 	pathlib.mkdir(pathlib.join("FrameXML", BRANCH))
 	for _, v in pairs(tags[BRANCH]) do
 		local fileBaseName, zipFile = m:DownloadZip(v)
