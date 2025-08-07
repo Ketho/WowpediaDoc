@@ -3,7 +3,7 @@ local util = require("wowdoc")
 local OUTPUT = "out/page/%s.txt"
 local BRANCH = "mainline"
 -- require("Documenter.Load_APIDocumentation.Loader"):main(BRANCH)
-require("WowDocLoader.WowDocLoader"):main("WowDocLoader")
+require("wowdoc.loader"):main("WowDocLoader")
 
 local mixinTypes = {
 	"ColorMixin",

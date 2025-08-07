@@ -19,7 +19,7 @@ local properties = {
 }
 
 local PRODUCT = "wowxptr" ---@type TactProduct
-local wowdoc = require("WowDocLoader")
+local wowdoc = require("wowdoc.loader")
 wowdoc:main(PRODUCT)
 
 local function GetFullName(apiTable)

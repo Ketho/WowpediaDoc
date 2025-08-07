@@ -4,7 +4,7 @@
 
 local Path = require("path")
 local util = require("wowdoc")
-local WowDocLoader = require("WowDocLoader")
+local WowDocLoader = require("wowdoc.loader")
 
 ---@type table<TactProduct, table>
 local signatures = {

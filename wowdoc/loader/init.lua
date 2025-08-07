@@ -6,8 +6,9 @@ local products = require("wowdoc.products")
 local git = require("wowdoc.git")
 local enum = require("wowdoc.enum")
 
+local LOADER_PATH = pathlib.join("wowdoc", "loader")
+
 local m = {}
-local LOADER_PATH = "WowDocLoader"
 
 local function LoadFile(path)
 	local attr = lfs.attributes(path)

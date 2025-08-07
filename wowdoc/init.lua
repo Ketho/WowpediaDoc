@@ -101,7 +101,7 @@ function m:GetLatestBuild(flavor)
 end
 
 function m:LoadDocumentation(product)
-	require("WowDocLoader"):main(product)
+	require("wowdoc.loader"):main(product)
 end
 
 function m:FolderExists(path)

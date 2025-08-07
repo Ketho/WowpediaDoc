@@ -17,7 +17,7 @@ end
 function Wowpedia:PullMissingTypes(missingTypes)
 	local missingDocs = {Tables = {}}
 
-	local MissingDocumentation = require("WowDocLoader.MissingDocumentation")
+	local MissingDocumentation = require("wowdoc.loader.MissingDocumentation")
 	local missingStructures = {} -- lookup table
 	for _, v in pairs(MissingDocumentation.Tables) do
 		missingStructures[v.Name] = v
