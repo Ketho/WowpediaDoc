@@ -1,5 +1,5 @@
 
-local widget_systems = {
+local doc_widgets = {
 	FrameAPICooldown = "Cooldown",
 	-- CooldownFrameAPI = "Cooldown", -- wtf
 	MinimapFrameAPI = "Minimap",
@@ -54,7 +54,8 @@ local widget_systems = {
 	FrameAPIFogOfWarFrame = "FogOfWarFrame",
 	FrameAPIUnitPositionFrame = "UnitPositionFrame",
 	FrameAPIBlob = "Blob",
-	FrameAPIArchaeologyDigsite = "ArchaeologyDigSiteFrame",
+	FrameAPIArchaeologyDigsite = "ArchaeologyDigSiteFrame", -- why do I have double
+	FrameAPIArchaeologyDigSiteFrame = "ArchaeologyDigSiteFrame",
 	FrameAPIQuestPOI = "QuestPOIFrame",
 	FrameAPIScenarioPOI = "ScenarioPOIFrame",
 
@@ -63,6 +64,7 @@ local widget_systems = {
 	SimpleBrowserAPI = "Browser",
 	SimpleModelFFXAPI = "ModelFFX", -- unavailable to addons
 	SimpleOffScreenFrameAPI = "OffScreenFrame",
+	SimpleMapSceneAPI = "SimpleMap",
 }
 
-return widget_systems
+return doc_widgets

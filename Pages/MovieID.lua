@@ -1,7 +1,7 @@
 -- https://wowpedia.fandom.com/wiki/MovieID
 local util = require("wowdoc")
 local parser = require("wowdoc.wago")
-local wowpedia_export = require("Util/wowpedia_export")
+local wowpedia_export = require("wowdoc.wiki_export")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 
 local OUTPUT = "out/page/MovieID.txt"

@@ -1,6 +1,5 @@
 -- https://wowpedia.fandom.com/wiki/InstanceID#Complete_list
 local util = require("wowdoc")
--- local parser = require("Util/wowtoolsparser")
 local parser = require("wowdoc.wago")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 local OUTPUT = "out/page/InstanceID.txt"

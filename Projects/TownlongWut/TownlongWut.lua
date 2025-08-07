@@ -3,7 +3,6 @@ local lfs = require("lfs")
 local cjson = require "cjson"
 local cjsonutil = require "cjson.util"
 local util = require("wowdoc")
--- local print_table = require("Util/print_table")
 
 util:MakeDir("cache_wut")
 local wut_url = "https://www.townlong-yak.com/globe/api/wut-symbol?q=%s"
@@ -100,7 +99,6 @@ local function WriteResource(apiType)
 		local results = WutRequest(apiType, name)
 		local count = 0
 		if results then
-			-- print_table(results)
 			for _ in pairs(results.a) do
 				count = count + 1
 			end

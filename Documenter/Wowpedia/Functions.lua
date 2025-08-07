@@ -1,4 +1,4 @@
-local widgets = require("Documenter.Wowpedia.Widgets").widget_docs
+local widgets = require("wowdoc.loader.doc_widgets")
 
 function Wowpedia:GetFunctionText(func, systemType)
 	local str = format("%s\n", self:GetFunctionSignature(func, systemType))

@@ -1,9 +1,8 @@
 -- https://wowpedia.fandom.com/wiki/UiMapID#Classic
 -- probably this script was because some in-game API is not available for classic
 local util = require("wowdoc")
--- local parser = require("Util/wowtoolsparser")
 local parser = require("wowdoc.wago")
-local wowpedia_export = require("Util/wowpedia_export")
+local wowpedia_export = require("wowdoc.wiki_export")
 local dbc_patch = require("Projects/DBC/DBC_patch")
 
 local OUTPUT = "KethoWowpedia/patch/uimap.lua"

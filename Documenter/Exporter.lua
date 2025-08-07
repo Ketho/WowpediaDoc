@@ -1,7 +1,7 @@
 local pathlib = require("path")
 local util = require("wowdoc")
 local log = require("wowdoc.log")
-local Widgets = require("Documenter.Wowpedia.Widgets")
+local Widgets = require("wowdoc.loader.doc_widgets")
 
 util:MakeDir("out")
 util:MakeDir(pathlib.join("out", "export"))
@@ -31,8 +31,8 @@ function m:ExportSystems(folder)
 			util:MakeDir(format("%s/%s/%s", folder, systemFolder, systemName))
 			local prefix
 			if system.Type == "ScriptObject" then
-				-- if not Widgets.widget_docs[system.Name] then print(system.Name) end
-				prefix = Widgets.widget_docs[system.Name].." "
+				if not Widgets[system.Name] then print(system.Name) end
+				prefix = Widgets[system.Name].." "
 			else
 				prefix = system.Namespace and system.Namespace.."." or ""
 			end
