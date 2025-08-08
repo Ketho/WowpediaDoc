@@ -9,7 +9,7 @@ The purpose of this project is to wikify the [Blizzard API Documentation](https:
 * [KethoWowpedia/](https://github.com/Ketho/WowDoc/tree/master/KethoWowpedia) - AddOn for dumping data in-game.
  
 ## Setup
-This project is being developed on [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) and the VS Code [extension](https://code.visualstudio.com/docs/remote/wsl).
+This project is being developed on [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) and the remote [WSL extension](https://code.visualstudio.com/docs/remote/wsl).
 ```
 wsl --install
 ```
@@ -26,6 +26,7 @@ sudo apt update
 sudo apt install python3-pip python3-venv -y
 python3 -m venv .venv
 source .venv/bin/activate
+
 # hererocks
 sudo apt install libreadline-dev unzip -y
 pip install git+https://github.com/luarocks/hererocks
